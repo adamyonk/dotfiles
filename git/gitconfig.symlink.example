@@ -7,25 +7,24 @@
 # To set this up, rename this file to `gitconfig.symlink` and you'll be able to
 # install this to the correct location by running the project's main `rake`
 # task.
-[user]
-        name = Zach Holman
-        email = your@example.com
-[alias]
-        co = checkout
-        promote = !$ZSH/bin/git-promote
-        wtf     = !$ZSH/bin/git-wtf
-        rank-contributers = !$ZSH/bin/git-rank-contributers
-        count   = !git shortlog -sn
-[color]
-        diff = auto
-        status = auto
-        branch = auto
-[core]
-        excludesfile = ~/.gitignore
-        editor = mate -w
 [apply]
-        whitespace = nowarn
+  whitespace = Fix
+[branch]
+  autosetuprebase = always
+[color]
+	branch = auto
+	diff = auto
+	status = auto
+  whitespace = fix,space-before-tab,tab-in-indent,trailing-space
+[core]
+	editor = vim
+	excludesfile = ~/.gitignore
+	quotepath = false
 [github]
-        user = holman
+	token = TOKEN
+	user = adamyonk
 [mergetool]
-        keepBackup = false
+  keeypBackup = false
+[user]
+	email = EMAIL
+	name = Adam Jahnke

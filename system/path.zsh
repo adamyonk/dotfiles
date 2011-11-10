@@ -1,3 +1,18 @@
-export PATH=".:bin:/usr/local/bin:/usr/local/sbin:$HOME/.sfs:$ZSH/bin:$PATH"
+# Set rbenv path
+export PATH=~/.rbenv/shims
+# Set brew path
+export PATH=$PATH:/usr/local/bin
+# Set system user path
+export PATH=$PATH:/usr/bin:/bin:/usr/local/sbin:/usr/sbin:/sbin
+# Set Dev Tools path
+export PATH=$PATH:/Developer/Tools:/Developer/usr/bin
+#export PATH=$PATH:/usr/X11/bin:/opt/local/bin
 
-export MANPATH="/usr/local/man:/usr/local/mysql/man:/usr/local/git/man:$MANPATH"
+# Set the nginx path
+export NGINX_PATH='/opt/nginx'
+
+# Set the gcc path
+export CC=gcc-4.2
+
+# Set the postgresql path
+export PGDATA=/usr/local/var/postgres
