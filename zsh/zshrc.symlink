@@ -1,22 +1,80 @@
-# shortcut to this dotfiles path is $ZSH
-export ZSH=$HOME/.dotfiles
+# Path to your oh-my-zsh configuration
+export ZSH=$HOME/.dotfiles/zsh/oh-my-zsh
 
-# your project folder that we can `c [tab]` to
-export PROJECTS=~/Development
+# Set name of the theme to load
+export ZSH_THEME="adamyonk"
 
-# source every .zsh file in this rep
-for config_file ($ZSH/**/*.zsh) source $config_file
+# Set to this to use case-sensitive completion
+# export CASE_SENSITIVE="true"
 
-# use .localrc for SUPER SECRET CRAP that you don't
-# want in your public, versioned repo.
-if [[ -a ~/.localrc ]]
-then
-  source ~/.localrc
-fi
+# Comment this out to disable weekly auto-update checks
+# export DISABLE_AUTO_UPDATE="true"
 
-# initialize autocomplete here, otherwise functions won't be loaded
-autoload -U compinit
-compinit
+# Uncomment following line if you want to disable colors in ls
+# export DISABLE_LS_COLORS="true"
 
-# load every completion after autocomplete loads
-for config_file ($ZSH/**/completion.sh) source $config_file
+# Uncomment following line if you want to disable autosetting terminal title.
+# export DISABLE_AUTO_TITLE="true"
+
+# Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
+plugins=(git osx ssh-agent vi-mode)
+
+source $ZSH/oh-my-zsh.sh
+
+# Fixes 'brew doctor' output
+export GREP_OPTIONS=''
+
+# Set rbenv path
+export PATH=~/.rbenv/shims
+# Set brew path
+export PATH=$PATH:/usr/local/bin
+# Set system user path
+export PATH=$PATH:/usr/bin:/bin:/usr/local/sbin:/usr/sbin:/sbin
+# Set Dev Tools path
+export PATH=$PATH:/Developer/Tools:/Developer/usr/bin
+#export PATH=$PATH:/usr/X11/bin:/opt/local/bin
+
+# Set my editor and git editor
+export EDITOR='vim'
+export GIT_EDITOR='vim'
+
+# Set the nginx path
+export NGINX_PATH='/opt/nginx'
+
+# Set the gcc path
+export CC=gcc-4.2
+
+# Load postgresql
+export PGDATA=/usr/local/var/postgres
+
+# Aliases
+alias git='nocorrect noglob git'
+alias tmux='tmux -2'
+alias mvim='mvim -v'
+# alias vim='mvim'
+alias reload='source ~/.zshrc'
+
+# Load tmuxinator
+[[ -s $HOME/.tmuxinator/scripts/tmuxinator ]] && source $HOME/.tmuxinator/scripts/tmuxinator
+
+# Load rbenv
+eval "$(rbenv init -)"
+
+# Load unicorn
+function bbu() {
+  if [[ -z $1 ]]; then
+    UNICORN_PORT=3000;
+  else
+    UNICORN_PORT=$1;
+  fi
+  bin/unicorn -E development -c /usr/local/etc/unicorn.rb -1 127.0.0.1:$UNICORN_PORT
+}
+
+# Signature :)
+echo "
+         /)                     /)
+   _   _(/ _  ___       _____  (/_
+ (_(_(_(_(_(_// (_(_/_(_) / (_/(__
+                 .-/
+                (_/
+"
