@@ -87,6 +87,7 @@ let g:gist_open_browser_after_post = 1
 
 " Colors
 """"""""""
+set background=dark
 color solarized
 
 
