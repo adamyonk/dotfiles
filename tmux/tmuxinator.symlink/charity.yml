@@ -1,0 +1,27 @@
+# ~/.tmuxinator/charity.yml
+
+project_name: charity
+project_root: ~/Code/causemetric/purecharity-social
+socket_name: charity
+pre: unset TMPDIR
+tabs:
+  - vim:
+      layout: even-horizontal
+      panes:
+        - open http://localhost:3000 && vim
+  - git:
+      layout: even-horizontal
+      panes:
+        - git pull && bundle install
+  - console:
+      layout: even-horizontal
+      panes:
+        - bin/rails c
+  - server:
+      layout: even-horizontal
+      panes:
+        - bin/foreman start
+  - guard:
+      layout: even-horizontal
+      panes:
+        - bin/guard
