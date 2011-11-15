@@ -1,6 +1,7 @@
 # OS generated files #
 ######################
 .DS_Store?
+.netrwhist
 ehthumbs.db
 Icon?
 Thumbs.db
