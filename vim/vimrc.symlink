@@ -1,6 +1,6 @@
 " Load pathogen
 """""""""""""""""
-runtime core/pathogen/autoload/pathogen.vim
+"runtime core/pathogen/autoload/pathogen.vim
 
 
 " Helpers
