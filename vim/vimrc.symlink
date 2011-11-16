@@ -57,8 +57,8 @@ let g:syntastic_quiet_warnings=1
 
 " NERDtree
 """"""""""""
-"map <Leader>n :NERDTreeToggle<CR>
-map <Leader>n :Explore<CR>
+map <Leader>n :NERDTreeToggle<CR>
+"map <Leader>n :Explore<CR>
 
 
 " Command-T
