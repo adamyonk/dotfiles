@@ -21,7 +21,11 @@ tabs:
       layout: even-horizontal
       panes:
         - bin/foreman start
-  - guard:
+  - tests:
       layout: even-horizontal
       panes:
-        - bin/guard
+        - bin/guard -g test
+#  - chat:
+#      layout: even-horizontal
+#      panes:
+#        - mcabber

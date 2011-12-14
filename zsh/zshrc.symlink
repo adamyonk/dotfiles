@@ -70,6 +70,12 @@ function bbu() {
   bin/unicorn -E development -c /usr/local/etc/unicorn.rb -1 127.0.0.1:$UNICORN_PORT
 }
 
+# Load hitch
+hitch() {
+  command hitch "$@"
+  if [[ -s "$HOME/.hitch_export_authors" ]] ; then source "$HOME/.hitch_export_authors" ; fi
+}
+
 # Signature :)
 echo "
          /)                     /)

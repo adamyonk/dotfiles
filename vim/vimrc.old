@@ -1,0 +1,106 @@
+" Helpers
+"""""""""""
+let s:current_file = expand("<sfile>:p")
+" Load bundle groups
+function s:add_group(name)
+  let resolved = resolve(s:current_file)
+  let dir = fnamemodify(resolved, ":h")
+  let file = dir . "/" . a:name
+  call pathogen#runtime_prepend_subdirectories(file)
+endfunction
+" Some file types should wrap their text
+function s:setupWrapping()
+  set wrap
+  set linebreak
+  set textwidth=72
+  set nolist
+endfunction
+
+
+" Pathogen setup
+""""""""""""""""""
+call s:add_group("vim.symlink/janus-core")
+call s:add_group("vim.symlink/janus-langs")
+call s:add_group("vim.symlink/janus-tools")
+call s:add_group("vim.symlink/janus-colors")
+call s:add_group("vim.symlink/janus-command-t")
+call pathogen#runtime_append_all_bundles()
+
+
+" Basic setup
+"""""""""""""""
+set nocompatible                " Use vim, no vi defaults
+set number                      " Show line numbers
+set ruler                       " Show line and column number
+set encoding=utf-8              " Set default encoding to UTF-8
+set backspace=indent,eol,start  " Allow backspaceing over everything in instert mode
+set laststatus=2                " Status bar
+syntax enable                   " Turn on syntax highlighting allowing local overrides
+
+
+" Whitespace
+""""""""""""""
+set nowrap
+set tabstop=2
+set shiftwidth=2
+set softtabstop=2
+set expandtab
+set list listchars=eol:¬,tab:▸\ ,trail:·
+
+
+" Syntax
+""""""""""
+"let g:syntastic_disabled_filetypes = ['sass', 'scss']
+let g:syntastic_enable_signs=1
+let g:syntastic_quiet_warnings=1
+
+
+" NERDtree
+""""""""""""
+map <Leader>n :NERDTreeToggle<CR>
+"map <Leader>n :Explore<CR>
+
+
+" Command-T
+"""""""""""""
+let g:CommandTMaxHeight=20
+
+
+" ZoomWin
+"""""""""""
+map <Leader><Leader> :ZoomWin<CR>
+
+
+" Gist
+""""""""
+if has("mac")
+  let g:gist_clip_command = 'pbcopy'
+elseif has("unix")
+  let g:gist_clip_command = 'xclip -selection clipboard'
+endif
+let g:gist_detect_filetype = 1
+let g:gist_open_browser_after_post = 1
+
+
+" Colors
+""""""""""
+set background=dark
+"color solarized
+colorscheme solarized
+
+
+" Filetypes
+"""""""""""""
+au FileType make set noexpandtab
+au BufRead,BufNewFile {Gemfile,Rakefile,Vagrantfile,Thorfile,config.ru}    set ft=ruby
+au BufNewFile,BufRead *.json set ft=javascript
+au BufRead,BufNewFile *.{md,markdown,mdown,mkd,mkdn,txt} call s:setupWrapping()
+au BufRead,BufNewFile *.txt call s:setupWrapping()
+au FileType python set softtabstop=4 tabstop=4 shiftwidth=4 textwidth=79
+
+
+" Disable swap files
+""""""""""""""""""""""
+set nobackup
+set nowritebackup
+set noswapfile
