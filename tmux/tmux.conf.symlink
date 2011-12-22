@@ -81,13 +81,14 @@ set-option -g set-titles off
 set-option -g base-index 1
 
 ## enable mouse
+set -g mode-mouse on
 set-option -g status-keys vi
 set-window-option -g mode-keys vi
 set-window-option -g monitor-activity off
 set-window-option -g monitor-content off
 #set-option -g mouse-select-pane on
 #set-window-option -g mode-mouse on
-# set-option -g history-limit 4096
+#set-option -g history-limit 4096
 
 ## pane border and colors
 set-option -g pane-active-border-fg yellow
