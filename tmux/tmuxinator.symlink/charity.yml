@@ -1,5 +1,4 @@
 # ~/.tmuxinator/charity.yml
-
 project_name: charity
 project_root: ~/.code/causemetric/purecharity-social
 socket_name: charity
@@ -17,14 +16,14 @@ tabs:
       layout: even-horizontal
       panes:
         - bin/rails c
+  - tests:
+      layout: even-horizontal
+      panes:
+        - bin/rake spec
   - server:
       layout: even-horizontal
       panes:
         - bin/foreman start
-  - tests:
-      layout: even-horizontal
-      panes:
-        - bin/guard -g test
 #  - chat:
 #      layout: even-horizontal
 #      panes:

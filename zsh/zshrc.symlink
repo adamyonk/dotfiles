@@ -35,14 +35,17 @@ export PATH=$PATH:/Developer/Tools:/Developer/usr/bin
 #export PATH=$PATH:/usr/X11/bin:/opt/local/bin
 
 # Set my editor and git editor
-export EDITOR='vim'
-export GIT_EDITOR='vim'
+export EDITOR=vim
+export GIT_EDITOR=vim
 
 # Set the nginx path
-export NGINX_PATH='/opt/nginx'
+export NGINX_PATH=/opt/nginx
 
 # Set the gcc path
 export CC=gcc-4.2
+
+# Set the node path
+export NODE_PATH=/usr/local/lib/node_modules
 
 # Load postgresql
 export PGDATA=/usr/local/var/postgres
