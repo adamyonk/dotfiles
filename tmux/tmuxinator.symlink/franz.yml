@@ -1,7 +1,7 @@
-# ~/.tmuxinator/charity.yml
-project_name: charity
-project_root: ~/.code/causemetric/purecharity-social
-socket_name: charity
+# ~/.tmuxinator/franz.yml
+project_name: franz
+project_root: ~/.code/adamyonk/thefranzfamily.com
+socket_name: franz
 pre: unset TMPDIR
 tabs:
   - vim:
@@ -23,12 +23,4 @@ tabs:
   - server:
       layout: even-horizontal
       panes:
-        - bin/foreman start
-  - wiki:
-      layout: even-horizontal
-      panes:
-        - cd ../purecharity-social.wiki && git pull
-#  - chat:
-#      layout: even-horizontal
-#      panes:
-#        - mcabber
+        - bin/rails s

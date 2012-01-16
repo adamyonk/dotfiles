@@ -25,7 +25,7 @@ source $ZSH/oh-my-zsh.sh
 export GREP_OPTIONS=''
 
 # Set rbenv path
-export PATH=~/.rbenv/shims
+export PATH=~/.rbenv/bin
 # Set brew path
 export PATH=$PATH:/usr/local/bin
 # Set system user path
