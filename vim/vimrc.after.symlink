@@ -1,2 +1,3 @@
+let g:janus_custom_path = expand("~/.dotfiles/vim/vim.symlink")
 set background=dark
 color solarized

@@ -1,3 +1,9 @@
 [submodule "zsh/oh-my-zsh"]
 	path = zsh/oh-my-zsh
 	url = git@github.com:adamyonk/oh-my-zsh.git
+[submodule "vim/vim.symlink"]
+	path = vim/vim.symlink
+	url = https://github.com/carlhuda/janus.git
+[submodule "vim/janus.symlink"]
+	path = vim/janus.symlink
+	url = https://github.com/carlhuda/janus.git
