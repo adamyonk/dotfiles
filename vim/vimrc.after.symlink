@@ -4,3 +4,7 @@ color solarized
 set nobackup
 set nowritebackup
 set noswapfile
+
+" or...
+" set swapfile
+" set backupdir=~/tmp
