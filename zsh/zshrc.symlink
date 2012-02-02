@@ -1,7 +1,7 @@
 # shortcut to this dotfiles path is $ZSH
 export DOTFILES=$HOME/.dotfiles
 
-# source every .zsh file in this rep
+# source every .zsh file in this repo
 for config_file ($DOTFILES/**/*.zsh) source $config_file
 
 # use .localrc for SUPER SECRET CRAP that you don't
@@ -20,9 +20,6 @@ for config_file ($DOTFILES/**/completion.sh) source $config_file
 
 
 
-
-
-
 # Path to your oh-my-zsh configuration
 export ZSH=$HOME/.dotfiles/zsh/oh-my-zsh
 
@@ -32,6 +29,7 @@ export ZSH_THEME='adamyonk'
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 plugins=(git osx ssh-agent vi-mode)
 
+# load oh-my-zsh
 source $ZSH/oh-my-zsh.sh
 
 # Fixes 'brew doctor' output
@@ -42,22 +40,6 @@ export CC=gcc-4.2
 
 # Set the node path
 export NODE_PATH=/usr/local/lib/node_modules
-
-# Load unicorn
-function bbu() {
-  if [[ -z $1 ]]; then
-    UNICORN_PORT=3000;
-  else
-    UNICORN_PORT=$1;
-  fi
-  bin/unicorn -E development -c /usr/local/etc/unicorn.rb -1 127.0.0.1:$UNICORN_PORT
-}
-
-# Load hitch
-hitch() {
-  command hitch "$@"
-  if [[ -s "$HOME/.hitch_export_authors" ]] ; then source "$HOME/.hitch_export_authors" ; fi
-}
 
 # Signature :)
 echo "
