@@ -27,7 +27,7 @@ export ZSH=$HOME/.dotfiles/zsh/oh-my-zsh
 export ZSH_THEME='adamyonk'
 
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
-plugins=(git osx ssh-agent vi-mode)
+plugins=(osx ssh-agent vi-mode)
 
 # load oh-my-zsh
 source $ZSH/oh-my-zsh.sh
