@@ -1,85 +1,103 @@
+" Use Vim settings, rather then Vi settings (much better!).
+" This must be first, because it changes other options as a side effect.
+set nocompatible
+
+" source ~/.vimrc.before if it exists.
+if filereadable(expand("~/.vimrc.before"))
+  source ~/.vimrc.before
+endif
+
+" Pathogen Initialization
+" =======================
+
+" This loads all the plugins in ~/.vim/bundle
+" Use tpope's pathogen plugin to manage all other plugins
+
+runtime bundle/tpope-vim-pathogen/autoload/pathogen.vim
+call pathogen#infect()
+call pathogen#helptags()
+
+" General Config
+" ==============
+
+set number                      "Line numbers are good
+set backspace=indent,eol,start  "Allow backspace in insert mode
+set history=1000                "Store lots of :cmdline history
+set showcmd                     "Show incomplete cmds down the bottom
+set showmode                    "Show current mode down the bottom
+set gcr=a:blinkon0              "Disable cursor blink
+
+set autoread                    "Reload files changed outside vim
+
+" This makes vim act like all other editors, buffers can
+" exist in the background without being in a window.
+" http://items.sjbach.com/319/configuring-vim-right
+set hidden
+
+syntax on " Turn on syntax highlighting
+
+" Search Settings
+" ===============
+
+set incsearch        "Find the next match as we type the search
+set hlsearch         "Hilight searches by default
+set viminfo='100,f1  "Save up to 100 marks, enable capital marks
+
+" Turn Off Swap Files
+" ===================
+
 set noswapfile
+set nobackup
+set nowb
 
-" ----------------------------------------------------------------------------
-"  Text Formatting
-" ----------------------------------------------------------------------------
+" Persistent Undo
+" ===============
 
-set autoindent             " automatic indent new lines
-set smartindent            " be smart about it
-inoremap # X<BS>#
-set nowrap                 " do not wrap lines
-set softtabstop=2          " yep, two
-set shiftwidth=2           " ..
-set tabstop=4
-set expandtab              " expand tabs to spaces
-set nosmarttab             " fuck tabs
-set formatoptions+=n       " support for numbered/bullet lists
-"set textwidth=80           " wrap at 80 chars by default
-set virtualedit=block      " allow virtual edit in visual block ..
+" Keep undo history across sessions, by storing in file.
+" Only works in MacVim (gui) mode.
 
-" ----------------------------------------------------------------------------
-"  Remapping
-" ----------------------------------------------------------------------------
+if has('gui_running')
+  set undodir=~/.vim/backups
+  set undofile
+endif
 
-" lead with ,
-let mapleader = ","
+" Indentation
+" ===========
 
-" exit to normal mode with 'jj'
-inoremap jj <ESC>
+set autoindent
+set smartindent
+set smarttab
+set shiftwidth=2
+set softtabstop=2
+set tabstop=2
+set expandtab
 
+filetype plugin on
+filetype indent on
 
-" reflow paragraph with Q in normal and visual mode
-nnoremap Q gqap
-vnoremap Q gq
+set list listchars=tab:\ \ ,trail:· " Display tabs and trailing spaces visually
 
-" sane movement with wrap turned on
-nnoremap j gj
-nnoremap k gk
-vnoremap j gj
-vnoremap k gk
-nnoremap <Down> gj
-nnoremap <Up> gk
-vnoremap <Down> gj
-vnoremap <Up> gk
-inoremap <Down> <C-o>gj
-inoremap <Up> <C-o>gk
+set nowrap      "Don't wrap lines
+set linebreak   "Wrap lines at convenient points
 
-" ----------------------------------------------------------------------------
-"  UI
-" ----------------------------------------------------------------------------
+" Folds
+" =====
 
-set ruler                  " show the cursor position all the time
-set noshowcmd              " don't display incomplete commands
-set nolazyredraw           " turn off lazy redraw
-set number                 " line numbers
-set wildmenu               " turn on wild menu
-set wildmode=list:longest,full
-set ch=2                   " command line height
-set backspace=2            " allow backspacing over everything in insert mode
-set whichwrap+=<,>,h,l,[,] " backspace and cursor keys wrap to
-set shortmess=filtIoOA     " shorten messages
-set report=0               " tell us about changes
-set nostartofline          " don't jump to the start of line when scrolling
+set foldmethod=indent   "fold based on indent
+set foldnestmax=3       "deepest fold is 3 levels
+set nofoldenable        "dont fold by default
 
+" Completion
+" ==========
 
-" ----------------------------------------------------------------------------
-" Visual Cues
-" ----------------------------------------------------------------------------
+set wildmode=list:longest
+set wildmenu                    "enable ctrl-n and ctrl-p to scroll thru matches
+set wildignore=*.o,*.obj,*~     "stuff to ignore when tab completing
+set wildignore+=*vim/backups*
 
-set showmatch              " brackets/braces that is
-set mat=5                  " duration to show matching brace (1/10 sec)
-set incsearch              " do incremental searching
-set laststatus=2           " always show the status line
-set ignorecase             " ignore case when searching
-set nohlsearch             " don't highlight searches
-set visualbell             " shut the fuck up
+" Scrolling
+" =========
 
-
-" ---------------------------------------------------------------------------
-"  Strip all trailing whitespace in file
-" ---------------------------------------------------------------------------
-
-function! StripWhitespace ()
-    exec ':%s/ \+$//gc'
-endfunction
-map ,s :call StripWhitespace ()<CR>
+set scrolloff=8       "Start scrolling when we're 8 lines away from margins
+set sidescrolloff=15
+set sidescroll=1

@@ -1,0 +1,18 @@
+[submodule "vim/vim/bundle/vim-pathogen"]
+	path = vim/vim/bundle/vim-pathogen
+	url = git://github.com/tpope/vim-pathogen.git
+[submodule "vim/vim/bundle/vim-colors-solarized"]
+	path = vim/vim/bundle/vim-colors-solarized
+	url = git://github.com/altercation/vim-colors-solarized.git
+[submodule "vim/vim/bundle/syntastic"]
+	path = vim/vim/bundle/syntastic
+	url = git://github.com/scrooloose/syntastic.git
+[submodule "vim/vim/bundle/vim-fugitive"]
+	path = vim/vim/bundle/vim-fugitive
+	url = git://github.com/tpope/vim-fugitive.git
+[submodule "vim/vim/bundle/ctrlp"]
+	path = vim/vim/bundle/ctrlp
+	url = git://github.com/kien/ctrlp.vim.git
+[submodule "vim/vim/bundle/nerdtree"]
+	path = vim/vim/bundle/nerdtree
+	url = git://github.com/scrooloose/nerdtree.git
