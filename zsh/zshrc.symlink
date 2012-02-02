@@ -1,11 +1,8 @@
 # shortcut to this dotfiles path is $ZSH
-export ZSH=$HOME/.dotfiles
-
-# your project folder that we can `c [tab]` to
-export PROJECTS=~/Development
+export DOTFILES=$HOME/.dotfiles
 
 # source every .zsh file in this rep
-for config_file ($ZSH/**/*.zsh) source $config_file
+for config_file ($DOTFILES/**/*.zsh) source $config_file
 
 # use .localrc for SUPER SECRET CRAP that you don't
 # want in your public, versioned repo.
@@ -19,4 +16,54 @@ autoload -U compinit
 compinit
 
 # load every completion after autocomplete loads
-for config_file ($ZSH/**/completion.sh) source $config_file
+for config_file ($DOTFILES/**/completion.sh) source $config_file
+
+
+
+
+
+
+# Path to your oh-my-zsh configuration
+export ZSH=$HOME/.dotfiles/zsh/oh-my-zsh
+
+# Set name of the theme to load
+export ZSH_THEME='adamyonk'
+
+# Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
+plugins=(git osx ssh-agent vi-mode)
+
+source $ZSH/oh-my-zsh.sh
+
+# Fixes 'brew doctor' output
+export GREP_OPTIONS=''
+
+# Set the gcc path
+export CC=gcc-4.2
+
+# Set the node path
+export NODE_PATH=/usr/local/lib/node_modules
+
+# Load unicorn
+function bbu() {
+  if [[ -z $1 ]]; then
+    UNICORN_PORT=3000;
+  else
+    UNICORN_PORT=$1;
+  fi
+  bin/unicorn -E development -c /usr/local/etc/unicorn.rb -1 127.0.0.1:$UNICORN_PORT
+}
+
+# Load hitch
+hitch() {
+  command hitch "$@"
+  if [[ -s "$HOME/.hitch_export_authors" ]] ; then source "$HOME/.hitch_export_authors" ; fi
+}
+
+# Signature :)
+echo "
+         /)                     /)
+   _   _(/ _  ___       _____  (/_
+ (_(_(_(_(_(_// (_(_/_(_) / (_/(__
+                 .-/
+                (_/
+"

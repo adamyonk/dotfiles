@@ -1,0 +1,26 @@
+# ~/.tmuxinator/franz.yml
+project_name: franz
+project_root: ~/.code/adamyonk/thefranzfamily.com
+socket_name: franz
+pre: unset TMPDIR
+tabs:
+  - vim:
+      layout: even-horizontal
+      panes:
+        - open http://localhost:3000 && vim
+  - git:
+      layout: even-horizontal
+      panes:
+        - git pull && bundle install
+  - console:
+      layout: even-horizontal
+      panes:
+        - bin/rails c
+  - tests:
+      layout: even-horizontal
+      panes:
+        - bin/rake spec
+  - server:
+      layout: even-horizontal
+      panes:
+        - bin/rails s
