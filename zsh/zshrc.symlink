@@ -2,7 +2,8 @@
 export DOTFILES=$HOME/.dotfiles
 
 # source every .zsh file in this repo
-for config_file ($DOTFILES/**/*.zsh) source $config_file
+#for config_file ($DOTFILES/**/*.zsh) source $config_file
+for config_file ($DOTFILES/zsh/*.zsh) source $config_file
 
 # use .localrc for SUPER SECRET CRAP that you don't
 # want in your public, versioned repo.
@@ -16,7 +17,7 @@ autoload -U compinit
 compinit
 
 # load every completion after autocomplete loads
-for config_file ($DOTFILES/**/completion.sh) source $config_file
+#for config_file ($DOTFILES/**/completion.sh) source $config_file
 
 
 
@@ -27,7 +28,7 @@ export ZSH=$HOME/.dotfiles/zsh/oh-my-zsh
 export ZSH_THEME='adamyonk'
 
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
-plugins=(osx ssh-agent vi-mode)
+plugins=(git osx ssh-agent vi-mode)
 
 # load oh-my-zsh
 source $ZSH/oh-my-zsh.sh
