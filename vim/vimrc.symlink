@@ -1,6 +1,7 @@
 " Use Vim settings, rather then Vi settings (much better!).
 " This must be first, because it changes other options as a side effect.
 set nocompatible
+let mapleader=','
 
 " source ~/.vimrc.before if it exists.
 if filereadable(expand("~/.vimrc.before"))
