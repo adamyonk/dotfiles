@@ -25,3 +25,6 @@
 [submodule "zsh/oh-my-zsh"]
 	path = zsh/oh-my-zsh
 	url = git://github.com/robbyrussell/oh-my-zsh.git
+[submodule "vim/vim.symlink/bundle/zoomwin"]
+	path = vim/vim.symlink/bundle/zoomwin
+	url = git://github.com/vim-scripts/ZoomWin.git

@@ -36,6 +36,9 @@ set autoread                    "Reload files changed outside vim
 set hidden
 
 syntax on " Turn on syntax highlighting
+syntax enable
+set background=dark
+colorscheme solarized
 
 " Search Settings
 " ===============
