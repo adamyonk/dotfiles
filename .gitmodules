@@ -16,3 +16,9 @@
 [submodule "vim/vim/bundle/nerdtree"]
 	path = vim/vim/bundle/nerdtree
 	url = git://github.com/scrooloose/nerdtree.git
+[submodule "vim/vim/bundle/vim-coffee-script"]
+	path = vim/vim/bundle/vim-coffee-script
+	url = git://github.com/kchmck/vim-coffee-script.git
+[submodule "vim/vim/bundle/vim-markdown"]
+	path = vim/vim/bundle/vim-markdown
+	url = git://github.com/plasticboy/vim-markdown.git
