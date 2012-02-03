@@ -15,8 +15,6 @@ alias nginx-down="sudo nginx -s stop"
 alias redis-up='redis-server /usr/local/etc/redis.conf > /dev/null &'
 alias redis-down='killall redis-server'
 
-alias git='nocorrect noglob git'
-
 alias ls='ls -al'
 
 # grc overides for ls
