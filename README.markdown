@@ -12,7 +12,7 @@
   - vim-pathogen
   - vim-rails
   - zoomwin
-  - ',' <Leader>
+  - ',' Leader
 - rbenv
 - tmux
 
