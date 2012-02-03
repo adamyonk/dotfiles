@@ -1,0 +1,28 @@
+[alias]
+  b = branch
+  c = commit -av
+  co = checkout
+  fp = fetch -p
+  lola = log --graph --decorate --pretty=oneline --abbrev-commit --all
+  s = status
+  sub = submodule
+[apply]
+  whitespace = fix
+[branch]
+  autosetuprebase = always
+[color]
+  branch = auto
+  diff = auto
+  status = auto
+  whitespace = fix,space-before-tab,tab-in-indent,trailing-space
+[core]
+  editor = vim
+  excludesfile = ~/.gitignore
+  quotepath = false
+[mergetool]
+  keepbackup = false
+[user]
+  email = adamyonk@me.com
+  name = Adam Jahnke
+[init]
+	templatedir = ~/.git_template
