@@ -15,12 +15,12 @@ tabs:
   - console:
       layout: even-horizontal
       panes:
-        - bin/rails c
+        - be rails c
   - tests:
       layout: even-horizontal
       panes:
-        - bin/rake spec
+        - be rake spec
   - server:
       layout: even-horizontal
       panes:
-        - bin/rails s
+        - be rails s
