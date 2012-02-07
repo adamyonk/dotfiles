@@ -21,6 +21,9 @@ compinit
 
 
 
+# Disable autosetting terminal title.
+export DISABLE_AUTO_TITLE='true'
+
 # Path to your oh-my-zsh configuration
 export ZSH=$HOME/.dotfiles/zsh/oh-my-zsh
 
