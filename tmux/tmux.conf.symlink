@@ -36,7 +36,7 @@ bind-key n      command-prompt 'rename-window %%'
 bind-key N      command-prompt 'rename-session %%'
 bind-key Escape copy-mode -u
 bind-key Up     copy-mode -u
-bind-key r      source-file ~/.tmux.conf; display-message " ✱ ~/.tmux.conf is reloaded"
+bind-key r      source-file ~/.tmux.conf; display-message "~/.tmux.conf is reloaded"
 bind-key R      refresh-client
 bind-key a      send-key C-a
 bind-key C-j    resize-pane -L 10
@@ -55,8 +55,8 @@ set-option -g status-fg colour8
 
 set-option -g status-right-length 60
 set-option -g status-left-length 60
-set-option -g status-left '⣿'
-set-option -g status-right '#[bold]#(whoami) ● #[default] '
+set-option -g status-right '#[bold]#(whoami) ❖ '
+#set-option -g status-left '⣿'
 #set-option -g status-right '⡇ #[bold]❐ #S:#I#[default] ⡇ #[bold]#(whoami) ● #H#[default] '
 #set-option -g status-right '⡇ ❐ #S ⡇ ❖ #(rvm tools identifier) ⡇ #(whoami) ● #H '
 #set-option -g status-left ' #[bold]❐ #S#[default] ⡇'
@@ -75,6 +75,8 @@ set-window-option -g monitor-activity on
 
 ## tmux window titling for X
 set-option -g set-titles off
+set-window-option -g window-status-current-format ' #W '
+set-window-option -g window-status-format ' #W '
 #set-option -g set-titles-string '[#I] #W'
 #set-window-option -g window-status-current-format ' #I #W '
 #set-window-option -g window-status-format ' #I #W '

@@ -1,6 +1,8 @@
 " Use Vim settings, rather then Vi settings (much better!).
 " This must be first, because it changes other options as a side effect.
 set nocompatible
+set encoding=utf-8
+
 let mapleader=','
 
 " source ~/.vimrc.before if it exists.
@@ -28,8 +30,8 @@ set history=1000                "Store lots of :cmdline history
 set showcmd                     "Show incomplete cmds down the bottom
 set showmode                    "Show current mode down the bottom
 set gcr=a:blinkon0              "Disable cursor blink
-
 set autoread                    "Reload files changed outside vim
+set laststatus=2                "Always show status line
 
 " This makes vim act like all other editors, buffers can
 " exist in the background without being in a window.
@@ -106,3 +108,13 @@ set wildignore+=*vim/backups*
 set scrolloff=8       "Start scrolling when we're 8 lines away from margins
 set sidescrolloff=15
 set sidescroll=1
+
+" Status Line
+" ===========
+
+set statusline=
+set statusline+=%{fugitive#statusline()}   "Show fugitive git info
+set statusline+=\ %f\ %m\ %r               "Show filename/path
+set statusline+=%=                         "Set right-side status info after this line
+set statusline+=%l/%L:%v                   "Set <line number>/<total lines>:<column>
+set statusline+=\ 
