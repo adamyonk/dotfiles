@@ -17,6 +17,10 @@ alias redis-down='killall redis-server'
 
 alias ls='ls -al'
 
+# Enable/disable remote login in OSX
+alias rup='systemsetup -setremotelogin on'
+alias rdown='systemsetup -setremotelogin off'
+
 # grc overides for ls
 #   Made possible through contributions from generous benefactors like
 #   `brew install coreutils`
