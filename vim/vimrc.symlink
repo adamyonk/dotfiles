@@ -38,10 +38,14 @@ set laststatus=2                "Always show status line
 " http://items.sjbach.com/319/configuring-vim-right
 set hidden
 
+" Syntax
+" ======
+
 syntax on " Turn on syntax highlighting
 syntax enable
 set background=dark
 colorscheme solarized
+au BufRead,BufNewFile *.jbuilder setf ruby
 
 " Search Settings
 " ===============
