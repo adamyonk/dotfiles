@@ -32,6 +32,7 @@ set showmode                    "Show current mode down the bottom
 set gcr=a:blinkon0              "Disable cursor blink
 set autoread                    "Reload files changed outside vim
 set laststatus=2                "Always show status line
+"set clipboard=unnamed           "Use system clipboard
 
 " This makes vim act like all other editors, buffers can
 " exist in the background without being in a window.
