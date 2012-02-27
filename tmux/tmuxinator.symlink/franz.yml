@@ -7,7 +7,7 @@ tabs:
   - vim:
       layout: even-horizontal
       panes:
-        - open http://localhost:3000 && vim
+        - open http://localhost:5000 && vim
   - git:
       layout: even-horizontal
       panes:
@@ -23,4 +23,4 @@ tabs:
   - server:
       layout: even-horizontal
       panes:
-        - be rails s
+        - be foreman start

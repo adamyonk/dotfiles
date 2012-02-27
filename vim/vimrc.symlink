@@ -5,6 +5,9 @@ set encoding=utf-8
 
 let mapleader=','
 
+" automatically reload vimrc when it's saved
+au BufWritePost vimrc.symlink so ~/.vimrc
+
 " source ~/.vimrc.before if it exists.
 if filereadable(expand("~/.vimrc.before"))
   source ~/.vimrc.before
