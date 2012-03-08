@@ -120,9 +120,9 @@ set sidescroll=1
 " Status Line
 " ===========
 
-set statusline=                           " Kick it off and override default
-set statusline+=%{fugitive#statusline()}  " Show fugitive git info
-set statusline+=\ %f\ %m\ %r              " Show filename/path
-set statusline+=%=                        " Set right-side status info after this line
-set statusline+=%l/%L:%v                  " Set <line number>/<total lines>:<column>
-set statusline+=\                         " Set ending space
+set statusline=                                 " Kick it off and override default
+set statusline+=%{fugitive#statusline()[4:-2]}  " Show fugitive git info
+set statusline+=\ %f\ %m\ %r                    " Show filename/path
+set statusline+=%=                              " Set right-side status info after this line
+set statusline+=%l/%L:%v                        " Set <line number>/<total lines>:<column>
+set statusline+=\                               " Set ending space
