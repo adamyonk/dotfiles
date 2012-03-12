@@ -1,4 +1,5 @@
 set-option -g default-command "reattach-to-user-namespace -l zsh"
+set-option -g prefix C-a # C-a for perfix just like screen
 
 ## keybindings
 unbind C-b
@@ -17,8 +18,6 @@ unbind h
 unbind j
 unbind k
 unbind l
-
-set-option -g prefix C-a # C-a for perfix just like screen
 
 bind-key C-a    last-window
 bind-key |      split-window -h
@@ -55,12 +54,9 @@ set-option -g status-fg colour8
 
 set-option -g status-right-length 60
 set-option -g status-left-length 60
-set-option -g status-right ' ✖ '
+set-option -g status-right "#(hcl | grep total | awk '{print $1}') ✖ "
 set-option -g status-left ' '
-#set-option -g status-left '⣿'
-#set-option -g status-right '⡇ #[bold]❐ #S:#I#[default] ⡇ #[bold]#(whoami) ● #H#[default] '
-#set-option -g status-right '⡇ ❐ #S ⡇ ❖ #(rvm tools identifier) ⡇ #(whoami) ● #H '
-#set-option -g status-left ' #[bold]❐ #S#[default] ⡇'
+set-option -g status-interval 15
 
 ## highlight active window
 set-window-option -g window-status-current-bg colour166
@@ -78,9 +74,6 @@ set-window-option -g monitor-activity on
 set-option -g set-titles off
 set-window-option -g window-status-current-format ' #W '
 set-window-option -g window-status-format ' #W '
-#set-option -g set-titles-string '[#I] #W'
-#set-window-option -g window-status-current-format ' #I #W '
-#set-window-option -g window-status-format ' #I #W '
 
 # starts windows at 1 not 0
 set-option -g base-index 1
@@ -91,9 +84,6 @@ set-option -g status-keys vi
 set-window-option -g mode-keys vi
 set-window-option -g monitor-activity off
 set-window-option -g monitor-content off
-#set-option -g mouse-select-pane on
-#set-window-option -g mode-mouse on
-#set-option -g history-limit 4096
 
 ## pane border and colors
 set-option -g pane-active-border-fg yellow
