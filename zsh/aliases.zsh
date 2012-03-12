@@ -1,8 +1,9 @@
 alias reload='source ~/.zshrc'
 
 alias be='bundle exec'
-alias pc_precompile='bin/rake assets:precompile RAILS_ENV=development RAILS_ASSETS_NODIGEST=true'
+alias pc_precompile='be rake assets:precompile RAILS_ENV=development RAILS_ASSETS_NODIGEST=true'
 
+alias vim='mvim'
 alias mvim='mvim -v'
 
 alias tmux='tmux -2'

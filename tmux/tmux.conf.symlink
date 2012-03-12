@@ -51,12 +51,13 @@ bind l          select-pane -R
 set-option -g status-utf8 on
 set-option -g status-bg colour11
 set-option -g status-fg colour8
-
-set-option -g status-right-length 60
-set-option -g status-left-length 60
-set-option -g status-right "#(hcl | grep total | awk '{print $1}') ✖ "
-set-option -g status-left ' '
 set-option -g status-interval 15
+
+set-option -g status-left-length 60
+set-option -g status-left ' '
+set-option -g status-right-length 60
+# ⥁
+set-option -g status-right "◷ #(hcl | grep total | awk '{print $1}')   ✖ "
 
 ## highlight active window
 set-window-option -g window-status-current-bg colour166
