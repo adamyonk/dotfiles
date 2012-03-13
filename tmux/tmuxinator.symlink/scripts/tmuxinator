@@ -1,4 +1,0 @@
-alias start_gsmob='$SHELL /Users/adamyonk/.tmuxinator/gsmob.tmux'
-alias start_joynin='$SHELL /Users/adamyonk/.tmuxinator/joynin.tmux'
-alias start_pure='$SHELL /Users/adamyonk/.tmuxinator/pure.tmux'
-alias start_test='$SHELL /Users/adamyonk/.tmuxinator/test.tmux'
