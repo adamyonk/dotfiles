@@ -4,15 +4,6 @@
 
 - oh-my-zsh
 - vim
-  - ctrlp
-  - nerdtree
-  - vim-colors-solarized
-  - syntastic
-  - vim-fugitive
-  - vim-pathogen
-  - vim-rails
-  - zoomwin
-  - ',' Leader
 - rbenv
 - tmux
 
