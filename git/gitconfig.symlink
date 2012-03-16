@@ -4,10 +4,10 @@
   c = commit -a -v
   co = checkout
   fp = fetch -p
+  ll = pull
   lola = log --graph --decorate --pretty=oneline --abbrev-commit --all
-  pl = pull
-  ps = push
   s = status
+  sh = push
   sub = submodule
 [apply]
   whitespace = fix
