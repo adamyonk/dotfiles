@@ -2,13 +2,13 @@
   a = add .
   b = branch
   c = commit -a -v
+  d = pull
   co = checkout
   fp = fetch -p
-  ll = pull
   lola = log --graph --decorate --pretty=oneline --abbrev-commit --all
   s = status
-  sh = push
   sub = submodule
+  u = push
 [apply]
   whitespace = fix
 [branch]
