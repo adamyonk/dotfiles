@@ -1,9 +1,12 @@
 [alias]
+  a = add .
   b = branch
-  c = commit -av
+  c = commit -a -v
   co = checkout
   fp = fetch -p
   lola = log --graph --decorate --pretty=oneline --abbrev-commit --all
+  pl = pull
+  ps = push
   s = status
   sub = submodule
 [apply]
