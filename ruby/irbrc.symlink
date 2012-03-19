@@ -61,7 +61,7 @@ module AwesomePrintMongoid
   end
 end
 
-AwesomePrint.send(:include, AwesomePrintMongoid)
+#AwesomePrint.send(:include, AwesomePrintMongoid)
 
 
 # load wirble
@@ -83,6 +83,7 @@ else # MacRuby
 end
 
 # load hirb
+
 IRB.conf[:AUTO_INDENT] = true
 
 if ENV.include?('RAILS_ENV')
@@ -120,5 +121,3 @@ end
 def show(obj)
   y(obj.send("column_names"))
 end
-
-puts "> all systems are go wirble/hirb/ap/show <"

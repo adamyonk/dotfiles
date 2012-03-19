@@ -24,7 +24,6 @@ tabs:
       layout: even-horizontal
       panes:
         - be foreman start
-        - be compass watch
   - logs:
       layout: even-horizontal
       panes:
