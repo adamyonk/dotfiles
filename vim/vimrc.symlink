@@ -6,10 +6,10 @@
 set nocompatible
 
 " Automatically reload vimrc when it's saved
-au BufWritePost vimrc.symlink so ~/.vimrc
+autocmd! BufWritePost vimrc.symlink so ~/.vimrc
 
 " Source ~/.vimrc.before if it exists
-if filereadable(expand("~/.vimrc.before"))
+if filereadable(expand('~/.vimrc.before'))
   source ~/.vimrc.before
 endif
 
@@ -36,21 +36,21 @@ set gcr=a:blinkon0              " Disable cursor blink
 set autoread                    " Reload files changed outside vim
 set laststatus=2                " Always show status line
 set clipboard=unnamed           " Use system clipboard
-
-" This makes vim act like all other editors, buffers can
-" exist in the background without being in a window.
-" http://items.sjbach.com/319/configuring-vim-right
-set hidden
+set hidden                      " Buffers can exist in the background
+                                " http://items.sjbach.com/319/configuring-vim-right
 
 " Syntax
 " ======
 
 syntax on
 syntax enable
-set background=dark
 colorscheme solarized
+set background=dark
+
 " Filetype overrides
-au BufRead,BufNewFile *.jbuilder setf ruby
+" ==================
+
+autocmd! BufRead,BufNewFile *.jbuilder,Gemfile,Rakefile,Procfile,Guardfile setf ruby
 
 " Search Settings
 " ===============
@@ -64,7 +64,7 @@ set viminfo='100,f1  " Save up to 100 marks, enable capital marks
 
 set noswapfile
 set nobackup
-set nowb
+set nowritebackup
 
 " Persistent Undo
 " ===============
@@ -120,7 +120,7 @@ set sidescroll=1
 " Status Line
 " ===========
 
-set statusline=                                 " Kick it off and override default
+set statusline=                                 " Override default
 set statusline+=%{fugitive#statusline()[4:-2]}  " Show fugitive git info
 set statusline+=\ %f\ %m\ %r                    " Show filename/path
 set statusline+=%=                              " Set right-side status info after this line

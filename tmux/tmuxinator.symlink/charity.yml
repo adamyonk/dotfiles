@@ -1,6 +1,6 @@
 # ~/.tmuxinator/charity.yml
 project_name: charity
-project_root: ~/.code/causemetric/purecharity-social
+project_root: ~/.code/causemetric/purecharity
 socket_name: charity
 pre: unset TMPDIR
 tabs:
@@ -28,10 +28,10 @@ tabs:
       layout: even-horizontal
       panes:
         - tail -f log/development.log
-  - wiki:
-      layout: even-horizontal
-      panes:
-        - cd ../purecharity-social.wiki && git pull
+#  - wiki:
+#      layout: even-horizontal
+#      panes:
+#        - cd ../purecharity-social.wiki && git pull
 #  - chat:
 #      layout: even-horizontal
 #      panes:
