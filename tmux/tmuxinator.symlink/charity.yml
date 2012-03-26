@@ -8,7 +8,7 @@ tabs:
       layout: even-horizontal
       panes:
         - open http://localhost:3000 && vim
-  - git:
+  - terminal:
       layout: even-horizontal
       panes:
         - git pull && bundle install
