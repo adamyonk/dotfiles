@@ -20,6 +20,7 @@ tabs:
       layout: even-horizontal
       panes:
         - be rake spec
+        - be guard -g jasmine
   - server:
       layout: even-horizontal
       panes:
