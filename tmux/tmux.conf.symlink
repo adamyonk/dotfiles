@@ -1,4 +1,4 @@
-set-option -g default-command "reattach-to-user-namespace -l zsh"
+set-option -g default-command 'reattach-to-user-namespace -l zsh'
 set-option -g prefix C-a # C-a for perfix just like screen
 
 ## keybindings
@@ -35,7 +35,7 @@ bind-key n      command-prompt 'rename-window %%'
 bind-key N      command-prompt 'rename-session %%'
 bind-key Escape copy-mode -u
 bind-key Up     copy-mode -u
-bind-key r      source-file ~/.tmux.conf; display-message "~/.tmux.conf is reloaded"
+bind-key r      source-file ~/.tmux.conf; display-message '~/.tmux.conf is reloaded'
 bind-key R      refresh-client
 bind-key a      send-key C-a
 bind-key C-j    resize-pane -L 10
@@ -57,7 +57,8 @@ set-option -g status-left-length 60
 set-option -g status-left ' '
 set-option -g status-right-length 60
 # ⥁
-set-option -g status-right "◷ #(hcl | grep total | awk '{print $1}')   ✖ "
+#set-option -g status-right "◷ #(hcl | grep total | awk '{print $1}')   ✖ "
+set-option -g status-right "✖ "
 
 ## highlight active window
 set-window-option -g window-status-current-bg colour166

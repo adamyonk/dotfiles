@@ -1,13 +1,13 @@
-# ~/.tmuxinator/charity.yml
-project_name: charity
-project_root: ~/.code/causemetric/purecharity
-socket_name: charity
+# ~/.tmuxinator/chelsea.yml
+project_name: chelsea
+project_root: ~/code/adamyonk/chelseamoon
+socket_name: chelsea
 pre: unset TMPDIR
 tabs:
   - vim:
       layout: even-horizontal
       panes:
-        - open http://localhost:3000 && vim
+        - open http://localhost:5000 && vim
   - terminal:
       layout: even-horizontal
       panes:
@@ -29,11 +29,3 @@ tabs:
       layout: even-horizontal
       panes:
         - tail -f log/development.log
-#  - wiki:
-#      layout: even-horizontal
-#      panes:
-#        - cd ../purecharity-social.wiki && git pull
-#  - chat:
-#      layout: even-horizontal
-#      panes:
-#        - mcabber
