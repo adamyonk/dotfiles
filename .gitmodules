@@ -43,3 +43,6 @@
 [submodule "vim/vim.symlink/bundle/supertab"]
 	path = vim/vim.symlink/bundle/supertab
 	url = git://github.com/ervandew/supertab.git
+[submodule "vim/vim.symlink/bundle/webapi-vim"]
+	path = vim/vim.symlink/bundle/webapi-vim
+	url = git://github.com/mattn/webapi-vim.git
