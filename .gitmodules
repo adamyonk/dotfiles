@@ -46,3 +46,6 @@
 [submodule "vim/vim.symlink/bundle/webapi-vim"]
 	path = vim/vim.symlink/bundle/webapi-vim
 	url = git://github.com/mattn/webapi-vim.git
+[submodule "vim/vim.symlink/bundle/vim-commentary"]
+	path = vim/vim.symlink/bundle/vim-commentary
+	url = git://github.com/tpope/vim-commentary.git
