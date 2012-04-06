@@ -1,6 +1,6 @@
 # ~/.tmuxinator/chelsea.yml
 project_name: chelsea
-project_root: ~/code/adamyonk/chelseamoon
+project_root: ~/.code/adamyonk/chelseamoon
 socket_name: chelsea
 pre: unset TMPDIR
 tabs:
