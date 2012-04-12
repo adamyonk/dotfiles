@@ -2,8 +2,8 @@
   a = add .
   b = branch
   c = commit -a -v
-  d = pull
   co = checkout
+  d = pull
   f = fetch
   fp = fetch -p
   lola = log --graph --decorate --pretty=oneline --abbrev-commit --all
