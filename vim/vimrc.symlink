@@ -30,16 +30,16 @@ set encoding=utf-8
 set number                      " Line numbers are good
 set backspace=indent,eol,start  " Allow backspace in insert mode
 set history=1000                " Store lots of :cmdline history
-set showcmd                     " Show incomplete cmds down the bottom
-set showmode                    " Show current mode down the bottom
-set gcr=a:blinkon0              " Disable cursor blink
+set guicursor=a:blinkon0        " Disable cursor blink
 set autoread                    " Reload files changed outside vim
 set laststatus=2                " Always show status line
 set clipboard=unnamed           " Use system clipboard
 set hidden                      " Buffers can exist in the background
 set splitright                  " Opens vertical split right of current window
 set splitbelow                  " Opens horizontal split below current window
-"set shortmess=filnxtToOI       " see :help shortmess
+set showmode                    " Show current mode down the bottom
+set showcmd                     " Show incomplete cmds down the bottom
+set shortmess=aoOstTWAI         " see :help shortmess
                                 " http://items.sjbach.com/319/configuring-vim-right
 
 " Syntax
