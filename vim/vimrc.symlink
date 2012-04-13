@@ -93,9 +93,15 @@ set expandtab
 filetype plugin on
 filetype indent on
 
-set list listchars=tab:\ \ ,trail:·   " Display tabs and trailing spaces visually
 set nowrap                            " Don't wrap lines
 set linebreak                         " Wrap lines at convenient points
+set list listchars=tab:\ \ ,trail:·   " Display tabs and trailing spaces visually
+" Don't show trailing spaces in insert mode
+augroup trailing
+    autocmd!
+    autocmd InsertEnter * :set listchars-=trail:·
+    autocmd InsertLeave * :set listchars+=trail:·
+augroup END
 
 " Folds
 " =====

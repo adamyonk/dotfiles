@@ -15,7 +15,7 @@ tabs:
   - console:
       layout: even-horizontal
       panes:
-        - bundle exec foreman run bundle exec rails console
+        - nocorrect bundle exec foreman run bundle exec rails console
   - tests:
       layout: even-horizontal
       panes:
