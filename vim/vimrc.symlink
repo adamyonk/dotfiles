@@ -53,7 +53,7 @@ set background=dark
 " Filetype overrides
 " ==================
 
-autocmd! BufRead,BufNewFile *.jbuilder,Gemfile,Rakefile,Procfile,Guardfile setf ruby
+autocmd! BufRead,BufNewFile Capfile,Gemfile,Guardfile,Procfile,Rakefile,Thorfile,.caprc,.irbrc,.jbuilder setfiletype ruby
 
 " Search Settings
 " ===============
