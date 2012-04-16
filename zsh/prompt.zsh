@@ -5,8 +5,8 @@ local return_code="%(?..%{$fg[red]%}%? ↵%{$reset_color%})"
 
 ZSH_THEME_GIT_PROMPT_PREFIX=""
 ZSH_THEME_GIT_PROMPT_SUFFIX=""
-ZSH_THEME_GIT_PROMPT_DIRTY=" %{$fg[red]%}✗"
-ZSH_THEME_GIT_PROMPT_CLEAN=" %{$fg[cyan]%}✔"
+ZSH_THEME_GIT_PROMPT_DIRTY=" %{$fg[red]%}±" # Or ✗
+ZSH_THEME_GIT_PROMPT_CLEAN=" %{$fg[green]%}±" # Or ✔
 
 # Colors vary depending on time lapsed.
 ZSH_THEME_GIT_TIME_SINCE_COMMIT_SHORT="%{$fg[cyan]%}"
@@ -144,7 +144,7 @@ todo_count() {
   fi
 }
 
-export PROMPT="%{$fg[red]%}✖  %{$reset_color%}"
+export PROMPT="%{$fg_bold[red]%}✖  %{$reset_color%}"
 
 set_prompt() {
   export RPROMPT="%{$fg_bold[yellow]%}%c%{$reset_color%} $(git_prompt_info)%{$reset_color%}"
