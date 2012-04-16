@@ -4,7 +4,7 @@ alias be='bundle exec'
 alias bi='bundle install'
 
 alias g='git'
-alias ga='git add .'
+alias ga='git add ./'
 alias gb='git branch'
 alias gc='git commit -a -v'
 alias gco='git checkout'
