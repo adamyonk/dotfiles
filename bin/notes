@@ -1,0 +1,9 @@
+#!/bin/sh
+
+if [[ -z $1 ]]; then
+  FILTER='TODO|HACK|FIXME'
+else
+  FILTER=$1
+fi
+
+git ls-files | xargs gawk 'match($0, /^.*('$FILTER'):?(.*)$/, ary) {print ary[1], ary[2] "\n  " FILENAME":"FNR "\n" }'
