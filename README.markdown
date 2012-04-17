@@ -1,11 +1,12 @@
-# dotfiles
+# .dotfiles
 
 ## The Highlights
 
-- oh-my-zsh
-- vim
-- rbenv
-- tmux
+- OSX
+- vim, pathogen
+- tmux, vimux
+- git, hub
+- ruby, rbenv
 
 ## Installation
 
@@ -46,6 +47,6 @@ There's a few special files in the hierarchy.
 
 This project began as a fork of (and is heavily inspired by)
 [holman's dotfiles](http://github.com/holman/dotfiles), and much of it's
-ease is due to him. Some of the vim setup was borrowed from
-[skwp's dotfiles](http://github.com/skwp/dotfiles), and small bits were
-taken from [janus](http://github.com/carlhuda/janus).
+ease is due to him. Lots of tag-teaming with
+[pengwynn](http://github.com/pengwynn/dotfiles). Some of the vim setup was
+borrowed from [skwp's dotfiles](http://github.com/skwp/dotfiles).

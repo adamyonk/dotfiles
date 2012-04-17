@@ -4,14 +4,11 @@ export PATH=~/.rbenv/bin:~/.dotfiles/bin:/usr/local/bin:/usr/local/sbin:/usr/bin
 export NGINX_PATH=/opt/nginx # Set the nginx path
 export PGDATA=/usr/local/var/postgres # Load postgresql
 export NODE_PATH=/usr/local/lib/node_modules # Set the node path
-export GREP_OPTIONS='' # Fixes 'brew doctor' output
-export CC='gcc-4.2' # Set the gcc path
 
 export ZSH=$HOME/.dotfiles # Shortcut to this dotfiles path is $ZSH
 export PROJECTS='~/.code' # Project folder to `c [tab]` to
 
-# Source every .zsh file in this repo
-for config_file ($ZSH/**/*.zsh) source $config_file
+for config_file ($ZSH/**/*.zsh) source $config_file # Source every .zsh file in this repo
 
 # Use .localrc for SUPER SECRET CRAP that you don't want in your public, versioned repo.
 if [[ -a ~/.localrc ]]

@@ -2,19 +2,18 @@ autoload colors && colors
 
 local return_code="%(?..%{$fg[red]%}%? ↵%{$reset_color%})"
 
-
 ZSH_THEME_GIT_PROMPT_PREFIX=""
 ZSH_THEME_GIT_PROMPT_SUFFIX=""
 ZSH_THEME_GIT_PROMPT_DIRTY=" %{$fg[red]%}±" # Or ✗
 ZSH_THEME_GIT_PROMPT_CLEAN=" %{$fg[green]%}±" # Or ✔
 
-# Colors vary depending on time lapsed.
+# Colors vary depending on time lapsed
 ZSH_THEME_GIT_TIME_SINCE_COMMIT_SHORT="%{$fg[cyan]%}"
 ZSH_THEME_GIT_TIME_SHORT_COMMIT_MEDIUM="%{$fg[yellow]%}"
 ZSH_THEME_GIT_TIME_SINCE_COMMIT_LONG="%{$fg[red]%}"
 ZSH_THEME_GIT_TIME_SINCE_COMMIT_NEUTRAL="%{$fg[yellow]%}"
 
-# get the name of the branch we are on
+# Get the name of the branch we are on
 function git_prompt_info() {
   ref=$(git symbolic-ref HEAD 2> /dev/null) || return
   echo "$ZSH_THEME_GIT_PROMPT_PREFIX${ref#refs/heads/}$(parse_git_dirty)$ZSH_THEME_GIT_PROMPT_SUFFIX"
@@ -83,9 +82,9 @@ git_prompt_status() {
 # use a neutral color, otherwise colors will vary according to time.
 function git_time_since_commit() {
   if git rev-parse --git-dir > /dev/null 2>&1; then
-    # Only proceed if there is actually a commit.
+    # Only proceed if there is actually a commit
     if [[ $(git log 2>&1 > /dev/null | grep -c "^fatal: bad default revision") == 0 ]]; then
-      # Get the last commit.
+      # Get the last commit
       last_commit=`git log --pretty=format:'%at' -1 2> /dev/null`
       now=`date +%s`
       seconds_since_last_commit=$((now-last_commit))
@@ -125,13 +124,10 @@ function git_time_since_commit() {
   fi
 }
 
-# This keeps the number of todos always available the right hand side of my
-# command line. I filter it to only count those tagged as "+next", so it's more
-# of a motivation to clear out the list.
-todo_count() {
+todo_count(){
   if $(which todo &> /dev/null)
   then
-    num=$(echo $(todo ls +next | wc -l))
+    num=$(echo $(todo ls $1 | wc -l))
     let todos=num-2
     if [ $todos != 0 ]
     then
@@ -144,10 +140,37 @@ todo_count() {
   fi
 }
 
+function todo_prompt() {
+  local COUNT=$(todo_count $1);
+  if [ $COUNT != 0 ]; then
+    echo "$1: $COUNT";
+  else
+    echo "";
+  fi
+}
+
+function notes_count() {
+  if [[ -z $1 ]]; then
+    local NOTES_PATTERN="TODO|FIXME|HACK";
+  else
+    local NOTES_PATTERN=$1;
+  fi
+  grep -ERni "\b($NOTES_PATTERN)\b" {app,config,lib,spec,test} 2>/dev/null | wc -l | sed 's/ //g'
+}
+
+function notes_prompt() {
+  local COUNT=$(notes_count $1);
+  if [ $COUNT != 0 ]; then
+    echo "${1:0:1}$COUNT";
+  else
+    echo "";
+  fi
+}
+
 export PROMPT="%{$fg_bold[red]%}✖  %{$reset_color%}"
 
 set_prompt() {
-  export RPROMPT="%{$fg_bold[yellow]%}%c%{$reset_color%} $(git_prompt_info)%{$reset_color%}"
+  export RPROMPT="$(notes_prompt TODO)%{$reset_color%} %{$fg[yellow]%}$(notes_prompt HACK)%{$reset_color%} %{$fg_bold[red]%}$(notes_prompt FIXME)%{$reset_color%}  %{$fg_bold[yellow]%}%c%{$reset_color%} $(git_prompt_info)%{$reset_color%}"
 }
 
 precmd() {
