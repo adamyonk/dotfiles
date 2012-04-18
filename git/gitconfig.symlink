@@ -6,28 +6,30 @@
   d = pull
   f = fetch
   fp = fetch -p
+  h = browse
   lola = log --graph --decorate --pretty=oneline --abbrev-commit --all
   n = !"git ls-files | xargs notes | awk -F: '{ print $1,$2; print $3,$4; print $5}' | grcat conf.notes"
   s = status
   sub = submodule
   u = push
 [apply]
-  whitespace = fix
+  whitespace = fix,space-before-tab,tab-in-indent,trailing-space
 [branch]
   autosetuprebase = always
 [color]
   branch = auto
   diff = auto
   status = auto
-  whitespace = fix,space-before-tab,tab-in-indent,trailing-space
 [core]
   editor = vim
   excludesfile = ~/.gitignore
   quotepath = false
+[github]
+  user = adamyonk
+[init]
+	templatedir = ~/.git_template
 [mergetool]
   keepbackup = false
 [user]
   email = adamyonk@me.com
   name = Adam Jahnke
-[init]
-	templatedir = ~/.git_template
