@@ -1,9 +1,8 @@
 #!/bin/sh
 
-if [[ -z $1 ]]; then
-  FILTER='TODO|HACK|FIXME'
-else
-  FILTER=$1
+if [[ -z $PATTERN ]]; then
+  PATTERN='TODO|HACK|FIXME|OPTIMIZE'
 fi
 
-git ls-files | xargs gawk 'match($0, /^.*('$FILTER'):?(.*)$/, ary) {print ary[1], ary[2] "\n  " FILENAME":"FNR "\n" }'
+gawk 'match($0, /^.*('$PATTERN'):?\s?(.*)$/, ary) {print FILENAME":"FNR":"ary[1]":"ary[2]}' $@
+#gn | awk -F':' '{print $3" "$1":"$2"\n"$4"\n"}'
