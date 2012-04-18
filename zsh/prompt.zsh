@@ -167,6 +167,15 @@ function notes_prompt() {
   fi
 }
 
+rb_prompt(){
+  if $(which rbenv &> /dev/null)
+  then
+	  echo "%{$fg_bold[yellow]%}$(rbenv version | awk '{print $1}')%{$reset_color%}"
+	else
+	  echo ""
+  fi
+}
+
 export PROMPT="%{$fg_bold[red]%}✖  %{$reset_color%}"
 
 set_prompt() {
