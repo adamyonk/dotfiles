@@ -52,3 +52,6 @@
 [submodule "vim/vim.symlink/bundle/vitality"]
 	path = vim/vim.symlink/bundle/vitality
 	url = git://github.com/sjl/vitality.vim.git
+[submodule "vim/vim.symlink/bundle/vim-unimpaired"]
+	path = vim/vim.symlink/bundle/vim-unimpaired
+	url = git://github.com/tpope/vim-unimpaired.git

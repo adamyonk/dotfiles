@@ -1,3 +1,5 @@
+# NOTE: This is cool
+# TODO: This is great
 # Set git editor
 export GIT_EDITOR=vim
 

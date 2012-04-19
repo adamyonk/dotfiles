@@ -27,10 +27,10 @@ call pathogen#helptags()
 
 let mapleader=','
 set encoding=utf-8
-set number                      " Line numbers are good
+set number                      " Line numbers
 set backspace=indent,eol,start  " Allow backspace in insert mode
 set history=1000                " Store lots of :cmdline history
-set guicursor=a:blinkon0        " Disable cursor blink
+set guicursor=a:blinkon0        " Disable cursor blink (only for GUI)
 set autoread                    " Reload files changed outside vim
 set laststatus=2                " Always show status line
 set clipboard=unnamed           " Use system clipboard
@@ -38,14 +38,12 @@ set hidden                      " Buffers can exist in the background
 set splitright                  " Opens vertical split right of current window
 set splitbelow                  " Opens horizontal split below current window
 set showmode                    " Show current mode down the bottom
-set showcmd                     " Show incomplete cmds down the bottom
-set shortmess=aoOstTWAI         " see :help shortmess
-                                " http://items.sjbach.com/319/configuring-vim-right
+set showcmd                     " Show incomplete cmds down at the bottom
+set shortmess=aoOstTWAI         " See :help shortmess
 
 " Syntax
 " ======
 
-syntax on
 syntax enable
 colorscheme solarized
 set background=dark
@@ -53,12 +51,12 @@ set background=dark
 " Filetype overrides
 " ==================
 
-autocmd! BufRead,BufNewFile Capfile,Gemfile,Guardfile,Procfile,Rakefile,Thorfile,.caprc,.irbrc,.jbuilder setfiletype ruby
+autocmd! BufRead,BufNewFile Capfile,Gemfile,Guardfile,Procfile,Rakefile,Thorfile,.caprc,.irbrc,.jbuilder,.rake setfiletype ruby
 
 " Search Settings
 " ===============
 
-set incsearch        " Find the next match as we type the search
+set incsearch        " Find the next match while typing search
 set hlsearch         " Hilight searches by default
 set viminfo='100,f1  " Save up to 100 marks, enable capital marks
 
