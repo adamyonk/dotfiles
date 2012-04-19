@@ -1,8 +1,7 @@
 " Vim
 " ===
 
-" Use Vim settings, rather then Vi settings (much better!).
-" This must be first, because it changes other options as a side effect.
+" Keep this at top - Use Vim settings, rather then Vi settings
 set nocompatible
 
 " Automatically reload vimrc when it's saved
@@ -119,7 +118,7 @@ set wildignore+=*vim/backups*
 " Scrolling
 " =========
 
-" Start scrolling when we're getting close to margins
+" Start scrolling when getting close to margins
 set scrolloff=10
 set sidescrolloff=15
 set sidescroll=1
