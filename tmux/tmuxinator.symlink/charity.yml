@@ -33,7 +33,7 @@ tabs:
 #      layout: even-horizontal
 #      panes:
 #        - cd ../purecharity-social.wiki && git pull
-#  - chat:
-#      layout: even-horizontal
-#      panes:
-#        - mcabber
+  - chat:
+      layout: even-horizontal
+      panes:
+        - mcabber
