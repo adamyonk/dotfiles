@@ -1,0 +1,532 @@
+# Sample ~/.mcabber/mcabberrc file
+
+# Note about this file syntax:
+# - Leading and trailing spaces are ignored.
+# - Empty lines and lines beginning with a '#' are ignored.
+
+# Please provide your Jabber (XMPP) identifier:
+set jid = 10650_33424@chat.hipchat.com
+
+# If password is not given, it will be interactively asked for.
+# Note: if the password contains leading or trailing spaces, you must
+# enclose it with quotes: set password = " example password "
+#set password = yourpassword
+
+# You can provide a server name if you want mcabber to connect
+# to a specific server.
+set server = chat.hipchat.com
+
+# If port is not given, mcabber will try to find it out.
+#set port = 5222
+
+# If you don't know what a resource is, do not set it.
+# Set disable_random_resource to 1 if you don't want mcabber to add a random
+# suffix to the resource name.
+#set resource = mcabber
+#set disable_random_resource = 0
+
+#set priority = 3
+#set priority_away = 0
+
+# Set 'ignore_self_presence' to 1 if you do not want to see your own
+# presence in your roster (default: 0).
+set ignore_self_presence = 1
+
+# SSL/TLS options:
+# TLS is now regarded as the default encryption for connecting to jabber.
+# You can require TLS by setting tls to 1.  If your jabber server
+# still doesn't support TLS, you can use the old-style SSL by setting
+# ssl to 1.  It's not possible to use old-style SSL and TLS together.
+set ssl = 0
+set tls = 0
+# Moreover, it's possible to check whether the fingerprint of the
+# ssl certificate matches ssl_fingerprint.
+# You can get the fingerprint of your server either with gnutls or openssl:
+# 1. gnutls-cli -p 5223 $your_server
+# 2. openssl s_client -connect $your_server:5223 | \
+#    openssl x509 -fingerprint -md5 -noout
+#set ssl_fingerprint = 97:5C:00:3F:1D:77:45:25:E2:C5:70:EC:83:C8:87:EE
+# Set ssl_ignore_checks to 1 to disable all certificate checks except the
+# fingerprint check.
+set ssl_ignore_checks = 1
+
+# PGP support
+# Set pgp to 1 to enable OpenPGP.
+# To sign outgoing messages, select your private key id with
+# the pgp_private_key option.  You cannot change these options once
+# mcabber is running.
+# Note: you can get the Key Id with gpg: "gpg --list-keys --keyid-format long"
+#set pgp = 0
+#set pgp_private_key = "C9940A9BB0B92210"
+#
+# You can set your PGP passhrase here, although it's NOT advised.
+#set pgp_passphrase = "PGPpassword"
+#
+# If you don't like the default number of passphrase retries (2), you
+# can change it here.  If this number is < 0, mcabber will keep asking
+# until the passphrase is good.
+#set pgp_passphrase_retries = 2
+
+# Conference nickname
+# This nickname is used when joining a room, when no nick is explicitly
+# specified by the user.  Note that when the nickname option is not set,
+# the jid variable can be used.
+set nickname = Yonk Adam
+
+# Proxy
+# mcabber can use a proxy if it supports the CONNECT method
+# The proxy_user/proxy_pass variables are optional.
+#set proxy_host = "proxy-hostname"
+#set proxy_port = 3128
+#set proxy_user = "username"
+#set proxy_pass = "password"
+
+# Keepalive
+# If you need a ping/keepalive to leave your connection open, you
+# can use the pinginterval.  Setting this option to 0 disables the ping.
+# Default value is 40 seconds.
+#set pinginterval = 40
+
+# Language
+# Help files have been translated into a few languages.
+# You can set lang to a semicolon separated list of the following
+# values: en, cs, de, fr, it, nl, pl, ru, uk. If you omit this,
+# mcabber will try to autodetect it from your locale, with fallback
+# to en.
+# You also can specify a list of directories, where help is located,
+# for example, if your mcabber is installed with another prefix than
+# your modules.
+# This may be convenient to print help not into the status buffer, but into
+# currently opened buffer. For that set help_to_current option.
+#set lang = en
+#set help_dirs = "/usr/share/mcabber/help;~/share/mcabber/help"
+#set help_to_current = 0
+
+# Aspell
+# If your mcabber has been built with Aspell support, you can enable spell
+# checking with the following options (you can't change them once mcabber is
+# running).
+#set spell_enable = 1
+#set spell_lang = en_US
+#set spell_encoding = iso8859-1
+#set spell_encoding = UTF-8
+
+# History
+# Number of lines to remember for the command line history
+# (default: 0, unlimited).
+set cmdhistory_lines = 250
+
+# You can set up a mask to filter buddies and display them according to
+# their status.  The mask should contain the shortcut letters of the
+# status you want to see ([o]nline, [f]ree_for_chat, [d]o_not_disturb,
+# [n]ot_available, [a]way, [_]offline).
+# For example, to display everybody the filter should be "ofdna_" (default).
+# To display only the connected buddies, use "ofdna".
+# Please note that this option is only used at startup (once mcabber is
+# running you can use "/roster display").
+#set roster_display_filter = ofdna_
+
+# By default command line completion is case-sensitive; this can be changed
+# by setting the option 'completion_ignore_case' to 1.
+#set completion_ignore_case = 0
+
+# Typing notifications, Chat States, Events (XEP-22/85)
+# Set disable_chatstates to 1 if you don't want to use typing notifications.
+# Note: changing this option once mcabber is running has no effect.
+#set disable_chatstates = 0
+
+# History logging
+# You can save the messages history: set logging = 1
+# Set 'logging_ignore_status' to 1 if you do not want to save status changes
+# (and status messages) to the log files (default: 0).
+# You can load (read) the messages history: set load_logs = 1
+# If you enable load_logs, you can use the 'max_history_age' setting below.
+# Default logging directory (logging_dir) is $HOME/.mcabber/histo/
+# Defaults for logging, load_logs are 0 (disabled)
+# Note: the logging directory must exist if you enable logging, mcabber
+#       will not create it.
+# Note: these options, except 'max_history_age' and 'max_history_blocks',
+# are used at startup time.
+#set logging = 1
+#set load_logs = 1
+#set logging_dir = ~/.mcabber/histo/
+#set logging_ignore_status = 1
+
+# Set log_muc_conf to 1 to enable MUC chatrooms logging (default = 0)
+set log_muc_conf = 1
+# Set load_muc_logs to 1 to read MUC chatrooms logs (default = 0).  These
+# logs will be displayed in the buffer window _before_ any history received
+# from the server.
+set load_muc_logs = 1
+
+# When load_logs (or load_muc_logs) is enabled, you can specify a maximum
+# number of history days to load into memory with max_history_age.
+# Default = 0 (disabled -- everything is loaded)
+# Note: this option is only used when reading history files, not later.
+#set max_history_age = 0
+
+# mcabber can store the list of unread messages in a state file,
+# so that the message flags are set back at next startup.
+# Note that 'logging' must be enabled for this feature to work.
+#set statefile = ~/.mcabber/mcabber.state
+
+# You can specify a maximum number of data blocks per buffer (1 block contains
+# about 8kB).  The default is 0 (unlimited).  If set, this value must be > 2.
+set max_history_blocks = 8
+
+# IQ settings
+# Set iq_version_hide_os to 1 if you do not want to allow people to retrieve
+# your OS version.
+#set iq_version_hide_os = 0
+#
+# Set iq_last_disable to 1 if you want to disable response to jabber:iq:last
+# queries (XEP-0012).  Set iq_last_disable_when_notavail to 1 if you want
+# to disable Last Activity reports only when the not-available status is set.
+# (Default is 0 for both options)
+#set iq_last_disable = 0
+#set iq_last_disable_when_notavail = 1
+#
+# Set iq_hide_requests to 1 if you don't want received IQ requests to be
+# displayed in the status window (default: 0).
+#set iq_hide_requests = 1
+
+# Modules
+# If mcabber is built with modules support, you can specify the path
+# to the directory where your modules reside. Though, default compiled-in
+# value should be appropriate.
+#set modules_dir = /usr/lib/mcabber/
+
+# Beep
+# Set beep_on_message to 1 if you want mcabber to beep when receiving
+# a new message (except in chatrooms).  If you want a more sophisticated
+# system (e.g. play a sound), have a look at 'events_command' below.
+#set beep_on_message = 0
+
+# External command for events
+# You can specify a script or process to be launched when an event occurs.
+# Set 'events_ignore_active_window' to 1 if you don't want the script to
+# be run for a message to the current active window (default: 0).
+#
+# If 'event_log_files' is set, a file is created and contains the body of
+# the message (incoming messages only); the file name is the last parameter.
+# If you enable this, you can specify the directory mcabber will use to
+# create these messages with the 'event_log_dir' variable (default is the
+# system temp dir, or MCABBERTMPDIR environment variable).  Please note
+# that mcabber won't delete these files, it's your script's job.
+#
+# The command is called the following way:
+#   $events_command MSG IN jabber@id [file] (when receiving a message)
+#   $events_command MSG OUT jabber@id       (when sending a message)
+#   $events_command MSG MUC room_id [file]  (when receiving a MUC message)
+#   $events_command STATUS X jabber@id      (new buddy status is X)
+#   $events_command UNREAD "N x y z"        (number of unread buddy buffers)
+#   (x=attention y=muc unread buffers z=muc unread buffers with attention sign)
+# See sample script in contrib/ directory.
+#set events_command = ~/.mcabber/eventcmd
+#
+#set events_ignore_active_window = 0
+#
+#set event_log_files = 0
+#set event_log_dir = ~/.mcabber/event_files
+
+# If you set 'eventcmd_use_nickname' to 1, mcabber will pass the nickname
+# (if it is defined) to the event script instead of the JID (default: 0).
+#set eventcmd_use_nickname = 0
+
+# External command status check
+# You can request mcabber to inspect exit status value after each
+# events_command.  If this option is set, mcabber will beep if the
+# exit value is 2.
+#set eventcmd_checkstatus = 0
+
+# Internal hooks
+# You can ask mcabber to execute an internal command when a special event
+# occurs (for example when it connects to the server).
+#
+# 'hook-post-connect' is executed when mcabber has connected to the server
+# and the roster has been received.
+#set hook-post-connect = status dnd
+#
+# 'hook-pre-disconnect' is executed just before mcabber disconnects from
+# the server.
+#set hook-pre-disconnect = say_to foo@bar Goodbye!
+
+# FIFO
+# mcabber can create a FIFO named pipe and listen to this pipe for commands.
+# Default: disabled.
+# Set 'fifo_hide_commands' to 1 if you don't want to see the FIFO commands
+# in the log window (they will still be written to the tracelog file).
+# When FIFO  is configured, you can turn it off and on in real time with
+# the 'fifo_ignore' option (default: 0).  When set to 1, the FIFO input is
+# still read but it is discarded.
+#set fifo_name = ~/.mcabber/mcabber.fifo
+#set fifo_hide_commands = 0
+#set fifo_ignore = 0
+
+# Traces logging
+# If you want advanced traces, please specify a file and a level here.
+# There are currently 4 tracelog levels:
+#  lvl 1: most events of the log window are written to the file
+#  lvl 2: Loudmouth verbose logging
+#  lvl 3: debug logging (XML, etc.)
+#  lvl 4: noisy debug logging (Loudmouth parser...)
+# Default is level 0, no trace logging
+#set tracelog_level = 1
+#set tracelog_file = ~/.mcabber/mcabber.log
+
+# Set the auto-away timeout, in seconds.  If set to a value >0,
+# mcabber will change your status to away if no real activity is detected
+# (command, message, move in the buddylist...).  Note: auto-away only changes
+# the status when it is "available" (online) or "free_for_chat".
+# See 'message_autoaway' below.
+#set autoaway = 0
+
+# Message blocking
+# Set 'block_unsubscribed' to 1 if you want to block (drop) incoming
+# messages from people you haven't authorized. (default: 0)
+#set block_unsubscribed = 0
+#
+# Set 'delete_on_reject' to 1 if you want to delete buddies from your
+# roster when you reject their subscription request. (default: 0)
+# (See documentation for /event)
+# The buddy is actually deleted only if there is no other subscription,
+# so for example if you are subscribed to this buddy's presence updates it
+# won't be deleted.
+#set delete_on_reject = 0
+
+# MUC
+# Set 'muc_flag_joins' to 1 if you want the MUC rooms to be flagged in
+# the roster when somebody joins a room.  Set it to 2 if you want a flag
+# for leaves too.
+#set muc_flag_joins = 0
+# Set 'muc_print_status' to see status changes in MUC rooms:
+# 1: (none)       do not display joining/leaving members
+# 2: (in_and_out) display joining/leaving members
+# 3: (all)        display joining/leaving members and member status changes
+# (default: in_and_out)
+#set muc_print_status = 2
+# Set 'muc_auto_whois' to 1 if you want to call /room whois each time
+# somebody joins a room. (default: 0)
+set muc_auto_whois = 1
+#
+# Set 'muc_disable_nick_hl' to 1 if you don't want mcabber to color lines
+# containing your nickname in a MUC room.
+#set muc_disable_nick_hl = 0
+#
+# Set 'muc_completion_suffix' if you want mcabber to append a string to
+# suggested nicknames (only at the beginning of a line), like ":" or ",".
+# (Default: none)
+#set muc_completion_suffix = ": "
+
+# Status messages
+# The 'message' value will override all others, take care!
+#set message = Unique message status
+#set message_avail     = I'm available
+#set message_free      = I'm free for chat
+#set message_dnd       = Please do not disturb
+#set message_notavail  = I'm not available
+#set message_away      = I'm away
+#
+# The auto-away message is only used when 'autoaway' is set.  The previous
+# message will be restored when leaving auto-away status.  If this message
+# isn't defined, the status message will stay unchanged.
+set message_autoaway = Auto-away (idle)
+
+# Escape timeout delay (ESCDELAY)
+# The ESCDELAY variable specifies the time, in milliseconds, for which
+# the ncurses interface will await a character sequence.
+# The default is 1000 (1 second).
+# If you want mcabber to react faster after hitting Escape, you can lower
+# this value by setting the ESCDELAY environment variable or setting the
+# 'escdelay' option.
+set escdelay = 50
+
+# Colors
+# Colors are: black, red, green, yellow, blue, magenta, cyan, white
+# For text colors (i.e. not background and bg* colors) you can also use
+# the "bright" prefix to get a bright/bold color.  Example: brightblue
+# You can use the "default" color, too (i.e. for transparent background).
+# If your terminal supports 256 colors, you can use the color number
+# directly (16-255).
+#
+# Have a look at the contrib/themes/ directory to see some sample
+# color settings.
+#
+# background: background color of the chat window and the log window
+# general:    text color in the chat window and the log window
+# info:       text color in the chat window for info messages
+# msgin:      text color in the chat window for incoming messages
+# msgout:     text color in the chat window for outgoing messages
+# msghl:      text color in the chat window for highlighted messages (MUC)
+# bgstatus:   background color of the status lines
+# status:     text color of the status lines
+# roster:     text color of the roster (buddylist) normal items
+# bgrostersel: background color of the selected roster item
+# rostersel:   text color of the selected roster item
+# rosterselmsg:text color of the selected roster item, if there is a new msg
+# rosternewmsg: text color of items with unread messages
+#
+#set color_background   = black
+#set color_general      = white
+#set color_info         = white
+#set color_msgin        = white
+#set color_msgout       = cyan
+#set color_msghl        = yellow
+#set color_bgstatus     = blue
+#set color_status       = white
+#set color_roster       = green
+#set color_bgrostersel  = cyan
+#set color_rostersel    = blue
+#set color_rosterselmsg = red
+#set color_rosternewmsg = red
+
+# dark solarized color theme
+# more infos: http://ethanschoonover.com/solarized
+
+# set color_background   = 234
+# set color_general      = 244
+# set color_info         = 240
+# set color_msgin        = 166
+# set color_msgout       = 64
+# set color_msghl        = 136
+# set color_bgstatus     = 235
+# set color_status       = 166
+# set color_roster       = 240
+# set color_bgrostersel  = 235
+# set color_rostersel    = 166
+# set color_rosterselmsg = 136
+# set color_rosternewmsg = 136
+
+# vim:set ft=conf:
+
+# You can color roster items by their status and JID.  For example, to have
+# all roster items white, just all contacts from jabber.org that are away,
+# not available or do not disturb yellow, you do this:
+#
+#color roster * * white
+#color roster adn *@jabber.org yellow
+
+# You can let mcabber color nicks in MUC.
+# These colors will by used automatically:
+#set nick_colors = red green blue
+# This turns coloring of all mucs on:
+#color muc * on
+#
+# If you want someone's nick to be the same all the time:
+#color mucnick my_friend yellow
+
+# Style
+# Note: the 'log_win_height' and 'roster_width' values below can be set
+# in real time when mcabber is running.  Refresh the screen (Ctrl-l) to
+# use the new values.
+#
+# Log window height (minimum 1, default 5)
+#set log_win_height = 5
+# Buddylist window width (minimum 2, default 24)
+#set roster_width=24
+#
+# The options 'log_win_on_top' and 'roster_win_on_right' can change the
+# position of the log window (top/bottom) and the position of the roster
+# (left/right).
+#set log_win_on_top = 0
+#set roster_win_on_right = 0
+#
+# By default, the displayed name of a contact in the roster window will
+# be the JID if no name has been specified.  You can use the following
+# option if you only want to see the username part.
+#set roster_hide_domain = 0
+#
+# Buddy name format (in status window):
+# - 0: (default) "<jid/resource>"
+# - 1: "name <jid/resource>" (name is omitted if same as the JID)
+# - 2: "name/resource" (if the name is the same as the JID, use <jid/res>)
+# - 3: "name" (if the name is the same as the JID, use <jid/res>)
+#set buddy_format = 2
+#
+# Time format:
+# - 0: (default) Date and time
+# - 1: Time only
+# - 2: None
+#set time_prefix = 0
+#
+# When a contact sends "/me ", mcabber displays "*user ", where user
+# is the local part of the contact's JID.
+# If you want mcabber to display the complete bare JID (user@server.com),
+# set 'buddy_me_fulljid' to 1 (default: 0)
+#set buddy_me_fulljid = 1
+#
+# Display the status changes in the log window (default: 0, never)
+# Set 'log_display_presence' to 1 to enable.
+#set log_display_presence = 0
+#
+# Display the status changes in the chat buffers (default: 0, never)
+# Values:  0: never  1: only connect/disconnect  2: all
+#set show_status_in_buffer = 1
+#
+# Set 'log_display_sender' to 1 to display the message sender's JID in the
+# log window (default: 0, no)
+#set log_display_sender = 0
+#
+# Set 'info' to anything you'd like to see in your lower status line.
+#set info = woot
+#
+# Set 'url_regex' to a regular expression matching urls.  If it matches an
+# url in an incoming messages, it'll print it to the log window.
+#set url_regex = "(((https?|ftps?|nntp)://)|www[.][-a-z0-9.]+|(mailto:|news:))(%[0-9A-F]{2}|[-_.!~*';/?:@&=+$,#[:alnum:]])+"
+
+# Contacts PGP information
+# You can provide a PGP key to be used for a given Jabber user, or
+# disable PGP on a per-account basis.
+# If you provide a KeyId for a contact, it will be compared to the key the
+# contact uses to sign their presence/messages and it will be used for
+# all outgoing encrypted messages (that is, the contact signature key will
+# be ignored).
+# Please note that the key must match exactly the id seen with /info.
+#pgp disable foo@bar.org
+#pgp setkey bar@foo.net C9940A9BB0B92210
+
+# OTR (Off-The-Record messaging) support
+# (Only available if mcabber is built with OTR support)
+# Set otr to 1 to enable OTR support.
+# You cannot change this option once mcabber is running.
+#set otr = 0
+#
+# OTR directory
+# You can specify the OTR directory with the otr_dir option
+# (default = ~/.mcabber/otr/).
+#set otr_dir = "~/.mcabber/otr/"
+#
+# You can set OTR policies from the configuration file (use /help otrpolicy
+# for the details).
+#otrpolicy default manual
+
+# Aliases
+alias me = say /me
+alias online   = status online
+alias away     = status away
+alias dnd      = status dnd
+alias notavail = status notavail
+#alias names = room names
+#alias topic = room topic
+
+# Set use_mouse to 1 to map mouse buttons like keycodes.
+#set use_mouse = 1
+
+# Key bindings
+# Ctrl-q (17) bound to /roster unread_next
+bind 17 = roster unread_next
+# Ctrl-x (24) bound to /roster alternate
+bind 24 = roster alternate
+# F5 (269) bound to /roster toggle_offline  (centericq-like, IIRC)
+bind 269 = roster toggle_offline
+# F12 (276) bound to /roster toggle
+bind 276 = roster toggle
+# Ctrl-Up/Ctrl-Down bound to /buffer up/down  (like Ctrl-p/Ctrl-n)
+bind 521 = buffer up
+bind 514 = buffer down
+
+# Sample alias to join mcabber channel with "/jmc"
+#alias jmc = room join mcabber@conf.lilotux.net
+alias jpc = room join 10650_pure_charity@conf.hipchat.com
+alias jux = room join 10650_uxing@conf.hipchat.com
+alias ja = room join 10650_activity@conf.hipchat.com
