@@ -164,37 +164,33 @@ set escdelay = 50
 # If your terminal supports 256 colors, you can use the color number
 # directly (16-255).
 
-# Have a look at the contrib/themes/ directory to see some sample
-# color settings.
+# background:     background color of the chat window and the log window
+# general:        text color in the chat window and the log window
+# info:           text color in the chat window for info messages
+# msgin:          text color in the chat window for incoming messages
+# msgout:         text color in the chat window for outgoing messages
+# msghl:          text color in the chat window for highlighted messages (MUC)
+# bgstatus:       background color of the status lines
+# status:         text color of the status lines
+# roster:         text color of the roster (buddylist) normal items
+# bgrostersel:    background color of the selected roster item
+# rostersel:      text color of the selected roster item
+# rosterselmsg:   text color of the selected roster item, if there is a new msg
+# rosternewmsg:   text color of items with unread messages
 
-# background: background color of the chat window and the log window
-# general:    text color in the chat window and the log window
-# info:       text color in the chat window for info messages
-# msgin:      text color in the chat window for incoming messages
-# msgout:     text color in the chat window for outgoing messages
-# msghl:      text color in the chat window for highlighted messages (MUC)
-# bgstatus:   background color of the status lines
-# status:     text color of the status lines
-# roster:     text color of the roster (buddylist) normal items
-# bgrostersel: background color of the selected roster item
-# rostersel:   text color of the selected roster item
-# rosterselmsg:text color of the selected roster item, if there is a new msg
-# rosternewmsg: text color of items with unread messages
-
-# solarized dark color theme
-# set color_background   = 234
-# set color_general      = 244
-# set color_info         = 240
-# set color_msgin        = 166
-# set color_msgout       = 64
-# set color_msghl        = 136
-# set color_bgstatus     = 235
-# set color_status       = 166
-# set color_roster       = 240
-# set color_bgrostersel  = 235
-# set color_rostersel    = 166
-# set color_rosterselmsg = 136
-# set color_rosternewmsg = 136
+set color_background   = black
+set color_general      = brightgreen
+set color_info         = brightblue
+set color_msgin        = brightblue
+set color_msgout       = red
+set color_msghl        = yellow
+set color_bgstatus     = yellow
+set color_status       = brightblack
+set color_roster       = brightblue
+set color_bgrostersel  = white
+set color_rostersel    = brightblack
+set color_rosterselmsg = brightred
+set color_rosternewmsg = brightred
 
 # You can color roster items by their status and JID.  For example, to have
 # all roster items white, just all contacts from jabber.org that are away,
