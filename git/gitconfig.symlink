@@ -12,8 +12,6 @@
   s = status
   sub = submodule
   u = push
-[apply]
-  whitespace = fix,space-before-tab,tab-in-indent,trailing-space
 [branch]
   autosetuprebase = always
 [color]

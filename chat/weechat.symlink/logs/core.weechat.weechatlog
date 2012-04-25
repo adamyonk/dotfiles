@@ -1,0 +1,58 @@
+2012-04-23 13:08:04		perl scripts loaded: buffers, colorize_lines
+2012-04-23 13:08:04	=!=	python: warning, license "MIT/X11" for script "coloncomplete" differs from plugin license ("GPL3")
+2012-04-23 13:08:05		growl: GNTP bindings are not installed
+2012-04-23 13:08:05	=!=	python: function "register" not found (or failed) in file "/Users/adamyonk/.dotfiles/chat/weechat.symlink/python/autoload/growl.py"
+2012-04-23 13:08:05		python scripts loaded: coloncomplete, urlgrab, zerotab
+2012-04-23 13:08:05		Plugins loaded: alias, fifo, irc, logger, perl, python, relay, rmodifier, ruby, tcl, xfer
+2012-04-23 13:32:58		[core]
+2012-04-23 13:32:58		  away    buffer  command debug   help    input   layout  mute    proxy   reload  save    unset   uptime  wait   
+2012-04-23 13:32:58		  bar     color   cursor  filter  history key     mouse   plugin  quit    repeat  set     upgrade version window 
+2012-04-23 13:32:58		[alias]
+2012-04-23 13:32:58		  AAWAY   AME     ANICK   C       CL      EXIT    J       KB      M       N       REDRAW  SIGNOFF UB      V       WC      WII    
+2012-04-23 13:32:58		  alias   AMSG    BYE     CHAT    CLOSE   IG      K       LEAVE   MUB     Q       SAY     T       unalias W       WI      WW     
+2012-04-23 13:32:58		[irc]
+2012-04-23 13:32:58		  admin      connect    dehalfop   disconnect invite     kickban    lusers     motd       notice     part       quote      sajoin     saquit     squery     time       userhost   wallchops  whowas    
+2012-04-23 13:32:58		  allchan    ctcp       deop       halfop     ison       kill       map        msg        notify     ping       reconnect  samode     server     squit      topic      users      wallops   
+2012-04-23 13:32:58		  allserv    cycle      devoice    ignore     join       links      me         names      op         pong       rehash     sanick     service    stats      trace      version    who       
+2012-04-23 13:32:58		  ban        dcc        die        info       kick       list       mode       nick       oper       query      restart    sapart     servlist   summon     unban      voice      whois     
+2012-04-23 13:32:58		[logger]
+2012-04-23 13:32:58		  logger
+2012-04-23 13:32:58		[perl]
+2012-04-23 13:32:58		  colorize_lines perl          
+2012-04-23 13:32:58		[python]
+2012-04-23 13:32:58		  python url   
+2012-04-23 13:32:58		[relay]
+2012-04-23 13:32:58		  relay
+2012-04-23 13:32:58		[rmodifier]
+2012-04-23 13:32:58		  rmodifier
+2012-04-23 13:32:58		[ruby]
+2012-04-23 13:32:58		  ruby
+2012-04-23 13:32:58		[tcl]
+2012-04-23 13:32:58		  tcl
+2012-04-23 13:32:58		[xfer]
+2012-04-23 13:32:58		  me   xfer
+2012-04-23 13:33:05	=!=	Error with command "connect" (try /help connect)
+2012-04-23 13:33:10		[irc]  /connect  <server> [<server>...] [-<option>[=<value>]] [-no<option>] [-nojoin] [-switch]
+2012-04-23 13:33:10		                 -all|-open [-nojoin] [-switch]
+2012-04-23 13:33:10		connect to IRC server(s)
+2012-04-23 13:33:10		    server: server name, which can be:
+2012-04-23 13:33:10		            - internal server name (created by /server add, recommended usage)
+2012-04-23 13:33:10		            - hostname/port or IP/port (this will create a TEMPORARY server), port is 6667 by default
+2012-04-23 13:33:10		            - URL with format: irc[6][s]://[nickname[:password]@]irc.example.org[:port][/#channel1][,#channel2[...]]
+2012-04-23 13:33:10		    option: set option for server (for boolean option, value can be omitted)
+2012-04-23 13:33:10		  nooption: set boolean option to 'off' (for example: -nossl)
+2012-04-23 13:33:10		      -all: connect to all servers defined in configuration
+2012-04-23 13:33:10		     -open: connect to all opened servers that are not currently connected
+2012-04-23 13:33:10		   -nojoin: do not join any channel (even if autojoin is enabled on server)
+2012-04-23 13:33:10		   -switch: switch to next server address
+2012-04-23 13:33:10		Examples:
+2012-04-23 13:33:10		  /connect freenode
+2012-04-23 13:33:10		  /connect irc.oftc.net/6667
+2012-04-23 13:33:10		  /connect irc6.oftc.net/6667 -ipv6
+2012-04-23 13:33:10		  /connect irc6.oftc.net/6697 -ipv6 -ssl
+2012-04-23 13:33:10		  /connect my.server.org/6697 -ssl -password=test
+2012-04-23 13:33:10		  /connect irc://nick@irc.oftc.net/#channel
+2012-04-23 13:33:10		  /connect -switch
+2012-04-23 14:42:44		irc: server localhost created (temporary server, NOT SAVED!)
+2012-04-23 14:42:52		python: scripts unloaded
+2012-04-23 14:42:52		perl: scripts unloaded

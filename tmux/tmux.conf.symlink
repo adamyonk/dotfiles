@@ -59,22 +59,29 @@ set-option -g status-right-length 60
 set-option -g status-right "✖ "
 #set-option -g status-right "◷ #(hcl | grep total | awk '{print $1}')   ✖ "
 
-# Highlight active window
-set-window-option -g window-status-current-bg colour166
-set-window-option -g window-status-current-fg colour15
-set-window-option -g window-status-current-attr bold
+# Status bar/border colors
+set-window-option -g window-status-bg colour11
+set-window-option -g window-status-fg colour8
 set-window-option -g window-status-attr bold
+set-window-option -g window-status-format ' #W '
+
+set-window-option -g window-status-current-bg colour2
+set-window-option -g window-status-current-fg colour7
+set-window-option -g window-status-current-attr bold
+set-window-option -g window-status-current-format ' #W '
+
+set-option -g pane-active-border-fg colour3
+set-option -g pane-border-fg colour7
 
 # Window notifications
 set-option -g visual-activity on
 set-option -g visual-content on
 set-window-option -g automatic-rename off
-set-window-option -g monitor-activity on
+set-window-option -g monitor-activity off
+set-window-option -g monitor-content off
 
 # tmux window titling for X
 set-option -g set-titles off
-set-window-option -g window-status-current-format ' #W '
-set-window-option -g window-status-format ' #W '
 
 # Start windows at 1 not 0
 set-option -g base-index 1
@@ -83,9 +90,3 @@ set-option -g base-index 1
 set -g mode-mouse on
 set-option -g status-keys vi
 set-window-option -g mode-keys vi
-set-window-option -g monitor-activity off
-set-window-option -g monitor-content off
-
-# Pane border and colors
-set-option -g pane-active-border-fg yellow
-set-option -g pane-border-fg white
