@@ -3,6 +3,7 @@
 ## The Highlights
 
 - OSX
+- Zsh
 - vim, pathogen
 - tmux, vimux
 - git, hub
