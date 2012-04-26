@@ -1,10 +1,11 @@
-set-option -g default-command 'reattach-to-user-namespace -l zsh'
-set-option -g prefix C-a # C-a for perfix just like screen
+set -g default-command    'reattach-to-user-namespace -l zsh'
+set -g prefix             C-a
+set -g default-terminal   'screen-256color'
 
 # Keybindings
 unbind C-b
 unbind C-a
-unbind % 
+unbind %
 unbind ,
 unbind .
 unbind n
@@ -18,75 +19,78 @@ unbind h
 unbind j
 unbind k
 unbind l
+unbind H
+unbind J
+unbind K
+unbind L
+unbind u
 
-bind-key C-a    last-window
-bind-key |      split-window -h
-bind-key \      split-window -h
-bind-key -      split-window -v
-bind-key x      kill-pane
-bind-key X      kill-window
-bind-key q      confirm-before kill-session
-bind-key Q      confirm-before kill-server
-bind-key ,      previous-window # <
-bind-key .      next-window     # >
-bind-key <      swap-window -t :-
-bind-key >      swap-window -t :+
-bind-key n      command-prompt 'rename-window %%'
-bind-key N      command-prompt 'rename-session %%'
-bind-key Escape copy-mode -u
-bind-key Up     copy-mode -u
-bind-key r      source-file ~/.tmux.conf; display-message '~/.tmux.conf is reloaded'
-bind-key R      refresh-client
-bind-key a      send-key C-a
-bind-key C-j    resize-pane -L 10
-bind-key C-l    resize-pane -R 10
-bind-key C-k    resize-pane -D 10
-bind-key C-i    resize-pane -U 10
-bind h          select-pane -L
-bind j          select-pane -D
-bind k          select-pane -U
-bind l          select-pane -R
+bind C-a    last-window
+bind |      split-window -h
+bind -      split-window -v
+bind x      kill-pane
+bind X      kill-window
+bind q      confirm-before kill-session
+bind Q      confirm-before kill-server
+bind ,      previous-window
+bind .      next-window
+bind <      swap-window -t :-
+bind >      swap-window -t :+
+bind n      command-prompt 'rename-window %%'
+bind N      command-prompt 'rename-session %%'
+bind Escape copy-mode -u
+bind Up     copy-mode -u
+bind r      source-file ~/.tmux.conf; display 'Reloaded configuration'
+bind R      refresh-client
+bind a      send-key C-a
+bind H      resize-pane -L 10
+bind J      resize-pane -D 10
+bind K      resize-pane -U 10
+bind L      resize-pane -R 10
+bind h      select-pane -L
+bind j      select-pane -D
+bind k      select-pane -U
+bind l      select-pane -R
+bind C-h    select-window -t :-
+bind C-l    select-window -t :+
+bind u      capture-pane \; save-buffer /tmp/tmux-buffer; run-shell "$TERMINAL -e 'cat /tmp/tmux-buffer | urlview'"
 
 # Status bar
-set-option -g status-utf8 on
-set-option -g status-bg colour11
-set-option -g status-fg colour8
-set-option -g status-interval 15
-
-set-option -g status-left-length 60
-set-option -g status-left ' '
-set-option -g status-right-length 60
-set-option -g status-right "✖ "
-#set-option -g status-right "◷ #(hcl | grep total | awk '{print $1}')   ✖ "
+set -g status-utf8          on
+set -g status-bg            colour11
+set -g status-fg            colour8
+set -g status-interval      15
+set -g status-attr          bold
+set -g status-left-length   60
+set -g status-left          ' '
+set -g status-right-length  60
+set -g status-right         "✖ "
+#set -g status-right         "◷ #(hcl | grep total | awk '{print $1}')   ✖ "
 
 # Status bar/border colors
-set-window-option -g window-status-bg colour11
-set-window-option -g window-status-fg colour8
-set-window-option -g window-status-attr bold
-set-window-option -g window-status-format ' #W '
+setw -g window-status-attr            bold
+setw -g window-status-format          ' #W '
+setw -g window-status-current-bg      colour2
+setw -g window-status-current-fg      colour7
+setw -g window-status-current-attr    bold
+setw -g window-status-current-format  ' #W '
 
-set-window-option -g window-status-current-bg colour2
-set-window-option -g window-status-current-fg colour7
-set-window-option -g window-status-current-attr bold
-set-window-option -g window-status-current-format ' #W '
-
-set-option -g pane-active-border-fg colour3
-set-option -g pane-border-fg colour7
+set -g pane-active-border-fg  colour3
+set -g pane-border-fg         colour7
 
 # Window notifications
-set-option -g visual-activity on
-set-option -g visual-content on
-set-window-option -g automatic-rename off
-set-window-option -g monitor-activity off
-set-window-option -g monitor-content off
+set -g set-titles         off # tmux window titling for X
+set -g visual-activity    on
+set -g visual-content     on
+setw -g automatic-rename  off
+setw -g monitor-activity  off
+setw -g monitor-content   off
 
-# tmux window titling for X
-set-option -g set-titles off
-
-# Start windows at 1 not 0
-set-option -g base-index 1
+# Start windows/panes at 1 not 0
+set -g base-index         1
+setw -g pane-base-index   1
 
 # Enable mouse
-set -g mode-mouse on
-set-option -g status-keys vi
-set-window-option -g mode-keys vi
+set -g status-keys  vi
+setw -g mode-mouse  on
+setw -g mode-keys   vi
