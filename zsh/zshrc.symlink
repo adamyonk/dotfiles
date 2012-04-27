@@ -5,10 +5,11 @@ export NGINX_PATH=/opt/nginx # Set the nginx path
 export PGDATA=/usr/local/var/postgres # Load postgresql
 export NODE_PATH=/usr/local/lib/node_modules # Set the node path
 
-export ZSH=$HOME/.dotfiles # Shortcut to this dotfiles path is $ZSH
+export DOTFILES=$HOME/.dotfiles # Shortcut to this dotfiles path is $ZSH
+export ZSH=$DOTFILES/zsh # Shortcut to this dotfiles path is $ZSH
 export PROJECTS='~/.code' # Project folder to `c [tab]` to
 
-for config_file ($ZSH/**/*.zsh) source $config_file # Source every .zsh file in this repo
+for config_file ($DOTFILES/**/*.zsh) source $config_file # Source every .zsh file in this repo
 
 # Use .localrc for SUPER SECRET CRAP that you don't want in your public, versioned repo.
 if [[ -a ~/.localrc ]]
@@ -20,4 +21,4 @@ fi
 autoload -U compinit
 compinit
 # Load every completion after autocomplete loads
-for config_file ($ZSH/**/completion.sh) source $config_file
+for config_file ($DOTFILES/**/completion.sh) source $config_file
