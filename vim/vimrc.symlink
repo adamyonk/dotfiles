@@ -29,7 +29,6 @@ set encoding=utf-8
 set number                      " Line numbers
 set backspace=indent,eol,start  " Allow backspace in insert mode
 set history=1000                " Store lots of :cmdline history
-set guicursor=a:blinkon0        " Disable cursor blink (only for GUI)
 set autoread                    " Reload files changed outside vim
 set laststatus=2                " Always show status line
 set clipboard=unnamed           " Use system clipboard
@@ -39,6 +38,7 @@ set splitbelow                  " Opens horizontal split below current window
 set showmode                    " Show current mode down the bottom
 set showcmd                     " Show incomplete cmds down at the bottom
 set shortmess=aoOstTWAI         " See :help shortmess
+set colorcolumn=+0              " Requires +colorcolumn - see :help colorcolumn
 
 " Syntax
 " ======
@@ -50,7 +50,22 @@ set background=dark
 " Filetype overrides
 " ==================
 
-autocmd! BufRead,BufNewFile Capfile,Gemfile,Guardfile,Procfile,Rakefile,Thorfile,.caprc,.irbrc,.jbuilder,.rake setfiletype ruby
+filetype plugin on
+filetype indent on
+
+augroup filetypes
+  autocmd!
+  " Indent-based folding
+  autocmd! BufRead,BufNewFile,BufWrite {*.json,,*.py,*.coffee,*.yaml,*.yml} set foldmethod=indent
+  " JavaScript
+  autocmd! BufRead,BufNewFile,BufWrite {*.js.asp,*.json} set filetype=javascript
+  " Markdown
+  autocmd! BufRead,BufNewFile,BufWrite {*.markdown,*.md,*.mkd} set filetype=markdown
+  " Property lists
+  autocmd! BufRead,BufNewFile,BufWrite {*.plist} set filetype=xml
+  " Ruby
+  autocmd! BufRead,BufNewFile,BufWrite {Capfile,Gemfile,Guardfile,Procfile,Rakefile,Thorfile,.ru,.caprc,.irbrc,.jbuilder,.rake} set filetype=ruby
+augroup end
 
 " Search Settings
 " ===============
@@ -66,16 +81,6 @@ set noswapfile
 set nobackup
 set nowritebackup
 
-" Persistent Undo
-" ===============
-
-" Keep undo history across sessions, by storing in file
-" Only works in MacVim (gui) mode
-if has('gui_running')
-  set undodir=~/.vim/backups
-  set undofile
-endif
-
 " Indentation and Display
 " =======================
 
@@ -87,18 +92,15 @@ set softtabstop=2
 set tabstop=2
 set expandtab
 
-filetype plugin on
-filetype indent on
-
 set nowrap                            " Don't wrap lines
 set linebreak                         " Wrap lines at convenient points
 set list listchars=tab:\ \ ,trail:·   " Display tabs and trailing spaces visually
 " Don't show trailing spaces in insert mode
 augroup trailing
-    autocmd!
-    autocmd InsertEnter * :set listchars-=trail:·
-    autocmd InsertLeave * :set listchars+=trail:·
-augroup END
+  autocmd!
+  autocmd InsertEnter * :set listchars-=trail:·
+  autocmd InsertLeave * :set listchars+=trail:·
+augroup end
 
 " Folds
 " =====
@@ -118,7 +120,6 @@ set wildignore+=*vim/backups*
 " Scrolling
 " =========
 
-" Start scrolling when getting close to margins
 set scrolloff=10
 set sidescrolloff=15
 set sidescroll=1
