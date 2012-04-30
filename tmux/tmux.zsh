@@ -5,5 +5,9 @@
 #[[ -s "$HOME/.tmuxifier/init.sh" ]] && source "$HOME/.tmuxifier/init.sh"
 
 function start() {
-  $DOTFILES/tmux/layouts/$1
+  if [[ -x $DOTFILES/tmux/layouts/$1 ]]; then
+    $DOTFILES/tmux/layouts/$1
+  else
+    tmux new-session -s $1
+  fi
 }
