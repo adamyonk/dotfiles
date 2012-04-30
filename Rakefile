@@ -34,6 +34,10 @@ task :install do
   end
 end
 
+task :brew do
+  `coffee --compile --output js/js.symlink/ js/dotcoffee/`
+end
+
 task :uninstall do
   Dir.glob('**/*.symlink').each do |linkable|
 
