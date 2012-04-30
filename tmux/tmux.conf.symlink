@@ -29,7 +29,7 @@ unbind p
 unbind [
 
 bind C-a    last-window
-bind /      split-window -h
+bind \      split-window -h
 bind -      split-window -v
 bind x      kill-pane
 bind X      kill-window

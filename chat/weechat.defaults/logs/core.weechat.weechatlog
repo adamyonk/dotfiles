@@ -1,9 +1,0 @@
-2012-04-23 12:59:39		Plugins loaded: alias, fifo, irc, logger, perl, python, relay, rmodifier, ruby, tcl, xfer
-2012-04-23 13:05:00	=!=	Error: cannot create file "/Users/adamyonk/.weechat/plugins.conf.weechattmp"
-2012-04-23 13:05:00	=!=	Error writing configuration file "/Users/adamyonk/.weechat/plugins.conf"
-2012-04-23 13:05:00	=!=	Error: cannot create file "/Users/adamyonk/.weechat/xfer.conf.weechattmp"
-2012-04-23 13:05:00	=!=	Error writing configuration file "/Users/adamyonk/.weechat/xfer.conf"
-2012-04-23 13:05:00	=!=	Error: cannot create file "/Users/adamyonk/.weechat/rmodifier.conf.weechattmp"
-2012-04-23 13:05:00	=!=	Error writing configuration file "/Users/adamyonk/.weechat/rmodifier.conf"
-2012-04-23 13:05:00	=!=	Error: cannot create file "/Users/adamyonk/.weechat/relay.conf.weechattmp"
-2012-04-23 13:05:00	=!=	Error writing configuration file "/Users/adamyonk/.weechat/relay.conf"
