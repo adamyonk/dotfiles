@@ -17,7 +17,7 @@ alias bundle='nocorrect bundle'
 alias be='bundle exec'
 alias bi='bundle install'
 
-alias killall=eval "kill -QUIT $(ps aux | grep "postgres\|redis\|mailcatcher\|sphinx\|unicorn" | awk '{print $2}' | xargs)"
+#alias killall=exec "kill -QUIT $(ps aux | grep "postgres\|redis\|mailcatcher\|sphinx\|unicorn" | awk '{print $2}' | xargs)"
 
 alias pg-up='pg_ctl -D /usr/local/var/postgres -l /usr/local/var/postgres/server.log'
 alias nginx-up="sudo nginx -c /usr/local/etc/nginx/nginx.conf"
