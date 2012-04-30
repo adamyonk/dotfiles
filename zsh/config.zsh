@@ -5,7 +5,7 @@ else
   export RPS1='$(git_info_for_prompt)'
 fi
 
-export LSCOLORS="exfxcxdxbxegedabagacad"
+export LSCOLORS='exfxcxdxbxegedabagacad'
 export CLICOLOR=true
 
 fpath=($ZSH/functions $fpath)

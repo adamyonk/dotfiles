@@ -1,3 +1,3 @@
 alias reload='source ~/.zshrc'
 
-alias fliptable="echo （╯°□°）╯︵ ┻━┻"
+alias fliptable='echo （╯°□°）╯︵ ┻━┻'

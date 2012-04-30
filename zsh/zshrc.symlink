@@ -1,7 +1,7 @@
 # Set rbenv, brew, system user, dev tools
 export PATH=~/.rbenv/bin:~/.dotfiles/bin:/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin
 
-export NGINX_PATH=/opt/nginx # Set the nginx path
+export NGINX_PATH=/opt/nginx #Set the nginx path
 export PGDATA=/usr/local/var/postgres # Load postgresql
 export NODE_PATH=/usr/local/lib/node_modules # Set the node path
 
@@ -12,8 +12,7 @@ export PROJECTS='~/.code' # Project folder to `c [tab]` to
 for config_file ($DOTFILES/**/*.zsh) source $config_file # Source every .zsh file in this repo
 
 # Use .localrc for SUPER SECRET CRAP that you don't want in your public, versioned repo.
-if [[ -a ~/.localrc ]]
-then
+if [[ -a ~/.localrc ]]; then
   source ~/.localrc
 fi
 
