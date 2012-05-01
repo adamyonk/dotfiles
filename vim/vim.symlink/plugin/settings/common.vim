@@ -15,3 +15,8 @@ noremap gk k
 
 " redraw!
 nnoremap <leader>rr :redraw!<cr>
+
+" ctags
+set tags=tags;/
+command! ReloadTags :!/usr/local/bin/ctags --tag-relative -ftags --extra=+f --exclude=.git --exclude=doc --exclude=coverage -R<cr>
+command! GitTags :!.git/hooks/ctags<cr>
