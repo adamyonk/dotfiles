@@ -24,3 +24,9 @@ alias nginx-up="sudo nginx -c /usr/local/etc/nginx/nginx.conf"
 alias nginx-down="sudo nginx -s stop"
 alias redis-up='redis-server /usr/local/etc/redis.conf > /dev/null &'
 alias redis-down='killall redis-server'
+
+export RUBY_HEAP_MIN_SLOTS=1000000
+export RUBY_HEAP_SLOTS_INCREMENT=1000000
+export RUBY_HEAP_SLOTS_GROWTH_FACTOR=1
+export RUBY_GC_MALLOC_LIMIT=1000000000
+export RUBY_HEAP_FREE_MIN=500000
