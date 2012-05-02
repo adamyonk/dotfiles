@@ -7,6 +7,9 @@ nnoremap <leader>C :let &scrolloff=999-&scrolloff<cr>
 " Clean trailing whitespace
 nnoremap <leader>w mz:%s/\s\+$//<cr>:let @/=''<cr>`z
 
+" Yank from cursor to end of line
+nnoremap Y y$
+
 " Move across wrapped lines better
 noremap j gj
 noremap k gk

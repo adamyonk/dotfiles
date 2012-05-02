@@ -39,6 +39,7 @@ set showmode                    " Show current mode down the bottom
 set showcmd                     " Show incomplete cmds down at the bottom
 set shortmess=aoOstTWAI         " See :help shortmess
 set colorcolumn=+0              " Requires +colorcolumn - see :help colorcolumn
+set ttyfast                     " Send more info on redraws
 
 " Syntax
 " ======
