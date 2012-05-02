@@ -1,26 +1,4 @@
-# .dotfiles
-
-## The Highlights
-
-- OSX
-- Zsh
-- vim, pathogen
-- tmux, vimux
-- git, hub
-- ruby, rbenv
-
-## Installation
-
-- `git clone git://github.com/adamyonk/dotfiles ~/.dotfiles`
-- `cd ~/.dotfiles`
-- `rake install`
-
-The install rake task will symlink the appropriate files in `.dotfiles` to your
-home directory. Everything is configured and tweaked within `~/.dotfiles`,
-though. All files ending in `.symlink` get, you guessed it, symlinked. For
-example: `~/.dotfiles/vim/vimrc.symlink` gets symlinked to `~/.vimrc`.
-
-## Topical
+## Topical dotfiles
 
 Everything is built around topic areas. If you're adding a new area to your
 forked dotfiles — say, "Java" — you can simply add a `java` directory and put
@@ -29,7 +7,19 @@ included into your shell. To keep things simple with ZSH scripts, I keep
 anything ZSH-related in the /zsh directory and all other config files go in
 there respective topical directory.
 
-## Components
+## Installation ##
+
+- `git clone git://github.com/adamyonk/dotfiles ~/.dotfiles`
+- `cd ~/.dotfiles`
+- `rake install`
+
+The install rake task will symlink the appropriate files in `.dotfiles` to your
+home directory. Everything is configured and tweaked within `~/.dotfiles`,
+though. All files and folders ending in `.symlink` get, you guessed it,
+symlinked. For example: `~/.dotfiles/vim/vimrc.symlink` gets symlinked to
+`~/.vimrc`.
+
+## Components ##
 
 There's a few special files in the hierarchy.
 
@@ -44,7 +34,7 @@ There's a few special files in the hierarchy.
 - **topic/\*.completion.sh**: Any files ending in `completion.sh` get loaded
   last so that they get loaded after we set up zsh autocomplete functions.
 
-## Credit
+## Credit ##
 
 This project began as a fork of (and is heavily inspired by)
 [holman's dotfiles](http://github.com/holman/dotfiles), and much of it's
