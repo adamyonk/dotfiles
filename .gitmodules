@@ -58,3 +58,6 @@
 [submodule "vim/vim.symlink/bundle/taglist.vim"]
 	path = vim/vim.symlink/bundle/taglist.vim
 	url = git://github.com/vim-scripts/taglist.vim.git
+[submodule "ruby/rbenv.symlink"]
+	path = ruby/rbenv.symlink
+	url = git://github.com/sstephenson/rbenv.git
