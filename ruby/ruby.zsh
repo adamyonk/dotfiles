@@ -16,6 +16,7 @@ alias pc_precompile='bundle exec rake assets:precompile RAILS_ENV=development RA
 alias bundle='nocorrect bundle'
 alias be='bundle exec'
 alias bi='bundle install'
+alias fr='bundle exec foreman run bundle exec'
 
 #alias killall=exec "kill -QUIT $(ps aux | grep "postgres\|redis\|mailcatcher\|sphinx\|unicorn" | awk '{print $2}' | xargs)"
 

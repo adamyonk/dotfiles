@@ -70,7 +70,7 @@ set -g status-attr          dim
 set -g status-left-length   60
 set -g status-left          " "
 set -g status-right-length  60
-set -g status-right         "✖ "
+set -g status-right         " ✖  #S " # %m.%d %l:%M
 #set -g status-right         "◷ #(hcl | grep total | awk '{print $1}')   ✖ "
 
 # Panes
