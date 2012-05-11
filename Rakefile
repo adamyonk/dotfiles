@@ -34,8 +34,9 @@ task :install do
   end
 end
 
-task :brew do
+task :compile do
   `coffee --compile --output js/js.symlink/ js/dotcoffee/`
+  `compass compile --sass-dir css/dotsass/ --css-dir css/css.symlink/ --output-style compressed`
 end
 
 task :uninstall do
