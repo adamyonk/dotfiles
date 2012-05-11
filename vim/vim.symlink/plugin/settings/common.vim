@@ -23,3 +23,10 @@ nnoremap <leader>rr :redraw!<cr>
 set tags=tags;/
 command! ReloadTags :!/usr/local/bin/ctags --tag-relative -ftags --extra=+f --exclude=.git --exclude=doc --exclude=coverage -R<cr>
 command! GitTags :!.git/hooks/ctags<cr>
+
+" Wrap selection
+vmap <leader>" c"<C-R>""<esc>
+vmap <leader>' c'<C-R>"'<esc>
+vmap <leader># c#{<C-R>"}<esc>
+vmap <leader>( c(<C-R>")<esc>
+vmap <leader>[ c[<C-R>"]<esc>

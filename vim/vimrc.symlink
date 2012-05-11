@@ -38,8 +38,13 @@ set splitbelow                  " Opens horizontal split below current window
 set showmode                    " Show current mode down the bottom
 set showcmd                     " Show incomplete cmds down at the bottom
 set shortmess=aoOstTWAI         " See :help shortmess
-set colorcolumn=+0              " Requires +colorcolumn - see :help colorcolumn
+set colorcolumn=+1              " Requires +colorcolumn - see :help colorcolumn
 set ttyfast                     " Send more info on redraws
+
+" Spelling
+" ========
+set spellfile=~/.vim/spellfile.utf-8.add
+set dictionary=/usr/share/dict/words
 
 " Syntax
 " ======
@@ -48,8 +53,8 @@ syntax enable
 colorscheme solarized
 set background=dark
 
-" Filetype overrides
-" ==================
+" Filetypes
+" =========
 
 filetype plugin on
 filetype indent on
@@ -57,15 +62,16 @@ filetype indent on
 augroup filetypes
   autocmd!
   " Indent-based folding
-  autocmd! BufRead,BufNewFile,BufWrite {*.json,,*.py,*.coffee,*.yaml,*.yml} set foldmethod=indent
+  autocmd BufRead,BufNewFile,BufWrite *.{coffee,json,py,yaml,yml} set foldmethod=indent
   " JavaScript
-  autocmd! BufRead,BufNewFile,BufWrite {*.js.asp,*.json} set filetype=javascript
-  " Markdown
-  autocmd! BufRead,BufNewFile,BufWrite {*.markdown,*.md,*.mkd} set filetype=markdown
+  autocmd BufRead,BufNewFile,BufWrite *.{js.asp,json} set filetype=javascript
+  " Writing
+  autocmd Filetype mkd set wrap linebreak nolist spell textwidth=80
+  autocmd Filetype txt set wrap linebreak nolist spell textwidth=80
   " Property lists
-  autocmd! BufRead,BufNewFile,BufWrite {*.plist} set filetype=xml
+  autocmd BufRead,BufNewFile,BufWrite *.{plist,xml} set filetype=xml
   " Ruby
-  autocmd! BufRead,BufNewFile,BufWrite {Capfile,Gemfile,Guardfile,Procfile,Rakefile,Thorfile,.ru,.caprc,.irbrc,.jbuilder,.rake} set filetype=ruby
+  autocmd BufRead,BufNewFile,BufWrite {Capfile,Gemfile,Guardfile,Procfile,Rakefile,Thorfile,.ru,.caprc,.irbrc,.jbuilder,.rake} set filetype=ruby
 augroup end
 
 " Search Settings
@@ -114,9 +120,13 @@ set nofoldenable        " Don't fold by default
 " ==========
 
 set wildmode=list:longest
-set wildmenu                    " Enable ctrl-n and ctrl-p to scroll thru matches
-set wildignore=*.o,*.obj,*~     " Stuff to ignore when tab completing
-set wildignore+=*vim/backups*
+set wildmenu                                    " Enable ctrl-n and ctrl-p to scroll through matches
+set wildignore=.hg,.git,.svn                    " Version control
+set wildignore+=*.o,*.obj,*~                    " Stuff to ignore when tab completing
+set wildignore+=*vim/backups*                   " Vim files
+set wildignore+=*.DS_Store                      " OS X junk
+set wildignore+=*.jpg,*.bmp,*.gif,*.png,*.jpeg  " Binary images
+set wildignore+=*.spl                           " Spelling word lists
 
 " Scrolling
 " =========
