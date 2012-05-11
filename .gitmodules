@@ -61,3 +61,6 @@
 [submodule "ruby/rbenv.symlink"]
 	path = ruby/rbenv.symlink
 	url = git://github.com/sstephenson/rbenv.git
+[submodule "vim/vim.symlink/bundle/hammer.vim"]
+	path = vim/vim.symlink/bundle/hammer.vim
+	url = git://github.com/matthias-guenther/hammer.vim.git
