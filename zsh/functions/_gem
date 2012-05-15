@@ -1,5 +1,4 @@
 #compdef gem
-#autoload
 
 # gem zsh completion, based on homebrew completion
 

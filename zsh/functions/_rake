@@ -1,4 +1,5 @@
 #compdef rake
+
 if [ -f Rakefile ]; then
   recent=`last_modified .rake_tasks~ Rakefile **/*.rake`
   if [[ $recent != '.rake_tasks~' ]]; then
