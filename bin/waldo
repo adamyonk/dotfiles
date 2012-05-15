@@ -1,12 +1,19 @@
 #!/bin/sh
 
-# This is a script for setting a DNSimple A record to farward to your IP.
+# Usage:
+#   waldo
+#
+# This is a script for pointing a DNSimple A record to your current IP.
 #
 # Set environment variables for:
 # - DNSIMPLE_LOGIN
 # - DNSIMPLE_PASSWORD
 # - DNSIMPLE_DOMAIN_ID
 # - DNSIMPLE_RECORD_ID
+#
+# DNSIMPLE_DOMAIN_ID can be the ID or domain name ('example.com'). To get the
+# DNSIMPLE_RECORD_ID, go to the advanced editor for the specified domain and
+# hover over the edit button for the record you want to change.
 
 IP="`curl -s checkip.dyndns.org | grep -Eo '[0-9\.]+'`"
 
