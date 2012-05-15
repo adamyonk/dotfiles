@@ -7,4 +7,3 @@ function colours() {
 alias fliptable='echo "\n（╯°□°）╯︵ ┻━┻\n"'
 alias ps='ps acx -o pid,command'
 alias reload='source ~/.zshrc'
-alias external-ip="curl -s checkip.dyndns.org | grep -Eo '[0-9\.]+'"

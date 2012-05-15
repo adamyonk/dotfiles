@@ -1,0 +1,17 @@
+#!/bin/sh
+
+# This is a script for setting a DNSimple A record to farward to your IP.
+#
+# Set environment variables for:
+# - DNSIMPLE_LOGIN
+# - DNSIMPLE_PASSWORD
+# - DNSIMPLE_DOMAIN_ID
+# - DNSIMPLE_RECORD_ID
+
+IP="`curl -s checkip.dyndns.org | grep -Eo '[0-9\.]+'`"
+
+curl --header 'Accept: application/json' \
+     --basic --user "$DNSIMPLE_LOGIN:$DNSIMPLE_PASSWORD" \
+     --header 'Content-Type: application/json' \
+     --include --request PUT "https://dnsimple.com/domains/$DNSIMPLE_DOMAIN_ID/records/$DNSIMPLE_RECORD_ID.json" \
+     --data "{\"record\":{\"content\":\"$IP\"}}"
