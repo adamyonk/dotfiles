@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# This is a script for setting a DNSimple A record to farward to your IP.
+# This is a script for setting a DNSimple A record to forward to your IP.
 #
 # Set environment variables for:
 # - DNSIMPLE_LOGIN
