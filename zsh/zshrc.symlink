@@ -1,23 +1,26 @@
 # Set rbenv, brew, system user, dev tools
 export PATH=~/.rbenv/bin:~/.dotfiles/bin:/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin
 
-export NGINX_PATH=/opt/nginx #Set the nginx path
-export PGDATA=/usr/local/var/postgres # Load postgresql
-export NODE_PATH=/usr/local/lib/node_modules # Set the node path
+export NGINX_PATH=/opt/nginx
+export PGDATA=/usr/local/var/postgres
+export NODE_PATH=/usr/local/lib/node_modules
+export CC=/usr/bin/gcc-4.2
 
-export DOTFILES=$HOME/.dotfiles # Shortcut to this dotfiles path is $ZSH
-export ZSH=$DOTFILES/zsh # Shortcut to this dotfiles path is $ZSH
-export PROJECTS='~/.code' # Project folder to `c [tab]` to
+export DOTFILES=~/.dotfiles
+export ZSH=$DOTFILES/zsh
+export PROJECTS=~/.code
+
+export EDITOR=vim
 
 for config_file ($DOTFILES/**/*.zsh) source $config_file # Source every .zsh file in this repo
 
-# Use .localrc for SUPER SECRET CRAP that you don't want in your public, versioned repo.
+# Use .localrc for things that you don't want in your public, versioned repo.
 if [[ -a ~/.localrc ]]; then
   source ~/.localrc
 fi
 
-# Initialize autocomplete here, otherwise functions won't be loaded
+# Initialize autocomplete
 autoload -U compinit
 compinit
-# Load every completion after autocomplete loads
+# # Load every completion after autocomplete loads
 for config_file ($DOTFILES/**/completion.sh) source $config_file

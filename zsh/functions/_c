@@ -1,2 +1,3 @@
 #compdef c
-_files -W $PROJECTS -/
+
+compadd `ls $PROJECTS`

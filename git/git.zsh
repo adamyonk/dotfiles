@@ -9,7 +9,7 @@ then
   alias git=$hub_path
 fi
 
-# Sandbox function (thanks @pengwynn!)
+# sandbox user/repo
 function sandbox() {
   cd $GIT_SANDBOX && git clone $1 && cd `last_modified`
 }
