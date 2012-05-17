@@ -51,7 +51,7 @@ case "$words[1]" in
     _arguments \
       '(--unbrewed)--unbrewed[files in brew --prefix not controlled by brew]' \
       '1: :->forms' &&  return 0
-      
+
       if [[ "$state" == forms ]]; then
         _brew_installed_formulae
         _requested installed_formulae expl 'installed formulae' compadd -a installed_formulae

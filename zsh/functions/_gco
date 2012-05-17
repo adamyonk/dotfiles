@@ -1,0 +1,3 @@
+#compdef gco
+
+compadd `git branch | grep -v \*`
