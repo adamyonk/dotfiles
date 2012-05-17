@@ -21,4 +21,6 @@ curl --header 'Accept: application/json' \
      --basic --user "$DNSIMPLE_LOGIN:$DNSIMPLE_PASSWORD" \
      --header 'Content-Type: application/json' \
      --include --request PUT "https://dnsimple.com/domains/$DNSIMPLE_DOMAIN_ID/records/$DNSIMPLE_RECORD_ID.json" \
-     --data "{\"record\":{\"content\":\"$IP\"}}"
+     --data "{\"record\":{\"content\":\"$IP\"}}" \
+     --silent --write-out "\n => %{http_code}: Set IP to $IP\n\n" \
+     --output /dev/null
