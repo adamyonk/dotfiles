@@ -33,6 +33,8 @@
 	templatedir = ~/.git_template
 [mergetool]
   keepbackup = false
+[push]
+  default = upstream ; If no refspec is implied, push the current branch to only its upstream branch.
 [user]
   email = adamyonk@me.com
   name = Adam Jahnke
