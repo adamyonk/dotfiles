@@ -4,12 +4,10 @@ function colours() {
   done
 }
 
+alias e=$EDITOR
 alias fliptable='echo "\n（╯°□°）╯︵ ┻━┻\n"'
-alias ps='ps acx -o pid,command'
+alias ls='ls -al' # Include dot files, list in long format
+alias ps='ps -a -c -o pid,command -x' # All users processes, only executable name, custom output, show processes with no controlling terminal
 alias reload='source ~/.zshrc'
 alias rup='systemsetup -setremotelogin on'
 alias rdown='systemsetup -setremotelogin off'
-alias tmux='tmux -2'
-alias vim='mvim -v'
-alias e=$EDITOR
-alias ls='ls -al'
