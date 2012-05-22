@@ -29,6 +29,8 @@
   quotepath = false
 [github]
   user = adamyonk
+[help]
+  autocorrect = 1
 [init]
 	templatedir = ~/.git_template
 [mergetool]
