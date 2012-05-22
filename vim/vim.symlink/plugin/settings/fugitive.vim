@@ -1,6 +1,6 @@
 nnoremap <leader>ga :Gadd<cr>
 nnoremap <leader>gb :Gblame<cr>
-nnoremap <leader>gc :Gcommit<cr>
+nnoremap <leader>gc :Gcommit<cr>i
 nnoremap <leader>gco :Gcheckout<cr>
 nnoremap <leader>gd :Git pull<cr>
 nnoremap <leader>gdi :Gdiff<cr>
