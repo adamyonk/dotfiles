@@ -1,0 +1,22 @@
+#!/bin/sh
+
+# keychain
+# Adam Jahnke - http://github.com/adamyonk
+
+# Usage:
+#   keychain <account> <server>
+#   keychain me@me.com imap.mail.me.com
+#
+# This is a script for getting just the text of a password from your OS X
+# keychain. Basically a wrapper for `security find-internet-password`.
+
+set -e
+
+usage(){
+  echo "  Usage: keychain <account> <server>"
+  exit 2
+}
+
+[ $# -lt 2 ] && usage
+
+security 2>&1 >/dev/null find-internet-password -g -a $1 -s $2 | sed 's/.*\"\(.*\)\"/\1/'

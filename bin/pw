@@ -1,3 +1,0 @@
-#!/bin/sh
-
-security -q find-internet-password -g -a $1 -s $2 # | grep password
