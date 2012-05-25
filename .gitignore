@@ -6,3 +6,8 @@ js/js.symlink/*
 css/css.symlink/*
 .sass-cache
 tags
+
+mail/vmail-contacts.txt
+mail/vmail.db
+mail/vmail.log
+mail/vmailbuffer

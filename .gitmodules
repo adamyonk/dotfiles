@@ -67,3 +67,6 @@
 [submodule "vim/vim.symlink/bundle/netrw.vim"]
 	path = vim/vim.symlink/bundle/netrw.vim
 	url = git://github.com/vim-scripts/netrw.vim.git
+[submodule "vim/vim.symlink/bundle/goog"]
+	path = vim/vim.symlink/bundle/goog
+	url = git://github.com/danchoi/goog.git
