@@ -11,3 +11,5 @@ alias ps='ps -a -c -o pid,command -x' # All users processes, only executable nam
 alias reload='source ~/.zshrc'
 alias rup='systemsetup -setremotelogin on'
 alias rdown='systemsetup -setremotelogin off'
+alias minecraft='cd ~/.minecraft && java -Xmx1024M -Xms1024M -jar minecraft_server.jar nogui'
+# 138/65
