@@ -1,0 +1,5 @@
+name: Adam Jahnke
+username: adamyonk@me.com
+server: imap.mail.me.com
+port: 993
+smtp_server: smtp.mail.me.com

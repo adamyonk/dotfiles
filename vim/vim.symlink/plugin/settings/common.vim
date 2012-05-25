@@ -16,6 +16,14 @@ noremap k gk
 noremap gj j
 noremap gk k
 
+" Reselect visual block after indent/outdent
+vnoremap < <gv
+vnoremap > >gv
+
+" Faster colon
+nnoremap ; :
+vnoremap ; :
+
 " redraw!
 nnoremap <leader>rr :redraw!<cr>
 
