@@ -1,0 +1,84 @@
+#!/bin/bash
+# Formats a man page for reading in a browser, and opens it. Example:
+#
+# hman xsltproc
+#
+
+stylesheet=$(cat <<eocss
+<?xml version="1.0" encoding="UTF-8"?>
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">
+  <xsl:output method="html" encoding="UTF-8" indent="yes"/>
+
+  <xsl:template match="node()|@*">
+    <xsl:copy>
+      <xsl:apply-templates select="@*|node()" />
+    </xsl:copy>
+  </xsl:template>
+
+  <xsl:template match="style" />
+  <xsl:template match="@style|@valign|@width|@align|@border|@cellspacing|@cellpadding|@frame|@rules" />
+
+  <xsl:template match="head">
+    <head>
+        <xsl:apply-templates select="@* | *"/>
+        <style type="text/css">
+          body {
+            font-family: Helvetica, arial, sans-serif;
+            font-size: 14px;
+            line-height: 1.6;
+            padding-top: 10px;
+            padding-bottom: 10px;
+            background-color: white;
+            padding: 30px;
+          }
+
+          a { color: #4183C4; }
+
+          h1, h2, h3, h4, h5, h6 {
+            margin: 20px 0 10px;
+            padding: 0;
+            font-weight: bold;
+            -webkit-font-smoothing: antialiased;
+            cursor: text;
+            position: relative;
+          }
+
+
+          h1 {
+            font-size: 28px;
+            color: black;
+          }
+
+          h2 {
+            font-size: 24px;
+            border-bottom: 1px solid #cccccc;
+            color: black;
+          }
+
+          h3 { font-size: 18px; }
+          h4 { font-size: 16px; }
+          h5 { font-size: 14px; }
+          h6 {
+            color: #777777;
+            font-size: 14px;
+          }
+
+          p, table, pre {
+            margin: 15px 0;
+          }
+        </style>
+    </head>
+  </xsl:template>
+
+</xsl:stylesheet>
+eocss)
+
+if ! manpath=`man -w $@`
+then
+  exit 1
+else
+  if [ ${manpath##*.} = "gz" ]; then catter="gzcat"; else catter="cat"; fi
+  outpath="$TMPDIR$$.$RANDOM.html"
+  $catter $manpath | groff -mandoc -Thtml -P -r | tidy -q -asxhtml --input-encoding ascii --output-encoding utf8 2>/dev/null | xsltproc --html <(echo "$stylesheet") - > $outpath
+  open $outpath
+fi
