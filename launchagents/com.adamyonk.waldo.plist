@@ -2,7 +2,7 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>Label</key>
+  <key>Label</key>
   <string>com.adamyonk.waldo</string>
 
   <key>StartInterval</key>
@@ -11,9 +11,9 @@
   <key>RunAtLoad</key>
   <true/>
 
-	<key>ProgramArguments</key>
-	<array>
+  <key>ProgramArguments</key>
+  <array>
     <string>/Users/adamyonk/.dotfiles/bin/waldo</string>
-	</array>
+  </array>
 </dict>
 </plist>
