@@ -1,4 +1,4 @@
-set -g default-command    'reattach-to-user-namespace -l zsh'
+#set -g default-command    'reattach-to-user-namespace -l zsh'
 set -g default-terminal   'screen-256color'
 set -g prefix             C-a
 set -g status-keys        vi
@@ -62,7 +62,7 @@ bind -t vi-copy y copy-selection
 
 # Status bar
 set -g status-utf8          on
-set -g status-position      bottom
+#set -g status-position      bottom
 set -g status-bg            colour11
 set -g status-fg            colour8
 set -g status-interval      15

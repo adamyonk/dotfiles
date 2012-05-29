@@ -3,16 +3,17 @@
 <plist version="1.0">
 <dict>
 	<key>Label</key>
-	<string>com.adamyonk.waldo</string>
-	<key>OnDemand</key>
-	<true/>
+  <string>com.adamyonk.waldo</string>
+
+  <key>StartInterval</key>
+  <integer>600</integer>
+
+  <key>RunAtLoad</key>
+  <true/>
+
 	<key>ProgramArguments</key>
 	<array>
     <string>/Users/adamyonk/.dotfiles/bin/waldo</string>
 	</array>
-  <key>StartInterval</key>
-  <integer>600</integer>
-  <key>RunAtLoad</key>
-  <true/>
 </dict>
 </plist>
