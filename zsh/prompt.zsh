@@ -179,7 +179,8 @@ rb_prompt(){
 export PROMPT="%{$fg_bold[$PROMPT_COLOR]%}✖  %{$reset_color%}"
 
 set_prompt() {
-  export RPROMPT="$(notes_prompt TODO)%{$reset_color%} %{$fg[yellow]%}$(notes_prompt HACK)%{$reset_color%} %{$fg_bold[red]%}$(notes_prompt FIXME)%{$reset_color%}  %{$fg_bold[yellow]%}%c%{$reset_color%} $(git_prompt_info)%{$reset_color%}"
+  #export RPROMPT="$(notes_prompt TODO)%{$reset_color%} %{$fg[yellow]%}$(notes_prompt HACK)%{$reset_color%} %{$fg_bold[red]%}$(notes_prompt FIXME)%{$reset_color%}  %{$fg_bold[yellow]%}%c%{$reset_color%} $(git_prompt_info)%{$reset_color%}"
+  export RPROMPT="%{$fg_bold[yellow]%}%c%{$reset_color%} $(git_prompt_info)%{$reset_color%}"
 }
 
 precmd() {

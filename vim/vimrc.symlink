@@ -38,8 +38,10 @@ set splitbelow                  " Opens horizontal split below current window
 set showmode                    " Show current mode down the bottom
 set showcmd                     " Show incomplete cmds down at the bottom
 set shortmess=aoOstTWAI         " See :help shortmess
-set colorcolumn=+1              " Requires +colorcolumn - see :help colorcolumn
 set ttyfast                     " Send more info on redraws
+if exists('+colorcolumn')
+  set colorcolumn=+1            " See :help colorcolumn
+endif
 
 " Spelling
 " ========
