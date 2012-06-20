@@ -3,11 +3,7 @@ export GIT_EDITOR=vim
 export GIT_SANDBOX=~/.code/sandbox
 
 # Wrap git with hub
-hub_path=$(which hub)
-if [[ -f $hub_path ]]
-then
-  alias git=$hub_path
-fi
+if [[ -f `command -v hub` ]] ; then alias git=hub ; fi
 
 # sandbox user/repo
 function sandbox() {
