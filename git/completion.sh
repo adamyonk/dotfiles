@@ -22,4 +22,3 @@ if declare -f _git_commands > /dev/null; then
 fi
 
 compdef g=git
-
