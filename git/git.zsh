@@ -1,5 +1,5 @@
 # Set git editor
-export GIT_EDITOR=vim
+export GIT_EDITOR=$VIM
 export GIT_SANDBOX=~/.code/sandbox
 
 # Wrap git with hub
