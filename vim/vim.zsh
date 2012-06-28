@@ -1,11 +1,6 @@
 # To MacVim or Vim?
-if [[ -x /usr/local/bin/mvim ]]; then
-  if [[ $TERM = 'screen' ]]; then
-    VIM='/usr/local/bin/mvim'
-    VIMFLAGS='-v'
-  else
-    VIM='/usr/local/bin/mvim'
-  fi
+if [[ -f `command -v mvim` ]]; then
+  VIM='mvim -v'
 else
   VIM='vim'
 fi

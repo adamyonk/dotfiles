@@ -9,12 +9,10 @@ export DOTFILES=~/.dotfiles
 export ZSH=$DOTFILES/zsh
 export PROJECTS=~/.code
 
-export EDITOR=vim
+export EDITOR=$VIM
 
 # Use .localrc for things that you don't want in your public, versioned repo.
-if [[ -a ~/.localrc ]]; then
-  source ~/.localrc
-fi
+if [[ -a ~/.localrc ]] ; then source ~/.localrc ; fi
 
 for config_file ($DOTFILES/**/*.zsh) source $config_file # Source every .zsh file in this repo
 
