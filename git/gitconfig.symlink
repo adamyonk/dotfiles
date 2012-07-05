@@ -36,6 +36,8 @@
   quotepath = false
 [help]
   autocorrect = 1
+[hub]
+  protocol = https
 [init]
 	templatedir = ~/.git_template
 [mergetool]
