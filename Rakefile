@@ -1,6 +1,6 @@
 require 'rake'
 
-desc "Move dotfiles into system-standard positions."
+desc 'Move dotfiles into system-standard positions.'
 task :install do
   linkables = Dir.glob('*/**{.symlink}')
 
@@ -34,11 +34,13 @@ task :install do
   end
 end
 
+desc 'Compile all site-specific CoffeeScript and Sass to JS/CSS'
 task :compile do
   `coffee --compile --output js/js.symlink/ js/dotcoffee/`
   `compass compile --sass-dir css/dotsass/ --css-dir css/css.symlink/ --output-style compressed`
 end
 
+desc 'Uninstall dotfiles'
 task :uninstall do
   Dir.glob('**/*.symlink').each do |linkable|
 

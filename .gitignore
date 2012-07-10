@@ -1,5 +1,6 @@
 .DS_Store
 vim/vim.symlink/.netrwhist
+vim/vim.symlink/undo
 git/git-dude.symlink/*
 chat/mcabber.symlink/history/*
 js/js.symlink/*

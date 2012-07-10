@@ -5,7 +5,7 @@
 set nocompatible
 
 " Automatically reload vimrc when it's saved
-autocmd! BufWritePost vimrc.symlink so ~/.vimrc
+autocmd! BufWritePost vim/vimrc.symlink source ~/.vimrc | echo 'Reloaded ~/.vimrc'
 
 " Source ~/.vimrc.before if it exists
 if filereadable(expand('~/.vimrc.before'))
@@ -25,22 +25,22 @@ call pathogen#helptags()
 " ==============
 
 let mapleader=','
-set encoding=utf-8
-set number                      " Line numbers
-set backspace=indent,eol,start  " Allow backspace in insert mode
-set history=1000                " Store lots of :cmdline history
 set autoread                    " Reload files changed outside vim
-set laststatus=2                " Always show status line
+set backspace=indent,eol,start  " Allow backspace in insert mode
 set clipboard=unnamed           " Use system clipboard
+set cursorline
+set encoding=utf-8
 set hidden                      " Buffers can exist in the background
-set splitright                  " Opens vertical split right of current window
-set splitbelow                  " Opens horizontal split below current window
+set laststatus=2                " Always show status line
+set number                      " Line numbers
+set shortmess=aoOstTWAI
 set showmode                    " Show current mode down the bottom
 set showcmd                     " Show incomplete cmds down at the bottom
-set shortmess=aoOstTWAI         " See :help shortmess
-set ttyfast                     " Send more info on redraws
+set splitbelow                  " Opens horizontal split below current window
+set splitright                  " Opens vertical split right of current window
+"set ttyfast                     " Send more info on redraws
 if exists('+colorcolumn')
-  set colorcolumn=+1            " See :help colorcolumn
+  set colorcolumn=+1
 endif
 
 " Spelling
@@ -83,12 +83,20 @@ set incsearch        " Find the next match while typing search
 set hlsearch         " Hilight searches by default
 set viminfo='100,f1  " Save up to 100 marks, enable capital marks
 
-" Turn Off Swap Files
-" ===================
+" Command History, Swap Files, Undo Files
+" =======================================
 
-set noswapfile
-set nobackup
-set nowritebackup
+set noswapfile          " Don't use swap files for buffers
+set nobackup            " Overwrite files without creating backup
+set nowritebackup       " Overwrite files without creating temp backup
+set history=1000        " Store lots of :cmdline history
+if exists('+undofile')  " Keeps undo history after save/close
+  set undofile
+  if isdirectory($HOME . '/.vim/undo') == 0
+    :silent !mkdir -p ~/.vim/undo > /dev/null 2>&1
+  endif
+  set undodir=~/.vim/undo
+endif
 
 " Indentation and Display
 " =======================
@@ -100,12 +108,10 @@ set shiftwidth=2
 set softtabstop=2
 set tabstop=2
 set expandtab
-
 set nowrap                            " Don't wrap lines
 set linebreak                         " Wrap lines at convenient points
 set list listchars=tab:\ \ ,trail:·   " Display tabs and trailing spaces visually
-" Don't show trailing spaces in insert mode
-augroup trailing
+augroup trailing                      " Don't show trailing spaces in insert mode
   autocmd!
   autocmd InsertEnter * :set listchars-=trail:·
   autocmd InsertLeave * :set listchars+=trail:·

@@ -73,9 +73,6 @@
 [submodule "vim/vim.symlink/bundle/mustache.vim"]
 	path = vim/vim.symlink/bundle/mustache.vim
 	url = https://github.com/juvenn/mustache.vim.git
-[submodule "vim/vim.symlink/bundle/numbers.vim"]
-	path = vim/vim.symlink/bundle/numbers.vim
-	url = https://github.com/myusuf3/numbers.vim.git
 [submodule "vim/vim.symlink/bundle/vim-repeat"]
 	path = vim/vim.symlink/bundle/vim-repeat
 	url = https://github.com/tpope/vim-repeat.git
