@@ -92,10 +92,10 @@ set nowritebackup       " Overwrite files without creating temp backup
 set history=1000        " Store lots of :cmdline history
 if exists('+undofile')  " Keeps undo history after save/close
   set undofile
-  if isdirectory($HOME . '/.vim/undo') == 0
-    :silent !mkdir -p ~/.vim/undo > /dev/null 2>&1
+  if isdirectory($HOME . '/.vim_undo') == 0
+    :silent !mkdir -p ~/.vim_undo > /dev/null 2>&1
   endif
-  set undodir=~/.vim/undo
+  set undodir=~/.vim_undo
 endif
 
 " Indentation and Display
