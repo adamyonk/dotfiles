@@ -21,31 +21,42 @@
   st = stash
   sub = submodule
   u = push
+
 [branch]
   autosetuprebase = always
+
 [credential]
   helper = osxkeychain
+
 [color]
   branch = auto
   diff = auto
   status = auto
   ui = 1
+
 [core]
-  editor = vim
+  editor = e ; Uses my `e` shortcut for $EDITOR
   excludesfile = ~/.gitignore
   quotepath = false
+
 [help]
   autocorrect = 1
+
 [hub]
   protocol = https
+
 [init]
 	templatedir = ~/.git_template
+
 [mergetool]
   keepbackup = false
+
 [push]
   default = upstream ; If no refspec is implied, push the current branch to only its upstream branch.
+
 [rerere]
   enabled = 1
+
 [user]
   email = adamyonk@me.com
   name = Adam Jahnke
