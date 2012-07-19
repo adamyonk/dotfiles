@@ -39,6 +39,9 @@
   excludesfile = ~/.gitignore
   quotepath = false
 
+[github]
+  user = adamyonk
+
 [help]
   autocorrect = 1
 
