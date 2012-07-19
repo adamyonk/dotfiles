@@ -1,8 +1,18 @@
 function mx() {
-  if [[ -x $DOTFILES/tmux/layouts/$1 ]]; then
-    $DOTFILES/tmux/layouts/$1
+  if [[ -z $1 ]]; then
+    SESSION=$(basename $PWD);
   else
-    tmux new-session -s $1
+    SESSION=$1
+  fi
+
+  if [[ -x $DOTFILES/tmux/layouts/$SESSION ]]; then
+    $DOTFILES/tmux/layouts/$SESSION
+  else
+    #tmux new-session -s $1
+    if ! tmux has-session -t $SESSION; then
+      tmux new-session -s $SESSION -n zsh -d
+    fi
+    tmux attach -t $SESSION
   fi
 }
 
