@@ -24,6 +24,9 @@ vnoremap > >gv
 nnoremap ; :
 vnoremap ; :
 
+" Wrap current paragraph
+nnoremap <leader>wp gqip
+
 " Split window navigation
 nnoremap <c-j> <c-w>j
 nnoremap <c-k> <c-w>k

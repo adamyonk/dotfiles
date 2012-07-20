@@ -4,3 +4,6 @@ if [[ -f `command -v mvim` ]]; then
 else
   VIM='vim'
 fi
+
+export EDITOR=$VIM
+alias e=$EDITOR
