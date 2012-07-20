@@ -1,3 +1,7 @@
+eval "$(rbenv init -)"
+export HOME=/Users/adamyonk
+export PATH="$HOME/.rbenv/shims:$HOME/.rbenv/bin:/usr/local/bin:$PATH"
+
 export POW_DOMAINS=dev,local,test
 export POW_TIMEOUT=1800
 export POW_WORKERS=5
