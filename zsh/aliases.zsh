@@ -4,7 +4,6 @@ function colours() {
   done
 }
 
-alias e=$EDITOR
 alias fliptable='echo "\n（╯°□°）╯︵ ┻━┻\n"'
 alias ls='ls -al' # Include dot files, list in long format
 #alias minecraft='cd ~/.minecraft && java -Xmx1024M -Xms1024M -jar minecraft_server.jar nogui'

@@ -53,7 +53,7 @@ set dictionary=/usr/share/dict/words
 
 syntax enable
 colorscheme solarized
-set background=dark
+set background=light
 
 " Filetypes
 " =========
