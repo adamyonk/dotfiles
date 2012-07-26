@@ -18,7 +18,7 @@ function load_session() {
     tmux send-keys -t $SESSION:1 'e' C-m ':CtrlP' C-m
     tmux send-keys -t $SESSION:2 'git pull && bundle install && bundle exec rake db:migrate && fliptable' C-m
     tmux send-keys -t $SESSION:3 'bundle exec foreman run bundle exec rails console' C-m
-    tmux send-keys -t $SESSION:4 'sleep 30 && bundle exec guard -g jasmine' C-m
+    tmux send-keys -t $SESSION:4 'bundle exec rake spec' C-m
     tmux send-keys -t $SESSION:5 'bundle exec foreman start' C-m
     tmux send-keys -t $SESSION:6 'tail -f log/development.log' C-m
 
