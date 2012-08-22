@@ -6,4 +6,5 @@ else
 fi
 
 export EDITOR=$VIM
+export GIT_EDITOR=$VIM
 alias e=$EDITOR

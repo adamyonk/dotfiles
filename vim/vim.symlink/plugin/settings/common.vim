@@ -7,6 +7,9 @@ nnoremap <leader>C :let &scrolloff=999-&scrolloff<cr>
 " Clean trailing whitespace
 nnoremap <leader>w mz:%s/\s\+$//<cr>:let @/=''<cr>`z
 
+" Keep cursor in place when joining lines
+nnoremap J mzJ`z
+
 " Yank from cursor to end of line
 nnoremap Y y$
 

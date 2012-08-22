@@ -1,5 +1,4 @@
 # Set git editor
-export GIT_EDITOR=$VIM
 export GIT_SANDBOX=~/.code/sandbox
 
 # Wrap git with hub
@@ -34,7 +33,10 @@ alias glola='git log --abbrev-commit --all --decorate --graph --pretty=oneline'
 alias gm='git merge'
 alias gmm='git merge master'
 alias gn='git n'
+alias gpr='git pull-request'
 alias gr='git rebase'
+alias grc='git rebase --continue'
+alias gre='git reset --hard HEAD'
 alias gri='git rebase --interactive'
 alias gs='git status --branch --short'
 alias gst='git stash'

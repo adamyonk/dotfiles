@@ -3,6 +3,7 @@
 
 " Keep this at top - Use Vim settings, rather then Vi settings
 set nocompatible
+set shell=/bin/bash
 
 " Automatically reload vimrc when it's saved
 autocmd! BufWritePost vim/vimrc.symlink source ~/.vimrc | echo 'Reloaded ~/.vimrc'
