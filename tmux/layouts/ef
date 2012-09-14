@@ -1,11 +1,11 @@
 #!/bin/sh
 
 # Running some commands to prep the project before launching tmux
-cd ~/.code/adamyonk/chelseamoon
+cd ~/.code/adamyonk/emmettfranz.com
 
 # Setup and run function to setup new tmux session
 function load_session() {
-  local SESSION=chelsea
+  local SESSION=ef
 
   if ! tmux has-session -t $SESSION; then
     tmux new-session -s $SESSION -n vim -d

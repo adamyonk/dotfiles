@@ -5,7 +5,7 @@ cd ~/.dotfiles
 
 # Setup and run function to setup new tmux session
 function load_session() {
-  local SESSION=dotfiles
+  local SESSION=df
 
   if ! tmux has-session -t $SESSION; then
     tmux new-session -s $SESSION -n personal -d
