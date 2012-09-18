@@ -9,11 +9,9 @@ function load_session() {
 
   if ! tmux has-session -t $SESSION; then
     tmux new-session -s $SESSION -n personal -d
-    tmux new-window -n github -t $SESSION
+    tmux new-window -n console -t $SESSION
 
     tmux send-keys -t $SESSION:1 'e' C-m ':CtrlP' C-m
-    tmux send-keys -t $SESSION:2 'cd ~/.code/dotfiles/dotfiles.github.com && git pull' C-m
-    tmux send-keys -t $SESSION:2 'e' C-m ':CtrlP' C-m
 
     tmux select-window -t $SESSION:1
   fi
