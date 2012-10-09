@@ -27,7 +27,7 @@ git clone https://github.com/sstephenson/ruby-build.git ruby/rbenv.symlink/plugi
 # Move symlinks into place
 for file in ~/.dotfiles/**/*.symlink
 do
-  ln -s "$f" "~/.${${f##*/}//.symlink}"
+  ln -s "$file" "~/.${${file##*/}//.symlink}"
 done
 
 # Load rbenv
