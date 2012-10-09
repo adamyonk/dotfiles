@@ -30,13 +30,11 @@ do
   ln -s "$f" "~/.${${f##*/}//.symlink}"
 done
 
-# Load ZSH
-exec /bin/zsh
+# Load rbenv
+eval "$(ruby/rbenv.symlink/bin/rbenv init -)"
 
 # Install ruby
 echo "Installing Ruby $RUBY_VERSION..."
 rbenv install $RUBY_VERSION
-
-
 
 echo 'Done!'
