@@ -1,8 +1,6 @@
 .DS_Store
 vim/vim.symlink/.netrwhist
 vim/vim.symlink/undo
-git/git-dude.symlink/*
-chat/mcabber.symlink/history/*
 js/js.symlink/*
 css/css.symlink/*
 .sass-cache
@@ -12,3 +10,5 @@ mail/vmail-contacts.txt
 mail/vmail.db
 mail/vmail.log
 mail/vmailbuffer
+
+chat/mcabber.symlink/history/*

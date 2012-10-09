@@ -1,0 +1,1 @@
+Pry.editor = 'vi'
