@@ -1,0 +1,31 @@
+#!/usr/bin/env bash
+
+RUBY_VERSION='1.9.3-p194'
+
+OS=`uname -s`
+KERNEL=`uname -r`
+
+#if [[ $KERNEL =~ 'Darwin' ]] ; then
+#  brew install git tmux macvim zsh
+#elif [[ $KERNEL =~ 'Linux' ]] ; then
+#  pacman -Syu git tmux vim zsh
+#  # or
+#  sudo apt-get install git tmux vim zsh
+#fi
+
+# Initialize and update git submodules
+echo "Initializing and updating git submodules..."
+cd ~/.dotfiles
+git submodule init
+git submodule update
+
+# Download ruby-build
+echo "Downloading ruby-build..."
+mkdir -p ruby/rbenv.symlink/plugins
+git clone https://github.com/sstephenson/ruby-build.git ruby/rbenv.symlink/plugins/ruby-build
+
+# Install ruby
+echo "Installing $RUBY_VERSION..."
+ruby/rbenv.symlink/bin/rbenv install $RUBY_VERSION
+
+echo 'Done!'
