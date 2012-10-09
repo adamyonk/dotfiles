@@ -22,6 +22,7 @@
   ri = rebase --interactive
   s = status --branch --short
   st = stash
+  sta = stash apply
   sub = submodule
   u = push
 
