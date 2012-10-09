@@ -24,8 +24,19 @@ echo "Downloading ruby-build..."
 mkdir -p ruby/rbenv.symlink/plugins
 git clone https://github.com/sstephenson/ruby-build.git ruby/rbenv.symlink/plugins/ruby-build
 
+# Move symlinks into place
+for file in ~/.dotfiles/**/*.symlink
+do
+  ln -s "$f" "~/.${${f##*/}//.symlink}"
+done
+
+# Load ZSH
+exec /bin/zsh
+
 # Install ruby
-echo "Installing $RUBY_VERSION..."
-ruby/rbenv.symlink/bin/rbenv install $RUBY_VERSION
+echo "Installing Ruby $RUBY_VERSION..."
+rbenv install $RUBY_VERSION
+
+
 
 echo 'Done!'
