@@ -5,13 +5,15 @@ RUBY_VERSION='1.9.3-p194'
 OS=`uname -s`
 KERNEL=`uname -r`
 
-#if [[ $KERNEL =~ 'Darwin' ]] ; then
-#  brew install git tmux macvim zsh
-#elif [[ $KERNEL =~ 'Linux' ]] ; then
-#  pacman -Syu git tmux vim zsh
-#  # or
-#  sudo apt-get install git tmux vim zsh
-#fi
+if [[ $KERNEL =~ 'Darwin' ]] ; then
+  brew install git hub tmux macvim zsh
+elif [[ $KERNEL =~ 'Linux' ]] ; then
+  if [[ -f `command -v pacman` ]] ; then
+    pacman -Syu git tmux vim zsh
+  else
+    sudo apt-get install git tmux vim zsh
+  fi
+fi
 
 # Initialize and update git submodules
 echo "Initializing and updating git submodules..."
@@ -27,11 +29,15 @@ git clone https://github.com/sstephenson/ruby-build.git ruby/rbenv.symlink/plugi
 # Move symlinks into place
 for file in ~/.dotfiles/**/*.symlink
 do
-  ln -s "$file" "~/.${${file##*/}//.symlink}"
+  name=${file##*/} # Strip path
+  name=${name//.symlink} # Strip '.symlink'
+  ln -s -i "$file" "$HOME/.$name"
 done
 
 # Load rbenv
-eval "$(ruby/rbenv.symlink/bin/rbenv init -)"
+export PATH="$HOME/.rbenv/bin:$PATH"
+eval "$(rbenv init -)"
+
 
 # Install ruby
 echo "Installing Ruby $RUBY_VERSION..."
