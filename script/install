@@ -2,11 +2,12 @@
 DIR=$HOME/.dotfiles
 DESTINATION=$HOME
 
-RUBY_VERSION='1.9.3-p194'
+RUBY_VERSION='1.9.3-p194' # Ruby version you want to install
 
 OS=`uname -s`
 KERNEL=`uname -r`
 
+# This needs to be tested
 if [[ $KERNEL =~ 'Darwin' ]] ; then
   brew install git hub tmux macvim zsh
 elif [[ $KERNEL =~ 'Linux' ]] ; then
@@ -23,7 +24,7 @@ cd $DIR
 git submodule init
 git submodule update
 
-# Download ruby-build
+# Download ruby-build if it's not there
 if [ ! -d "$HOME/.rbenv/plugins/ruby-build" ]; then
   echo "Downloading ruby-build..."
   mkdir -p ruby/rbenv.symlink/plugins
@@ -76,9 +77,11 @@ done
 export PATH="$HOME/.rbenv/bin:$PATH"
 eval "$(rbenv init -)"
 
-if [[ ! `rbenv version` =~ $RUBY_VERSION ]] ; then
-  # Install ruby
-  echo "Installing Ruby $RUBY_VERSION..."
+# Install ruby if the version we want isn't there
+if [[ `rbenv version` =~ $RUBY_VERSION ]] ; then
+  rbenv global $RUBY_VERSION
+else
+  echo "Installing ruby $RUBY_VERSION..."
   mkdir -p $HOME/.tmp
   export TMPDIR=$HOME/.tmp
   rbenv install $RUBY_VERSION
