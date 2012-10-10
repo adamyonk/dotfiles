@@ -1,4 +1,4 @@
-set -g default-command    'if [[ `uname -s` =~ 'Darwin' ]] ; then reattach-to-user-namespace -l zsh ; fi'
+set -g default-command    "if [[ `uname -s` =~ 'Darwin' ]] ; then reattach-to-user-namespace -l zsh ; fi"
 set -g default-terminal   'screen-256color'
 set -g prefix             C-a
 set -g status-keys        vi
