@@ -8,9 +8,9 @@ OS=`uname -s`
 KERNEL=`uname -r`
 
 # This needs to be tested
-if [[ $KERNEL =~ 'Darwin' ]] ; then
+if [[ $OS =~ 'Darwin' ]] ; then
   brew install git hub tmux macvim zsh
-elif [[ $KERNEL =~ 'Linux' ]] ; then
+elif [[ $OS =~ 'Linux' ]] ; then
   if [[ -f `command -v pacman` ]] ; then
     pacman -Syu gcc git make tmux vim zsh # Arch Linux
   else
