@@ -1,4 +1,4 @@
-set -g default-command    'reattach-to-user-namespace-shim'
+if-shell 'test "$(uname)" = "Darwin"' 'source ~/.tmux-osx.conf'
 set -g default-terminal   'screen-256color'
 set -g prefix             C-a
 set -g status-keys        vi
