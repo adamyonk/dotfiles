@@ -80,7 +80,7 @@ if [[ ! `rbenv version` =~ $RUBY_VERSION ]] ; then
   # Install ruby
   echo "Installing Ruby $RUBY_VERSION..."
   mkdir -p $HOME/.tmp
-  export TMP_DIR=$HOME/.tmp
+  export TMPDIR=$HOME/.tmp
   rbenv install $RUBY_VERSION
   rbenv global $RUBY_VERSION
   rbenv rehash
