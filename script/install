@@ -9,9 +9,9 @@ if [[ $KERNEL =~ 'Darwin' ]] ; then
   brew install git hub tmux macvim zsh
 elif [[ $KERNEL =~ 'Linux' ]] ; then
   if [[ -f `command -v pacman` ]] ; then
-    pacman -Syu git tmux vim zsh
+    pacman -Syu gcc git make tmux vim zsh # Arch Linux
   else
-    sudo apt-get install git tmux vim zsh
+    sudo apt-get install gcc git make tmux vim zsh # Debian
   fi
 fi
 
@@ -22,12 +22,14 @@ git submodule init
 git submodule update
 
 # Download ruby-build
-echo "Downloading ruby-build..."
-mkdir -p ruby/rbenv.symlink/plugins
-git clone https://github.com/sstephenson/ruby-build.git ruby/rbenv.symlink/plugins/ruby-build
+if [ ! -d "$HOME/.rbenv/plugins/ruby-build" ]; then
+  echo "Downloading ruby-build..."
+  mkdir -p ruby/rbenv.symlink/plugins
+  git clone https://github.com/sstephenson/ruby-build.git ruby/rbenv.symlink/plugins/ruby-build
+fi
 
 # Move symlinks into place
-for file in ~/.dotfiles/**/*.symlink
+for file in $DOTFILES/**/*.symlink
 do
   name=${file##*/} # Strip path
   name=${name//.symlink} # Strip '.symlink'
@@ -41,6 +43,8 @@ eval "$(rbenv init -)"
 
 # Install ruby
 echo "Installing Ruby $RUBY_VERSION..."
+mkdir $HOME/.tmp
+export TMP_DIR=$HOME/.tmp
 rbenv install $RUBY_VERSION
 
 echo 'Done!'
