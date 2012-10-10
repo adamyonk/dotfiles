@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
+DIR=$HOME/.dotfiles
+DESTINATION=$HOME
 
 RUBY_VERSION='1.9.3-p194'
 
@@ -17,7 +19,7 @@ fi
 
 # Initialize and update git submodules
 echo "Initializing and updating git submodules..."
-cd ~/.dotfiles
+cd $DIR
 git submodule init
 git submodule update
 
@@ -29,22 +31,60 @@ if [ ! -d "$HOME/.rbenv/plugins/ruby-build" ]; then
 fi
 
 # Move symlinks into place
-for file in $HOME/.dotfiles/**/*.symlink
+#for file in $DIR/**/*.symlink
+#do
+#  name=${file##*/} # Strip path
+#  name=${name//.symlink} # Strip '.symlink'
+#  ln -s -i "$file" "$HOME/.$name"
+#done
+
+# Move symlinks into place (from pastjean/dotfiles)
+skipAll=""
+overwriteAll=""
+backupAll=""
+for LINK in $DIR/**/*.symlink
 do
-  name=${file##*/} # Strip path
-  name=${name//.symlink} # Strip '.symlink'
-  ln -s -i "$file" "$HOME/.$name"
+  overwrite=""
+  backup=""
+  skip=""
+
+  FILE=".$(basename $LINK | sed -e 's/\.symlink//')"
+  TARGET="$DESTINATION/$FILE"
+
+  if [[ -f $TARGET  && "$skipAll$overwriteAll$backupAll" == "" ]]
+  then
+    # File exists
+    echo "File $TARGET exists, what do you want to do?\n [s]kip, [S]kip all, [o]verwrite, [O]verwrite all, [b]ackup, [B]ackup all"
+    read action
+    [[ "$action" == "s" ]] && skip="true"
+    [[ "$action" == "S" ]] && skipAll="true"
+    [[ "$action" == "o" ]] && overwrite="true"
+    [[ "$action" == "O" ]] && overwriteAll="true"
+    [[ "$action" == "b" ]] && backup="true"
+    [[ "$action" == "B" ]] && backupAll="true"
+  fi
+
+  if [[ "$skipAll" == "" ]]
+  then
+    [[ "$overwriteAll" == "true" || "$overwrite" == "true" ]] && rm -rf $TARGET
+    [[ "$backupAll" == "true" || "$backup" == "true" ]] && mv "$TARGET" "$DESTINATION/$FILE.backup"
+    ln -s "$LINK" "$TARGET"
+  fi
 done
 
 # Load rbenv
 export PATH="$HOME/.rbenv/bin:$PATH"
 eval "$(rbenv init -)"
 
-
-# Install ruby
-echo "Installing Ruby $RUBY_VERSION..."
-mkdir -p $HOME/.tmp
-export TMP_DIR=$HOME/.tmp
-rbenv install $RUBY_VERSION
+if [[ ! `rbenv version` =~ $RUBY_VERSION ]] ; then
+  # Install ruby
+  echo "Installing Ruby $RUBY_VERSION..."
+  mkdir -p $HOME/.tmp
+  export TMP_DIR=$HOME/.tmp
+  rbenv install $RUBY_VERSION
+  rbenv global $RUBY_VERSION
+  rbenv rehash
+  rm $HOME/.tmp/ruby-build*
+fi
 
 echo 'Done!'
