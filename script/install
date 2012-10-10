@@ -12,7 +12,7 @@ if [[ $OS =~ 'Darwin' ]] ; then
   brew install git hub tmux macvim zsh
 elif [[ $OS =~ 'Linux' ]] ; then
   if [[ -f `command -v pacman` ]] ; then
-    pacman -Syu gcc git make tmux vim zsh # Arch Linux
+    sudo pacman -Syu gcc git make tmux vim zsh # Arch Linux
   else
     sudo apt-get install gcc git make tmux vim zsh # Debian
   fi
@@ -30,14 +30,6 @@ if [ ! -d "$HOME/.rbenv/plugins/ruby-build" ]; then
   mkdir -p ruby/rbenv.symlink/plugins
   git clone https://github.com/sstephenson/ruby-build.git ruby/rbenv.symlink/plugins/ruby-build
 fi
-
-# Move symlinks into place
-#for file in $DIR/**/*.symlink
-#do
-#  name=${file##*/} # Strip path
-#  name=${name//.symlink} # Strip '.symlink'
-#  ln -s -i "$file" "$HOME/.$name"
-#done
 
 # Move symlinks into place (from pastjean/dotfiles)
 skipAll=""
