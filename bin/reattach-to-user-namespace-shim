@@ -2,7 +2,7 @@
 # For non-OS X systems, a placeholder for the program from
 # https://github.com/ChrisJohnsen/tmux-MacOSX-pasteboard
 if [[ `uname` =~ 'Darwin' ]] ; then
-  exec "reattach-to-user-namespace -l zsh"
+  reattach-to-user-namespace -l zsh
 else
   echo 'Not Darwin'
 fi
