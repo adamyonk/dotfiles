@@ -32,9 +32,6 @@
 [branch]
   autosetuprebase = always
 
-[credential]
-  helper = osxkeychain
-
 [color]
   branch = auto
   diff = auto
