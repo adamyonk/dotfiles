@@ -32,6 +32,9 @@
 [branch]
   autosetuprebase = always
 
+[credential]
+  helper = cache
+
 [color]
   branch = auto
   diff = auto
