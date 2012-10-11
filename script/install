@@ -62,6 +62,7 @@ do
     [[ "$overwriteAll" == "true" || "$overwrite" == "true" ]] && rm -rf $TARGET
     [[ "$backupAll" == "true" || "$backup" == "true" ]] && mv "$TARGET" "$DESTINATION/$FILE.backup"
     ln -s "$LINK" "$TARGET"
+    echo "Linking $LINK to $TARGET"
   fi
 done
 
@@ -70,8 +71,8 @@ export PATH="$HOME/.rbenv/bin:$PATH"
 eval "$(rbenv init -)"
 
 # Install ruby if the version we want isn't there
-echo "`rbenv versions` / $RUBY_VERSION"
 if [[ `rbenv versions` =~ $RUBY_VERSION ]] ; then
+  echo "Ruby already installed, setting \`rbenv global $RUBY_VERSION\`"
   rbenv global $RUBY_VERSION
 else
   echo "Installing ruby $RUBY_VERSION..."
