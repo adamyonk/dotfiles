@@ -33,7 +33,7 @@
   autosetuprebase = always
 
 [credential]
-  helper = osxkeychain
+  helper = cache
 
 [color]
   branch = auto
