@@ -9,7 +9,7 @@ function load_session() {
 
   if ! tmux has-session -t $SESSION; then
     tmux new-session -s $SESSION -n editor -d
-    tmux new-window -n console -t $SESSION
+    tmux new-window -n shell -t $SESSION
 
     tmux send-keys -t $SESSION:1 'e' C-m ':CtrlP' C-m
 

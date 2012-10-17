@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
+set -e
+
 DIR=$HOME/.dotfiles
 DESTINATION=$HOME
 
@@ -8,11 +10,12 @@ OS=`uname -s`
 KERNEL=`uname -r`
 
 # This needs to be tested
+# Prerequisites: sudo
 if [[ $OS =~ 'Darwin' ]] ; then
   brew install git hub tmux macvim zsh
 elif [[ $OS =~ 'Linux' ]] ; then
   if [[ -f `command -v pacman` ]] ; then
-    sudo pacman -Syu gcc git make tmux vim zsh # Arch Linux
+    sudo pacman -Syu base-devel git tmux vim zsh # Arch Linux
   else
     sudo apt-get install gcc git make tmux vim zsh # Debian
   fi
@@ -70,7 +73,6 @@ export PATH="$HOME/.rbenv/bin:$PATH"
 eval "$(rbenv init -)"
 
 # Install ruby if the version we want isn't there
-echo "`rbenv versions` / $RUBY_VERSION"
 if [[ `rbenv versions` =~ $RUBY_VERSION ]] ; then
   rbenv global $RUBY_VERSION
 else
