@@ -28,6 +28,7 @@
   st = stash
   sta = stash apply
   sub = submodule
+  sy = !"git pull && git push"
 
 [branch]
   autosetuprebase = always
