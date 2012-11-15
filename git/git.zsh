@@ -18,6 +18,7 @@ alias unhitch='hitch --unhitch'
 
 alias g='git'
 alias ga='git add'
+alias gaa='git add --all'
 alias gb='git branch'
 alias gba='git branch --all'
 alias gbd='git branch --delete'
