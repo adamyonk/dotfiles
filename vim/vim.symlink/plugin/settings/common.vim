@@ -1,3 +1,7 @@
+" Run specs
+nnoremap <leader>s :!bundle exec rake spec SPEC=%:<c-r>=line('.')<cr><cr>
+nnoremap <leader>S :!bundle exec rake spec SPEC=%<cr>
+
 " Insert Mode
 inoremap jk <esc>
 
@@ -38,6 +42,9 @@ nnoremap <c-l> <c-w>l
 
 " redraw!
 nnoremap <leader>rr :redraw!<cr>
+
+" Reload .vimrc
+nnoremap <leader>r :source ~/.vimrc<cr>
 
 " ctags
 set tags=tags;/
