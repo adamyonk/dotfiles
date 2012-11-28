@@ -12,7 +12,7 @@ function load_session() {
     tmux new-window -n shell -t $SESSION
 
     tmux send-keys -t $SESSION:1 'e' C-m ':CtrlP' C-m
-    tmux send-keys -t $SESSION:2 'cd src && nanoc compile' C-m
+    tmux send-keys -t $SESSION:2 'cd src && nanoc autocompile -p 3002 -H thin' C-m
 
     tmux select-window -t $SESSION:1
   fi
