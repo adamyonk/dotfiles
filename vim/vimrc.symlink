@@ -5,9 +5,6 @@
 set nocompatible
 set shell=/bin/bash
 
-" Automatically reload vimrc when it's saved
-autocmd! BufWritePost vim/vimrc.symlink source ~/.vimrc | echo 'Reloaded ~/.vimrc'
-
 " Source ~/.vimrc.before if it exists
 if filereadable(expand('~/.vimrc.before'))
   source ~/.vimrc.before
@@ -39,10 +36,13 @@ set showmode                    " Show current mode down the bottom
 set showcmd                     " Show incomplete cmds down at the bottom
 set splitbelow                  " Opens horizontal split below current window
 set splitright                  " Opens vertical split right of current window
-"set ttyfast                     " Send more info on redraws
+set ttyfast                     " Send more info on redraws
 if exists('+colorcolumn')
   set colorcolumn=+1
 endif
+" Automatically reload vimrc when it's saved
+autocmd! BufWritePost vim/vimrc.symlink source ~/.vimrc | echo 'Reloaded ~/.vimrc'
+
 
 " Spelling
 " ========
