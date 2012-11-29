@@ -76,3 +76,6 @@
 [submodule "vim/vim.symlink/bundle/vim-repeat"]
 	path = vim/vim.symlink/bundle/vim-repeat
 	url = https://github.com/tpope/vim-repeat.git
+[submodule "vim/vim.symlink/bundle/tabular"]
+	path = vim/vim.symlink/bundle/tabular
+	url = https://github.com/godlygeek/tabular.git
