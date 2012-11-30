@@ -10,5 +10,5 @@ alias ls='ls -al' # Include dot files, list in long format
 alias minecraft='cd ~/.minecraft && java -jar minecraft_server.jar nogui'
 alias ps='ps -a -c -o pid,command -x' # All users processes, only executable name, custom output, show processes with no controlling terminal
 alias reload='source ~/.zshrc'
-alias rup='systemsetup -setremotelogin on'
-alias rdown='systemsetup -setremotelogin off'
+alias ssh_up='systemsetup -setremotelogin on'
+alias ssh_down='systemsetup -setremotelogin off'
