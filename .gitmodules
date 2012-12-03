@@ -79,3 +79,15 @@
 [submodule "vim/vim.symlink/bundle/tabular"]
 	path = vim/vim.symlink/bundle/tabular
 	url = https://github.com/godlygeek/tabular.git
+[submodule "vim/vim.symlink/bundle/vim-rake"]
+	path = vim/vim.symlink/bundle/vim-rake
+	url = https://github.com/tpope/vim-rake.git
+[submodule "vim/vim.symlink/bundle/vim-bundler"]
+	path = vim/vim.symlink/bundle/vim-bundler
+	url = https://github.com/tpope/vim-bundler.git
+[submodule "vim/vim.symlink/bundle/vim-haml"]
+	path = vim/vim.symlink/bundle/vim-haml
+	url = https://github.com/tpope/vim-haml.git
+[submodule "vim/vim.symlink/bundle/vim-autoclose"]
+	path = vim/vim.symlink/bundle/vim-autoclose
+	url = https://github.com/Townk/vim-autoclose.git
