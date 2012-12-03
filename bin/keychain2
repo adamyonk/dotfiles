@@ -4,13 +4,6 @@
 # version 0.2
 # Adam Jahnke - http://github.com/adamyonk
 
-# Usage:
-#   keychain <account> <server>
-#   keychain me@me.com imap.mail.me.com
-#
-# This is a script for getting just the text of a password from your OS X
-# keychain. Basically a wrapper for `security find-internet-password`.
-
 require 'trollop'
 
 opts = Trollop::options do
@@ -21,8 +14,9 @@ This is a script for getting just the text of a password from your OS X
 keychain. Basically a wrapper for `security find-internet-password`.
 
 Usage:
-  keychain -a <account> | -s <server>
-  keychain me@me.com imap.mail.me.com
+  keychain <options>
+
+where <options> are:
 EOS
   opt :account, 'Choose account', :type => String
   opt :server, 'Choose server', :type => String
@@ -35,4 +29,4 @@ command += " -a #{opts[:account]}" if opts[:account]
 command += " -s #{opts[:server]}" if opts[:server]
 command += ' | sed \'s/.*\"\(.*\)\"/\1/\''
 
-puts `#{command}`
+`#{command}`
