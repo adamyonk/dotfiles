@@ -13,7 +13,7 @@ opts = Trollop::options do
 Starts a multithread wget download
 
 Usage:
-  mwget [options] <url>
+  mwget <url> [options]
 
 where [options] are:
 EOS
@@ -21,12 +21,9 @@ EOS
 end
 
 url = ARGV.shift
-pat = %r{^(http|https):\/\/[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$}ix
-
 
 Tollop::die :threadcount, 'must be 2 or more' if opts[:threadcount] < 2
-#Trollop::die 'not a valid url' unless pat.match url
+# Just going to leave this validation to wget
+#Trollop::die 'not a valid url' unless %r{^(http|https):\/\/[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$}ix.match url
 
-command = "for i in {1..#{opts[:threadcount]}}; do wget --recursive --no-parent --continue --timestamping #{url}; done;"
-
-`#{command}`
+`for i in {1..#{opts[:threadcount]}}; do wget --recursive --no-parent --continue --timestamping #{url}; done;`
