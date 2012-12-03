@@ -1,36 +1,3 @@
-[alias]
-  a = add
-  aa = add --all
-  b = branch
-  ba = branch --all
-  bd = branch --delete
-  br = browse
-  c = commit --all --verbose
-  ca = commit --amend
-  co = checkout
-  cot = checkout --track
-  d = diff
-  f = fetch
-  fp = fetch --prune
-  lola = log --abbrev-commit --all --decorate --graph --pretty=oneline
-  m = merge
-  mm = merge master
-  n = !"git ls-files | xargs notes | awk -F: '{ print $1,$2; print $3,$4; print $5}' | grcat conf.notes"
-  pl = pull
-  pr = pull-request
-  ps = push
-  r = rebase
-  ra = rebase --abort
-  rc = rebase --continue
-  re = reset --hard HEAD
-  ri = rebase --interactive
-  rs = rebase --skip
-  s = status --branch --short
-  st = stash
-  sta = stash apply
-  sub = submodule
-  sy = !"git pull && git push"
-
 [branch]
   autosetuprebase = always
 
