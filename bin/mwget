@@ -22,7 +22,7 @@ end
 
 url = ARGV.shift
 
-Tollop::die :threads, 'must be 2 or more' if opts[:threads] < 2
+Trollop::die :threads, 'must be 2 or more' if opts[:threads] < 2
 # Just going to leave this validation to wget
 #Trollop::die 'not a valid url' unless %r{^(http|https):\/\/[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$}ix.match url
 
