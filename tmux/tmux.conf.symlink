@@ -4,6 +4,7 @@ set -g prefix             C-a
 set -g status-keys        vi
 setw -g mode-keys         vi
 setw -g mode-mouse        on
+setw -g aggressive-resize on
 set -g escape-time        0
 set -g repeat-time        100
 
@@ -60,6 +61,7 @@ bind Escape         copy-mode
 bind p              paste-buffer
 bind -t vi-copy v   begin-selection
 bind -t vi-copy y   copy-selection
+#bind -t vi-copy p   paste-buffer
 #bind u              capture-pane; save-buffer /tmp/tmux-buffer; run-shell "$TERMINAL -e 'cat /tmp/tmux-buffer | urlview'"
 
 # Start windows/panes at 1 not 0
