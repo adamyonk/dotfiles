@@ -1,5 +1,5 @@
 # Set git editor
-export GIT_SANDBOX=~/.code/sandbox
+export GIT_SANDBOX=$PROJECTS/sandbox
 
 # Wrap git with hub
 if [[ -f `command -v hub` ]] ; then alias git='hub' ; fi
