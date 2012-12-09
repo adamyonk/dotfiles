@@ -1,0 +1,18 @@
+#!/bin/sh
+
+# Running some commands to prep the project before launching tmux
+cd $GIT_SANDBOX
+
+# Setup and run function to setup new tmux session
+function load_session() {
+  local SESSION=sb
+
+  if ! tmux has-session -t $SESSION; then
+    tmux new-session -s $SESSION -n shell -d
+
+    tmux select-window -t $SESSION:1
+  fi
+
+  tmux attach -t $SESSION
+}
+load_session
