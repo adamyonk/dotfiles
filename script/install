@@ -11,15 +11,15 @@ KERNEL=`uname -r`
 
 # This needs to be tested
 # Prerequisites: sudo
-if [[ $OS =~ 'Darwin' ]] ; then
-  brew install git hub tmux macvim zsh
-elif [[ $OS =~ 'Linux' ]] ; then
-  if [[ -f `command -v pacman` ]] ; then
-    sudo pacman -Syu base-devel git tmux vim zsh # Arch Linux
-  else
-    sudo apt-get install gcc git make tmux vim zsh # Debian
-  fi
-fi
+#if [[ $OS =~ 'Darwin' ]] ; then
+#  brew install git hub tmux macvim zsh
+#elif [[ $OS =~ 'Linux' ]] ; then
+#  if [[ -f `command -v pacman` ]] ; then
+#    sudo pacman -Syu base-devel git tmux vim zsh # Arch Linux
+#  else
+#    sudo apt-get install gcc git make tmux vim zsh # Debian
+#  fi
+#fi
 
 # Initialize and update git submodules
 echo "Initializing and updating git submodules..."
