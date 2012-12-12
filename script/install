@@ -87,4 +87,10 @@ else
   rm $HOME/.tmp/ruby-build*
 fi
 
+touch ~/.localrc
+mkdir -p ~/projects/adamyonk
+mkdir -p ~/projects/sandbox
+
+source .zshrc
+
 echo 'Done!'
