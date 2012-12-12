@@ -85,6 +85,7 @@ else
   rbenv global $RUBY_VERSION
   rbenv rehash
   rm $HOME/.tmp/ruby-build*
+  gem install bundler
 fi
 
 touch ~/.localrc
