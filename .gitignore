@@ -12,3 +12,5 @@ mail/vmail.log
 mail/vmailbuffer
 
 chat/mcabber.symlink/history/*
+
+fish/fish.symlink/fish/fish_history
