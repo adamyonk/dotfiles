@@ -84,8 +84,9 @@ else
   rbenv install $RUBY_VERSION
   rbenv global $RUBY_VERSION
   rbenv rehash
-  rm $HOME/.tmp/ruby-build*
   gem install bundler
+  rbenv rehash
+  rm $HOME/.tmp/ruby-build*
 fi
 
 touch ~/.localrc

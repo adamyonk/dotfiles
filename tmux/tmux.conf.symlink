@@ -84,7 +84,7 @@ set -g status-fg                      colour7
 set -g status-interval                15
 set -g status-left                    " #S  ✖"
 set -g status-left-length             60
-set -g status-right                   " #(battery)  %m|%d  %H:%M "
+set -g status-right                   " #(hostname)  #(battery)  %m|%d  %H:%M "
 set -g status-right-length            60
 setw -g automatic-rename              off
 setw -g monitor-activity              off
