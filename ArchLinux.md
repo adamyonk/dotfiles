@@ -1,6 +1,7 @@
 # Arch Linux Setup
 
 ## Set locale and create new user
+
 ```
 $ echo LANG=en_US.UTF-8 >> /etc/locale.conf
 $ echo HOSTNAME=<hostname> >> /etc/rc.conf
@@ -11,6 +12,7 @@ $ gpasswd -a <username> sudo
 ```
 
 ## Edit /etc/hosts and sudoers
+
 ```
 # vim /etc/hosts
 <ip> sub.host.com <hostname>
@@ -19,6 +21,7 @@ $ gpasswd -a <username> sudo
 ```
 
 ## Update system
+
 ```
 $ pacman-key --init
 $ pacman-key --populate archlinux
@@ -28,6 +31,7 @@ $ logout
 ```
 
 ## Edit SSH config/push pub key
+
 ```
 # vim ~/.ssh/config
 Host <hostname>
@@ -49,6 +53,7 @@ $ ssh <hostname> # Shouldn't ask for PW
 ```
 
 ## Disable PW/root login restart SSH
+
 ```
 # sudo vim /etc/ssh/sshd_config (remote)
 PasswordAuthentication no
@@ -57,4 +62,26 @@ PermitRootLogin no
 
 ```
 $ sudo systemctl ssh restart
+```
+
+## Postgresql
+
+```
+$ sudo pacman -Syu postgresql
+$ sudo mkdir /var/lib/postgres/data
+$ sudo chown -c postgres:postgres /var/lib/postgres/data
+$ sudo -i -u postgres
+$ initdb -D '/var/lib/postgres/data'
+$ exit
+$ createuser -s -U postgres --interactive # Enter your username as role
+$ sudo systemctl enable postgresql
+$ sudo systemctl start postgresql
+```
+
+## Redis
+
+```
+$ sudo pacman -Syu redis
+$ sudo systemctl enable redis
+$ sudo systemctl start redis
 ```
