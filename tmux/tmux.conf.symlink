@@ -1,12 +1,14 @@
-if-shell 'test "$(uname)" = "Darwin"' 'source ~/.tmux-osx.conf'
 set -g default-terminal   'screen-256color'
 set -g prefix             C-a
 set -g status-keys        vi
+set -g escape-time        0
+set -g repeat-time        100
+set -g history-limit      10000
+set -g mode-mouse         on
+
 setw -g mode-keys         vi
 setw -g mode-mouse        on
 setw -g aggressive-resize on
-set -g escape-time        0
-set -g repeat-time        100
 
 # Keybindings
 unbind C-b
@@ -84,7 +86,7 @@ set -g status-fg                      colour7
 set -g status-interval                15
 set -g status-left                    " #S  ✖"
 set -g status-left-length             60
-set -g status-right                   " #(hostname)  #(battery)  %m|%d  %H:%M "
+set -g status-right                   " #(hostname)  %m|%d  %H:%M "
 set -g status-right-length            60
 setw -g automatic-rename              off
 setw -g monitor-activity              off
@@ -95,3 +97,6 @@ setw -g window-status-current-bg      colour2
 setw -g window-status-current-fg      colour7
 setw -g window-status-current-attr    bold
 setw -g window-status-current-format  ' #W '
+
+# Overrides
+if-shell 'test "$(uname)" = "Darwin"' 'source ~/.tmux-osx.conf'
