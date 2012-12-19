@@ -12,11 +12,12 @@ export PROJECTS=~/.code
 # Use .localrc for things that you don't want in your public, versioned repo.
 if [[ -a ~/.localrc ]] ; then source ~/.localrc ; fi
 
-# Source every .zsh file in this repo
-for config_file (`find $DOTFILES -maxdepth 2 -type f -name '*.zsh'`) source $config_file
+# Source every .zsh file in this repo except completion files
+for config_file (`find $DOTFILES -maxdepth 2 -type f -name '*.zsh'`) [[ "$(basename $config_file)" == 'completion.zsh' ]] || source $config_file
 
 # Initialize autocomplete
 autoload -U compinit
 compinit
+
 # Load every completion after autocomplete loads
-for config_file (`find $DOTFILES -maxdepth 2 -type f -name 'completion.sh'`) source $config_file
+for config_file (`find $DOTFILES -maxdepth 2 -type f -name 'completion*'`) source $config_file
