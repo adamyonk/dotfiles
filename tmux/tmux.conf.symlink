@@ -11,60 +11,61 @@ setw -g mode-mouse        on
 setw -g aggressive-resize on
 
 # Keybindings
-unbind C-b
-unbind C-a
+unbind "'"
 unbind %
+unbind &
+unbind '"'
 unbind ,
 unbind .
-unbind n
-unbind '"'
-unbind l
-unbind &
-unbind "'"
-unbind h
-unbind j
-unbind k
-unbind l
+unbind C-a
+unbind C-b
 unbind H
 unbind J
 unbind K
 unbind L
-unbind u
-unbind p
 unbind [
+unbind h
+unbind j
+unbind k
+unbind l
+unbind l
+unbind n
+unbind p
+unbind u
+unbind y
 
-bind C-a            last-window
-bind \              split-window -h
-bind -              split-window -v
-bind x              kill-pane
-bind X              kill-window
-bind q              confirm-before kill-session
-bind Q              confirm-before kill-server
-bind ,              previous-window
-bind .              next-window
-bind <              swap-window -t :-
-bind >              swap-window -t :+
-bind n              command-prompt 'rename-window %%'
-bind N              command-prompt 'rename-session %%'
-bind r              source-file ~/.tmux.conf; display 'Reloaded configuration'
-bind R              refresh-client
-bind a              send-key C-a
-bind H              resize-pane -L 10
-bind J              resize-pane -D 10
-bind K              resize-pane -U 10
-bind L              resize-pane -R 10
-bind h              select-pane -L
-bind j              select-pane -D
-bind k              select-pane -U
-bind l              select-pane -R
-bind C-h            select-window -t :-
-bind C-l            select-window -t :+
-bind Escape         copy-mode
-bind p              paste-buffer
-bind -t vi-copy v   begin-selection
-bind -t vi-copy y   copy-selection
-#bind -t vi-copy p   paste-buffer
-#bind u              capture-pane; save-buffer /tmp/tmux-buffer; run-shell "$TERMINAL -e 'cat /tmp/tmux-buffer | urlview'"
+bind ,                previous-window
+bind -                split-window -v
+bind .                next-window
+bind <                swap-window -t :-
+bind >                swap-window -t :+
+bind C-a              last-window
+bind C-h              select-window -t :-
+bind C-l              select-window -t :+
+bind Escape           copy-mode
+bind H                resize-pane -L 10
+bind J                resize-pane -D 10
+bind K                resize-pane -U 10
+bind L                resize-pane -R 10
+bind N                command-prompt 'rename-session %%'
+bind Q                confirm-before kill-server
+bind R                refresh-client
+bind X                kill-window
+bind \                split-window -h
+bind a                send-key C-a
+bind h                select-pane -L
+bind j                select-pane -D
+bind k                select-pane -U
+bind l                select-pane -R
+bind n                command-prompt 'rename-window %%'
+bind p                paste-buffer
+bind q                confirm-before kill-session
+bind r                source-file ~/.tmux.conf; display 'Reloaded configuration'
+bind -t vi-copy v     begin-selection
+bind x                kill-pane
+bind -t vi-copy y     copy-selection; run-shell 'tmux show-buffer | reattach-to-user-namespace pbcopy'
+bind-key y            run-shell 'tmux show-buffer | reattach-to-user-namespace pbcopy'
+#bind u               capture-pane; save-buffer /tmp/tmux-buffer; run-shell "$TERMINAL -e 'cat /tmp/tmux-buffer | urlview'"
 
 # Start windows/panes at 1 not 0
 set -g base-index                     1
