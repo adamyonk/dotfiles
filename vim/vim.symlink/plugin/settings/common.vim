@@ -1,3 +1,6 @@
+" Ignores
+set wildignore+=*/tmp/*,*/log/*,*/vendor/bundle/*,*/vendor/cache/*,*.so,*.swp,*.zip
+
 " Run spec under current line
 nnoremap <leader>s :!bundle exec rake spec SPEC=%:<c-r>=line('.')<cr><cr>
 " Run current spec file
