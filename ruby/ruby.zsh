@@ -1,15 +1,19 @@
 # Load rbenv
-eval "$(rbenv init -)"
+#eval "$(rbenv init -)"
+
+# Load chruby
+source /usr/local/share/chruby/chruby.sh
+source /usr/local/share/chruby/auto.sh
 
 # Load unicorn
-function bbu() {
-  if [[ -z $1 ]]; then
-    UNICORN_PORT=3000;
-  else
-    UNICORN_PORT=$1;
-  fi
-  bin/unicorn -E development -c /usr/local/etc/unicorn.rb -1 127.0.0.1:$UNICORN_PORT
-}
+#function bbu() {
+#  if [[ -z $1 ]]; then
+#    UNICORN_PORT=3000;
+#  else
+#    UNICORN_PORT=$1;
+#  fi
+#  bin/unicorn -E development -c /usr/local/etc/unicorn.rb -1 127.0.0.1:$UNICORN_PORT
+#}
 
 alias rake='noglob rake'
 alias bundle='noglob bundle'
