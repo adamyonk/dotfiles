@@ -12,15 +12,18 @@ KERNEL=`uname -r`
 touch $HOME/.localrc
 mkdir -p $HOME/.tmp
 mkdir -p $HOME/code/sandbox
+cd $DIR
 
 # Initialize and update git submodules
-echo "Initializing and updating git submodules"
-cd $DIR
+echo "Initializing git submodules"
 git submodule --quiet init
+echo "Updating git submodules"
 git submodule --quiet update
 
 # Install chruby
-if type chruby >/dev/null ; then
+if [[ -f /usr/local/share/chruby/chruby.sh ]] ; then
+  source /usr/local/share/chruby/chruby.sh
+else
   echo "Installing chruby"
   wget -O chruby-0.3.1.tar.gz https://github.com/postmodern/chruby/archive/v0.3.1.tar.gz
   tar -xzvf chruby-0.3.1.tar.gz
@@ -31,12 +34,11 @@ if type chruby >/dev/null ; then
   rm -rf chruby-0.3.1/
 fi
 
-# Load chruby
-source /usr/local/share/chruby/chruby.sh
-
 # Install the latest ruby-build
 echo "Installing the latest ruby-build"
-sudo ./ruby/ruby-build/install.sh
+cd ruby/ruby-build/
+sudo ./install.sh
+cd ../../
 
 # Check for desired Ruby
 if [[ `ls $HOME/.rubies` =~ $RUBY_VERSION ]] ; then
