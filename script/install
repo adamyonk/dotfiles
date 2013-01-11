@@ -35,7 +35,6 @@ else
 fi
 
 # Install the latest ruby-build
-echo "Installing the latest ruby-build"
 cd ruby/ruby-build/
 sudo ./install.sh
 cd ../../
@@ -86,6 +85,6 @@ do
   fi
 done
 
-source .zshrc
+source $HOME/.zshrc
 
 echo 'Done!'
