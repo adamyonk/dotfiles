@@ -4,6 +4,7 @@
 # Load chruby
 source /usr/local/share/chruby/chruby.sh
 source /usr/local/share/chruby/auto.sh
+chruby 1.9.3
 
 # Load unicorn
 #function bbu() {
