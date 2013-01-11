@@ -34,13 +34,7 @@ task :install do
   end
 end
 
-desc 'Compile all site-specific CoffeeScript and Sass to JS/CSS'
-task :compile do
-  `coffee --compile --output js/js.symlink/ js/dotcoffee/`
-  `compass compile --sass-dir css/dotsass/ --css-dir css/css.symlink/ --output-style compressed`
-end
-
-desc 'Uninstall dotfiles'
+desc 'Uninstall dotfiles.'
 task :uninstall do
   Dir.glob('**/*.symlink').each do |linkable|
 
@@ -54,9 +48,15 @@ task :uninstall do
 
     # Replace any backups made during installation
     if File.exists?("#{ENV["HOME"]}/.#{file}.backup")
-      `mv "$HOME/.#{file}.backup" "$HOME/.#{file}"` 
+      `mv "$HOME/.#{file}.backup" "$HOME/.#{file}"`
     end
   end
+end
+
+desc 'Compile all site-specific CoffeeScript and Sass to JS/CSS.'
+task :compile do
+  `coffee --compile --output js/js.symlink/ js/dotcoffee/`
+  `compass compile --sass-dir css/dotsass/ --css-dir css/css.symlink/ --output-style compressed`
 end
 
 task :default => 'install'
