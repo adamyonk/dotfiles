@@ -36,7 +36,7 @@ source /usr/local/share/chruby/chruby.sh
 
 # Install the latest ruby-build
 echo "Installing the latest ruby-build"
-./ruby/ruby-build/install.sh
+sudo ./ruby/ruby-build/install.sh
 
 # Check for desired Ruby
 if [[ `ls $HOME/.rubies` =~ $RUBY_VERSION ]] ; then
