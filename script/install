@@ -47,6 +47,8 @@ else
   export TMPDIR=$HOME/.tmp # This is needed for systems with low memory
   ruby-build $RUBY_VERSION $HOME/.rubies/$RUBY_VERSION
   rm $HOME/.tmp/ruby-build*
+  chruby $RUBY_VERSION
+  gem install bundler
 fi
 
 # Move symlinks into place (from pastjean/dotfiles)
