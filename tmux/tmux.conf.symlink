@@ -35,7 +35,6 @@ unbind u
 unbind y
 
 bind ,                previous-window
-bind -                split-window -v
 bind .                next-window
 bind <                swap-window -t :-
 bind >                swap-window -t :+
@@ -51,7 +50,6 @@ bind N                command-prompt 'rename-session %%'
 bind Q                confirm-before kill-server
 bind R                refresh-client
 bind X                kill-window
-bind \                split-window -h
 bind a                send-key C-a
 bind h                select-pane -L
 bind j                select-pane -D
@@ -66,6 +64,12 @@ bind x                kill-pane
 bind -t vi-copy y     copy-selection; run-shell 'tmux show-buffer | reattach-to-user-namespace pbcopy'
 bind-key y            run-shell 'tmux show-buffer | reattach-to-user-namespace pbcopy'
 #bind u               capture-pane; save-buffer /tmp/tmux-buffer; run-shell "$TERMINAL -e 'cat /tmp/tmux-buffer | urlview'"
+
+# SSH-friendly splits
+bind -                run-shell 'exec tmux-ssh-split -v'
+bind _                run-shell 'exec tmux-ssh-split -v'
+bind \                run-shell 'exec tmux-ssh-split -h'
+bind |                run-shell 'exec tmux-ssh-split -h'
 
 # Start windows/panes at 1 not 0
 set -g base-index                     1
