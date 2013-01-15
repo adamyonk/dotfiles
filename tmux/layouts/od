@@ -1,11 +1,11 @@
 #!/bin/sh
 
 # Running some commands to prep the project before launching tmux
-cd ~/.code/adamyonk/adamyonk
+cd ~/.code/adamyonk/dotfiles.github.com
 
 # Setup and run function to setup new tmux session
 function load_session() {
-  local SESSION=ay
+  local SESSION=od
 
   if ! tmux has-session -t $SESSION; then
     tmux new-session -s $SESSION -n editor -d

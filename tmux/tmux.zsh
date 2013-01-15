@@ -11,7 +11,7 @@ function mx() {
     $DOTFILES/tmux/layouts/$SESSION
   else
     if ! tmux has-session -t $SESSION; then
-      tmux new-session -s $SESSION -n zsh -d
+      tmux new-session -s $SESSION -n shell -d
     fi
     tmux attach -t $SESSION
   fi
