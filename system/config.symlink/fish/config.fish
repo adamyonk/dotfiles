@@ -164,16 +164,26 @@ end
 alias reload        '. $HOME/.config/fish/config.fish'
 
 # Prompt
-function git_branch
-  if test -d "./.git"
+function git_prompt
+  if git rev-parse --git-dir >/dev/null
     printf (git branch --all | grep '*' | cut -d ' ' -f 2-)
+    if git status | grep 'working directory clean' >/dev/null
+      set color green
+    else
+      set color red
+    end
+    set_color $color
+    printf ' ±'
+    set_color normal
   end
 end
 
 function fish_prompt
+  set_color $PROMPT_COLOR
   echo -n  '✖  '
+  set_color normal
 end
 
 function fish_right_prompt
-  echo -n (git_branch)
+  echo -n (basename $PWD; git_prompt)
 end
