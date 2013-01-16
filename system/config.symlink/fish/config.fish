@@ -163,7 +163,7 @@ function parse_git_dirty
   if test $status = 1
     set color red
   else
-    set color normal
+    set color green
   end
   echo -n (set_color $color)'±'(set_color normal)
 end
