@@ -8,13 +8,7 @@ set -g -x GIT_SANDBOX   $PROJECTS/sandbox
 #set -g -x PGDATA        /usr/local/var/postgres
 
 # Path
-set -g -x PATH          ./bin
-set -g -x PATH          $PATH   $DOTFILES/bin
-set -g -x PATH          $PATH   $HOME/.rbenv/bin
-set -g -x PATH          $PATH   $HOME/.rbenv/shims
-set -g -x PATH          $PATH   /usr/local/bin
-set -g -x PATH          $PATH   /usr/bin
-set -g -x PATH          $PATH   /bin
+set -g -x PATH          ./bin $DOTFILES/bin $HOME/.rbenv/bin $HOME/.rbenv/shims /usr/local/bin /usr/bin /bin
 
 # Local Settings
 if test -f $HOME/.config/fish/local.fish
@@ -164,17 +158,26 @@ end
 alias reload        '. $HOME/.config/fish/config.fish'
 
 # Prompt
+function parse_git_dirty
+  git diff --quiet HEAD >/dev/null ^&1
+  if test $status = 1
+    set color red
+  else
+    set color normal
+  end
+  echo -n (set_color $color)'±'(set_color normal)
+end
+
+function parse_git_branch
+  echo -n (git branch --color ^&- | awk '/*/ {print $2}')
+end
+
 function git_prompt
-  if git rev-parse --git-dir >/dev/null
-    printf (git branch --all | grep '*' | cut -d ' ' -f 2-)
-    if git status | grep 'working directory clean' >/dev/null
-      set color green
-    else
-      set color red
-    end
-    set_color $color
-    printf ' ±'
-    set_color normal
+  git status >/dev/null ^&1
+  if test $status = 0
+    echo -n (parse_git_branch) (parse_git_dirty)
+  else
+    echo -n ''
   end
 end
 
@@ -185,5 +188,5 @@ function fish_prompt
 end
 
 function fish_right_prompt
-  echo -n (basename $PWD; git_prompt)
+  echo -n (basename $PWD) (git_prompt)
 end
