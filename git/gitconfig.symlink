@@ -39,3 +39,5 @@
 [user]
   email = adamyonk@me.com
   name = Adam Jahnke
+[config]
+	editor = mvim -v
