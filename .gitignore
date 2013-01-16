@@ -1,16 +1,8 @@
 .DS_Store
+
 vim/vim.symlink/.netrwhist
 vim/vim.symlink/undo
-js/js.symlink/*
-css/css.symlink/*
-.sass-cache
 tags
 
-mail/vmail-contacts.txt
-mail/vmail.db
-mail/vmail.log
-mail/vmailbuffer
-
-chat/mcabber.symlink/history/*
-
-fish/fish.symlink/fish/fish_history
+system/config.symlink/fish/*
+!system/config.symlink/fish/config.fish

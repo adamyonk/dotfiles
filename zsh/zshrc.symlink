@@ -1,5 +1,5 @@
 # Set rbenv, brew, system user, dev tools
-export PATH=./bin:~/.rbenv/bin:~/.dotfiles/bin:/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin
+export PATH=~/.dotfiles/bin:/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin
 
 export NGINX_PATH=/opt/nginx
 export PGDATA=/usr/local/var/postgres
