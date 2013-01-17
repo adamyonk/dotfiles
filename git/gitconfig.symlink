@@ -11,7 +11,7 @@
   ui = 1
 
 [core]
-  editor = e ; Uses my `e` shortcut for $EDITOR
+  editor = $EDITOR
   excludesfile = ~/.gitignore
   quotepath = false
 
@@ -25,13 +25,13 @@
   protocol = https
 
 [init]
-	templatedir = ~/.git_template
+  templatedir = ~/.git_template
 
 [mergetool]
   keepbackup = false
 
 [push]
-  default = upstream ; If no refspec is implied, push the current branch to only its upstream branch.
+  default = upstream
 
 [rerere]
   enabled = 1
@@ -39,5 +39,3 @@
 [user]
   email = adamyonk@me.com
   name = Adam Jahnke
-[config]
-	editor = mvim -v

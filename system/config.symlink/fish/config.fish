@@ -33,47 +33,6 @@ alias gba               'git branch --all'
 alias gbd               'git branch --delete'
 alias gbr               'git browse'
 alias gbpr              'git browse -- pulls/adamyonk'
-alias gc                'git commit --all --verbose'
-alias gca               'git commit --amend'
-alias gcl               'git clone'
-alias gco               'git checkout'
-alias gcot              'git checkout --track'
-alias gcp               'git cherry-pick'
-alias gd                'git diff'
-alias gdlc              'git diff --cached HEAD^'
-alias gf                'git fetch'
-alias gfl               'git log -u'
-alias gfp               'git fetch --prune'
-alias gl                'git log --decorate'
-alias gla               'git log --abbrev-commit --all --decorate --graph --pretty=oneline'
-alias glf               'git log --decorate --numstat --pretty=format:"%C(yellow)%h%Cred%d\\ %Creset%s%Cblue\\ [%cn]"'
-alias gm                'git merge'
-alias gmm               'git merge master'
-alias gn                'git n'
-alias gpl               'git pull'
-alias gpr               'git pull-request'
-alias gps               'git push'
-alias gr                'git rebase'
-alias gra               'git rebase --abort'
-alias grc               'git rebase --continue'
-alias gre               'git reset'
-alias gri               'git rebase --interactive'
-alias gs                'git status --branch --short'
-alias gst               'git stash'
-alias gsta              'git stash apply'
-alias gstl              'git stash list'
-alias gsts              'git stash save'
-alias gsub              'git submodule'
-alias gsy               'git pull; and git push'
-
-alias g                 'git'
-alias ga                'git add'
-alias gaa               'git add --all'
-alias gb                'git branch'
-alias gba               'git branch --all'
-alias gbd               'git branch --delete'
-alias gbr               'git browse'
-alias gbpr              'git browse -- pulls/adamyonk'
 alias gc                'git commit --verbose'
 alias gca               'git commit --amend'
 alias gcl               'git clone'
@@ -120,7 +79,7 @@ if which hitch >/dev/null
   #end
 end
 
-function sandbox
+function sandbox --description "Clone and open code for sandboxing"
   cd $GIT_SANDBOX; and git clone $argv; and cd `last_modified`
 end
 
@@ -137,7 +96,7 @@ alias ll                'ls -al'
 
 # Tmux
 alias tmux              'tmux -2' # Force tmux to assume the terminal supports 256 colours
-function mx
+function mx --description "Launch a tmux project"
   if test -z $argv
     set SESSION `basename $PWD`
   else
@@ -145,7 +104,7 @@ function mx
   end
 
   if test -x $DOTFILES/tmux/layouts/$SESSION
-    $DOTFILES/tmux/layouts/$SESSION
+    eval $DOTFILES/tmux/layouts/$SESSION
   else
     if ! tmux has-session -t $SESSION
       tmux new-session -s $SESSION -n shell -d
@@ -155,38 +114,36 @@ function mx
 end
 
 # Shell
-alias reload        '. $HOME/.config/fish/config.fish'
+alias reload            '. $HOME/.config/fish/config.fish'
 
 # Prompt
-function parse_git_dirty
-  git diff --quiet HEAD >/dev/null ^&1
-  if test $status = 1
-    set color red
+function fish_prompt --description "Set the left side fish prompt"
+  if test $status -eq 0
+    set color normal # ><((°>
   else
-    set color green
+    set color red # ><((ˣ>
   end
-  echo -n (set_color $color)'±'(set_color normal)
+  set_color $color
+  echo -n  '✖  '
+  set_color normal
 end
 
-function parse_git_branch
-  echo -n (git branch --color ^&- | awk '/*/ {print $2}')
-end
-
-function git_prompt
+function git_prompt --description "Git branch and staus info for prompt"
   git status >/dev/null ^&1
-  if test $status = 0
-    echo -n (parse_git_branch) (parse_git_dirty)
+  if test $status = 0 # In a git repo?
+    git diff --quiet HEAD >/dev/null ^&1
+    if test $status = 1 # Dirty?
+      set color red
+    else
+      set color green
+    end
+    echo -n (set_color $color)(git branch ^&- | awk '/*/ {print $2}')(set_color normal)
+    #echo -n (set_color $color)'±'(set_color normal)
   else
     echo -n ''
   end
 end
 
-function fish_prompt
-  set_color $PROMPT_COLOR
-  echo -n  '✖  '
-  set_color normal
-end
-
-function fish_right_prompt
-  echo -n (basename $PWD) (git_prompt)
+function fish_right_prompt --description "Set the right side fish prompt"
+  echo -n (basename (echo $PWD | sed -e "s|^$HOME|~|")) (git_prompt)
 end
