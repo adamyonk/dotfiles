@@ -4,5 +4,5 @@ vim/vim.symlink/.netrwhist
 vim/vim.symlink/undo
 tags
 
-system/config.symlink/fish/*
+system/config.symlink/*
 !system/config.symlink/fish/config.fish
