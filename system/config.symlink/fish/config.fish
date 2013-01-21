@@ -131,8 +131,10 @@ end
 function git_prompt --description "Git branch and staus info for prompt"
   git status >/dev/null ^&1
   if test $status = 0 # In a git repo?
-    git diff --quiet HEAD >/dev/null ^&1
-    if test $status = 1 # Dirty?
+    #git diff --quiet HEAD >/dev/null ^&1
+    #if test $status = 1 # Dirty?
+    git diff --quiet HEAD ^&-
+    if test $status = 1
       set color red
     else
       set color green
@@ -145,5 +147,6 @@ function git_prompt --description "Git branch and staus info for prompt"
 end
 
 function fish_right_prompt --description "Set the right side fish prompt"
+  #__fish_git_prompt
   echo -n (basename (echo $PWD | sed -e "s|^$HOME|~|")) (git_prompt)
 end
