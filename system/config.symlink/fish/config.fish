@@ -131,8 +131,6 @@ end
 function git_prompt --description "Git branch and staus info for prompt"
   git status >/dev/null ^&1
   if test $status = 0 # In a git repo?
-    #git diff --quiet HEAD >/dev/null ^&1
-    #if test $status = 1 # Dirty?
     git diff --quiet HEAD ^&-
     if test $status = 1
       set color red
