@@ -9,7 +9,7 @@ there respective topical directory.
 
 ## Installation ##
 
-- `git clone https://github.com/adamyonk/dotfiles.gits ~/.dotfiles`
+- `git clone https://github.com/adamyonk/dotfiles.git ~/.dotfiles`
 - `cd ~/.dotfiles`
 - `./script/bootstrap`
 
