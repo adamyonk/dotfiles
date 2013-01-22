@@ -1,4 +1,4 @@
-## Topical dotfiles
+## Topical dotfiles ##
 
 Everything is built around topic areas. If you're adding a new area to your
 forked dotfiles — say, "Java" — you can simply add a `java` directory and put
@@ -9,9 +9,9 @@ there respective topical directory.
 
 ## Installation ##
 
-- `git clone git://github.com/adamyonk/dotfiles ~/.dotfiles`
+- `git clone https://github.com/adamyonk/dotfiles.gits ~/.dotfiles`
 - `cd ~/.dotfiles`
-- `rake install`
+- `./script/bootstrap`
 
 The install rake task will symlink the appropriate files in `.dotfiles` to your
 home directory. Everything is configured and tweaked within `~/.dotfiles`,
@@ -25,10 +25,6 @@ There's a few special files in the hierarchy.
 
 - **bin/**: Anything in `bin/` will get added to your `$PATH` and be made
   available everywhere.
-- **topic/\*.symlink**: Any files ending in `*.symlink` get symlinked into
-  your `$HOME`. This is so you can keep all of those versioned in your dotfiles
-  but still keep those autoloaded files in your home directory. These get
-  symlinked in when you run `./script/bootstrap`.
 
 ## Credit ##
 
