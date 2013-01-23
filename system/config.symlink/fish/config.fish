@@ -1,14 +1,14 @@
 # Variables
 set fish_greeting       ''
-set -g -x BROWSER       open
-set -g -x DOTFILES      $HOME/.dotfiles
-set -g -x GIT_SANDBOX   $PROJECTS/sandbox
-#set -g -x NGINX_PATH    /opt/nginx
-#set -g -x NODE_PATH     /usr/local/lib/node_modules
-#set -g -x PGDATA        /usr/local/var/postgres
+set --global --export BROWSER       open
+set --global --export DOTFILES      $HOME/.dotfiles
+set --global --export GIT_SANDBOX   $PROJECTS/sandbox
+#set --global --export NGINX_PATH    /opt/nginx
+#set --global --export NODE_PATH     /usr/local/lib/node_modules
+#set --global --export PGDATA        /usr/local/var/postgres
 
 # Path
-set -g -x PATH          ./bin $DOTFILES/bin $HOME/.rbenv/bin $HOME/.rbenv/shims /usr/local/bin /usr/bin /bin
+set --global --export PATH          ./bin $DOTFILES/bin $HOME/.rbenv/bin $HOME/.rbenv/shims /usr/local/bin /usr/bin /bin
 
 # Local Settings
 if test -f $HOME/.config/fish/local.fish
@@ -17,11 +17,11 @@ end
 
 # Editor
 if which mvim >/dev/null
-  set -g -x VIM 'mvim -v'
+  set --global --export VIM     'mvim -v'
 else
-  set -g -x VIM 'vim'
+  set --global --export VIM     'vim'
 end
-set -g -x EDITOR        $VIM
+set --global --export   EDITOR  $VIM
 alias e                 $EDITOR
 
 # Git
