@@ -95,7 +95,8 @@ alias last_modified     'ls -t $argv 2> /dev/null | head -n 1'
 alias ll                'ls -al'
 
 # Tmux
-alias tmux              'tmux -2' # Force tmux to assume the terminal supports 256 colours
+set TMUX                (which tmux)
+alias tmux              "$TMUX -2"
 function mx --description "Launch a tmux project"
   if test -z $argv
     set SESSION `basename $PWD`
