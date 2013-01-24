@@ -94,3 +94,6 @@
 [submodule "ruby/chruby"]
 	path = ruby/chruby
 	url = https://github.com/postmodern/chruby.git
+[submodule "vim/vim.symlink/bundle/vim-characterize"]
+	path = vim/vim.symlink/bundle/vim-characterize
+	url = https://github.com/tpope/vim-characterize.git
