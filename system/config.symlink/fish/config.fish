@@ -22,57 +22,57 @@ else
   set --global --export VIM     'vim'
 end
 set --global --export   EDITOR  $VIM
-alias e                 $EDITOR
+function e;             $EDITOR $argv; end
 
 # Git
-alias g                 'git'
-alias ga                'git add'
-alias gaa               'git add --all'
-alias gb                'git branch'
-alias gba               'git branch --all'
-alias gbd               'git branch --delete'
-alias gbr               'git browse'
-alias gbpr              'git browse -- pulls/adamyonk'
-alias gc                'git commit --verbose'
-alias gca               'git commit --amend'
-alias gcl               'git clone'
-alias gco               'git checkout'
-alias gcot              'git checkout --track'
-alias gcp               'git cherry-pick'
-alias gd                'git diff'
-alias gdlc              'git diff --cached HEAD^'
-alias gf                'git fetch'
-alias gfl               'git log -u'
-alias gfp               'git fetch --prune'
-alias gl                'git log --decorate'
-alias gla               'git log --abbrev-commit --all --decorate --graph --pretty=oneline'
-alias glf               'git log --decorate --numstat --pretty=format:"%C(yellow)%h%Cred%d\\ %Creset%s%Cblue\\ [%cn]"'
-alias gm                'git merge'
-alias gmm               'git merge master'
-alias gn                'git n'
-alias gpl               'git pull'
-alias gpr               'git pull-request'
-alias gps               'git push'
-alias gr                'git rebase'
-alias gra               'git rebase --abort'
-alias grc               'git rebase --continue'
-alias gre               'git reset'
-alias gri               'git rebase --interactive'
-alias gs                'git status --branch --short'
-alias gst               'git stash'
-alias gsta              'git stash apply'
-alias gstl              'git stash list'
-alias gsts              'git stash save'
-alias gsub              'git submodule'
-alias gsubu             'git submodule foreach git pull origin master'
-alias gsy               'git pull; and git push'
+function g;             git $argv; end
+function ga;            git add $argv; end
+function gaa;           git add --all $argv; end
+function gb;            git branch $argv; end
+function gba;           git branch --all $argv; end
+function gbd;           git branch --delete $argv; end
+function gbr;           git browse $argv; end
+function gbpr;          git browse -- pulls/adamyonk $argv; end
+function gc;            git commit --verbose $argv; end
+function gca;           git commit --amend $argv; end
+function gcl;           git clone $argv; end
+function gco;           git checkout $argv; end
+function gcot;          git checkout --track $argv; end
+function gcp;           git cherry-pick $argv; end
+function gd;            git diff $argv; end
+function gdlc;          git diff --cached HEAD^ $argv; end
+function gf;            git fetch $argv; end
+function gfl;           git log -u $argv; end
+function gfp;           git fetch --prune $argv; end
+function gl;            git log --decorate $argv; end
+function gla;           git log --abbrev-commit --all --decorate --graph --pretty=oneline $argv; end
+function glf;           git log --decorate --numstat --pretty=format:"%C(yellow)%h%Cred%d\\ %Creset%s%Cblue\\ [%cn]" $argv; end
+function gm;            git merge $argv; end
+function gmm;           git merge master $argv; end
+function gn;            git n $argv; end
+function gpl;           git pull $argv; end
+function gpr;           git pull-request $argv; end
+function gps;           git push $argv; end
+function gr;            git rebase $argv; end
+function gra;           git rebase --abort $argv; end
+function grc;           git rebase --continue $argv; end
+function gre;           git reset $argv; end
+function gri;           git rebase --interactive $argv; end
+function gs;            git status --branch --short $argv; end
+function gst;           git stash $argv; end
+function gsta;          git stash apply $argv; end
+function gstl;          git stash list $argv; end
+function gsts;          git stash save $argv; end
+function gsub;          git submodule $argv; end
+function gsubu;         git submodule foreach git pull origin master $argv; end
+function gsy;           git pull; and git push $argv; end
 
 if which hub >/dev/null
-  alias git             'hub'
+  function git;         hub $argv; end
 end
 
 if which hitch >/dev/null
-  alias unhitch         'hitch --unhitch'
+  function unhitch;     hitch --unhitch; end
   #function hitch
   #  command hitch "$@"
   #  if [[ -s "$HOME/.hitch_export_authors" ]] ; then source "$HOME/.hitch_export_authors" ; fi
@@ -84,19 +84,19 @@ function sandbox --description "Clone and open code for sandboxing"
 end
 
 # Ruby
-alias be                'bundle exec'
-alias bi                'bundle install'
-alias fr                'bundle exec foreman run bundle exec'
+function be;            bundle exec $argv; end
+function bi;            bundle install $argv; end
+function fr;            bundle exec foreman run bundle exec $argv; end
 rbenv rehash >/dev/null ^&1
 
 # System
-alias fliptable         'echo "\n（╯°□°）╯︵ ┻━┻\n"'
-alias last_modified     'ls -t $argv 2> /dev/null | head -n 1'
-alias ll                'ls -al'
+function fliptable;     echo "\n（╯°□°）╯︵ ┻━┻\n"; end
+function last_modified; ls -t $argv 2> /dev/null | head -n 1; end
+function ll;            ls -al $argv; end
 
 # Tmux
-set TMUX                (which tmux)
-alias tmux              "$TMUX -2"
+set --local TMUX        'which tmux'
+function tmux;          $TMUX -2 $argv; end # Force tmux to assume the terminal supports 256 colours
 function mx --description "Launch a tmux project"
   if test -z $argv
     set SESSION `basename $PWD`
@@ -115,7 +115,7 @@ function mx --description "Launch a tmux project"
 end
 
 # Shell
-alias reload            '. $HOME/.config/fish/config.fish'
+function reload;        . $HOME/.config/fish/config.fish $argv; end
 
 # Prompt
 function fish_prompt --description "Set the left side fish prompt"
