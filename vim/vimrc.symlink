@@ -130,8 +130,9 @@ set nofoldenable        " Don't fold by default
 
 set wildmode=list:longest
 set wildmenu                                    " Enable ctrl-n and ctrl-p to scroll through matches
-set wildignore=.hg,.git,.svn                    " Version control
-set wildignore+=*.o,*.obj,*~                    " Stuff to ignore when tab completing
+set wildignore=*.o,*.obj,*~                     " Defualts
+set wildignore+=.hg,.git,.svn                   " Version control
+set wildignore+=tags                            " ctags lists
 set wildignore+=*vim/backups*                   " Vim files
 set wildignore+=*.DS_Store                      " OS X junk
 set wildignore+=*.jpg,*.bmp,*.gif,*.png,*.jpeg  " Binary images
