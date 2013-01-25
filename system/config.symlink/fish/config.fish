@@ -8,7 +8,7 @@ set --global --export GIT_SANDBOX   $PROJECTS/sandbox
 #set --global --export PGDATA        /usr/local/var/postgres
 
 # Path
-set --global --export PATH          ./bin $DOTFILES/bin $HOME/.rbenv/bin $HOME/.rbenv/shims /usr/local/bin /usr/bin /bin
+set --global --export PATH          ./bin $DOTFILES/bin $HOME/.rbenv/bin $HOME/.rbenv/shims /usr/local/bin /usr/local/sbin /usr/bin /usr/sbin /bin /sbin
 
 # Local Settings
 if test -f $HOME/.config/fish/local.fish
