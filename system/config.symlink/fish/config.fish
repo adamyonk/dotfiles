@@ -22,7 +22,7 @@ else
   set --global --export VIM     'vim'
 end
 set --global --export   EDITOR  $VIM
-function e;             $EDITOR $argv; end
+function e;             eval $EDITOR $argv; end
 
 # Git
 function g;             git $argv; end
@@ -90,13 +90,13 @@ function fr;            bundle exec foreman run bundle exec $argv; end
 rbenv rehash >/dev/null ^&1
 
 # System
-function fliptable;     echo "\n（╯°□°）╯︵ ┻━┻\n"; end
+function fliptable;     echo \n（╯°□°）╯︵ ┻━┻\n; end
 function last_modified; ls -t $argv 2> /dev/null | head -n 1; end
 function ll;            ls -al $argv; end
 
 # Tmux
 set --local TMUX        'which tmux'
-function tmux;          $TMUX -2 $argv; end # Force tmux to assume the terminal supports 256 colours
+function tmux;          eval $TMUX -2 $argv; end # Force tmux to assume the terminal supports 256 colours
 function mx --description "Launch a tmux project"
   if test -z $argv
     set SESSION `basename $PWD`
