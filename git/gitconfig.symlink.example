@@ -37,5 +37,5 @@
   enabled = 1
 
 [user]
-  email = adamyonk@me.com
-  name = Adam Jahnke
+  email = AUTHOREMAIL
+  name = AUTHORNAME

@@ -1,92 +1,140 @@
-#!/usr/bin/env bash
+#!/bin/sh
+#
+# bootstrap installs things.
+
+DOTFILES_ROOT="`pwd`"
+
 set -e
 
-RUBY_VERSION="1.9.3-p362" # Ruby version you want to install
+echo ''
 
-DIR=$HOME/.dotfiles
-DESTINATION=$HOME
+info () {
+  printf "  [ \033[00;34m..\033[0m ] $1"
+}
 
-OS=`uname -s`
-KERNEL=`uname -r`
+user () {
+  printf "\r  [ \033[0;33m?\033[0m ] $1 "
+}
 
-touch $HOME/.localrc
-mkdir -p $HOME/.tmp
-mkdir -p $HOME/code/sandbox
-cd $DIR
+success () {
+  printf "\r\033[2K  [ \033[00;32mOK\033[0m ] $1\n"
+}
 
-# Initialize and update git submodules
-echo "Initializing git submodules"
-git submodule --quiet init
-echo "Updating git submodules"
-git submodule --quiet update
+fail () {
+  printf "\r\033[2K  [\033[0;31mFAIL\033[0m] $1\n"
+  echo ''
+  exit
+}
 
-# Install chruby
-if [[ -f /usr/local/share/chruby/chruby.sh ]] ; then
-  source /usr/local/share/chruby/chruby.sh
-else
-  echo "Installing chruby"
-  wget -O chruby-0.3.1.tar.gz https://github.com/postmodern/chruby/archive/v0.3.1.tar.gz
-  tar -xzvf chruby-0.3.1.tar.gz
-  rm -f chruby-0.3.1.tar.gz
-  cd chruby-0.3.1/
-  sudo make install
-  cd ../
-  rm -rf chruby-0.3.1/
+setup_gitconfig () {
+  if ! [ -f git/gitconfig.symlink ]
+  then
+    info 'setup gitconfig'
+
+    user ' - What is your github author name?'
+    read -e git_authorname
+    user ' - What is your github author email?'
+    read -e git_authoremail
+
+    sed -e "s/AUTHORNAME/$git_authorname/g" -e "s/AUTHOREMAIL/$git_authoremail/g" git/gitconfig.symlink.example > git/gitconfig.symlink
+
+    success 'gitconfig'
+  fi
+}
+
+update_submodules () {
+  git submodule --quiet init
+  git submodule --quiet update
+  git submodule --quite foreach git pull origin master
+}
+
+link_files () {
+  ln -s $1 $2
+  success "linked $1 to $2"
+}
+
+install_dotfiles () {
+  info 'installing dotfiles'
+
+  overwrite_all=false
+  backup_all=false
+  skip_all=false
+
+  for source in `find $DOTFILES_ROOT -maxdepth 2 -name \*.symlink`
+  do
+    dest="$HOME/.`basename \"${source%.*}\"`"
+
+    if [ -f $dest ] || [ -d $dest ]
+    then
+
+      overwrite=false
+      backup=false
+      skip=false
+
+      if [ "$overwrite_all" == "false" ] && [ "$backup_all" == "false" ] && [ "$skip_all" == "false" ]
+      then
+        user "File already exists: `basename $source`, what do you want to do? [s]kip, [S]kip all, [o]verwrite, [O]verwrite all, [b]ackup, [B]ackup all?"
+        read -n 1 action
+
+        case "$action" in
+          o )
+            overwrite=true;;
+          O )
+            overwrite_all=true;;
+          b )
+            backup=true;;
+          B )
+            backup_all=true;;
+          s )
+            skip=true;;
+          S )
+            skip_all=true;;
+          * )
+            ;;
+        esac
+      fi
+
+      if [ "$overwrite" == "true" ] || [ "$overwrite_all" == "true" ]
+      then
+        rm -rf $dest
+        success "removed $dest"
+      fi
+
+      if [ "$backup" == "true" ] || [ "$backup_all" == "true" ]
+      then
+        mv $dest $dest\.backup
+        success "moved $dest to $dest.backup"
+      fi
+
+      if [ "$skip" == "false" ] && [ "$skip_all" == "false" ]
+      then
+        link_files $source $dest
+      else
+        success "skipped $source"
+      fi
+
+    else
+      link_files $source $dest
+    fi
+
+  done
+}
+
+setup_gitconfig
+update_submodules
+install_dotfiles
+
+# If we are on a mac, lets install and setup homebrew
+if [ "$(uname -s)" == "Darwin" ]
+then
+  info "installing dependencies"
+  if . bin/dot > /tmp/dotfiles-dot 2>&1
+  then
+    success "dependencies installed"
+  else
+    fail "error installing dependencies"
+  fi
 fi
 
-# Install the latest ruby-build
-cd ruby/ruby-build/
-sudo ./install.sh
-cd ../../
-
-# Check for desired Ruby
-if [[ `ls $HOME/.rubies` =~ $RUBY_VERSION ]] ; then
-  echo "Ruby $RUBY_VERSION installed"
-else
-  echo "Installing Ruby $RUBY_VERSION..."
-  export TMPDIR=$HOME/.tmp # This is needed for systems with low memory
-  ruby-build $RUBY_VERSION $HOME/.rubies/$RUBY_VERSION
-  rm $HOME/.tmp/ruby-build*
-  chruby $RUBY_VERSION
-  gem install bundler
-fi
-
-# Move symlinks into place (from pastjean/dotfiles)
-echo "Installing dotfiles"
-skipAll=""
-overwriteAll=""
-backupAll=""
-for LINK in $DIR/**/*.symlink
-do
-  overwrite=""
-  backup=""
-  skip=""
-
-  FILE=".$(basename $LINK | sed -e 's/\.symlink//')"
-  TARGET="$DESTINATION/$FILE"
-
-  if [[ -f $TARGET  && "$skipAll$overwriteAll$backupAll" == "" ]]
-  then
-    # File exists
-    echo "File $TARGET exists, what do you want to do?\n [s]kip, [S]kip all, [o]verwrite, [O]verwrite all, [b]ackup, [B]ackup all"
-    read action
-    [[ "$action" == "s" ]] && skip="true"
-    [[ "$action" == "S" ]] && skipAll="true"
-    [[ "$action" == "o" ]] && overwrite="true"
-    [[ "$action" == "O" ]] && overwriteAll="true"
-    [[ "$action" == "b" ]] && backup="true"
-    [[ "$action" == "B" ]] && backupAll="true"
-  fi
-
-  if [[ "$skipAll" == "" ]]
-  then
-    [[ "$overwriteAll" == "true" || "$overwrite" == "true" ]] && rm -rf $TARGET
-    [[ "$backupAll" == "true" || "$backup" == "true" ]] && mv "$TARGET" "$DESTINATION/$FILE.backup"
-    ln -s "$LINK" "$TARGET"
-    #echo "Linking $LINK to $TARGET"
-  fi
-done
-
-source $HOME/.zshrc
-
-echo 'Done!'
+echo ''
+echo '  All installed!'
