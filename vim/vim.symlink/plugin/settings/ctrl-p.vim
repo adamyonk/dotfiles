@@ -1,4 +1,3 @@
-"let g:ctrlp_custom_ignore = '\.git$\|\.hg$\|\.svn$'
 let g:ctrlp_dotfiles = 1
 let g:ctrlp_extensions = ['tag']
 let g:ctrlp_map = '<leader>.'

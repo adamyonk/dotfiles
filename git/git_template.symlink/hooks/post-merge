@@ -1,2 +1,2 @@
-#!/bin/sh
+#!/usr/bin/env bash
 .git/hooks/ctags >/dev/null 2>&1 &

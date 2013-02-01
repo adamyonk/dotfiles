@@ -137,8 +137,9 @@ set wildignore+=tags                                " ctags lists
 set wildignore+=*vim/backups*,*.swp,*.spl           " Vim backups, swap, and spell files
 set wildignore+=*.DS_Store                          " OS X junk
 set wildignore+=*.jpg,*.bmp,*.gif,*.png,*.jpeg      " Binary images
-set wildignore+=*/tmp/*,*/log/*                     " Temp and log directories
-set wildignore+=*/vendor/bundle/*,*/vendor/cache/*  " Bundles and cache
+set wildignore+=*/tmp,*/log                         " Temp and log directories
+set wildignore+=*/vendor/bundle,*/vendor/cache      " Bundles and cache
+set wildignore+=*/bin                               " Local bins
 set wildignore+=*.zip                               " Zip files
 
 " Scrolling
@@ -194,8 +195,6 @@ vnoremap > >gv
 " Faster colon
 nnoremap ; :
 vnoremap ; :
-nnoremap : ;
-vnoremap : ;
 
 " Wrap current paragraph
 nnoremap <leader>wp gqip
@@ -210,12 +209,13 @@ nnoremap <c-l> <c-w>l
 nnoremap <leader>rr :redraw!<cr>
 
 " Reload .vimrc
-nnoremap <leader>r :source ~/.vimrc<cr>
+nnoremap <leader>r :source ~/.vimrc<cr>:echo 'Reloaded ~/.vimrc'<cr>
 
 " ctags
-set tags=tags;/
-command! ReloadTags :!/usr/local/bin/ctags --tag-relative -ftags --extra=+f --exclude=.git --exclude=doc --exclude=coverage -R<cr>
-command! GitTags :!.git/hooks/ctags<cr>
+"set tags=tags;/
+"command! ReloadTags :!/usr/local/bin/ctags --tagfile tags --extra=+f --exclude=.git --exclude=doc --exclude=gems --recurse --tag-relative
+"command! GitTags :!.git/hooks/ctags
+nnoremap <leader>t :silent !.git/hooks/ctags<cr>:redraw!<cr>
 
 " sudo write
 command! W w !sudo tee % > /dev/null
