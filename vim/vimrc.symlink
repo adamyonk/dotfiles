@@ -22,7 +22,7 @@ call pathogen#helptags()
 " General Config
 " ==============
 
-let mapleader=','
+let mapleader='\'
 set autoread                    " Reload files changed outside vim
 set backspace=indent,eol,start  " Allow backspace in insert mode
 set clipboard=unnamed           " Use system clipboard
@@ -193,8 +193,8 @@ vnoremap < <gv
 vnoremap > >gv
 
 " Faster colon
-nnoremap ; :
-vnoremap ; :
+"nnoremap ; :
+"vnoremap ; :
 
 " Wrap current paragraph
 nnoremap <leader>wp gqip
@@ -216,6 +216,10 @@ nnoremap <leader>r :source ~/.vimrc<cr>:echo 'Reloaded ~/.vimrc'<cr>
 "command! ReloadTags :!/usr/local/bin/ctags --tagfile tags --extra=+f --exclude=.git --exclude=doc --exclude=gems --recurse --tag-relative
 "command! GitTags :!.git/hooks/ctags
 nnoremap <leader>t :silent !.git/hooks/ctags<cr>:redraw!<cr>
+
+" Custom grep
+command! -nargs=+ CustomGrep :execute "silent grep! -r <args>" | copen | redraw!
+nnoremap <leader>g :CustomGrep 
 
 " sudo write
 command! W w !sudo tee % > /dev/null
