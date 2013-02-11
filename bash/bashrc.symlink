@@ -1,0 +1,139 @@
+# Source ~/.localrc if it exists
+[[ -e $HOME/.localrc ]] && source $HOME/.localrc
+
+export BROWSER=open
+export DOTFILES=$HOME/.dotfiles
+export GIT_SANDBOX=$PROJECTS/sandbox
+
+# Path
+export PATH=./bin
+export PATH=$PATH:$DOTFILES/bin
+export PATH=$PATH:$HOME/.rbenv/bin
+export PATH=$PATH:$HOME/.rbenv/shims
+export PATH=$PATH:/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin
+
+# Editor
+if [[ -f `type -p mvim` ]] ; then
+  export VIM='mvim -v'
+else
+  export VIM=vim
+fi
+export EDITOR=$VIM
+alias e=$EDITOR
+
+# Git
+[[ -f `type -p hub` ]] && alias git='hub'
+alias g='git'
+alias ga='git add'
+alias gaa='git add --all'
+alias gb='git branch'
+alias gba='git branch --all'
+alias gbd='git branch --delete'
+alias gbr='git browse'
+alias gbpr='git browse -- pulls/adamyonk'
+alias gc='git commit --verbose'
+alias gca='git commit --amend'
+alias gcaa='git commit --amend --author'
+alias gcl='git clone'
+alias gco='git checkout'
+alias gcot='git checkout --track'
+alias gcp='git cherry-pick'
+alias gd='git diff'
+alias gdlc='git diff --cached HEAD^'
+alias gf='git fetch'
+alias gfl='git log -u'
+alias gfp='git fetch --prune'
+alias gl='git log --decorate'
+alias gla='git log --abbrev-commit --all --decorate --graph --pretty=oneline'
+alias glf='git log --decorate --numstat --pretty=format:"%C(yellow)%h%Cred%d\\ %Creset%s%Cblue\\ [%cn]"'
+alias gm='git merge'
+alias gmm='git merge master'
+alias gpl='git pull'
+alias gpr='git pull-request'
+alias gps='git push'
+alias gr='git rebase'
+alias gra='git rebase --abort'
+alias grc='git rebase --continue'
+alias gre='git reset'
+alias gri='git rebase --interactive'
+alias gs='git status --branch --short'
+alias gst='git stash'
+alias gsta='git stash apply'
+alias gstl='git stash list'
+alias gsts='git stash save'
+alias gsub='git submodule'
+alias gsubu='git submodule foreach git pull origin master'
+alias gsy='git pull && git push'
+
+if [[ -f `type -p hitch` ]] ; then
+  alias unhitch='hitch --unhitch'
+  hitch() {
+    command hitch "$@"
+    if [[ -s "$HOME/.hitch_export_authors" ]] ; then source "$HOME/.hitch_export_authors" ; fi
+  }
+fi
+
+sandbox() {
+  cd $GIT_SANDBOX && git clone $1 && cd `last_modified`
+}
+
+# Ruby
+alias be='bundle exec'
+alias bi='bundle install'
+alias fr='foreman run'
+rbenv rehash
+
+# System
+alias fliptable='echo \n（╯°□°）╯︵ ┻━┻\n'
+alias last_modified='ls -t $* 2> /dev/null | head -n 1'
+alias ll='ls -al'
+alias reload='source $HOME/.bashrc'
+
+# Tmux
+alias tmux='tmux -2'
+
+function mx() {
+  if [[ -z $1 ]]; then
+    SESSION=$(basename $PWD);
+  else
+    SESSION=$1
+  fi
+
+  if [[ -x $DOTFILES/tmux/layouts/$SESSION ]]; then
+    $DOTFILES/tmux/layouts/$SESSION
+  else
+    if ! tmux has-session -t $SESSION; then
+      tmux new-session -s $SESSION -n shell -d
+    fi
+    tmux attach -t $SESSION
+  fi
+}
+
+# Prompt
+color_green=$'\033[0;32m'
+color_red=$'\033[0;31m'
+color_none=$'\033[0m'
+
+prompt_dir() {
+  #echo -n ${PWD/#$HOME/~}
+  echo -n "$(basename $(echo $PWD | sed -e "s|^$HOME|~|"))"
+}
+
+prompt_git_info() {
+  if git status >/dev/null 2>&1; then
+    if git diff --quiet HEAD; then
+      color=$color_green
+    else
+      color=$color_red
+    fi
+    echo -n "[$color$(git branch | awk '/*/ {print $2}')$color_none]"
+  else
+    echo -n ''
+  fi
+}
+
+prompt() {
+  echo -n "\$(prompt_dir)\$(prompt_git_info)\n ✖$color_none  "
+}
+
+export PS1=$(eval prompt)

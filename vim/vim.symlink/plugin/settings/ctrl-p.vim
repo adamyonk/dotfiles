@@ -3,6 +3,7 @@ let g:ctrlp_extensions = ['tag']
 let g:ctrlp_map = '<leader>.'
 let g:ctrlp_max_height = 5
 let g:ctrlp_open_new_file = 't' " Open newly created files in a new tab
+let g:ctrlp_user_command = ['.git/', 'cd %s && git ls-files']
 
 nnoremap <leader>ja :CtrlP app/assets<cr>
 nnoremap <leader>jm :CtrlP app/models<cr>

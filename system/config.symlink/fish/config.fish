@@ -35,6 +35,7 @@ function gbr;           git browse $argv; end
 function gbpr;          git browse -- pulls/adamyonk $argv; end
 function gc;            git commit --verbose $argv; end
 function gca;           git commit --amend $argv; end
+function gcaa;          git commit --amend --author=$argv; end
 function gcl;           git clone $argv; end
 function gco;           git checkout $argv; end
 function gcot;          git checkout --track $argv; end
@@ -74,8 +75,10 @@ end
 if which hitch >/dev/null
   function unhitch;     hitch --unhitch; end
   #function hitch
-  #  command hitch "$@"
-  #  if [[ -s "$HOME/.hitch_export_authors" ]] ; then source "$HOME/.hitch_export_authors" ; fi
+  #  command hitch $argv
+  #  if test -e "$HOME/.hitch_export_authors"
+  #    source "$HOME/.hitch_export_authors"
+  #  end
   #end
 end
 
@@ -125,7 +128,7 @@ function fish_prompt --description "Set the left side fish prompt"
     set color red # ><((ˣ>
   end
   set_color $color
-  echo -n  '✖  '
+  echo -n ' ✖  '
   set_color normal
 end
 
