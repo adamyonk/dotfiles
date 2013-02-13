@@ -40,9 +40,6 @@
 [submodule "vim/vim.symlink/bundle/vim-surround"]
 	path = vim/vim.symlink/bundle/vim-surround
 	url = https://github.com/tpope/vim-surround.git
-[submodule "vim/vim.symlink/bundle/supertab"]
-	path = vim/vim.symlink/bundle/supertab
-	url = https://github.com/ervandew/supertab.git
 [submodule "vim/vim.symlink/bundle/webapi-vim"]
 	path = vim/vim.symlink/bundle/webapi-vim
 	url = https://github.com/mattn/webapi-vim.git
@@ -97,3 +94,9 @@
 [submodule "vim/vim.symlink/bundle/tagbar"]
 	path = vim/vim.symlink/bundle/tagbar
 	url = https://github.com/majutsushi/tagbar.git
+[submodule "vim/vim.symlink/bundle/vim-ragtag"]
+	path = vim/vim.symlink/bundle/vim-ragtag
+	url = https://github.com/tpope/vim-ragtag.git
+[submodule "vim/vim.symlink/bundle/youcompleteme"]
+	path = vim/vim.symlink/bundle/youcompleteme
+	url = https://github.com/Valloric/YouCompleteMe.git

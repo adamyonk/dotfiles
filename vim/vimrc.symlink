@@ -153,7 +153,7 @@ set sidescroll=1
 " ===========
 
 set statusline=                                 " Override default
-set statusline+=%{fugitive#statusline()[4:-2]}  " Show fugitive git info
+"set statusline+=%{fugitive#statusline()[4:-2]}  " Show fugitive git info
 set statusline+=\ %f\ %m\ %r                    " Show filename/path
 set statusline+=%=                              " Set right-side status info after this line
 set statusline+=%l/%L:%v                        " Set <line number>/<total lines>:<column>
