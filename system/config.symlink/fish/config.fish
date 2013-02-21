@@ -22,6 +22,7 @@ else
   set --global --export VIM     'vim'
 end
 set --global --export   EDITOR  $VIM
+set --global --export   VISUAL  $VIM
 function e;             eval $EDITOR $argv; end
 
 # Git
@@ -98,11 +99,10 @@ function last_modified; ls -t $argv 2> /dev/null | head -n 1; end
 function ll;            ls -al $argv; end
 
 # Tmux
-set --local TMUX        'which tmux'
-function tmux;          eval $TMUX -2 $argv; end # Force tmux to assume the terminal supports 256 colours
+#function tmux;          tmux -2 $argv; end # Force tmux to assume the terminal supports 256 colours
 function mx --description "Launch a tmux project"
   if test -z $argv
-    set SESSION `basename $PWD`
+    set SESSION (basename $PWD)
   else
     set SESSION $argv
   end
@@ -110,7 +110,7 @@ function mx --description "Launch a tmux project"
   if test -x $DOTFILES/tmux/layouts/$SESSION
     eval $DOTFILES/tmux/layouts/$SESSION
   else
-    if ! tmux has-session -t $SESSION
+    if not tmux has-session -t $SESSION
       tmux new-session -s $SESSION -n shell -d
     end
     tmux attach -t $SESSION
@@ -122,7 +122,7 @@ function reload;        . $HOME/.config/fish/config.fish $argv; end
 
 # Prompt
 function fish_prompt --description "Set the left side fish prompt"
-  if test $status -eq 0
+  if test $status = 0
     set color normal # ><((°>
   else
     set color red # ><((ˣ>
