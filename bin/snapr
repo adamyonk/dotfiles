@@ -1,0 +1,25 @@
+#!/usr/bin/env ruby
+
+# snapr
+# Version 0.1
+# Adam Jahnke - http://github.com/adamyonk
+#
+# Requirements
+#   - A DROPBOX_USER_ID environment variable in .localrc
+
+require 'rb-fsevent'
+
+options = { latency: 1 }
+path = `defaults read com.apple.screencapture location | awk '{printf "%s", $0}'`
+watcher = FSEvent.new
+
+# Having to read it this way because of this running as a deamon. Maybe there's a better way...
+dropbox_user = `grep 'DROPBOX_USER_ID' ~/.localrc | awk 'BEGIN { FS = "=" } ; { printf $2 }'`
+
+watcher.watch path, options do |directories|
+  filename = `ls -t #{directories[0]} 2> /dev/null | head -n 1`
+  url = "https://dl.dropbox.com/u/#{dropbox_user}/Screenshots/#{filename}"
+  `printf "#{url}" | pbcopy`
+end
+
+watcher.run
