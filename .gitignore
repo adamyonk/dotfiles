@@ -3,6 +3,7 @@
 vim/vim.symlink/.netrwhist
 vim/vim.symlink/undo
 tags
+.ctrlp-cache
 
 system/config.symlink/hub
 system/config.symlink/libimobiledevice/
