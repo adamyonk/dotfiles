@@ -117,6 +117,9 @@ function mx --description "Launch a tmux project"
   end
 end
 
+# Vagrant
+function v;             vagrant $argv; end
+
 # Shell
 function reload;        . $HOME/.config/fish/config.fish $argv; end
 
