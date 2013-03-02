@@ -119,6 +119,11 @@ end
 
 # Vagrant
 function v;             vagrant $argv; end
+function vd;            vagrant destroy $argv; end
+function vh;            vagrant halt $argv; end
+function vp;            vagrant provision $argv; end
+function vr;            vagrant reload $argv; end
+function vu;            vagrant up $argv; end
 
 # Shell
 function reload;        . $HOME/.config/fish/config.fish $argv; end
