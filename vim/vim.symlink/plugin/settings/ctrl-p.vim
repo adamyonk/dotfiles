@@ -1,12 +1,10 @@
-let g:ctrlp_dotfiles = 1
-let g:ctrlp_extensions = ['tag']
-let g:ctrlp_map = '<leader>.'
-let g:ctrlp_max_height = 5
-let g:ctrlp_open_new_file = 't' " Open newly created files in a new tab
-let g:ctrlp_user_command = ['.git/', 'cd %s && git ls-files']
-
-nnoremap <leader>ja :CtrlP app/assets<cr>
-nnoremap <leader>jm :CtrlP app/models<cr>
-nnoremap <leader>jv :CtrlP app/views<cr>
-nnoremap <leader>jc :CtrlP app/controllers<cr>
-nnoremap <leader>jh :CtrlP app/helpers<cr>
+let g:ctrlp_map = '<leader>p' " set the default opening command to use when pressing the above mapping
+let g:ctrlp_max_height = 5 " set the maximum height of the match window
+let g:ctrlp_clear_cache_on_exit = 1 " set this to 0 to enable cross-session caching by not deleting the cache files upon exiting Vim
+"let g:ctrlp_cache_dir = '.ctrlp-cache' " set the directory to store the cache files
+let g:ctrlp_show_hidden = 0 " set this to 1 if you want CtrlP to scan for dotfiles and dotdirs
+let g:ctrlp_user_command = ['.git/', 'cd %s && git ls-files'] " Specify an external tool to use for listing files instead of using Vim's |globpath()|. Use %s in place of the target directory
+let g:ctrlp_open_new_file = 'v' " use this option to specify how the newly created file is to be opened when pressing <c-y>
+let g:ctrlp_open_multiple_files = 'v' " if non-zero, this will enable opening multiple files with <c-z> and <c-o>
+let g:ctrlp_jump_to_buffer = 'Et' " when opening a file, if it's already open in a window somewhere, CtrlP will try to jump to it instead of opening a new instance
+let g:ctrlp_extensions = ['tag', 'quickfix'] " extensions are optional. to enable an extension, add its name to the variable g:ctrlp_extensions
