@@ -242,7 +242,7 @@ nnoremap <leader>rr :redraw!<cr>
 nnoremap <leader>r :source ~/.vimrc<cr>:echo 'Reloaded ~/.vimrc'<cr>
 " custom grep
 command! -nargs=+ CustomGrep :execute "silent grep! -r <args>" | copen | redraw!
-nnoremap <leader>g :CustomGrep
+nnoremap <leader>g :CustomGrep 
 " sudo write
 command! W w !sudo tee % > /dev/null
 " wrap selection
