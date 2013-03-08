@@ -1,5 +1,7 @@
 .DS_Store
 
+git/gitconfig.symlink
+
 vim/vim.symlink/.netrwhist
 vim/vim.symlink/undo
 tags
