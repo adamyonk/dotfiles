@@ -34,7 +34,11 @@ set number " show the line number for each line
 " 5 syntax, highlighting and spelling
 " =============================================================================
 
-set background=dark " "dark" or "light"; the background color brightness
+if $ITERM_PROFILE == 'Solarized Light'
+  set background=light " "dark" or "light"; the background color brightness
+elseif $ITERM_PROFILE == 'Solarized Light'
+  set background=dark " "dark" or "light"; the background color brightness
+end
 set hlsearch " highlight all matches for the last used search pattern
 set cursorline " highlight the screen line of the cursor
 set colorcolumn=+1 " columns to highlight
