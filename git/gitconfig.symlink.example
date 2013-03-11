@@ -1,3 +1,46 @@
+[alias]
+  # some of these depend on hub
+  a       = git add
+  aa      = add --all
+  b       = branch
+  ba      = branch --all
+  bd      = branch --delete
+  br      = browse
+  bpr     = browse -- pulls/adamyonk
+  c       = commit --verbose
+  ca      = commit --amend
+  caa     = commit --amend --author
+  cl      = clone
+  co      = checkout
+  cot     = checkout --track
+  cp      = cherry-pick
+  d       = diff
+  dlc     = diff --cached HEAD^
+  f       = fetch
+  fl      = log -u
+  fp      = fetch --prune
+  l       = log --decorate
+  la      = log --abbrev-commit --all --decorate --graph --pretty=oneline
+  lf      = log --decorate --numstat --pretty=format:"%C(yellow)%h%Cred%d\\ %Creset%s%Cblue\\ [%cn]"
+  m       = merge
+  mm      = merge master
+  pl      = pull
+  pr      = pull-request
+  ps      = push
+  r       = rebase
+  ra      = rebase --abort
+  rc      = rebase --continue
+  re      = reset
+  ri      = rebase --interactive
+  s       = status --branch --short
+  st      = stash
+  sta     = stash apply
+  stl     = stash list
+  sts     = stash save
+  sub     = submodule
+  subu    = submodule foreach git pull origin master
+  w       = diff --color-words
+
 [branch]
   autosetuprebase = always
 
@@ -5,15 +48,15 @@
   helper = cache
 
 [color]
-  branch = auto
-  diff = auto
-  status = auto
-  ui = 1
+  branch    = auto
+  diff      = auto
+  status    = auto
+  ui =      1
 
 [core]
-  editor = $EDITOR
-  excludesfile = ~/.gitignore
-  quotepath = false
+  editor          = $EDITOR
+  excludesfile    = ~/.gitignore
+  quotepath       = false
 
 [github]
   user = adamyonk
@@ -37,5 +80,5 @@
   enabled = 1
 
 [user]
-  email = AUTHOREMAIL
-  name = AUTHORNAME
+  email     = AUTHOREMAIL
+  name      = AUTHORNAME
