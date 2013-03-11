@@ -26,48 +26,13 @@ set --global --export   VISUAL  $VIM
 function e;             eval $EDITOR $argv; end
 
 # Git
-function g;             git $argv; end
-function ga;            git add $argv; end
-function gaa;           git add --all $argv; end
-function gb;            git branch $argv; end
-function gba;           git branch --all $argv; end
-function gbd;           git branch --delete $argv; end
-function gbr;           git browse $argv; end
-function gbpr;          git browse -- pulls/adamyonk $argv; end
-function gc;            git commit --verbose $argv; end
-function gca;           git commit --amend $argv; end
-function gcaa;          git commit --amend --author=$argv; end
-function gcl;           git clone $argv; end
-function gco;           git checkout $argv; end
-function gcot;          git checkout --track $argv; end
-function gcp;           git cherry-pick $argv; end
-function gd;            git diff $argv; end
-function gdlc;          git diff --cached HEAD^ $argv; end
-function gf;            git fetch $argv; end
-function gfl;           git log -u $argv; end
-function gfp;           git fetch --prune $argv; end
-function gl;            git log --decorate $argv; end
-function gla;           git log --abbrev-commit --all --decorate --graph --pretty=oneline $argv; end
-function glf;           git log --decorate --numstat --pretty=format:"%C(yellow)%h%Cred%d\\ %Creset%s%Cblue\\ [%cn]" $argv; end
-function gm;            git merge $argv; end
-function gmm;           git merge master $argv; end
-function gn;            git n $argv; end
-function gpl;           git pull $argv; end
-function gpr;           git pull-request $argv; end
-function gps;           git push $argv; end
-function gr;            git rebase $argv; end
-function gra;           git rebase --abort $argv; end
-function grc;           git rebase --continue $argv; end
-function gre;           git reset $argv; end
-function gri;           git rebase --interactive $argv; end
-function gs;            git status --branch --short $argv; end
-function gst;           git stash $argv; end
-function gsta;          git stash apply $argv; end
-function gstl;          git stash list $argv; end
-function gsts;          git stash save $argv; end
-function gsub;          git submodule $argv; end
-function gsubu;         git submodule foreach git pull origin master $argv; end
-function gsy;           git pull; and git push $argv; end
+function g
+  if test -z $argv
+    git status --branch --short
+  else
+    git $argv
+  end
+end
 
 if which hub >/dev/null
   function git;         hub $argv; end
@@ -75,12 +40,6 @@ end
 
 if which hitch >/dev/null
   function unhitch;     hitch --unhitch; end
-  #function hitch
-  #  command hitch $argv
-  #  if test -e "$HOME/.hitch_export_authors"
-  #    source "$HOME/.hitch_export_authors"
-  #  end
-  #end
 end
 
 function sandbox --description "Clone and open code for sandboxing"
@@ -97,9 +56,9 @@ rbenv rehash >/dev/null ^&1
 function fliptable;     echo \n（╯°□°）╯︵ ┻━┻\n; end
 function last_modified; ls -t $argv 2> /dev/null | head -n 1; end
 function ll;            ls -al $argv; end
+function trash;         mv $argv ~/.Trash; end
 
 # Tmux
-#function tmux;          tmux -2 $argv; end # Force tmux to assume the terminal supports 256 colours
 function mx --description "Launch a tmux project"
   if test -z $argv
     set SESSION (basename $PWD)
