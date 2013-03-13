@@ -34,16 +34,22 @@ set number " show the line number for each line
 " 5 syntax, highlighting and spelling
 " =============================================================================
 
-if $ITERM_PROFILE == 'Solarized Light'
-  set background=light " "dark" or "light"; the background color brightness
-elseif $ITERM_PROFILE == 'Solarized Light'
-  set background=dark " "dark" or "light"; the background color brightness
-end
+function! SetBackgroundForIterm()
+  if $ITERM_PROFILE == "Solarized Light"
+    colorscheme solarized
+    set background=light
+  elseif $ITERM_PROFILE == "Solarized Dark"
+    colorscheme solarized
+    set background=dark
+  else
+    colorscheme solarized
+    set background=dark
+  end
+endfunction
 set hlsearch " highlight all matches for the last used search pattern
 set cursorline " highlight the screen line of the cursor
 set colorcolumn=+1 " columns to highlight
 set spellfile=~/.vim/spellfile.utf-8.add " file that "zg" adds good words to
-colorscheme solarized " use the solarized colorscheme
 syntax enable " switch on syntax highlighting
 filetype plugin on " enable loading the plugin files for specific file types
 filetype indent on " enable loading the indent file for specific file types
@@ -205,6 +211,8 @@ set viminfo='100,f1 " list that specifies what to write in the viminfo file
 " mappings
 " =============================================================================
 
+" set background based on iTerm ENV
+map <leader>b :call SetBackgroundForIterm()<CR>
 " reload tags
 "command! ReloadTags :!/usr/local/bin/ctags --tagfile tags --extra=+f --exclude=.git --exclude=doc --exclude=gems --recurse --tag-relative
 "command! GitTags :!.git/hooks/ctags
