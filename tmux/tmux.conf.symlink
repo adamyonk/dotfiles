@@ -1,107 +1,105 @@
-set -g default-terminal   'screen-256color'
-set -g prefix             C-a
-set -g status-keys        vi
-set -g escape-time        0
-set -g repeat-time        100
-set -g history-limit      10000
-set -g mode-mouse         on
+set-option -g           default-terminal                'screen-256color'
+set-option -g           prefix                          C-a
+set-option -g           status-keys                     vi
+set-option -g           escape-time                     0
+set-option -g           repeat-time                     100
+set-option -g           history-limit                   10000
+set-option -g           mode-mouse                      on
 
-setw -g mode-keys         vi
-setw -g mode-mouse        on
-setw -g aggressive-resize on
-
-# Keybindings
-unbind "'"
-unbind %
-unbind &
-unbind '"'
-unbind ,
-unbind .
-unbind C-a
-unbind C-b
-unbind H
-unbind J
-unbind K
-unbind L
-unbind [
-unbind h
-unbind j
-unbind k
-unbind l
-unbind l
-unbind n
-unbind p
-unbind u
-unbind y
-
-bind ,                previous-window
-bind .                next-window
-bind <                swap-window -t :-
-bind >                swap-window -t :+
-bind C-a              last-window
-bind C-h              select-window -t :-
-bind C-l              select-window -t :+
-bind Escape           copy-mode
-bind H                resize-pane -L 10
-bind J                resize-pane -D 10
-bind K                resize-pane -U 10
-bind L                resize-pane -R 10
-bind N                command-prompt 'rename-session %%'
-bind Q                confirm-before kill-server
-bind R                refresh-client
-bind X                kill-window
-bind a                send-key C-a
-bind h                select-pane -L
-bind j                select-pane -D
-bind k                select-pane -U
-bind l                select-pane -R
-bind n                command-prompt 'rename-window %%'
-bind p                paste-buffer
-bind q                confirm-before kill-session
-bind r                source-file ~/.tmux.conf; display 'Reloaded configuration'
-bind -t vi-copy v     begin-selection
-bind x                kill-pane
-bind -t vi-copy y     copy-selection; run-shell 'tmux show-buffer | reattach-to-user-namespace pbcopy'
-bind-key y            run-shell 'tmux show-buffer | reattach-to-user-namespace pbcopy'
-#bind u               capture-pane; save-buffer /tmp/tmux-buffer; run-shell "$TERMINAL -e 'cat /tmp/tmux-buffer | urlview'"
+set-option -gw          mode-keys                       vi
+set-option -gw          mode-mouse                      on
+set-option -gw          aggressive-resize               on
 
 # SSH-friendly splits
-bind -                run-shell 'exec tmux-ssh-split -v'
-bind _                run-shell 'exec tmux-ssh-split -v'
-bind \                run-shell 'exec tmux-ssh-split -h'
-bind |                run-shell 'exec tmux-ssh-split -h'
 
-# Start windows/panes at 1 not 0
-set -g base-index                     1
-setw -g pane-base-index               1
+# panes
+set-option -g           base-index                      1
+set-option -g           pane-active-border-bg           colour2
+set-option -g           pane-active-border-fg           colour2
+set-option -g           pane-border-bg                  colour11
+set-option -g           pane-border-fg                  colour11
+set-option -gw          pane-base-index                 1
 
-# Panes
-set -g pane-active-border-bg          colour2
-set -g pane-active-border-fg          colour2
-set -g pane-border-bg                 colour11
-set -g pane-border-fg                 colour11
+# status bar
+set-option -g           set-titles                      off # tmux window titling for X
+set-option -g           status-bg                       colour10
+set-option -g           status-fg                       colour7
+set-option -g           status-interval                 15
+set-option -g           status-left                     " #S  ✖"
+set-option -g           status-left-length              60
+set-option -g           status-right                    " #(hostname)  %m|%d  %H:%M "
+set-option -g           status-right-length             60
+set-option -g           status-utf8                     on
+set-option -g           visual-activity                 on
+set-option -g           visual-content                  on
+set-option -gw          automatic-rename                off
+set-option -gw          monitor-activity                off
+set-option -gw          monitor-content                 off
+set-option -gw          window-status-attr              bold
+set-option -gw          window-status-current-attr      bold
+set-option -gw          window-status-current-bg        colour2
+set-option -gw          window-status-current-fg        colour7
+set-option -gw          window-status-current-format    ' #W '
+set-option -gw          window-status-format            ' #W '
 
-# Status bar
-set -g set-titles                     off # tmux window titling for X
-set -g visual-activity                on
-set -g visual-content                 on
-set -g status-utf8                    on
-set -g status-bg                      colour10
-set -g status-fg                      colour7
-set -g status-interval                15
-set -g status-left                    " #S  ✖"
-set -g status-left-length             60
-set -g status-right                   " #(hostname)  %m|%d  %H:%M "
-set -g status-right-length            60
-setw -g automatic-rename              off
-setw -g monitor-activity              off
-setw -g monitor-content               off
-setw -g window-status-attr            bold
-setw -g window-status-format          ' #W '
-setw -g window-status-current-bg      colour2
-setw -g window-status-current-fg      colour7
-setw -g window-status-current-attr    bold
-setw -g window-status-current-format  ' #W '
+# keybindings
+unbind-key "'"
+unbind-key %
+unbind-key &
+unbind-key '"'
+unbind-key ,
+unbind-key .
+unbind-key C-a
+unbind-key C-b
+unbind-key H
+unbind-key J
+unbind-key K
+unbind-key L
+unbind-key [
+unbind-key h
+unbind-key j
+unbind-key k
+unbind-key l
+unbind-key l
+unbind-key n
+unbind-key p
+unbind-key u
+unbind-key y
 
-# Overrides
+bind-key -              run-shell 'exec tmux-ssh-split -v'
+bind-key \              run-shell 'exec tmux-ssh-split -h'
+bind-key _              run-shell 'exec tmux-ssh-split -v'
+bind-key |              run-shell 'exec tmux-ssh-split -h'
+bind-key ,              previous-window
+bind-key -t vi-copy v   begin-selection
+bind-key -t vi-copy y   copy-selection; run-shell 'tmux show-buffer | reattach-to-user-namespace pbcopy'
+bind-key .              next-window
+bind-key <              swap-window -t :-
+bind-key >              swap-window -t :+
+bind-key C-a            last-window
+bind-key C-h            select-window -t :-
+bind-key C-l            select-window -t :+
+bind-key Escape         copy-mode
+bind-key H              resize-pane -L 10
+bind-key J              resize-pane -D 10
+bind-key K              resize-pane -U 10
+bind-key L              resize-pane -R 10
+bind-key N              command-prompt 'rename-session %%'
+bind-key Q              confirm-before kill-server
+bind-key R              refresh-client
+bind-key X              kill-window
+bind-key a              send-key C-a
+bind-key h              select-pane -L
+bind-key j              select-pane -D
+bind-key k              select-pane -U
+bind-key l              select-pane -R
+bind-key n              command-prompt 'rename-window %%'
+bind-key p              paste-buffer
+bind-key q              confirm-before kill-session
+bind-key r              source-file ~/.tmux.conf; display 'Reloaded configuration'
+bind-key u              capture-pane; save-buffer /tmp/tmux-buffer; run-shell "$TERMINAL -e 'cat /tmp/tmux-buffer | urlview'"
+bind-key x              kill-pane
+bind-key y              run-shell 'tmux show-buffer | reattach-to-user-namespace pbcopy'
+
+# overrides
 if-shell 'test "$(uname)" = "Darwin"' 'source ~/.tmux-osx.conf'
