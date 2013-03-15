@@ -46,6 +46,7 @@ function! SetBackgroundForIterm()
     set background=dark
   end
 endfunction
+call SetBackgroundForIterm()
 set hlsearch " highlight all matches for the last used search pattern
 set cursorline " highlight the screen line of the cursor
 set colorcolumn=+1 " columns to highlight
