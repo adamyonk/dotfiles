@@ -3,13 +3,12 @@
 <plist version="1.0">
 <dict>
   <key>Label</key>
-  <string>com.adamyonk.waldo</string>
+  <string>com.adamyonk.snapr</string>
 
-  <key>KeepAlive</key>
-  <true/>
-
-  <key>RunAtLoad</key>
-  <true/>
+  <key>WatchPaths</key>
+  <array>
+    <string>/Users/adamyonk/Dropbox/Public/Screenshots</string>
+  </array>
 
   <key>ProgramArguments</key>
   <array>

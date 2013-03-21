@@ -27,7 +27,7 @@ function e;             eval $EDITOR $argv; end
 
 # Git
 function g
-  if test -z $argv
+  if test -z "$argv"
     git status --branch --short
   else
     git $argv
