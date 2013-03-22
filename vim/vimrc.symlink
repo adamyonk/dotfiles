@@ -245,10 +245,10 @@ vnoremap > >gv
 " wrap current paragraph
 nnoremap <leader>wp gqip
 " split window navigation
-nnoremap <c-j> <c-w>j
-nnoremap <c-k> <c-w>k
-nnoremap <c-h> <c-w>h
-nnoremap <c-l> <c-w>l
+"nnoremap <c-j> <c-w>j
+"nnoremap <c-k> <c-w>k
+"nnoremap <c-h> <c-w>h
+"nnoremap <c-l> <c-w>l
 " redraw!
 nnoremap <leader>rr :redraw!<cr>
 " reload .vimrc
@@ -268,3 +268,33 @@ vmap <leader>[ c[<C-R>"]<esc>
 if filereadable(expand('~/.vimrc.local'))
   source ~/.vimrc.local
 endif
+
+" like `wincmd` but also change tmux panes instead of vim windows when needed.
+let g:tmux_is_last_pane = 0
+au WinEnter * let g:tmux_is_last_pane = 0
+function! TmuxWinCmd(direction)
+  let nr = winnr()
+  let tmux_last_pane = (a:direction == 'p' && g:tmux_is_last_pane)
+  if !tmux_last_pane
+    " try to switch windows within vim
+    exec 'wincmd ' . a:direction
+  endif
+  " Forward the switch panes command to tmux if:
+  " a) we're toggling between the last tmux pane;
+  " b) we tried switching windows in vim but it didn't have effect.
+  if tmux_last_pane || nr == winnr()
+    let cmd = 'tmux select-pane -' . tr(a:direction, 'phjkl', 'lLDUR')
+    call system(cmd)
+    redraw! " because `exec` fucked up the screen. why is this needed?? arrghh
+    let g:tmux_is_last_pane = 1
+  else
+    let g:tmux_is_last_pane = 0
+  endif
+endfunction
+
+" navigate between split windows/tmux panes
+nnoremap <c-j> :call TmuxWinCmd('j')<cr>
+nnoremap <c-k> :call TmuxWinCmd('k')<cr>
+nnoremap <c-h> :call TmuxWinCmd('h')<cr>
+nnoremap <c-l> :call TmuxWinCmd('l')<cr>
+nnoremap <c-\> :call TmuxWinCmd('p')<cr>

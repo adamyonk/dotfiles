@@ -63,6 +63,7 @@ unbind-key l
 unbind-key l
 unbind-key n
 unbind-key p
+unbind-key r
 unbind-key u
 unbind-key y
 
@@ -100,6 +101,11 @@ bind-key r              source-file ~/.tmux.conf; display 'Reloaded configuratio
 bind-key u              capture-pane; save-buffer /tmp/tmux-buffer; run-shell "$TERMINAL -e 'cat /tmp/tmux-buffer | urlview'"
 bind-key x              kill-pane
 bind-key y              run-shell 'tmux show-buffer | reattach-to-user-namespace pbcopy'
+# Smart pane switching with awareness of vim splits
+bind-key -n C-k         run-shell 'tmux-vim-select-pane -U'
+bind-key -n C-j         run-shell 'tmux-vim-select-pane -D'
+bind-key -n C-h         run-shell 'tmux-vim-select-pane -L'
+bind-key -n C-l         run-shell 'tmux-vim-select-pane -R'
 
 # overrides
 if-shell 'test "$(uname)" = "Darwin"' 'source ~/.tmux-osx.conf'

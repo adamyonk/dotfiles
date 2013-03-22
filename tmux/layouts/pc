@@ -8,7 +8,7 @@ function load_session() {
   local SESSION=pc
 
   if ! tmux has-session -t $SESSION; then
-    tmux new-session -s $SESSION -n vim -d
+    tmux new-session -s $SESSION -n editor -d
     tmux new-window -n shell -t $SESSION
     tmux new-window -n console -t $SESSION
     tmux new-window -n guard -t $SESSION
