@@ -1,6 +1,7 @@
 .DS_Store
 
 git/gitconfig.symlink
+git/gitconfig.local.symlink
 
 vim/vim.symlink/.netrwhist
 vim/vim.symlink/undo
