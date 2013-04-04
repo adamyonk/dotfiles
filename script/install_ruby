@@ -2,7 +2,7 @@
 set -e
 
 #ruby_version="1.9.3-p362" # Ruby version you want to install
-printf " - What Ruby do you want to install?"
+printf " - What Ruby do you want to install? "
 read -e ruby_version
 
 mkdir -p $HOME/.tmp
