@@ -44,7 +44,7 @@ setup_gitconfig () {
 update_submodules () {
   git submodule --quiet init
   git submodule --quiet update
-  git submodule --quite foreach git pull origin master
+  git submodule --quiet foreach git pull origin master
 }
 
 link_files () {
