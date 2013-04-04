@@ -39,7 +39,7 @@ else
   echo "Installing Ruby $ruby_version..."
   export TMPDIR=$HOME/.tmp # This is needed for systems with low memory
   ruby-build $ruby_version $HOME/.rubies/$ruby_version
-  rm $HOME/.tmp/ruby-build*
+  rm -rf $HOME/.tmp/ruby-build*
   chruby $ruby_version
   gem install bundler
 fi
