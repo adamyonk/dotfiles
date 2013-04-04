@@ -8,8 +8,6 @@ export GIT_SANDBOX=$PROJECTS/sandbox
 # Path
 export PATH=./bin
 export PATH=$PATH:$DOTFILES/bin
-export PATH=$PATH:$HOME/.rbenv/bin
-export PATH=$PATH:$HOME/.rbenv/shims
 export PATH=$PATH:/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin
 
 # Editor
@@ -24,46 +22,6 @@ alias e=$EDITOR
 # Git
 [[ -f `type -p hub` ]] && alias git='hub'
 alias g='git'
-alias ga='git add'
-alias gaa='git add --all'
-alias gb='git branch'
-alias gba='git branch --all'
-alias gbd='git branch --delete'
-alias gbr='git browse'
-alias gbpr='git browse -- pulls/adamyonk'
-alias gc='git commit --verbose'
-alias gca='git commit --amend'
-alias gcaa='git commit --amend --author'
-alias gcl='git clone'
-alias gco='git checkout'
-alias gcot='git checkout --track'
-alias gcp='git cherry-pick'
-alias gd='git diff'
-alias gdlc='git diff --cached HEAD^'
-alias gf='git fetch'
-alias gfl='git log -u'
-alias gfp='git fetch --prune'
-alias gl='git log --decorate'
-alias gla='git log --abbrev-commit --all --decorate --graph --pretty=oneline'
-alias glf='git log --decorate --numstat --pretty=format:"%C(yellow)%h%Cred%d\\ %Creset%s%Cblue\\ [%cn]"'
-alias gm='git merge'
-alias gmm='git merge master'
-alias gpl='git pull'
-alias gpr='git pull-request'
-alias gps='git push'
-alias gr='git rebase'
-alias gra='git rebase --abort'
-alias grc='git rebase --continue'
-alias gre='git reset'
-alias gri='git rebase --interactive'
-alias gs='git status --branch --short'
-alias gst='git stash'
-alias gsta='git stash apply'
-alias gstl='git stash list'
-alias gsts='git stash save'
-alias gsub='git submodule'
-alias gsubu='git submodule foreach git pull origin master'
-alias gsy='git pull && git push'
 
 if [[ -f `type -p hitch` ]] ; then
   alias unhitch='hitch --unhitch'
@@ -81,16 +39,17 @@ sandbox() {
 alias be='bundle exec'
 alias bi='bundle install'
 alias fr='foreman run'
-rbenv rehash
+source /usr/local/share/chruby/chruby.sh
+source /usr/local/share/chruby/auto.sh
+chruby 1.9.3-p392
 
 # System
 alias fliptable='echo \n（╯°□°）╯︵ ┻━┻\n'
-alias last_modified='ls -t $* 2> /dev/null | head -n 1'
 alias ll='ls -al'
-alias reload='source $HOME/.bashrc'
+alias reload='. $HOME/.bash_profile'
 
 # Tmux
-alias tmux='tmux -2'
+#alias tmux='tmux -2'
 
 function mx() {
   if [[ -z $1 ]]; then
@@ -133,7 +92,7 @@ prompt_git_info() {
 }
 
 prompt() {
-  echo -n "\$(prompt_dir)\$(prompt_git_info)\n ✖$color_none  "
+  echo -n "\$(prompt_dir) ✖$color_none  "
 }
 
 export PS1=$(eval prompt)
