@@ -1,10 +1,9 @@
 #!/bin/sh
-#
+set -e
+
 # bootstrap installs things.
 
 DOTFILES_ROOT="`pwd`"
-
-set -e
 
 echo ''
 
