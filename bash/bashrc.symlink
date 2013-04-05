@@ -41,7 +41,7 @@ alias bi='bundle install'
 alias fr='foreman run'
 source /usr/local/share/chruby/chruby.sh
 source /usr/local/share/chruby/auto.sh
-chruby 1.9.3-p392
+chruby 1.9.3
 
 # System
 alias fliptable='echo \n（╯°□°）╯︵ ┻━┻\n'
