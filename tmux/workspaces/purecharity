@@ -1,26 +1,24 @@
 #!/bin/sh
 
 # Running some commands to prep the project before launching tmux
-cd ~/.code/adamyonk/thefranzfamily
+cd ~/.code/causemetric/purecharity
 
 # Setup and run function to setup new tmux session
 function load_session() {
-  local SESSION=ff
+  local SESSION=purecharity
 
   if ! tmux has-session -t $SESSION; then
-    tmux new-session -s $SESSION -n vim -d
+    tmux new-session -s $SESSION -n editor -d
     tmux new-window -n shell -t $SESSION
     tmux new-window -n console -t $SESSION
-    tmux new-window -n tests -t $SESSION
+    tmux new-window -n guard -t $SESSION
     tmux new-window -n server -t $SESSION
-    tmux new-window -n logs -t $SESSION
 
     tmux send-keys -t $SESSION:1 'e' C-m ':CtrlP' C-m
-    tmux send-keys -t $SESSION:2 'git pull' C-m 'fliptable' C-m
+    tmux send-keys -t $SESSION:2 'git pull' C-m 'bundle install' C-m 'bundle exec rake db:migrate' C-m 'fliptable' C-m
     tmux send-keys -t $SESSION:3 'bundle exec foreman run bundle exec rails console' C-m
-    tmux send-keys -t $SESSION:4 'bundle exec rake spec'
+    tmux send-keys -t $SESSION:4 'bundle exec guard'
     tmux send-keys -t $SESSION:5 'bundle exec foreman start' C-m
-    tmux send-keys -t $SESSION:6 'tail -f log/development.log' C-m
 
     tmux select-window -t $SESSION:1
   fi

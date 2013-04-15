@@ -66,8 +66,8 @@ function mx --description "Launch a tmux project"
     set SESSION $argv
   end
 
-  if test -x $DOTFILES/tmux/layouts/$SESSION
-    eval $DOTFILES/tmux/layouts/$SESSION
+  if test -x $DOTFILES/tmux/workspaces/$SESSION
+    eval $DOTFILES/tmux/workspaces/$SESSION
   else
     if not tmux has-session -t $SESSION
       tmux new-session -s $SESSION -n shell -d

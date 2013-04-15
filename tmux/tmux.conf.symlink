@@ -85,6 +85,7 @@ bind-key H              resize-pane -L 10
 bind-key J              resize-pane -D 10
 bind-key K              resize-pane -U 10
 bind-key L              resize-pane -R 10
+bind-key +              resize-pane -Z
 bind-key N              command-prompt 'rename-session %%'
 bind-key Q              confirm-before kill-server
 bind-key R              refresh-client

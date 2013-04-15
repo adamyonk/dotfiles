@@ -1,19 +1,17 @@
 #!/bin/sh
 
 # Running some commands to prep the project before launching tmux
-cd ~/.code/adamyonk/adamyonk
+cd ~/.dotfiles
 
 # Setup and run function to setup new tmux session
 function load_session() {
-  local SESSION=ay
+  local SESSION=dotfiles
 
   if ! tmux has-session -t $SESSION; then
     tmux new-session -s $SESSION -n editor -d
     tmux new-window -n shell -t $SESSION
-    tmux new-window -n server -t $SESSION
 
     tmux send-keys -t $SESSION:1 'e' C-m ':CtrlP' C-m
-    tmux send-keys -t $SESSION:3 'cd src' C-m 'nanoc autocompile -p 3002 -H thin' C-m
 
     tmux select-window -t $SESSION:1
   fi
