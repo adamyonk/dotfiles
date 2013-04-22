@@ -1,16 +1,9 @@
-#if [[ -n $SSH_CONNECTION ]]; then
-#  export PS1='%m:%3~$(git_info_for_prompt)%# '
-#else
-#  export PS1='%3~$(git_info_for_prompt)%# '
-#  export RPS1='$(git_info_for_prompt)'
-#fi
-
 export LSCOLORS='exfxcxdxbxegedabagacad'
 export CLICOLOR=true
 
-fpath=($ZSH/functions $fpath)
+fpath=($DOTFILES/zsh/functions $fpath)
 
-autoload -U $ZSH/functions/*(:t)
+autoload -U $DOTFILES/zsh/functions/*(:t)
 
 HISTFILE=~/.zsh_history
 HISTSIZE=10000
@@ -35,7 +28,6 @@ setopt local_traps # Allow functions to have local traps
 setopt prompt_subst # Parameter expansion, command substitution, arithmetic expansion performed in prompts
 setopt share_history # Adds history incrementally and share it across sessions
 
-
 # Vi-mode. Borrowign this from oh-my-zsh
 function zle-line-init zle-keymap-select {
   zle reset-prompt
@@ -45,3 +37,21 @@ zle -N zle-line-init
 zle -N zle-keymap-select
 
 bindkey -v
+
+# Completion
+# Matches case insensitive for lowercase
+zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
+
+# Pasting with tabs doesn't perform completion
+zstyle ':completion:*' insert-tab pending
+
+# Verbose complettion
+zstyle ':completion:*' verbose yes
+zstyle ':completion:*:descriptions' format '%B%d%b'
+zstyle ':completion:*:messages' format '%d'
+zstyle ':completion:*:warnings' format 'No matches for: %d'
+zstyle ':completion:*' group-name ''
+
+# Initialize autocomplete
+autoload -U compinit
+compinit
