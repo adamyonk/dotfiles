@@ -35,11 +35,18 @@ sandbox() {
   cd $GIT_SANDBOX && git clone $1 && cd `last_modified`
 }
 
+# Heroku
+alias h='heroku'
+
 # Ruby
+alias b='bundle'
 alias be='bundle exec'
 alias bi='bundle install'
 alias bu='bundle update'
+alias f='foreman'
 alias fr='foreman run'
+alias r='rake'
+
 source /usr/local/share/chruby/chruby.sh
 source /usr/local/share/chruby/auto.sh
 chruby 1.9.3
@@ -57,6 +64,11 @@ alias ssh_down='systemsetup -setremotelogin off'
 
 # Tmux
 #alias tmux='tmux -2'
+if [[ "$(uname)" = 'Darwin' ]]; then
+  alias tmux='tmux -2 -f ~/.tmux-osx.conf'
+else
+  alias tmux='tmux -2'
+fi
 function mx() {
   if [[ -z $1 ]]; then
     SESSION=$(basename $PWD);

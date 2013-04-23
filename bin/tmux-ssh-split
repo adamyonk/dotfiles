@@ -15,4 +15,3 @@ then
 else
   tmux splitw $1
 fi
-
