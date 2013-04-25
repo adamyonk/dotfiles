@@ -1,4 +1,4 @@
-set-option -g           default-command                 'reattach-to-user-namespace -l "$SHELL" 2> /dev/null || "$SHELL"'
+set-option -g           default-command                 "reattach-to-user-namespace -l $SHELL || $SHELL"
 set-option -g           default-terminal                'screen-256color'
 set-option -g           prefix                          C-a
 set-option -g           status-keys                     vi

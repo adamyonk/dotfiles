@@ -13,9 +13,6 @@
 [submodule "vim/vim.symlink/bundle/ctrlp"]
 	path = vim/vim.symlink/bundle/ctrlp
 	url = https://github.com/kien/ctrlp.vim.git
-[submodule "vim/vim.symlink/bundle/nerdtree"]
-	path = vim/vim.symlink/bundle/nerdtree
-	url = https://github.com/scrooloose/nerdtree.git
 [submodule "vim/vim.symlink/bundle/vim-coffee-script"]
 	path = vim/vim.symlink/bundle/vim-coffee-script
 	url = https://github.com/kchmck/vim-coffee-script.git
