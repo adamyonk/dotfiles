@@ -1,5 +1,5 @@
 let g:ctrlp_map = '<leader>p' " set the default opening command to use when pressing the above mapping
-let g:ctrlp_max_height = 5 " set the maximum height of the match window
+let g:ctrlp_max_height = 10 " set the maximum height of the match window
 let g:ctrlp_clear_cache_on_exit = 1 " set this to 0 to enable cross-session caching by not deleting the cache files upon exiting Vim
 "let g:ctrlp_cache_dir = '.ctrlp-cache' " set the directory to store the cache files
 let g:ctrlp_show_hidden = 0 " set this to 1 if you want CtrlP to scan for dotfiles and dotdirs
