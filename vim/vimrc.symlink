@@ -254,7 +254,10 @@ nnoremap <leader>rr :redraw!<cr>
 " reload .vimrc
 nnoremap <leader>r :source ~/.vimrc<cr>:echo 'Reloaded ~/.vimrc'<cr>
 " custom grep
-command! -nargs=+ CustomGrep :execute "silent grep! -r <args>" | copen | redraw!
+if executable('ag')
+  set grepprg=ag\ --nogroup\ --nocolor
+endif
+command! -nargs=+ CustomGrep :execute "silent grep! --nogroup --nocolor <args>" | copen | redraw!
 nnoremap <leader>g :CustomGrep 
 " sudo write
 command! W w !sudo tee % > /dev/null
