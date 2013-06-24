@@ -106,3 +106,6 @@
 [submodule "vim/vim.symlink/bundle/vim-visual-star-search"]
 	path = vim/vim.symlink/bundle/vim-visual-star-search
 	url = https://github.com/nelstrom/vim-visual-star-search.git
+[submodule "vim/vim.symlink/bundle/vim-change-hash-syntax"]
+	path = vim/vim.symlink/bundle/vim-change-hash-syntax
+	url = https://github.com/ck3g/vim-change-hash-syntax.git
