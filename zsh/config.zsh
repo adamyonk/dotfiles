@@ -55,3 +55,6 @@ zstyle ':completion:*' group-name ''
 # Initialize autocomplete
 autoload -U compinit
 compinit
+
+compdef g=git
+compdef h=heroku
