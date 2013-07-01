@@ -51,6 +51,9 @@ source /usr/local/share/chruby/chruby.sh
 source /usr/local/share/chruby/auto.sh
 chruby 1.9.3
 
+# Vagrant
+alias v='vagrant'
+
 # System
 function colours() {
   for i in {0..255} ; do

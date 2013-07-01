@@ -57,4 +57,3 @@ autoload -U compinit
 compinit
 
 compdef g=git
-compdef h=heroku
