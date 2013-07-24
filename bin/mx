@@ -18,10 +18,10 @@
 
 set -e
 
-if [ -z $1 ]; then
-  SESSION=$(basename $PWD);
+if [ -z "$1" ]; then
+  SESSION="${PWD##*/}"
 else
-  SESSION=$1
+  SESSION="$1"
 fi
 
 if ! (tmux has-session -t "$SESSION" >/dev/null 2>&1); then
