@@ -1,7 +1,0 @@
-#!/usr/bin/env sh
-
-SESSION="$1"
-
-cd $GIT_SANDBOX
-tmux new-session -s "$SESSION" -n shell -d
-tmux select-window -t "$SESSION":1
