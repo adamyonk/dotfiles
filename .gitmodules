@@ -109,3 +109,9 @@
 [submodule "vim/vim.symlink/bundle/vim-change-hash-syntax"]
 	path = vim/vim.symlink/bundle/vim-change-hash-syntax
 	url = https://github.com/ck3g/vim-change-hash-syntax.git
+[submodule "vim/vim.symlink/bundle/funcoo.vim"]
+	path = vim/vim.symlink/bundle/funcoo.vim
+	url = https://github.com/rizzatti/funcoo.vim.git
+[submodule "vim/vim.symlink/bundle/dash.vim"]
+	path = vim/vim.symlink/bundle/dash.vim
+	url = https://github.com/rizzatti/dash.vim.git
