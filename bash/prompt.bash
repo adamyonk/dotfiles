@@ -3,26 +3,40 @@ color_green=$'\033[0;32m'
 color_red=$'\033[0;31m'
 color_none=$'\033[0m'
 
-prompt_dir() {
-  #echo -n ${PWD/#$HOME/~}
-  echo -n "$(basename $(echo $PWD | sed -e "s|^$HOME|~|"))"
+# Last status
+prompt_status() {
+  status="$?"
+  if [ "$status" == 0 ]; then
+    printf "$color_green"
+  else
+    printf "$color_red"
+  fi
+  printf '✖'
+  printf "$color_none"
 }
 
-prompt_git_info() {
+# Working directory
+prompt_dir() {
+  printf "${PWD##*/}"
+}
+
+# Git info
+prompt_git() {
   if git status >/dev/null 2>&1; then
-    if git diff --quiet HEAD; then
-      color=$color_green
+    if git diff --quiet HEAD 2>&1; then
+      local color="$color_green"
     else
-      color=$color_red
+      local color="$color_red"
     fi
-    echo -n "[$color$(git branch | awk '/*/ {print $2}')$color_none]"
-  else
-    echo -n ''
+    printf " [$color$(git branch | awk '/*/ {print $2}')$color_none]"
   fi
 }
 
-prompt() {
-  echo -n "\$(prompt_dir) ✖$color_none  "
+# Prompt char for user or root
+prompt_char() {
+  local char=➔
+  [ "$UID" == 0 ] && char=\$
+  printf "$char"
 }
 
-export PS1=$(eval prompt)
+PS1='\[\033[G\] $(prompt_status) $(prompt_dir)$(prompt_git) $(prompt_char) '

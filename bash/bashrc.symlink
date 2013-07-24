@@ -1,5 +1,5 @@
-source ~/.dotfiles/bash/shared_config.bash
+source $HOME/.profile
 source $DOTFILES/bash/prompt.bash
 
-alias reload='. $HOME/.bash_profile'
-__git_complete g __git_main
+alias reload='. $HOME/.bashrc'
+#__git_complete g __git_main

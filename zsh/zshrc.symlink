@@ -1,6 +1,5 @@
-source ~/.dotfiles/bash/shared_config.bash
+source $HOME/.profile
 source $DOTFILES/zsh/config.zsh
 source $DOTFILES/zsh/prompt.zsh
 
 alias reload='source $HOME/.zshrc'
-

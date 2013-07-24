@@ -72,19 +72,3 @@ if [[ "$(uname)" = 'Darwin' ]]; then
 else
   alias tmux='tmux -2'
 fi
-function mx() {
-  if [[ -z $1 ]]; then
-    SESSION=$(basename $PWD);
-  else
-    SESSION=$1
-  fi
-
-  if [[ -x $DOTFILES/tmux/workspaces/$SESSION ]]; then
-    $DOTFILES/tmux/workspaces/$SESSION
-  else
-    if ! tmux has-session -t $SESSION; then
-      tmux new-session -s $SESSION -n shell -d
-    fi
-    tmux attach -t $SESSION
-  fi
-}
