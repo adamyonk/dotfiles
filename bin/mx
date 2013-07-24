@@ -1,0 +1,45 @@
+#!/usr/bin/env sh
+
+# mx
+# version 0.2
+
+# Contributors:
+#   Wynn Netherland - http://github.com/pengwynn
+#   Adam Jahnke - http://github.com/adamyonk
+
+# To 'auto-launch' projects, you'll need a $PROJECTS dir where you keep code
+# sorted like so: $PROJECTS/<org or user>/<repo>.
+# So, a typical workflow would look like:
+#   $ hub clone pengwynn/octonaut $PROJECTS/pengwynn/octonaut
+#   $ mx octonaut
+
+# Usage:
+#   mx [session]
+
+set -e
+
+if [ -z $1 ]; then
+  SESSION=$(basename $PWD);
+else
+  SESSION=$1
+fi
+
+if ! (tmux has-session -t "$SESSION" >/dev/null 2>&1); then
+  if [ -d $PROJECTS/*/"$SESSION" ]; then
+    cd $PROJECTS/*/"$SESSION"
+  fi
+
+  if [ -x $PWD/.tmux ]; then
+    $PWD/.tmux "$SESSION"
+  elif [ -x $DOTFILES/tmux/workspaces/"$SESSION" ]; then
+    $DOTFILES/tmux/workspaces/"$SESSION" "$SESSION"
+  else
+    tmux new-session -s "$SESSION" -n shell -d
+  fi
+fi
+
+if [ -z $TMUX ]; then
+  tmux attach -t "$SESSION"
+else
+  tmux switch-client -t "$SESSION"
+fi

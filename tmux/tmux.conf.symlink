@@ -73,7 +73,7 @@ bind-key ,                previous-window
 bind-key -                run-shell 'exec tmux-ssh-split -v'
 bind-key -t vi-copy Enter copy-pipe 'reattach-to-user-namespace pbcopy'
 bind-key -t vi-copy v     begin-selection
-bind-key -t vi-copy y     copy-selection; run-shell 'tmux show-buffer | reattach-to-user-namespace pbcopy'
+bind-key -t vi-copy y     copy-pipe 'reattach-to-user-namespace pbcopy'
 bind-key .                next-window
 bind-key <                swap-window -t :-
 bind-key >                swap-window -t :+
