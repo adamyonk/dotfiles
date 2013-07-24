@@ -13,3 +13,5 @@ system/config.symlink/libimobiledevice/
 system/config.symlink/fish/*
 !system/config.symlink/fish/config.fish
 !system/config.symlink/fish/completions/
+
+.tmux
