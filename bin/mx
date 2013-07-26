@@ -33,10 +33,10 @@
 #   tmux select-window -t "$SESSION":1
 
 # If there is no .tmux file, the default window setup is as follows:
-# 1 - editor (runs $EDITOR right away)
-# 2 - shell (empty shell)
-# 3 - console (if script/console is available)
-# 4 - server (if script/server is available)
+# editor  - runs $EDITOR right away
+# shell   - empty shell
+# console - if script/console is available
+# server  - if script/server is available
 
 set -e
 
