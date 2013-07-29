@@ -9,6 +9,7 @@ export GIT_SANDBOX=$PROJECTS/sandbox
 export PATH=./bin
 export PATH=$PATH:$DOTFILES/bin
 export PATH=$PATH:/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin
+export PATH=$PATH:$HOME/.coral/bin
 
 # Editor
 if [[ -f `which mvim` ]] ; then

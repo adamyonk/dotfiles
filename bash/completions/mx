@@ -1,0 +1,7 @@
+_mx () {
+  local word=${COMP_WORDS[COMP_CWORD]}
+  COMPREPLY=( $(compgen -W "$(ls -l $PROJECTS | grep '^d' | awk '{printf $NF" "}')" -- $word) )
+}
+
+#complete -F _mx mx
+complete -C compgen -W "$(ls -l $PROJECTS | grep '^d' | awk '{printf $NF" "}')" -- $word mx
