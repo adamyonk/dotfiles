@@ -2,7 +2,7 @@
 [[ -e $HOME/.localrc ]] && source $HOME/.localrc
 
 export BROWSER=open
-export DOTFILES=$HOME/.dotfiles
+export DOTFILES=$PROJECTS/dotfiles
 
 # Path
 export PATH=./bin

@@ -1,12 +1,12 @@
 # Variables
 set --global --export BROWSER       open
-set --global --export DOTFILES      $HOME/.dotfiles
+set --global --export DOTFILES      $PROJECTS/dotfiles
 # Local machine variables
 if test -f $HOME/.config/fish/local.fish
   . $HOME/.config/fish/local.fish
 end
 # Path
-set --global --export PATH          ./bin $DOTFILES/bin /usr/local/heroku/bin $HOME/.rbenv/bin $HOME/.rbenv/shims /usr/local/bin /usr/local/sbin /usr/bin /usr/sbin /bin /sbin
+set --global --export PATH          ./bin $DOTFILES/bin /usr/local/heroku/bin $HOME/.rbenv/bin $HOME/.rbenv/shims /usr/local/bin /usr/local/sbin /usr/bin /usr/sbin /bin /sbin $HOME/.coral/bin
 
 # Editor
 if which mvim >/dev/null
