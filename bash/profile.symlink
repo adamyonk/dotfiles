@@ -3,7 +3,6 @@
 
 export BROWSER=open
 export DOTFILES=$HOME/.dotfiles
-export GIT_SANDBOX=$PROJECTS/sandbox
 
 # Path
 export PATH=./bin
@@ -31,10 +30,6 @@ if [[ -f `which hitch` ]] ; then
     if [[ -s "$HOME/.hitch_export_authors" ]] ; then source "$HOME/.hitch_export_authors" ; fi
   }
 fi
-
-sandbox() {
-  cd $GIT_SANDBOX && git clone $1 && cd `last_modified`
-}
 
 # Heroku
 alias h='heroku'

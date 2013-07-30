@@ -1,19 +1,12 @@
 # Variables
-set fish_greeting       ''
 set --global --export BROWSER       open
 set --global --export DOTFILES      $HOME/.dotfiles
-set --global --export GIT_SANDBOX   $PROJECTS/sandbox
-#set --global --export NGINX_PATH    /opt/nginx
-#set --global --export NODE_PATH     /usr/local/lib/node_modules
-#set --global --export PGDATA        /usr/local/var/postgres
-
-# Path
-set --global --export PATH          ./bin $DOTFILES/bin /usr/local/heroku/bin $HOME/.rbenv/bin $HOME/.rbenv/shims /usr/local/bin /usr/local/sbin /usr/bin /usr/sbin /bin /sbin
-
-# Local Settings
+# Local machine variables
 if test -f $HOME/.config/fish/local.fish
   . $HOME/.config/fish/local.fish
 end
+# Path
+set --global --export PATH          ./bin $DOTFILES/bin /usr/local/heroku/bin $HOME/.rbenv/bin $HOME/.rbenv/shims /usr/local/bin /usr/local/sbin /usr/bin /usr/sbin /bin /sbin
 
 # Editor
 if which mvim >/dev/null
@@ -42,39 +35,29 @@ if which hitch >/dev/null
   function unhitch;     hitch --unhitch; end
 end
 
-function sandbox --description "Clone and open code for sandboxing"
-  cd $GIT_SANDBOX; and git clone $argv; and cd `last_modified`
-end
+# Heroku
+function h;             heroku $argv; end
 
 # Ruby
+function b;             bundle $argv; end
 function be;            bundle exec $argv; end
 function bi;            bundle install $argv; end
-function fr;            bundle exec foreman run bundle exec $argv; end
+function bu;            bundle update $argv; end
+function f;             foreman $argv; end
+function fr;            foreman run bundle exec $argv; end
+function r;             rake $argv; end
 rbenv rehash >/dev/null ^&1
+#. /usr/local/share/fry/fry.fish
+#set -U fry_auto_switch 1
+#fry 1.9.3 >/dev/null ^&1
 
 # System
 function fliptable;     echo \n（╯°□°）╯︵ ┻━┻\n; end
 function last_modified; ls -t $argv 2> /dev/null | head -n 1; end
 function ll;            ls -al $argv; end
+function ssh_up;        systemsetup -setremotelogin on; end
+function ssh_down;      systemsetup -setremotelogin off; end
 function trash;         mv $argv ~/.Trash; end
-
-# Tmux
-function mx --description "Launch a tmux project"
-  if test -z $argv
-    set SESSION (basename $PWD)
-  else
-    set SESSION $argv
-  end
-
-  if test -x $DOTFILES/tmux/workspaces/$SESSION
-    eval $DOTFILES/tmux/workspaces/$SESSION
-  else
-    if not tmux has-session -t $SESSION
-      tmux new-session -s $SESSION -n shell -d
-    end
-    tmux attach -t $SESSION
-  end
-end
 
 # Vagrant
 function v;             vagrant $argv; end
@@ -88,16 +71,22 @@ function vu;            vagrant up $argv; end
 # Shell
 function reload;        . $HOME/.config/fish/config.fish $argv; end
 
+# tmux
+#function tmux;          command tmux -2 $argv; end
+
 # Prompt
+set fish_greeting       ''
 function fish_prompt --description "Set the left side fish prompt"
   if test $status = 0
-    set color normal # ><((°>
+    set color green # ><((°>
   else
     set color red # ><((ˣ>
   end
   set_color $color
-  echo -n ' ✖  '
+  echo -n ' ✖ '
   set_color normal
+  echo -n (basename (echo $PWD | sed -e "s|^$HOME|~|")) [(git_prompt)]
+  echo -n ' ➔ '
 end
 
 function git_prompt --description "Git branch and staus info for prompt"
@@ -118,5 +107,5 @@ end
 
 function fish_right_prompt --description "Set the right side fish prompt"
   #__fish_git_prompt
-  echo -n (basename (echo $PWD | sed -e "s|^$HOME|~|")) (git_prompt)
+  #echo -n (basename (echo $PWD | sed -e "s|^$HOME|~|")) [(git_prompt)]
 end

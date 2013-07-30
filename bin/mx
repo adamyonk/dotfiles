@@ -28,7 +28,7 @@
 #   SESSION="$1"
 #   cd ~/.dotfiles
 #   tmux new-session -s "$SESSION" -n editor -d
-#   tmux send-keys 'e' C-m ':CtrlP' C-m
+#   tmux send-keys "$EDITOR" C-m ":CtrlP" C-m
 #   tmux new-window -n shell -t "$SESSION"
 #   tmux select-window -t "$SESSION":1
 
@@ -62,7 +62,7 @@ if ! (tmux has-session -t "$SESSION" >/dev/null 2>&1); then
     "$PWD"/.tmux "$SESSION"
   else
     tmux new-session -s "$SESSION" -n editor -d
-    tmux send-keys "$EDITOR" C-m #':CtrlP' C-m
+    tmux send-keys "$EDITOR" C-m ':CtrlP' C-m
     tmux new-window -n shell -t "$SESSION"
     _safe_window console script/console
     _safe_window server script/server
