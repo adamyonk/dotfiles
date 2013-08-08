@@ -1,5 +1,5 @@
-source $HOME/.profile
+source $HOME/.shared_config
 source $DOTFILES/bash/prompt.bash
+source $DOTFILES/bash/completions/*
 
 alias reload='. $HOME/.bashrc'
-source $DOTFILES/bash/completions/*

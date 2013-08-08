@@ -4,7 +4,7 @@ require 'open-uri'
 
 # snapr
 # Version 0.1
-# Adam Jahnke - http://github.com/adamyonk
+# Adam Jahnke - https://github.com/adamyonk
 #
 # Requirements
 #   - A DROPBOX_USER_ID environment variable in ~/.localrc
