@@ -1,10 +1,10 @@
-# Variables
-set --global --export BROWSER       open
-set --global --export DOTFILES      $PROJECTS/dotfiles
-# Local machine variables
+# Source local.fish if it exists
 if test -f $HOME/.config/fish/local.fish
   . $HOME/.config/fish/local.fish
 end
+# Variables
+set --global --export BROWSER       open
+set --global --export DOTFILES      $PROJECTS/dotfiles
 # Path
 set --global --export PATH          ./bin $DOTFILES/bin /usr/local/heroku/bin $HOME/.rbenv/bin $HOME/.rbenv/shims /usr/local/bin /usr/local/sbin /usr/bin /usr/sbin /bin /sbin $HOME/.coral/bin
 
@@ -54,6 +54,7 @@ rbenv rehash >/dev/null ^&1
 # System
 function fliptable;     echo \n（╯°□°）╯︵ ┻━┻\n; end
 function last_modified; ls -t $argv 2> /dev/null | head -n 1; end
+function lc;            launchctl $argv; end
 function ll;            ls -al $argv; end
 function ssh_up;        systemsetup -setremotelogin on; end
 function ssh_down;      systemsetup -setremotelogin off; end

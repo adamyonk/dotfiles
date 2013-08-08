@@ -1,0 +1,37 @@
+#!/usr/bin/env bash
+
+# ss
+# Version 0.1
+
+# Contributors:
+#   Adam Jahnke - https://github.com/adamyonk
+
+# Requirements:
+#   - dropbox_uploader installed in in your $PATH
+#   - A /Public/Screenshots directory in your Dropbox
+#     (or you can set $DIR to something else below)
+#   - OS X
+
+# Usage:
+#   ss
+
+# Don't set -e here if you're calling this from a service
+#set -e
+
+# Upload directory
+DIR=/Public/Screenshots
+
+# Upload file format
+FILE="$(date "+%Y-%m-%d_%H.%M.%S")".png
+
+# Take screencapture
+screencapture -i -x /tmp/"$FILE" >/dev/null 2>&1
+
+# Upload to Dropbox
+dropbox_uploader upload /tmp/"$FILE" "$DIR"/"$FILE" >/dev/null 2>&1
+
+# Get share URL and convert for direct download
+URL="$(dropbox_uploader share "$DIR"/"$FILE" | awk '{ printf $NF }')"
+
+# Copy to pasteboard
+echo -n "${URL/www/dl}" | pbcopy
