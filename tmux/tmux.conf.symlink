@@ -75,6 +75,7 @@ bind-key -t vi-copy Enter copy-pipe 'reattach-to-user-namespace pbcopy'
 bind-key -t vi-copy v     begin-selection
 bind-key -t vi-copy y     copy-pipe 'reattach-to-user-namespace pbcopy'
 bind-key .                next-window
+bind-key /                set-option status 
 bind-key <                swap-window -t :-
 bind-key >                swap-window -t :+
 bind-key C-a              last-window
