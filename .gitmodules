@@ -115,3 +115,6 @@
 [submodule "vim/vim.symlink/bundle/dash.vim"]
 	path = vim/vim.symlink/bundle/dash.vim
 	url = https://github.com/rizzatti/dash.vim.git
+[submodule "vim/vim.symlink/bundle/vimroom"]
+	path = vim/vim.symlink/bundle/vimroom
+	url = https://github.com/mikewest/vimroom.git

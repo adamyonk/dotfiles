@@ -32,9 +32,9 @@ set-option -g             status-right-length             60
 set-option -g             status-utf8                     on
 set-option -g             visual-activity                 on
 set-option -g             visual-content                  on
-set-option -gw            automatic-rename                off
-set-option -gw            monitor-activity                off
-set-option -gw            monitor-content                 off
+set-option -gw            automatic-rename                on
+set-option -gw            monitor-activity                on
+set-option -gw            monitor-content                 on
 set-option -gw            window-status-attr              bold
 set-option -gw            window-status-current-attr      bold
 set-option -gw            window-status-current-bg        colour2

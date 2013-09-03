@@ -36,6 +36,7 @@
   s                 = status --branch --short
   st                = stash
   sta               = stash apply
+  standup           = log --author=\"AUTHORNAME\" --pretty=oneline --since yesterday
   stl               = stash list
   sts               = stash save
   sub               = submodule

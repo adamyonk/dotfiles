@@ -174,7 +174,7 @@ set noswapfile " don't use a swap file for this buffer
 
 set history=1000 " how many command lines are remembered
 set wildmode=list:longest " specifies how command line completion works
-set wildignore=*.o,*.obj,*~,.hg,.git,.svn,tags,*vim/backups*,*.swp,*.spl,*.DS_Store,*.jpg,*.bmp,*.gif,*.png,*.jpeg,*/tmp,*/log,*/vendor/bundle,*/vendor/cache,*/bin,*.zip " list of patterns to ignore files for file name completion
+set wildignore=*.o,*.obj,*~,.hg,.git,.svn,.vim-tags,*vim/backups*,*.swp,*.spl,*.DS_Store,*.jpg,*.bmp,*.gif,*.png,*.jpeg,*/tmp,*/log,*/vendor/bundle,*/vendor/cache,*/bin,*.zip " list of patterns to ignore files for file name completion
 set wildmenu " command-line completion shows a list of matches
 set undofile " automatically save and restore undo history
 if isdirectory($HOME . '/.vim_undo') == 0
@@ -215,7 +215,7 @@ set viminfo='100,f1 " list that specifies what to write in the viminfo file
 " set background based on iTerm ENV
 map <leader>b :call SetBackgroundForIterm()<CR>
 " reload tags
-"command! ReloadTags :!/usr/local/bin/ctags --tagfile tags --extra=+f --exclude=.git --exclude=doc --exclude=gems --recurse --tag-relative
+"command! ReloadTags :!/usr/local/bin/ctags --tagfile .vim-tags --extra=+f --exclude=.git --exclude=doc --exclude=gems --recurse --tag-relative
 "command! GitTags :!.git/hooks/ctags
 nnoremap <leader>t :silent !.git/hooks/ctags<cr>:redraw!<cr>
 " automatically reload vimrc when it's saved
@@ -235,10 +235,10 @@ nnoremap J mzJ`z
 " yank from cursor to end of line
 nnoremap Y y$
 " move across wrapped lines better
-noremap j gj
-noremap k gk
-noremap gj j
-noremap gk k
+"noremap j gj
+"noremap k gk
+"noremap gj j
+"noremap gk k
 " reselect visual block after indent/outdent
 vnoremap < <gv
 vnoremap > >gv

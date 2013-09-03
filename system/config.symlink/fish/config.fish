@@ -6,7 +6,7 @@ end
 set --global --export BROWSER       open
 set --global --export DOTFILES      $PROJECTS/dotfiles
 # Path
-set --global --export PATH          ./bin $DOTFILES/bin /usr/local/heroku/bin $HOME/.rbenv/bin $HOME/.rbenv/shims /usr/local/bin /usr/local/sbin /usr/bin /usr/sbin /bin /sbin $HOME/.coral/bin
+set --global --export PATH          ./bin $HOME/bin /usr/local/heroku/bin $HOME/.rbenv/bin $HOME/.rbenv/shims /usr/local/bin /usr/local/sbin /usr/bin /usr/sbin /bin /sbin $HOME/.coral/bin
 
 # Editor
 if which mvim >/dev/null
