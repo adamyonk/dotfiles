@@ -14,12 +14,12 @@
   co                = checkout
   cot               = checkout --track
   cp                = cherry-pick
-  d                 = diff
+  d                 = diff --word-diff
   dlc               = diff --cached HEAD^
   f                 = fetch
   fl                = log -u
   fp                = fetch --prune
-  l                 = log --decorate
+  l                 = log --decorate --oneline
   la                = log --abbrev-commit --all --decorate --graph --pretty=oneline
   lf                = log --decorate --numstat --pretty=format:"%C(yellow)%h%Cred%d\\ %Creset%s%Cblue\\ [%cn]"
   m                 = merge
@@ -33,6 +33,7 @@
   re                = reset
   rehh              = reset --hard HEAD
   ri                = rebase --interactive
+  ru                = rebase -i @{u}
   s                 = status --branch --short
   st                = stash
   sta               = stash apply
@@ -80,8 +81,11 @@
 [mergetool]
   keepbackup        = false
 
+[pull]
+  rebase            = true
+
 [push]
-  default           = upstream
+  default           = tracking
 
 [rerere]
   enabled           = 1
