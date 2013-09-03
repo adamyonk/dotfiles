@@ -1,23 +1,32 @@
-#!/bin/sh
+#!/usr/bin/env ruby
 
 # keychain
-# version 0.1
+# version 0.2
 # Adam Jahnke - http://github.com/adamyonk
 
-# Usage:
-#   keychain <account> <server>
-#   keychain me@me.com imap.mail.me.com
-#
-# This is a script for getting just the text of a password from your OS X
-# keychain. Basically a wrapper for `security find-internet-password`.
+require 'trollop'
 
-set -e
+opts = Trollop::options do
+  version '0.2'
+  banner <<-EOS
 
-usage(){
-  echo "  Usage: keychain <account> <server>"
-  exit 2
-}
+This is a script for getting just the text of a password from your OS X
+keychain. Basically a wrapper for `security find-internet-password`.
 
-[ $# -lt 2 ] && usage
+Usage:
+  keychain <options>
 
-security 2>&1 >/dev/null find-internet-password -g -a $1 -s $2 | sed 's/.*\"\(.*\)\"/\1/'
+where <options> are:
+EOS
+  opt :account, 'Choose account', :type => String
+  opt :server, 'Choose server', :type => String
+end
+
+Trollop::die 'Server or account required' if opts[:account].nil? && opts[:server].nil?
+
+command =  'security 2>&1 >/dev/null find-internet-password -g'
+command += " -a #{opts[:account]}" if opts[:account]
+command += " -s #{opts[:server]}" if opts[:server]
+command += ' | sed \'s/.*\"\(.*\)\"/\1/\''
+puts command
+`#{command}`
