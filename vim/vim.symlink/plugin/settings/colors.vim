@@ -38,3 +38,4 @@ endfunction
 
 map <Leader>c :call SetColorSchemeFromItermProfile()<CR>
 command! -nargs=* -complete=color TerminalProfile call SetTerminalProfile(<f-args>)
+call SetColorSchemeFromItermProfile()
