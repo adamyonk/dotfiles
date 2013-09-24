@@ -45,7 +45,6 @@ extend_console 'ap' do
   alias pp ap
 end
 
-
 # Show them what they've won, Johnny
 puts "#{ANSI[:BLUE]}~> Console extensions:#{ANSI[:RESET]} #{$console_extensions.join(' ')}#{ANSI[:RESET]}"
 

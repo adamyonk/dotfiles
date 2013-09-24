@@ -31,6 +31,8 @@ fi
 
 # Heroku
 alias h='heroku'
+alias s='staging'
+alias p='production'
 
 # Ruby
 alias b='bundle'
