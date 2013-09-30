@@ -1,0 +1,4 @@
+ruby/rbenv.symlink
+ruby/chruby
+ruby/ruby-build
+vim/vim.symlink/bundle

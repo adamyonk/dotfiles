@@ -62,9 +62,9 @@ alias ssh_up='systemsetup -setremotelogin on'
 alias ssh_down='systemsetup -setremotelogin off'
 
 # Tmux
-#alias tmux='tmux -2'
-if [[ "$(uname)" = 'Darwin' ]]; then
-  alias tmux='tmux -2 -f ~/.tmux-osx.conf'
-else
-  alias tmux='tmux -2'
-fi
+alias tmux='tmux -2'
+#if [[ "$(uname)" = 'Darwin' ]]; then
+#  alias tmux='tmux -2 -f ~/.tmux-osx.conf'
+#else
+#  alias tmux='tmux -2'
+#fi
