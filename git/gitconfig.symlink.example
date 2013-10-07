@@ -1,6 +1,6 @@
 [alias]
   # some of these depend on hub
-  a                 = git add
+  a                 = add
   aa                = add --all
   b                 = branch
   ba                = branch --all

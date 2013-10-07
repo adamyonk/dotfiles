@@ -94,9 +94,6 @@
 [submodule "vim/vim.symlink/bundle/vim-ragtag"]
 	path = vim/vim.symlink/bundle/vim-ragtag
 	url = https://github.com/tpope/vim-ragtag.git
-[submodule "vim/vim.symlink/bundle/youcompleteme"]
-	path = vim/vim.symlink/bundle/youcompleteme
-	url = https://github.com/Valloric/YouCompleteMe.git
 [submodule "vim/vim.symlink/bundle/vim-dispatch"]
 	path = vim/vim.symlink/bundle/vim-dispatch
 	url = https://github.com/tpope/vim-dispatch.git
