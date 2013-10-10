@@ -1,5 +1,8 @@
+.git
 ruby/rbenv.symlink
 ruby/chruby
 ruby/ruby-build
+system/config.symlink/libimobiledevice/
+vim/vim.symlink/.netrwhist
 vim/vim.symlink/bundle
-.git
+vim/vim.symlink/undo
