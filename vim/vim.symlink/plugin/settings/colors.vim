@@ -6,6 +6,14 @@ endfunction
 
 " A little smarts to set the background based on the name of the iTerm
 " profile when setting the color scheme.
+"function! SetColorScheme(profile)
+"  colorscheme "" . a:profile
+"  if matchend(a:profile, "light")
+"    set bg=light
+"  else
+"    set bg=dark
+"  end
+"endfunction
 function! SetColorScheme(profile)
   let scheme = split(a:profile, '\.')
   exec "silent colorscheme " . expand(scheme[0])

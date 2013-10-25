@@ -39,4 +39,16 @@ _prompt_char() {
   printf "$char"
 }
 
-PS1='\[\033[G\] $(_prompt_status) $(_prompt_dir)$(_prompt_git)\n $(_prompt_char) '
+PS1='\[\033[G\] $(_prompt_status) $(_prompt_dir)\n $(_prompt_char) '
+
+# Prompt command
+prompt_command() {
+  # Only run this if we have a .git directory
+  [[ -d .git ]] &&
+  # If we just ran `git status`, don't run it again
+  [[ `history 1` != *'g s'* ]] &&
+  # Don't show every untracked file in a directory
+  git status --branch --short --untracked=normal
+}
+
+PROMPT_COMMAND='prompt_command'

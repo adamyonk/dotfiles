@@ -199,8 +199,6 @@ set viminfo='100,f1 " list that specifies what to write in the viminfo file
 " mappings
 " =============================================================================
 
-" set background based on iTerm ENV
-map <leader>b :call SetBackgroundForIterm()<CR>
 " reload tags
 "command! ReloadTags :!/usr/local/bin/ctags --tagfile .vim-tags --extra=+f --exclude=.git --exclude=doc --exclude=gems --recurse --tag-relative
 "command! GitTags :!.git/hooks/ctags
