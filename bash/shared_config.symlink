@@ -45,7 +45,7 @@ alias r='rake'
 
 source /usr/local/share/chruby/chruby.sh
 source /usr/local/share/chruby/auto.sh
-[[ -f .ruby-version ]] || chruby 1.9.3
+[[ -f .ruby-version ]] || chruby 2
 
 # Vagrant
 alias v='vagrant'
