@@ -26,7 +26,7 @@ set-option -g             status-bg                       default
 set-option -g             display-time                    5000
 set-option -g             status-fg                       default
 set-option -g             status-interval                 15
-set-option -g             status-left                     " #S  #I:#P  ✖"
+set-option -g             status-left                     " #S  ✖" #" #S  #I:#P  ✖"
 set-option -g             status-left-length              60
 set-option -g             status-right                    " #(battery)  %m|%d  %H:%M "
 set-option -g             status-right-length             60

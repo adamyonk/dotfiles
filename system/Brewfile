@@ -1,0 +1,11 @@
+install gawk
+install hub
+install imagemagick
+install macvim --override-system-vim
+install openssl
+install the_silver_searcher
+install tmux
+install wget
+
+update
+doctor

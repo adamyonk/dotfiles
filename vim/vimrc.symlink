@@ -146,6 +146,9 @@ set foldnestmax=3 " maximum fold depth for when 'foldmethod is "indent" or "synt
 " =============================================================================
 
 set autoread " automatically read a file when it was modified outside of Vim
+set cryptmethod=blowfish " Method used for encryption when the buffer is written to a file
+" Might want this for storing passwords in encrypted files
+" autocmd BufReadPost * if &key != "" | set noswapfile nowritebackup viminfo= nobackup noshelltemp history=0 secure | endif
 set nowritebackup " don't write a backup file before overwriting a file
 set nobackup " don't keep a backup after overwriting a file
 

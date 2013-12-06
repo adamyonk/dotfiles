@@ -50,7 +50,7 @@
   autosetuprebase   = always
 
 [credential]
-  helper            = cache
+  helper            = osxkeychain
 
 [color]
   branch            = auto
