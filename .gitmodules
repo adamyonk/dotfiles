@@ -118,3 +118,18 @@
 [submodule "vim/vim.symlink/bundle/base16-vim"]
 	path = vim/vim.symlink/bundle/base16-vim
 	url = https://github.com/chriskempson/base16-vim.git
+[submodule "system/keyboard"]
+	path = system/keyboard
+	url = https://github.com/jasonrudolph/keyboard.git
+[submodule "vim/vim.symlink/bundle/vim-colors-pencil"]
+	path = vim/vim.symlink/bundle/vim-colors-pencil
+	url = https://github.com/reedes/vim-colors-pencil.git
+[submodule "vim/vim.symlink/bundle/vim-thematic"]
+	path = vim/vim.symlink/bundle/vim-thematic
+	url = https://github.com/reedes/vim-thematic.git
+[submodule "vim/vim.symlink/bundle/vim-vinegar"]
+	path = vim/vim.symlink/bundle/vim-vinegar
+	url = https://github.com/tpope/vim-vinegar.git
+[submodule "vim/vim.symlink/bundle/supertab"]
+	path = vim/vim.symlink/bundle/supertab
+	url = https://github.com/ervandew/supertab.git

@@ -1,4 +1,4 @@
-set-option -g             default-command                 "reattach-to-user-namespace -l $SHELL"
+set-option -g             default-command                 "which reattach-to-user-namespace > /dev/null && reattach-to-user-namespace -l $SHELL || $SHELL"
 set-option -g             default-terminal                'screen-256color'
 set-option -ga            update-environment              ' ITERM_PROFILE'
 set-option -g             prefix                          C-a

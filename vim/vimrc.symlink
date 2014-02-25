@@ -78,11 +78,14 @@ set splitright " a new window is put right of the current one
 " 8 terminal
 " =============================================================================
 
+set lazyredraw
 set ttyfast " terminal connection is fast
 
 " =============================================================================
 " 9 using the mouse
 " =============================================================================
+
+set mouse=a
 
 " =============================================================================
 " 10 GUI
@@ -282,6 +285,10 @@ function! s:TmuxWinCmd(direction)
     let s:tmux_is_last_pane = 0
   endif
 endfunction
+
+" Ag shortcuts
+nnoremap <leader>ag :Ag ""<left>
+nnoremap <leader>af :AgFile ""<left>
 
 " navigate between split windows/tmux panes
 nnoremap <c-j> :call <SID>TmuxWinCmd('j')<cr>

@@ -22,12 +22,12 @@
 # Source env vars for account, in case this is being called from a cron job.
 source ~/.localrc
 
-IP="`curl -s checkip.dyndns.org | grep -Eo '[0-9\.]+'`"
+IP="$(curl -s checkip.dyndns.org | grep -Eo '[0-9\.]+')"
 
 curl --insecure --header 'Accept: application/json' \
      --basic --user "$DNSIMPLE_LOGIN:$DNSIMPLE_PASSWORD" \
      --header 'Content-Type: application/json' \
-     --include --request PUT "https://dnsimple.com/domains/$DNSIMPLE_DOMAIN_ID/records/$DNSIMPLE_RECORD_ID.json" \
+     --include --request PUT "https://dnsimple.com/domains/$DNSIMPLE_DOMAIN_ID/records/$DNSIMPLE_RECORD_ID" \
      --data "{\"record\":{\"content\":\"$IP\"}}" \
      --silent --write-out "\n => %{http_code}: Set IP to $IP\n\n" \
      --output /dev/null

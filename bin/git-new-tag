@@ -5,7 +5,7 @@
 #   GitHub: @mheffner
 
 # Usage:
-#   git-tag [msg]
+#   git-new-tag [msg]
 
 # For a project that uses increasing v<num> tag versioning, bump
 # the current tag by one and push it.

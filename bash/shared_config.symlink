@@ -6,7 +6,7 @@ export DOTFILES=$PROJECTS/dotfiles
 export PATH=./bin
 export PATH=$PATH:$HOME/bin
 export PATH=$PATH:/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin
-export PATH=$PATH:$HOME/.coral/bin
+export PATH=$PATH:/usr/local/Cellar/go/1.2/libexec/bin
 
 # Editor
 if [[ -f `which mvim` ]] ; then

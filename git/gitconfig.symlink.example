@@ -63,6 +63,9 @@
   excludesfile      = ~/.gitignore
   quotepath         = false
 
+[ghi]
+  token = GHI_TOKEN
+
 [github]
   user              = adamyonk
 
@@ -77,6 +80,9 @@
 
 [init]
   templatedir       = ~/.git_template
+
+[merge]
+  ff                = false
 
 [mergetool]
   keepbackup        = false

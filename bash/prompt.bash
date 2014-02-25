@@ -28,7 +28,7 @@ _prompt_git() {
     else
       local color="$color_red"
     fi
-    printf " $color$(git branch | awk '/*/ {print $2}')$color_none"
+    printf " $color$(git branch | awk '/\*/ {print $2}')$color_none"
   fi
 }
 
@@ -39,7 +39,7 @@ _prompt_char() {
   printf "$char"
 }
 
-PS1='\[\033[G\] $(_prompt_status) $(_prompt_dir)\n $(_prompt_char) '
+PS1='\[\033[G\] $(_prompt_status) $(_prompt_dir)$(_prompt_git)\n $(_prompt_char) '
 
 # Prompt command
 prompt_command() {
