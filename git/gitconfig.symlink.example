@@ -22,6 +22,7 @@
   l                 = log --decorate --oneline
   la                = log --abbrev-commit --all --decorate --graph --pretty=oneline
   lf                = log --decorate --numstat --pretty=format:"%C(yellow)%h%Cred%d\\ %Creset%s%Cblue\\ [%cn]"
+  ll                = log --abbrev-commit --color --graph --pretty=format:"%Cred%h%Creset\\ -%C(yellow)%d%Creset\\ %s\\ %Cgreen(%cr)%C(bold\\ blue)\\ <%an>%Creset"
   m                 = merge
   mm                = merge master
   pl                = pull
@@ -44,6 +45,7 @@
   suba              = submodule add
   subf              = submodule foreach
   subu              = submodule foreach git pull origin master
+  t                 = new-tag
   w                 = diff --color-words
 
 [branch]
