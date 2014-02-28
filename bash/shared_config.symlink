@@ -60,7 +60,7 @@ function colours() {
 alias fliptable='echo （╯°□°）╯︵ ┻━┻'
 alias ll='ls -al'
 alias lc='launchctl'
-alias serve='ruby -run -p 5000 -e httpd'
+alias serve='ruby -run -e httpd ./ --port 5000'
 alias ssh_up='systemsetup -setremotelogin on'
 alias ssh_down='systemsetup -setremotelogin off'
 
