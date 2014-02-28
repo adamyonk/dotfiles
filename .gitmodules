@@ -133,3 +133,6 @@
 [submodule "vim/vim.symlink/bundle/supertab"]
 	path = vim/vim.symlink/bundle/supertab
 	url = https://github.com/ervandew/supertab.git
+[submodule "vim/vim.symlink/bundle/vim-projectile"]
+	path = vim/vim.symlink/bundle/vim-projectile
+	url = https://github.com/tpope/vim-projectile.git
