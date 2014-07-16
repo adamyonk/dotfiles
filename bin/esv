@@ -26,6 +26,8 @@ echo "\
 
 Display Bible passage from English Standard Version
 
+Example: `cmd` prov3:5-6
+
 -f, --first-verse; Show first verse of chapter references
 -r, --references; Show passage references
 -t, --footnotes; Show footnotes
@@ -63,6 +65,7 @@ for pass in 1 2; do
                 -p|--passage-lines)    PASSAGE_LINES=1;;
                 -l|--heading-lines)    HEADING_LINES=1;;
                 --lines)               LINE_LENGTH=$2; shift;;
+                --no-references)       REFERENCES=0;;
                 --no-headings)         HEADINGS=0;;
                 --no-subheadings)      SUBHEADINGS=0;;
                 --no-verses)           FIRST_VERSES=0;VERSES=0;;

@@ -10,6 +10,7 @@ tags
 
 system/config.symlink/hub
 system/config.symlink/libimobiledevice/
+system/config.symlink/configstore/
 system/config.symlink/fish/*
 !system/config.symlink/fish/config.fish
 !system/config.symlink/fish/completions/
