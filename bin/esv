@@ -103,5 +103,5 @@ if [[ $DEBUG -eq 1 ]]; then
   echo
 fi
 
-curl -s $URL
+curl --silent $URL
 echo
