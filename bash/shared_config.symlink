@@ -13,7 +13,7 @@ export EDITOR=$VIM
 alias e=$EDITOR
 
 # Git
-[[ -f `which hub` ]] && alias git='hub'
+[[ -f `which gh` ]] && alias git='gh'
 alias g='git'
 complete -o default -o nospace -F _git g
 
@@ -27,7 +27,7 @@ fi
 
 if [ -d $(brew --prefix)/etc/bash_completion.d ]; then
   . $(brew --prefix)/etc/bash_completion.d/git-completion.bash
-  . $(brew --prefix)/etc/bash_completion.d/hub.bash_completion.sh
+  . $(brew --prefix)/etc/bash_completion.d/gh.bash_completion.sh
 fi
 
 # Heroku
@@ -75,8 +75,9 @@ function colours() {
   done
 }
 alias fliptable='echo （╯°□°）╯︵ ┻━┻'
-alias ll='ls -al'
 alias lc='launchctl'
+alias ll='ls -al'
+alias lock='/System/Library/CoreServices/Menu\ Extras/User.menu/Contents/Resources/CGSession -suspend'
 #alias serve='ruby -run -e httpd ./ --port 3333'
 alias ssh_up='systemsetup -setremotelogin on'
 alias ssh_down='systemsetup -setremotelogin off'

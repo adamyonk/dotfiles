@@ -3,3 +3,6 @@ source $DOTFILES/zsh/config.zsh
 source $DOTFILES/zsh/prompt.zsh
 
 alias reload='source $HOME/.zshrc'
+
+# added by travis gem
+[ -f /Users/adamyonk/.travis/travis.sh ] && source /Users/adamyonk/.travis/travis.sh

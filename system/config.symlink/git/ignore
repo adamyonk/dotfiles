@@ -4,7 +4,7 @@
 .AppleDouble
 .LSOverride
 
-# Icon must ends with two \r.
+# Icon must end with two \r
 Icon
 
 # Thumbnails
@@ -13,3 +13,10 @@ Icon
 # Files that might appear on external disk
 .Spotlight-V100
 .Trashes
+
+# Directories potentially created on remote AFP share
+.AppleDB
+.AppleDesktop
+Network Trash Folder
+Temporary Items
+.apdisk

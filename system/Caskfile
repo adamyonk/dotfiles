@@ -1,0 +1,17 @@
+install caskroom/cask/brew-cask
+
+cask install betterzipql
+cask install caffeine
+cask install flux
+cask install qlcolorcode
+cask install qlmarkdown
+cask install qlprettypatch
+cask install qlstephen
+cask install qlstephen
+cask install quicklook-csv
+cask install quicklook-json
+cask install webp-quicklook
+
+cask install github
+cask install google-chrome
+cask install iterm2

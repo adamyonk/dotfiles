@@ -1,5 +1,6 @@
+install caskroom/cask/brew-cask
 install gawk
-install hub
+install gh
 install imagemagick
 install jq
 install macvim --override-system-vim
@@ -8,17 +9,5 @@ install the_silver_searcher
 install tmux
 install wget
 install youtube-dl
-
-# quicklook plugins
-cask install qlcolorcode
-cask install qlstephen
-cask install qlmarkdown
-cask install quicklook-json
-cask install qlprettypatch
-cask install quicklook-csv
-cask install betterzipql
-cask install webp-quicklook
-
-cask install amethyst
 
 update

@@ -14,5 +14,7 @@ system/config.symlink/configstore/
 system/config.symlink/fish/*
 !system/config.symlink/fish/config.fish
 !system/config.symlink/fish/completions/
+system/config.symlink/Fritzing/*
+system/config.symlink/gh
 
 .tmux
