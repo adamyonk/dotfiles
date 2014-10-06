@@ -15,3 +15,4 @@ cask install webp-quicklook
 cask install github
 cask install google-chrome
 cask install iterm2
+cask install slack
