@@ -71,7 +71,7 @@ unbind-key -t vi-copy Enter
 
 bind-key +                resize-pane -Z
 bind-key ,                previous-window
-bind-key -                run-shell 'tmux-ssh-split -v'
+bind-key -                split-window -c "#{pane_current_path}" -v
 bind-key -t vi-copy Enter copy-pipe 'reattach-to-user-namespace pbcopy'
 bind-key -t vi-copy v     begin-selection
 bind-key -t vi-copy y     copy-pipe 'reattach-to-user-namespace pbcopy'
@@ -91,9 +91,10 @@ bind-key N                command-prompt 'rename-session %%'
 bind-key Q                confirm-before kill-server
 bind-key R                refresh-client
 bind-key X                kill-window
-bind-key \                run-shell 'tmux-ssh-split -h'
+bind-key \                split-window -c "#{pane_current_path}" -h
 bind-key _                run-shell 'tmux-ssh-split -v'
 bind-key a                send-key C-a
+bind-key c                new-window -c "#{pane_current_path}"
 bind-key h                select-pane -L
 bind-key j                select-pane -D
 bind-key k                select-pane -U
@@ -102,10 +103,10 @@ bind-key n                command-prompt 'rename-window %%'
 bind-key p                paste-buffer
 bind-key q                confirm-before kill-session
 bind-key r                source-file $HOME/.tmux.conf; display 'Reloaded configuration'
-bind-key |                run-shell 'tmux-ssh-split -h'
-#bind-key u                capture-pane; save-buffer /tmp/tmux-buffer; run-shell "$TERMINAL -e 'cat /tmp/tmux-buffer | urlview'"
 bind-key x                kill-pane
 bind-key y                run-shell 'tmux show-buffer | reattach-to-user-namespace pbcopy'
+bind-key |                run-shell 'tmux-ssh-split -h'
+#bind-key u                capture-pane; save-buffer /tmp/tmux-buffer; run-shell "$TERMINAL -e 'cat /tmp/tmux-buffer | urlview'"
 # Smart pane switching with awareness of vim splits
 bind-key -n C-k           run-shell 'tmux-vim-select-pane -U'
 bind-key -n C-j           run-shell 'tmux-vim-select-pane -D'

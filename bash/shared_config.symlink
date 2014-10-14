@@ -75,6 +75,7 @@ function colours() {
   done
 }
 alias fliptable='echo （╯°□°）╯︵ ┻━┻'
+alias ios='open /Applications/Xcode.app/Contents/Applications/iOS\ Simulator.app'
 alias lc='launchctl'
 alias ll='ls -al'
 alias lock='/System/Library/CoreServices/Menu\ Extras/User.menu/Contents/Resources/CGSession -suspend'
