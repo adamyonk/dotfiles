@@ -41,7 +41,7 @@ else
   ruby-build $ruby_version $HOME/.rubies/$ruby_version
   rm -rf $HOME/.tmp/ruby-build*
   chruby $ruby_version
-  gem install bundler
+  gem install bundler colorize
 fi
 
 echo 'Done!'

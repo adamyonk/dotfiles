@@ -7,12 +7,12 @@
 
   <key>WatchPaths</key>
   <array>
-    <string>/Users/adamyonk/Dropbox/Public/Screenshots</string>
+    <string>/Users/adam/Dropbox/Public/Screenshots</string>
   </array>
 
   <key>ProgramArguments</key>
   <array>
-    <string>/Users/adamyonk/.dotfiles/bin/snapr</string>
+    <string>/Users/adam/.dotfiles/bin/snapr</string>
   </array>
 </dict>
 </plist>

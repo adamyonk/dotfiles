@@ -1,0 +1,61 @@
+#!/usr/bin/env ruby
+
+require 'colorize'
+
+brews = [
+  'gawk',
+  'gh',
+  'jq',
+  'macvim',
+  'openssl',
+  'reattach-to-user-namespace',
+  'the_silver_searcher',
+  'tmux',
+  'wget',
+  'youtube-dl',
+]
+
+casks = [
+  'betterzipql',
+  'flux',
+  'github',
+  'google-chrome',
+  'iterm2',
+  'qlcolorcode',
+  'qlmarkdown',
+  'qlprettypatch',
+  'qlstephen',
+  'qlstephen',
+  'quicklook-csv',
+  'quicklook-json',
+  'slack',
+  'webpquicklook',
+]
+
+INSTALLED_BREWS = `brew list`.split("\n")
+INSTALLED_CASKS = `brew cask list`.split("\n")
+
+system "brew update"
+brews.each do |brew|
+  if INSTALLED_BREWS.include? brew
+    puts "#{brew} already installed"
+  else
+    puts "Installing #{brew}".green
+    system "brew install #{brew}"
+  end
+end
+
+if INSTALLED_BREWS.include? 'brew-cask'
+  system "brew upgrade caskroom/cask/brew-cask"
+else
+  system "brew install caskroom/cask/brew-cask"
+end
+system "brew cask update"
+casks.each do |cask|
+  if INSTALLED_CASKS.include? cask
+    puts "#{cask} already installed"
+  else
+    puts "Installing cask #{cask}".green
+    system "brew cask install #{cask}"
+  end
+end

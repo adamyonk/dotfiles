@@ -5,4 +5,4 @@ source $DOTFILES/bash/completions/*
 alias reload='. $HOME/.bashrc'
 
 # added by travis gem
-[ -f /Users/adamyonk/.travis/travis.sh ] && source /Users/adamyonk/.travis/travis.sh
+[ -f $HOME/.travis/travis.sh ] && source $HOME/.travis/travis.sh

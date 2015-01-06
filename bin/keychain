@@ -28,5 +28,5 @@ command =  'security 2>&1 >/dev/null find-internet-password -g'
 command += " -a #{opts[:account]}" if opts[:account]
 command += " -s #{opts[:server]}" if opts[:server]
 command += ' | sed \'s/.*\"\(.*\)\"/\1/\''
-puts command
+
 `#{command}`

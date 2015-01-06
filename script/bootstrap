@@ -120,7 +120,7 @@ install_dotfiles () {
 }
 
 symlink_files () {
-  link_files "$DOTFILES_ROOT/system/keyremap4macbook/private.xml" "~/Library/Application Support/KeyRemap4MacBook/private.xml"
+  link_files "$DOTFILES_ROOT/system/keyremap4macbook/private.xml" "~/Library/Application Support/Karabiner/private.xml"
   link_files "$DOTFILES_ROOT/bin" "~/bin"
 }
 
@@ -135,24 +135,27 @@ install_ruby() {
   esac
 }
 
-setup_gitconfig
-update_submodules
+install_deps () {
+  # If we are on a mac, lets install and setup homebrew
+  if [ "$(uname -s)" == "Darwin" ]
+    then
+    # TODO: install homebrew/deps
+    info "installing dependencies"
+    if ! (which brew)
+      then
+      ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+    fi
+    ruby "$DOTFILES_ROOT/script/install_brews"
+    success "dependencies installed"
+  fi
+}
+
+#setup_gitconfig
+#update_submodules
 install_dotfiles
 symlink_files
-install_ruby
-
-# If we are on a mac, lets install and setup homebrew
-if [ "$(uname -s)" == "Darwin" ]
-then
-  # TODO: install homebrew/deps
-  info "installing dependencies"
-  if ! (which brew)
-  then
-    ruby -e "$(curl -fsSL https://raw.github.com/mxcl/homebrew/go/install)"
-    brew install hub macvim openssl tmux wget
-  fi
-  success "dependencies installed"
-fi
+#install_ruby
+#install_deps
 
 echo ''
 echo '  All installed!'

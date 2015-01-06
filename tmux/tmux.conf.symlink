@@ -14,34 +14,27 @@ set-option -gw            aggressive-resize               on
 
 # panes
 set-option -g             base-index                      1
-set-option -g             pane-active-border-bg           colour2
-set-option -g             pane-active-border-fg           colour2
-set-option -g             pane-border-bg                  colour11
-set-option -g             pane-border-fg                  colour11
+set-option -g             pane-active-border-style        "bg=brightyellow,fg=brightyellow"
+set-option -g             pane-border-style               "bg=brightgreen,fg=brightgreen"
 set-option -gw            pane-base-index                 1
 
 # status bar
-set-option -g             set-titles                      off # tmux window titling for X
-set-option -g             status-bg                       default
-set-option -g             display-time                    5000
-set-option -g             status-fg                       default
-set-option -g             status-interval                 15
-set-option -g             status-left                     " #S " #" #S  #I:#P  ✖"
-set-option -g             status-left-length              60
-set-option -g             status-right                    " #(battery)  %m|%d  %H:%M "
-set-option -g             status-right-length             60
-set-option -g             status-utf8                     on
-set-option -g             visual-activity                 on
-set-option -g             visual-content                  on
 set-option -gw            automatic-rename                on
+set-option -gw            display-time                    5000
+set-option -gw            message-style                   "bg=black,fg=brightwhite"
 set-option -gw            monitor-activity                on
-set-option -gw            monitor-content                 on
-set-option -gw            window-status-attr              bold
-set-option -gw            window-status-current-attr      bold
-set-option -gw            window-status-current-bg        colour2
-set-option -gw            window-status-current-fg        colour7
-set-option -gw            window-status-current-format    ' #W '
-set-option -gw            window-status-format            ' #W '
+set-option -gw            set-titles                      off # tmux window titling for X
+set-option -gw            status-interval                 15
+set-option -gw            status-left                     " #[fg=brightwhite,bold]#S " #" #S  #I:#P  ✖"
+set-option -gw            status-left-length              60
+set-option -gw            status-position                 top
+set-option -gw            status-right                    "#[fg=white] #(battery)  %m|%d  %H:%M "
+set-option -gw            status-right-length             60
+set-option -gw            status-style                    "bg=black"
+set-option -gw            status-utf8                     on
+set-option -gw            visual-activity                 off
+set-option -gw            window-status-current-format    '#[bg=yellow,fg=brightwhite] #W '
+set-option -gw            window-status-format            '#[fg=white] #W '
 
 # keybindings
 unbind-key "'"

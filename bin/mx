@@ -26,6 +26,7 @@
 # so:
 #   #!/usr/bin/env sh
 #   SESSION="$1"
+#   SESSION_NAME="${SESSION//./_}"
 #   cd ~/.dotfiles
 #   tmux new-session -s "$SESSION" -n editor -d
 #   tmux send-keys "$EDITOR" C-m ":CtrlP" C-m
@@ -35,9 +36,9 @@
 # If there is no .tmux file, the default window setup is as follows:
 # editor  - runs $EDITOR right away
 # shell   - empty shell
-# watch  - if script/watch is available
 # console - if script/console is available
 # server  - if script/server is available
+# watch   - if script/watch is available
 
 set -e
 
@@ -48,16 +49,16 @@ else
 fi
 
 # tmux 1.9a+ doesn't like .'s in session names
-SESSION="${SESSION//./_}"
+SESSION_NAME="${SESSION//./_}"
 
 _safe_window() {
   if [ -x "$2" ]; then
-    tmux new-window -n "$1" -t "$SESSION"
+    tmux new-window -n "$1" -t "$SESSION_NAME"
     tmux send-keys "$2" C-m
   fi
 }
 
-if ! (tmux list-sessions | cut -d':' -f1 | grep -q ^"$SESSION"\$); then
+if ! (tmux list-sessions | cut -d':' -f1 | grep -q ^"$SESSION_NAME"\$); then
   if [ -d "$PROJECTS"/"$SESSION" ]; then
     cd "$PROJECTS"/"$SESSION"
   fi
@@ -65,19 +66,19 @@ if ! (tmux list-sessions | cut -d':' -f1 | grep -q ^"$SESSION"\$); then
   if [ -x "$PWD"/.tmux ]; then
     "$PWD"/.tmux "$SESSION"
   else
-    tmux new-session -s "$SESSION" -n editor -d
-    tmux send-keys "$EDITOR" C-m ":CtrlP" C-m
-    tmux new-window -n shell -t "$SESSION"
+    tmux new-session -s "$SESSION_NAME" -n editor -d
+    tmux send-keys "$EDITOR" C-m
+    tmux new-window -n shell -t "$SESSION_NAME"
     _safe_window console script/console
     _safe_window server script/server
     _safe_window watch script/watch
 
-    tmux select-window -t "$SESSION":1
+    tmux select-window -t "$SESSION_NAME":1
   fi
 fi
 
 if [ -z "$TMUX" ]; then
-  tmux attach -t "$SESSION"
+  tmux attach -t "$SESSION_NAME"
 else
-  tmux switch-client -t "$SESSION"
+  tmux switch-client -t "$SESSION_NAME"
 fi

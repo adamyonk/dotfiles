@@ -70,8 +70,11 @@
 [fetch]
   prune             = true
 
+[gh]
+  protocol          = https
+
 [ghi]
-  token = GHI_TOKEN
+  token             = GHI_TOKEN
 
 [github]
   user              = adamyonk

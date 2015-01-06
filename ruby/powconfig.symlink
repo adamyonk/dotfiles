@@ -1,3 +1,4 @@
-export POW_DOMAINS=dev,test # local interferes with something (bonjour?) on OS X 10.8
+export POW_DOMAINS=dev
 export POW_TIMEOUT=1800
 export POW_WORKERS=5
+
