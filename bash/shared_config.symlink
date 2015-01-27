@@ -4,12 +4,13 @@ export BROWSER=open
 export DOTFILES=$PROJECTS/dotfiles
 
 # Editor
-if [[ -f `which mvim` ]] ; then
-  export VIM='mvim -v'
+if [[ -f `which nvim` ]] ; then
+  export EDITOR='nvim'
+elif [[ -f `which mvim` ]] ; then
+  export EDITOR='mvim -v'
 else
-  export VIM='vim'
+  export EDITOR='vim'
 fi
-export EDITOR=$VIM
 alias e=$EDITOR
 
 # Git
