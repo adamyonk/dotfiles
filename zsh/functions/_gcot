@@ -1,3 +1,0 @@
-#compdef gcot
-
-compadd `git branch --remotes`

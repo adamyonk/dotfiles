@@ -3,11 +3,15 @@
 export BROWSER=open
 export DOTFILES=$PROJECTS/dotfiles
 
+# Base16 Shell
+BASE16_SHELL="$HOME/.config/base16-shell/base16-solarized.dark.sh"
+[[ -s $BASE16_SHELL ]] && source $BASE16_SHELL
+
 # Editor
-if [[ -f `which nvim` ]] ; then
-  export EDITOR='nvim'
-elif [[ -f `which mvim` ]] ; then
+if [[ -f `which mvim` ]] ; then
   export EDITOR='mvim -v'
+elif [[ -f `which nvim` ]] ; then
+  export EDITOR='nvim'
 else
   export EDITOR='vim'
 fi

@@ -51,5 +51,4 @@ prompt_command() {
   git status --branch --short --untracked=normal
 }
 
-# chruby needs prompt command for auto.sh to work
 #PROMPT_COMMAND='prompt_command'

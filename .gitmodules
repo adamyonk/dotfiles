@@ -1,9 +1,6 @@
 [submodule "vim/vim.symlink/bundle/vim-pathogen"]
 	path = vim/vim.symlink/bundle/vim-pathogen
 	url = https://github.com/tpope/vim-pathogen.git
-[submodule "vim/vim.symlink/bundle/vim-colors-solarized"]
-	path = vim/vim.symlink/bundle/vim-colors-solarized
-	url = https://github.com/altercation/vim-colors-solarized.git
 [submodule "vim/vim.symlink/bundle/syntastic"]
 	path = vim/vim.symlink/bundle/syntastic
 	url = https://github.com/scrooloose/syntastic.git
@@ -49,12 +46,6 @@
 [submodule "vim/vim.symlink/bundle/vim-unimpaired"]
 	path = vim/vim.symlink/bundle/vim-unimpaired
 	url = https://github.com/tpope/vim-unimpaired.git
-[submodule "ruby/rbenv.symlink"]
-	path = ruby/rbenv.symlink
-	url = https://github.com/sstephenson/rbenv.git
-[submodule "vim/vim.symlink/bundle/hammer.vim"]
-	path = vim/vim.symlink/bundle/hammer.vim
-	url = https://github.com/matthias-guenther/hammer.vim.git
 [submodule "vim/vim.symlink/bundle/netrw.vim"]
 	path = vim/vim.symlink/bundle/netrw.vim
 	url = https://github.com/vim-scripts/netrw.vim.git
@@ -121,9 +112,6 @@
 [submodule "system/keyboard"]
 	path = system/keyboard
 	url = https://github.com/jasonrudolph/keyboard.git
-[submodule "vim/vim.symlink/bundle/vim-colors-pencil"]
-	path = vim/vim.symlink/bundle/vim-colors-pencil
-	url = https://github.com/reedes/vim-colors-pencil.git
 [submodule "vim/vim.symlink/bundle/vim-thematic"]
 	path = vim/vim.symlink/bundle/vim-thematic
 	url = https://github.com/reedes/vim-thematic.git
@@ -136,3 +124,6 @@
 [submodule "vim/vim.symlink/bundle/vim-projectile"]
 	path = vim/vim.symlink/bundle/vim-projectile
 	url = https://github.com/tpope/vim-projectile.git
+[submodule "system/config.symlink/base16-shell"]
+	path = system/config.symlink/base16-shell
+	url = https://github.com/chriskempson/base16-shell.git
