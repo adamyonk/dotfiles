@@ -9,7 +9,7 @@ let g:ctrlp_extensions = ['quickfix'] " extensions are optional. to enable an ex
 let g:ag_binary = system("which ag | xargs echo -n")
 if filereadable(g:ag_binary)
   let g:ackprg = g:ag_binary . ' --nocolor --nogroup --column'
-  let g:ctrlp_user_command = g:ag_binary . ' %s -l --nocolor -g ""'
+  let g:ctrlp_user_command = g:ag_binary . ' %s -l --nocolor --hidden -g ""'
 endif
 
 "if executable('ag')
