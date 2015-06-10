@@ -1,0 +1,20 @@
+#!/usr/bin/env sh
+
+# dice
+# version 0.0.1
+# Adam Jahnke - github.com/adamyonk
+
+# Heavily inspired by http://leancrew.com/all-this/2015/04/passphrases-via-shell-pipeline/
+
+# Usage:
+#   dice source [words]
+
+# source should be a large (> 7500 unique words) text (perhaps something from
+# http://www.gutenberg.org).
+# words is how many words it should randomly spit out. Defaults to 6.
+
+SOURCE=$1
+WORDS=$2
+: ${WORDS:=6}
+
+cat "$SOURCE" | tr -cs A-Za-z '\n' | tr A-Z a-z | sort | uniq | gshuf --random-source=/dev/random -n"$WORDS" | tr '\n' ' '; echo ''
