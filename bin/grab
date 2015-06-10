@@ -1,4 +1,0 @@
-#!/usr/bin/env bash
-# Usage: grab https://github.com/mislav/dotfiles/raw/master/bin/pair bin/pair
-
-curl -L $1 -o $2

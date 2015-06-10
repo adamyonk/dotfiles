@@ -1,0 +1,3 @@
+#!/usr/bin/env sh
+
+git push origin :refs/heads/$1 && git branch -D $1

@@ -1,8 +1,0 @@
-#!/usr/bin/env ruby
-
-require 'webrick'
-include WEBrick
-
-WEBrick::HTTPServer.new(Port: 3333, DocumentRoot: Dir.pwd).start
-
-# ruby -rwebrick -e'WEBrick::HTTPServer.new(:Port => 8000, :DocumentRoot => Dir.pwd).start'
