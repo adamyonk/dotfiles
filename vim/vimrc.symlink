@@ -2,10 +2,41 @@
 " 1 important
 " =============================================================================
 
-let mapleader='\'
+let mapleader=','
 set nocompatible " don't behave like Vi
-runtime bundle/vim-pathogen/autoload/pathogen.vim " initialize pathogen
-call pathogen#infect() " this loads all the plugins in ~/.vim/bundle
+
+" Plug
+call plug#begin()
+
+Plug 'airblade/vim-gitgutter'
+Plug 'chriskempson/base16-vim'
+Plug 'ervandew/supertab'
+Plug 'godlygeek/tabular'
+Plug 'junegunn/vim-emoji'
+Plug 'junegunn/vim-github-dashboard'
+Plug 'kchmck/vim-coffee-script'
+Plug 'kien/ctrlp.vim'
+Plug 'mattn/gist-vim'
+Plug 'mattn/webapi-vim'
+Plug 'nelstrom/vim-visual-star-search'
+Plug 'plasticboy/vim-markdown'
+Plug 'rking/ag.vim'
+Plug 'scrooloose/syntastic'
+Plug 'sjl/vitality.vim'
+Plug 'tpope/vim-commentary'
+Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-haml'
+Plug 'tpope/vim-projectile'
+Plug 'tpope/vim-repeat'
+Plug 'tpope/vim-rsi'
+Plug 'tpope/vim-surround'
+Plug 'tpope/vim-unimpaired'
+Plug 'tpope/vim-vinegar'
+Plug 'vim-scripts/ZoomWin'
+Plug 'vim-scripts/netrw.vim'
+Plug 'vim-scripts/visualrepeat'
+
+call plug#end()
 
 " =============================================================================
 " 2 moving around, searching and patterns
@@ -37,7 +68,7 @@ set number " show the line number for each line
 set hlsearch " highlight all matches for the last used search pattern
 set cursorline " highlight the screen line of the cursor
 set colorcolumn=+1 " columns to highlight
-let base16colorspace=256
+"let base16colorspace=256
 set bg=dark
 colorscheme base16-solarized
 set spellfile=~/.vim/spellfile.utf-8.add " file that "zg" adds good words to
@@ -208,6 +239,9 @@ set viminfo='100,f1 " list that specifies what to write in the viminfo file
 " mappings
 " =============================================================================
 
+nnoremap <leader>w :w<cr>
+nnoremap <leader>bl :set bg=light<cr>
+nnoremap <leader>bd :set bg=dark<cr>
 " reload tags
 "command! ReloadTags :!/usr/local/bin/ctags --tagfile .vim-tags --extra=+f --exclude=.git --exclude=doc --exclude=gems --recurse --tag-relative
 "command! GitTags :!.git/hooks/ctags
@@ -215,7 +249,7 @@ nnoremap <leader>t :silent !.git/hooks/ctags<cr>:redraw!<cr>
 " automatically reload vimrc when it's saved
 autocmd! BufWritePost vim/vimrc.symlink source ~/.vimrc
 " run spec under current line
-nnoremap <leader>s :!bundle exec rake spec SPEC=%:<c-r>=line('.')<cr><cr>
+nnoremap <leader>s :!bundle exec rake spec SPEC=%:<cr>=line('.')<cr><cr>
 " run current spec file
 nnoremap <leader>S :!bundle exec rake spec SPEC=%<cr>
 " insert Mode
@@ -223,7 +257,7 @@ inoremap jk <esc>
 " toggle "keep current line centered" mode
 nnoremap <leader>C :let &scrolloff=999-&scrolloff<cr>
 " clean trailing whitespace
-nnoremap <leader>w mz:%s/\s\+$//<cr>:let @/=''<cr>`z
+"nnoremap <leader>w mz:%s/\s\+$//<cr>:let @/=''<cr>`z
 " keep cursor in place when joining lines
 nnoremap J mzJ`z
 " yank from cursor to end of line
@@ -252,50 +286,16 @@ if executable('ag')
   set grepprg=ag\ --nogroup\ --nocolor
 endif
 command! -nargs=+ CustomGrep :execute "silent grep! --nogroup --nocolor <args>" | copen | redraw!
-nnoremap <leader>g :CustomGrep 
+nnoremap <leader>g :CustomGrep
 " sudo write
 command! W w !sudo tee % > /dev/null
 " wrap selection
-vmap <leader>" c"<C-R>""<esc>
-vmap <leader>' c'<C-R>"'<esc>
-vmap <leader># c#{<C-R>"}<esc>
-vmap <leader>( c(<C-R>")<esc>
-vmap <leader>[ c[<C-R>"]<esc>
+"vmap <leader>" c"<C-R>""<esc>
+"vmap <leader>' c'<C-R>"'<esc>
+"vmap <leader># c#{<C-R>"}<esc>
+"vmap <leader>( c(<C-R>")<esc>
+"vmap <leader>[ c[<C-R>"]<esc>
 " source ~/.vimrc.local if it exists
 if filereadable(expand('~/.vimrc.local'))
   source ~/.vimrc.local
 endif
-
-" Like `wincmd` but also change tmux panes instead of vim windows when needed.
-let s:tmux_is_last_pane = 0
-au WinEnter * let s:tmux_is_last_pane = 0
-function! s:TmuxWinCmd(direction)
-  let nr = winnr()
-  let tmux_last_pane = (a:direction == 'p' && s:tmux_is_last_pane)
-  if !tmux_last_pane
-    " try to switch windows within vim
-    exec 'wincmd ' . a:direction
-  endif
-  " Forward the switch panes command to tmux if:
-  " a) we're toggling between the last tmux pane;
-  " b) we tried switching windows in vim but it didn't have effect.
-  if tmux_last_pane || nr == winnr()
-    let cmd = 'tmux select-pane -' . tr(a:direction, 'phjkl', 'lLDUR')
-    call system(cmd)
-    let s:tmux_is_last_pane = 1
-    echo cmd
-  else
-    let s:tmux_is_last_pane = 0
-  endif
-endfunction
-
-" Ag shortcuts
-nnoremap <leader>ag :Ag ""<left>
-nnoremap <leader>af :AgFile ""<left>
-
-" navigate between split windows/tmux panes
-nnoremap <c-j> :call <SID>TmuxWinCmd('j')<cr>
-nnoremap <c-k> :call <SID>TmuxWinCmd('k')<cr>
-nnoremap <c-h> :call <SID>TmuxWinCmd('h')<cr>
-nnoremap <c-l> :call <SID>TmuxWinCmd('l')<cr>
-nnoremap <c-\> :call <SID>TmuxWinCmd('p')<cr>
