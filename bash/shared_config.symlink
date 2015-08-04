@@ -6,6 +6,14 @@ export DOTFILES=$PROJECTS/dotfiles
 # Base16 Shell
 BASE16_SHELL="$HOME/.config/base16-shell/base16-solarized.dark.sh"
 [[ -s $BASE16_SHELL ]] && source $BASE16_SHELL
+alias dark="source $HOME/.config/base16-shell/base16-solarized.dark.sh"
+alias light="source $HOME/.config/base16-shell/base16-solarized.light.sh"
+
+# Path
+export PATH=./bin
+export PATH=$PATH:$HOME/bin
+export PATH=$PATH:/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin
+export PATH=$PATH:/usr/local/share/git-core/contrib/credential/netrc
 
 # Editor
 if [[ -f `which mvim` ]] ; then
@@ -40,6 +48,10 @@ alias h='heroku'
 alias s='staging'
 alias p='production'
 
+# NVM
+export NVM_DIR="/Users/adamyonk/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
+
 # Ruby
 alias b='bundle'
 alias be='bundle exec'
@@ -53,28 +65,7 @@ alias r='rake'
 if [[ -e /usr/local/share/chruby ]]; then
   source /usr/local/share/chruby/chruby.sh
   source /usr/local/share/chruby/auto.sh
-  chruby $(cat ~/.ruby-version)
 fi
-
-# Path
-export PATH=./bin
-export PATH=$PATH:$HOME/bin
-export PATH=$PATH:/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin
-export PATH=$PATH:/usr/local/heroku/bin
-export PATH=$PATH:/usr/local/Cellar/go/1.2/libexec/bin
-
-# AWS
-export PATH=$PATH:$PROJECTS/awsam/bin
-export AWS_DEFAULT_USER=ubuntu
-if [ -s $HOME/.awsam/bash.rc ]; then
-  source $HOME/.awsam/bash.rc
-fi
-ec2-find() {
-  aws ec2 describe-instances --filters Name=tag-value,Values=*$1* | grep "$1\|InstanceId" | uniq | sed -e 's/^[ \t\]*//' -e 's/,//g' | paste - -
-}
-
-# Vagrant
-alias v='vagrant'
 
 # System
 function colours() {
@@ -87,14 +78,15 @@ alias ios='open /Applications/Xcode.app/Contents/Applications/iOS\ Simulator.app
 alias lc='launchctl'
 alias ll='ls -al'
 alias lock='/System/Library/CoreServices/Menu\ Extras/User.menu/Contents/Resources/CGSession -suspend'
-#alias serve='ruby -run -e httpd ./ --port 3333'
+alias serve='ruby -run -e httpd ./ --port 3333'
 alias ssh_up='systemsetup -setremotelogin on'
 alias ssh_down='systemsetup -setremotelogin off'
 
 # Tmux
 alias tmux='tmux -2'
-#if [[ "$(uname)" = 'Darwin' ]]; then
-#  alias tmux='tmux -2 -f ~/.tmux-osx.conf'
-#else
-#  alias tmux='tmux -2'
-#fi
+
+# Travis
+[ -f $HOME/.travis/travis.sh ] && source $HOME/.travis/travis.sh
+
+# Vagrant
+alias v='vagrant'

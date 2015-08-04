@@ -1,7 +1,7 @@
 # Prompt
 color_green=$'\033[0;32m'
 color_red=$'\033[0;31m'
-color_none=$'\033[0m'
+color_none=$'\033[0;m'
 
 # Last status
 _prompt_status() {
@@ -11,7 +11,7 @@ _prompt_status() {
   else
     printf "$color_red"
   fi
-  printf '✖'
+  printf '⤫'
   printf "$color_none"
 }
 
