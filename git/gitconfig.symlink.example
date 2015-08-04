@@ -1,60 +1,19 @@
 [alias]
-  # some of these depend on hub
-  a                 = add
-  aa                = add --all
-  b                 = branch
-  ba                = branch --all
-  bd                = branch --delete
-  br                = browse
-  bpr               = browse -- pulls/adamyonk
-  c                 = commit --verbose
-  ca                = commit --amend
-  caa               = commit --amend --author
-  cl                = clone
-  co                = checkout
-  cot               = checkout --track
-  cp                = cherry-pick
-  create-branch     = !sh -c 'git push origin HEAD:refs/heads/$1 && git fetch origin && git branch --track $1 origin/$1 && cd . && git checkout $1' -
   d                 = diff --word-diff
-  delete-branch     = !sh -c 'git push origin :refs/heads/$1 && git branch -D $1' -
+  dw                = diff --color-words
   dlc               = diff --cached HEAD^
-  f                 = fetch
-  fl                = log -u
-  l                 = log --decorate --oneline
-  la                = log --abbrev-commit --all --decorate --graph --pretty=oneline
-  lf                = log --decorate --numstat --pretty=format:"%C(yellow)%h%Cred%d\\ %Creset%s%Cblue\\ [%cn]"
   ll                = log --abbrev-commit --color --graph --pretty=format:"%Cred%h%Creset\\ -%C(yellow)%d%Creset\\ %s\\ %Cgreen(%cr)%C(bold\\ blue)\\ <%an>%Creset"
-  m                 = merge
-  merge-branch      = !git checkout master && git merge @{-1}
-  mm                = merge master
-  pl                = pull
-  pr                = pull-request
-  ps                = push
-  r                 = rebase
-  ra                = rebase --abort
-  rc                = rebase --continue
-  re                = reset
-  rehh              = reset --hard HEAD
-  ri                = rebase --interactive
-  ru                = rebase -i @{u}
-  s                 = status --branch --short
-  st                = stash
-  sta               = stash apply
   standup           = log --author=\"AUTHORNAME\" --pretty=oneline --since yesterday
-  stl               = stash list
-  sts               = stash save
   sub               = submodule
   suba              = submodule add
   subf              = submodule foreach
   subu              = submodule foreach git pull origin master
-  t                 = new-tag
-  w                 = diff --color-words
 
 [branch]
   autosetuprebase   = always
 
 [credential]
-  helper            = osxkeychain
+  helper            = netrc
 
 [color]
   branch            = auto
@@ -82,6 +41,9 @@
 [help]
   autocorrect       = 1
 
+[heroku]
+	account           = me
+
 [hub]
   protocol          = https
 
@@ -102,6 +64,9 @@
 
 [push]
   default           = tracking
+
+[rebase]
+  autosquash        = true
 
 [rerere]
   enabled           = 1
