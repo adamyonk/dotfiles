@@ -1,5 +1,110 @@
-source $HOME/.shared_config
-source $DOTFILES/bash/prompt.bash
-source $DOTFILES/bash/completions/*
+# Source ~/.localrc if it exists
+[[ -e $HOME/.localrc ]] && source $HOME/.localrc
 
 alias reload='. $HOME/.bashrc'
+
+export BROWSER=open
+export DOTFILES=$PROJECTS/dotfiles
+
+# Base16 Shell
+BASE16_SHELL="$HOME/.config/base16-shell/base16-solarized.dark.sh"
+[[ -s $BASE16_SHELL ]] && source $BASE16_SHELL
+alias dark="source $HOME/.config/base16-shell/base16-solarized.dark.sh"
+alias light="source $HOME/.config/base16-shell/base16-solarized.light.sh"
+
+# Path
+export PATH=.git/safe/../../bin
+export PATH=$PATH:./bin
+export PATH=$PATH:$HOME/bin
+export PATH=$PATH:/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin
+export PATH=$PATH:/usr/local/share/git-core/contrib/credential/netrc
+
+# Editor
+if [[ -f `which mvim` ]] ; then
+  export EDITOR='mvim -v'
+elif [[ -f `which nvim` ]] ; then
+  export EDITOR='nvim'
+else
+  export EDITOR='vim'
+fi
+alias e=$EDITOR
+
+# Git
+[[ -f `which hub` ]] && alias git='hub'
+alias g='git'
+complete -o default -o nospace -F _git g
+
+if [[ -f `which hitch` ]] ; then
+  alias unhitch='hitch --unhitch'
+  hitch() {
+    command hitch "$@"
+    if [[ -s "$HOME/.hitch_export_authors" ]] ; then source "$HOME/.hitch_export_authors" ; fi
+  }
+fi
+
+if [ -d $(brew --prefix)/etc/bash_completion.d ]; then
+  . $(brew --prefix)/etc/bash_completion.d/git-completion.bash
+  . $(brew --prefix)/etc/bash_completion.d/hub.bash_completion.sh
+fi
+
+# Go
+export GOPATH=$PROJECTS/Go
+export GOROOT=/usr/local/opt/go/libexec
+export PATH=$PATH:$GOPATH/bin:$GOROOT/bin
+
+# Heroku
+alias h='heroku'
+alias s='staging'
+alias p='production'
+
+# Homebrew
+export HOMEBREW_CASK_OPTS="--appdir=/Applications"
+
+# NVM
+export NVM_DIR="/Users/adamyonk/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
+
+# Ruby
+alias b='bundle'
+alias be='bundle exec'
+alias bi='bundle install'
+alias bu='bundle update'
+alias f='foreman'
+alias fb='foreman run bundle exec'
+alias fr='foreman run'
+alias r='rake'
+
+if [[ -e /usr/local/share/chruby ]]; then
+  source /usr/local/share/chruby/chruby.sh
+  source /usr/local/share/chruby/auto.sh
+fi
+
+# AWS
+alias source_awsam="source $HOME/.awsam/bash.rc"
+#if [ -s $HOME/.awsam/bash.rc ]; then
+#  source $HOME/.awsam/bash.rc
+#fi
+
+# System
+function colours() {
+  for i in {0..255} ; do
+    printf "\x1b[38;5;${i}m${i} "
+  done
+}
+alias fliptable='echo （╯°□°）╯︵ ┻━┻'
+alias ios='open /Applications/Xcode.app/Contents/Applications/iOS\ Simulator.app'
+alias lc='launchctl'
+alias ll='ls -al'
+alias lock='/System/Library/CoreServices/Menu\ Extras/User.menu/Contents/Resources/CGSession -suspend'
+alias serve='ruby -run -e httpd ./ --port 3333'
+alias ssh_up='systemsetup -setremotelogin on'
+alias ssh_down='systemsetup -setremotelogin off'
+
+# Tmux
+alias tmux='tmux -2'
+
+# Vagrant
+alias v='vagrant'
+
+source $DOTFILES/bash/prompt.bash
+source $DOTFILES/bash/completions/*
