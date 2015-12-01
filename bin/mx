@@ -51,11 +51,11 @@ SESSION_NAME="${SESSION//./_}"
 _safe_window() {
   if [ -x "$SESSION_PATH"/"$2" ]; then
     tmux new-window -c "$SESSION_PATH" -n "$1" -t "$SESSION_NAME"
-    tmux send-keys "$2" C-m
+    tmux send-keys -t "$SESSION_NAME" "$2" C-m
   fi
 }
 
-if ! (tmux list-sessions | cut -d':' -f1 | grep -q ^"$SESSION_NAME"\$); then
+if ! (tmux has-session -t "$SESSION_NAME"); then
   if [ -d "$PROJECTS"/"$SESSION" ]; then
     SESSION_PATH="$PROJECTS"/"$SESSION"
   else
@@ -63,10 +63,10 @@ if ! (tmux list-sessions | cut -d':' -f1 | grep -q ^"$SESSION_NAME"\$); then
   fi
 
   if [ -x "$SESSION_PATH"/.tmux ]; then
-    "$SESSION_PATH"/.tmux "$SESSION" "$SESSION_PATH"
+    "$SESSION_PATH"/.tmux "$SESSION_NAME" "$SESSION_PATH"
   else
     tmux new-session -d -c "$SESSION_PATH" -s "$SESSION_NAME" -n editor
-    tmux send-keys "$EDITOR" C-m
+    tmux send-keys -t "$SESSION_NAME" "$EDITOR" C-m
     tmux new-window -c "$SESSION_PATH" -n shell -t "$SESSION_NAME"
     _safe_window console script/console
     _safe_window server script/server
