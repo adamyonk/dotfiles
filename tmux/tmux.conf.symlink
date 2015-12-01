@@ -106,5 +106,8 @@ bind-key -n C-j           run-shell 'tmux-vim-select-pane -D'
 bind-key -n C-h           run-shell 'tmux-vim-select-pane -L'
 bind-key -n C-l           run-shell 'tmux-vim-select-pane -R'
 
+bind-key -n               WheelUpPane if-shell -F -t = "#{mouse_any_flag}" "send-keys -M" "if -Ft= '#{pane_in_mode}' 'send-keys -M' 'select-pane -t=; copy-mode -e; send-keys -M'"
+bind-key -n               WheelDownPane select-pane -t= \; send-keys -M
+
 # OSX
 #if-shell 'test "$(uname)" = "Darwin"' ''
