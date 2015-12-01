@@ -10,6 +10,7 @@ call plug#begin()
 
 Plug 'airblade/vim-gitgutter'
 Plug 'chriskempson/base16-vim'
+Plug 'easymotion/vim-easymotion'
 Plug 'ervandew/supertab'
 Plug 'godlygeek/tabular'
 Plug 'junegunn/vim-emoji'
@@ -68,7 +69,7 @@ set number " show the line number for each line
 set hlsearch " highlight all matches for the last used search pattern
 set cursorline " highlight the screen line of the cursor
 set colorcolumn=+1 " columns to highlight
-"let base16colorspace=256
+let base16colorspace=256
 set bg=dark
 colorscheme base16-solarized
 set spellfile=~/.vim/spellfile.utf-8.add " file that "zg" adds good words to
@@ -87,7 +88,7 @@ augroup filetypes
   " Property lists
   autocmd BufRead,BufNewFile,BufWrite *.{plist,xml} set filetype=xml
   " Ruby
-  autocmd BufRead,BufNewFile,BufWrite {Capfile,Gemfile,Guardfile,Procfile,Rakefile,Thorfile,.ru,.caprc,.irbrc,.jbuilder,.rake} set filetype=ruby
+  autocmd BufRead,BufNewFile,BufWrite {Capfile,Gemfile,Guardfile,Procfile,Rakefile,Thorfile,Vagrantfile,.ru,.caprc,.irbrc,.jbuilder,.rake} set filetype=ruby
 augroup end
 
 " =============================================================================
@@ -242,6 +243,10 @@ set viminfo='100,f1 " list that specifies what to write in the viminfo file
 nnoremap <leader>w :w<cr>
 nnoremap <leader>bl :set bg=light<cr>
 nnoremap <leader>bd :set bg=dark<cr>
+imap <C-h> <C-o>h
+imap <C-j> <C-o>j
+imap <C-k> <C-o>k
+imap <C-l> <C-o>l
 " reload tags
 "command! ReloadTags :!/usr/local/bin/ctags --tagfile .vim-tags --extra=+f --exclude=.git --exclude=doc --exclude=gems --recurse --tag-relative
 "command! GitTags :!.git/hooks/ctags
@@ -299,3 +304,6 @@ command! W w !sudo tee % > /dev/null
 if filereadable(expand('~/.vimrc.local'))
   source ~/.vimrc.local
 endif
+
+set exrc
+set secure
