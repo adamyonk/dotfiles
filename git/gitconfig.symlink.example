@@ -1,13 +1,24 @@
 [alias]
+  b                 = branch
+  co                = checkout
   d                 = diff --word-diff
   dw                = diff --color-words
   dlc               = diff --cached HEAD^
-  ll                = log --abbrev-commit --color --graph --pretty=format:"%Cred%h%Creset\\ -%C(yellow)%d%Creset\\ %s\\ %Cgreen(%cr)%C(bold\\ blue)\\ <%an>%Creset"
+  l                 = log --abbrev-commit --color --graph --pretty=format:"%Cred%h%Creset\\ -%C(yellow)%d%Creset\\ %s\\ %Cgreen(%cr)%C(bold\\ blue)\\ <%an>%Creset"
+  m                 = merge
+  mypulls           = browse -- pulls/adamyonk
+  pl                = pull
+  ps                = push
+  pr                = pull-request
+  s                 = status --short
+  safe              = !mkdir -p .git/safe && echo "Repository marked safe!"
+  se                = "!git checkout $(git branch | sed 's/*/ /' | selecta)"
   standup           = log --author=\"AUTHORNAME\" --pretty=oneline --since yesterday
   sub               = submodule
   suba              = submodule add
   subf              = submodule foreach
   subu              = submodule foreach git pull origin master
+  wip               = "!$EDITOR $(git ls-files -m)"
 
 [branch]
   autosetuprebase   = always
@@ -22,7 +33,7 @@
   ui                = 1
 
 [core]
-  editor            = $EDITOR
+  editor            = mvim -v
   excludesfile      = ~/.gitignore
   quotepath         = false
 

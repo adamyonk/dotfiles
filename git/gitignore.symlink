@@ -10,5 +10,9 @@ tags
 
 brakeman.html
 
+.vimrc
 .tmux
 script/tmux
+Procfile.local
+
+.otto
