@@ -2,11 +2,15 @@
 if test -f $HOME/.config/fish/local.fish
   . $HOME/.config/fish/local.fish
 end
+
+# Base16 Shell
+eval sh $HOME/.config/base16-shell/base16-solarized.dark.sh
+
 # Variables
 set --global --export BROWSER       open
 set --global --export DOTFILES      $PROJECTS/dotfiles
 # Path
-set --global --export PATH          ./bin $HOME/bin /usr/local/heroku/bin $HOME/.rbenv/bin $HOME/.rbenv/shims /usr/local/bin /usr/local/sbin /usr/bin /usr/sbin /bin /sbin $HOME/.coral/bin
+set --global --export PATH          ./bin $HOME/bin /usr/local/bin /usr/local/sbin /usr/bin /usr/sbin /bin /sbin
 
 # Editor
 if which mvim >/dev/null
@@ -37,6 +41,13 @@ end
 
 # Heroku
 function h;             heroku $argv; end
+function p;             production $argv; end
+function s;             staging $argv; end
+
+# NVM
+function nvm
+  bass source $HOME/.nvm/nvm.sh ';' nvm $argv
+end
 
 # Ruby
 function b;             bundle $argv; end
@@ -44,12 +55,15 @@ function be;            bundle exec $argv; end
 function bi;            bundle install $argv; end
 function bu;            bundle update $argv; end
 function f;             foreman $argv; end
-function fr;            foreman run bundle exec $argv; end
+function fb;            foreman run bundle exec $argv; end
+function fr;            foreman run $argv; end
 function r;             rake $argv; end
-rbenv rehash >/dev/null ^&1
-#. /usr/local/share/fry/fry.fish
-#set -U fry_auto_switch 1
-#fry 1.9.3 >/dev/null ^&1
+
+source /usr/local/share/chruby/chruby.fish
+source /usr/local/share/chruby/auto.fish
+
+# AWS
+bass source $HOME/.awsam/bash.rc
 
 # System
 function fliptable;     echo \n（╯°□°）╯︵ ┻━┻\n; end
@@ -73,7 +87,7 @@ function vu;            vagrant up $argv; end
 function reload;        . $HOME/.config/fish/config.fish $argv; end
 
 # tmux
-#function tmux;          command tmux -2 $argv; end
+function tmux;          command tmux -2 $argv; end
 
 # Prompt
 set fish_greeting       ''
