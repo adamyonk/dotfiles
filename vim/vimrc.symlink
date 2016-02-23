@@ -13,12 +13,16 @@ Plug 'chriskempson/base16-vim'
 Plug 'easymotion/vim-easymotion'
 Plug 'ervandew/supertab'
 Plug 'godlygeek/tabular'
+Plug 'isRuslan/vim-es6'
+Plug 'junegunn/gv.vim'
+Plug 'junegunn/vim-easy-align'
 Plug 'junegunn/vim-emoji'
 Plug 'junegunn/vim-github-dashboard'
 Plug 'kchmck/vim-coffee-script'
 Plug 'kien/ctrlp.vim'
 Plug 'mattn/gist-vim'
 Plug 'mattn/webapi-vim'
+Plug 'mxw/vim-jsx'
 Plug 'nelstrom/vim-visual-star-search'
 Plug 'plasticboy/vim-markdown'
 Plug 'rking/ag.vim'
@@ -70,7 +74,7 @@ set hlsearch " highlight all matches for the last used search pattern
 set cursorline " highlight the screen line of the cursor
 set colorcolumn=+1 " columns to highlight
 let base16colorspace=256
-set bg=dark
+set bg=light
 colorscheme base16-solarized
 set spellfile=~/.vim/spellfile.utf-8.add " file that "zg" adds good words to
 syntax enable " switch on syntax highlighting
@@ -81,7 +85,7 @@ augroup filetypes
   " Indent-based folding
   autocmd BufRead,BufNewFile,BufWrite *.{coffee,json,py,yaml,yml} set foldmethod=indent
   " JavaScript
-  autocmd BufRead,BufNewFile,BufWrite *.{js.asp,json} set filetype=javascript
+  autocmd BufRead,BufNewFile,BufWrite *.{js.asp,json,es6,jsx} set filetype=javascript
   " Writing
   autocmd Filetype mkd set wrap linebreak nolist spell textwidth=80
   autocmd Filetype txt set wrap linebreak nolist spell textwidth=80
@@ -240,6 +244,11 @@ set viminfo='100,f1 " list that specifies what to write in the viminfo file
 " mappings
 " =============================================================================
 
+" Start interactive EasyAlign in visual mode (e.g. vipga)
+xmap ga <Plug>(EasyAlign)
+" Start interactive EasyAlign for a motion/text object (e.g. gaip)
+nmap ga <Plug>(EasyAlign)
+
 nnoremap <leader>w :w<cr>
 nnoremap <leader>bl :set bg=light<cr>
 nnoremap <leader>bd :set bg=dark<cr>
@@ -276,7 +285,7 @@ nnoremap Y y$
 vnoremap < <gv
 vnoremap > >gv
 " wrap current paragraph
-nnoremap <leader>wp gqip
+" nnoremap <leader>wp gqip
 " split window navigation
 "nnoremap <c-j> <c-w>j
 "nnoremap <c-k> <c-w>k
