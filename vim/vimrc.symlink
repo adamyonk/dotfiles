@@ -9,6 +9,7 @@ set nocompatible " don't behave like Vi
 call plug#begin('~/.vim/plugged')
 
 Plug 'airblade/vim-gitgutter'
+" Plug 'benekastah/neomake'
 Plug 'chriskempson/base16-vim'
 Plug 'easymotion/vim-easymotion'
 Plug 'ervandew/supertab'
@@ -40,6 +41,9 @@ Plug 'tpope/vim-vinegar'
 Plug 'vim-scripts/ZoomWin'
 Plug 'vim-scripts/netrw.vim'
 Plug 'vim-scripts/visualrepeat'
+Plug 'christoomey/vim-tmux-navigator'
+
+" Plug 'amperser/proselint', { 'do': 'find . -not -name "plugins" -exec rm -rf {}\; cp plugins/vim/syntastic_proselint/* ./; rm -rf plugins' }
 
 call plug#end()
 
@@ -219,7 +223,7 @@ set undodir=~/.vim_undo " list of directories for undo files
 " 22 executing external commands
 " =============================================================================
 
-set shell=/bin/bash " name of the shell program used for external commands
+set shell=/usr/local/bin/bash " name of the shell program used for external commands
 
 " =============================================================================
 " 23 running make and jumping to errors
