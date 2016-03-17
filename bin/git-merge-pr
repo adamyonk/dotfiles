@@ -36,7 +36,7 @@ fi
 remote_url=$(git config --get remote.origin.url)
 owner_repo=$(echo $remote_url | sed -En 's_^(git@|https://)?github.com(:|/)(.*)/(.*)(.git)?_\3 \4_p')
 owner=$(echo $owner_repo | sed 's_ .*__')
-repo=$(echo $owner_repo | sed 's_.* __')
+repo=$(echo $owner_repo | sed 's_.* __; s_.git$__')
 branch=${1:-"$(git symbolic-ref HEAD | sed 's_refs/heads/__')"}
 endpoint="https://api.github.com/repos/$owner/$repo/pulls"
 auth="Authorization: token $GITHUB_TOKEN"
