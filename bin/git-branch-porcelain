@@ -1,0 +1,15 @@
+#!/bin/sh
+
+#/ Usage: git branch-porcelain
+#/ Get the current branch name with no asterisks or anything.
+
+set -e
+
+# usage message
+if [ "$1" == "--help" -o "$1" == '-h' ]; then
+    grep ^#/ "$0" | cut -c4-
+    exit
+fi
+
+echo "${1:-"$(git symbolic-ref HEAD | sed 's@refs/heads/@@')"}"
+

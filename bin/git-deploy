@@ -1,0 +1,34 @@
+#!/usr/bin/env bash
+
+# Depends on hub, git-branch-porcelain, git-lita-ship, git-merge-pr, git-new-tag
+
+branch=$(git branch-porcelain)
+if [ "$branch" == 'master' ]; then
+  echo "Run this from a PR branch."
+  return
+fi
+
+echo -e "\n > hub ci-status"
+if [ "$(hub ci-status)" != 'success' ]; then
+  read -n 1 -p "CI Failure. Override?" response
+  if [ "$response" != 'y' ]; then
+    exit 1
+  fi
+fi
+
+echo -e "\n > git merge-pr"
+status="$(git merge-pr)"
+echo "$status"
+if ! [[ "$status" =~ "success" ]]; then
+  exit 1
+fi
+
+echo -e "\n > git checkout master"
+git checkout master
+
+echo -e "\n > git pull"
+git pull
+
+echo -e "\n > git new-tag"
+git new-tag
+

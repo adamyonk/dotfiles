@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+
+# Depends on github.com/github/hub
+
+STATUS=pending
+while [ "$STATUS" == 'pending' ]; do
+  STATUS=$(hub ci-status)
+  if [ "$STATUS" != 'pending' ]; then
+    break
+  else
+    sleep 10
+  fi
+done
+echo "$STATUS"
