@@ -3,7 +3,7 @@ set-option -g             default-terminal                'screen-256color'
 set-option -ga            update-environment              ' ITERM_PROFILE'
 set-option -g             prefix                          C-a
 set-option -g             status-keys                     vi
-set-option -g             escape-time                     0
+set-option -g             escape-time                     1
 set-option -g             repeat-time                     100
 set-option -g             history-limit                   2000
 set-option -g             mode-mouse                      on
@@ -24,11 +24,11 @@ set-option -gw            display-time                    5000
 set-option -gw            message-style                   "bg=default,fg=default"
 set-option -gw            monitor-activity                on
 set-option -gw            set-titles                      off # tmux window titling for X
-set-option -gw            status-interval                 15
+set-option -gw            status-interval                 1
 set-option -gw            status-left                     " #[fg=default,bold]#S " #" #S  #I:#P  ✖"
 set-option -gw            status-left-length              60
 set-option -gw            status-position                 top
-set-option -gw            status-right                    "#[fg=white] #(battery)  %m|%d  %H:%M "
+set-option -gw            status-right                    "#(cat ~/.thyme-tmux) #[fg=white] #(battery)  %m|%d  %H:%M "
 set-option -gw            status-right-length             60
 set-option -gw            status-style                    "bg=default"
 set-option -gw            status-utf8                     on
@@ -101,10 +101,12 @@ bind-key y                run-shell 'tmux show-buffer | reattach-to-user-namespa
 bind-key |                run-shell 'tmux-ssh-split -h'
 #bind-key u                capture-pane; save-buffer /tmp/tmux-buffer; run-shell "$TERMINAL -e 'cat /tmp/tmux-buffer | urlview'"
 # Smart pane switching with awareness of vim splits
-bind-key -n C-k           run-shell 'tmux-vim-select-pane -U'
-bind-key -n C-j           run-shell 'tmux-vim-select-pane -D'
-bind-key -n C-h           run-shell 'tmux-vim-select-pane -L'
-bind-key -n C-l           run-shell 'tmux-vim-select-pane -R'
+is_vim='echo "#{pane_current_command}" | grep -iqE "(^|\/)g?(view|n?vim?x?)(diff)?$"'
+bind-key -n C-h           if-shell "$is_vim" "send-keys C-h" "select-pane -L"
+bind-key -n C-j           if-shell "$is_vim" "send-keys C-j" "select-pane -D"
+bind-key -n C-k           if-shell "$is_vim" "send-keys C-k" "select-pane -U"
+bind-key -n C-l           if-shell "$is_vim" "send-keys C-l" "select-pane -R"
+bind-key -n C-\           if-shell "$is_vim" "send-keys C-\\" "select-pane -l"
 
 bind-key -n               WheelUpPane if-shell -F -t = "#{mouse_any_flag}" "send-keys -M" "if -Ft= '#{pane_in_mode}' 'send-keys -M' 'select-pane -t=; copy-mode -e; send-keys -M'"
 bind-key -n               WheelDownPane select-pane -t= \; send-keys -M
