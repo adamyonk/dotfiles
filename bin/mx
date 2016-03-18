@@ -10,32 +10,32 @@
 # Usage:
 #   mx [session]
 
-# To 'auto-launch' projects, you'll need a $PROJECTS directory where you keep
-# code sorted like so: $PROJECTS/<repo>.
+# To 'auto-launch' projects, you'll need a $projects directory where you keep
+# code sorted like so: $projects/<repo>.
 # So, a typical workflow would look like:
-#   $ hub clone pengwynn/octonaut $PROJECTS/octonaut-pengwynn
+#   $ hub clone pengwynn/octonaut $projects/octonaut-pengwynn
 #   $ mx octonaut-pengwynn
 
 # If `mx` is called with a <session> name, and there is no valid repo inside
-# $PROJECTS, a new tmux session will be initialized in the current working
+# $projects, a new tmux session will be initialized in the current working
 # directory with a name of <session>
 
 # If the target directory has a .tmux file, that file will be executed (and
 # sent $SESSION as the first argument, $SESSION_PATH as the second) instead of
-# the default window setup (explained below). An example script/tmux file may
+# the default window setup (explained below). An example .tmux file may
 # look like so:
 #   #!/usr/bin/env sh
 #   tmux new-session -d -c "$2" -s "$1" -n editor "$EDITOR"
 #   tmux new-window -n shell -t "$1"
-#   tmux new-window -c "$2" -n console -t "$1" "script/console"
+#   tmux new-window -c "$2" -n console -t "$1" "bin/console"
 #   tmux select-window -t "$1":1
 
-# If there is no script/tmux file, the default window setup is as follows:
+# If there is no .tmux file, the default window setup is as follows:
 # editor  - runs $EDITOR right away
 # shell   - empty shell
-# console - if script/console is available
-# server  - if script/server is available
-# watch   - if script/watch is available
+# console - if bin/console is available
+# server  - if bin/server is available
+# watch   - if bin/watch is available
 
 set -e
 
@@ -55,9 +55,9 @@ _safe_window() {
   fi
 }
 
-if ! (tmux has-session -t "$SESSION_NAME"); then
-  if [ -d "$PROJECTS"/"$SESSION" ]; then
-    SESSION_PATH="$PROJECTS"/"$SESSION"
+if ! (tmux ls | grep --silent "^$SESSION_NAME:"); then
+  if [ -d "$projects"/"$SESSION" ]; then
+    SESSION_PATH="$projects"/"$SESSION"
   else
     SESSION_PATH=$PWD
   fi
@@ -68,9 +68,9 @@ if ! (tmux has-session -t "$SESSION_NAME"); then
     tmux new-session -d -c "$SESSION_PATH" -s "$SESSION_NAME" -n editor
     tmux send-keys -t "$SESSION_NAME" "$EDITOR" C-m
     tmux new-window -c "$SESSION_PATH" -n shell -t "$SESSION_NAME"
-    _safe_window console script/console
-    _safe_window server script/server
-    _safe_window server script/watch
+    _safe_window console bin/console
+    _safe_window server bin/server
+    _safe_window server bin/watch
     tmux select-window -t "$SESSION_NAME":1
   fi
 fi
