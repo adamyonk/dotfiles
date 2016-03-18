@@ -1,16 +1,27 @@
-# Source ~/.localrc if it exists
-[[ -e $HOME/.localrc ]] && source $HOME/.localrc
+export PROMPT_COMMAND="history -a;history -c;history -r;$PROMPT_COMMAND"
 
-alias reload='. $HOME/.bashrc'
+SOURCE="${BASH_SOURCE[0]}"
+while [ -h "$SOURCE" ]; do # resolve $SOURCE until the file is no longer a symlink
+  DIR="$( cd -P "$( dirname "$SOURCE" )" && pwd )"
+  SOURCE="$(readlink "$SOURCE")"
+  [[ $SOURCE != /* ]] && SOURCE="$DIR/$SOURCE" # if $SOURCE was a relative symlink, we need to resolve it relative to the path where the symlink file was located
+done
+DIR="$( cd -P "$( dirname "$SOURCE" )" && pwd )"
+export dotfiles="${DIR%bash*}"
+
+alias reload='source $HOME/.bashrc'
 
 export BROWSER=open
-export DOTFILES=$PROJECTS/dotfiles
 
-# Base16 Shell
-BASE16_SHELL="$HOME/.config/base16-shell/base16-solarized.dark.sh"
-[[ -s $BASE16_SHELL ]] && source $BASE16_SHELL
-alias dark="source $HOME/.config/base16-shell/base16-solarized.dark.sh"
-alias light="source $HOME/.config/base16-shell/base16-solarized.light.sh"
+# Source ~/.localrc if it exists
+[[ -e "$HOME/.localrc" ]] && source "$HOME/.localrc"
+[[ -f "$dotfiles/bash/bash-sensible/sensible.bash" ]] && source "$dotfiles/bash/bash-sensible/sensible.bash"
+
+# Base16 Shell (doesn't work in Terminal.app)
+BASE16_SHELL="$HOME/.config/base16-shell"
+alias dark="source $BASE16_SHELL/base16-solarized.dark.sh"
+alias light="source $BASE16_SHELL/base16-solarized.light.sh"
+[[ -d "$BASE16_SHELL" ]] && light
 
 # Path
 export PATH=.git/safe/../../bin
@@ -18,6 +29,14 @@ export PATH=$PATH:./bin
 export PATH=$PATH:$HOME/bin
 export PATH=$PATH:/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin
 export PATH=$PATH:/usr/local/share/git-core/contrib/credential/netrc
+
+# Anybar
+function anybar {
+  if [ "$1" = 'open' ]; then
+    open /Applications/AnyBar.app; exit
+  fi
+  echo -n ${1:-white} | nc -4u -w0 localhost ${2:-1738}
+}
 
 # Editor
 if [[ -f `which mvim` ]] ; then
@@ -48,11 +67,12 @@ if [ -d $(brew --prefix)/etc/bash_completion.d ]; then
 fi
 
 # Go
-export GOPATH=$PROJECTS/Go
+export GOPATH=$projects/Go
 export GOROOT=/usr/local/opt/go/libexec
 export PATH=$PATH:$GOPATH/bin:$GOROOT/bin
 
 # Heroku
+export PATH=$PATH:/usr/local/heroku/bin
 alias h='heroku'
 alias s='staging'
 alias p='production'
@@ -80,10 +100,13 @@ if [[ -e /usr/local/share/chruby ]]; then
 fi
 
 # AWS
-alias source_awsam="source $HOME/.awsam/bash.rc"
+alias source_awsam="export AWS_DEFAULT_USER=ubuntu;source $HOME/.awsam/bash.rc"
 #if [ -s $HOME/.awsam/bash.rc ]; then
 #  source $HOME/.awsam/bash.rc
 #fi
+#ec2-find() {
+#  aws ec2 describe-instances --filters Name=tag-value,Values=*$1* | grep "$1\|InstanceId" | uniq | sed -e 's/^[ \t\]*//' -e 's/,//g' | paste - -
+#}
 
 # System
 function colours() {
@@ -106,5 +129,5 @@ alias tmux='tmux -2'
 # Vagrant
 alias v='vagrant'
 
-source $DOTFILES/bash/prompt.bash
-source $DOTFILES/bash/completions/*
+source $dotfiles/bash/prompt.bash
+source $dotfiles/bash/completions/*
