@@ -1,7 +1,7 @@
-#!/usr/bin/env sh
+#!/usr/bin/env bash
 
 # waldo
-# version 0.2
+# version 0.3
 # Adam Jahnke - http://github.com/adamyonk
 
 # Usage:
@@ -11,7 +11,7 @@
 #
 # Set environment (in ~/.localrc, if you please) variables for:
 # - DNSIMPLE_LOGIN
-# - DNSIMPLE_PASSWORD
+# - DNSIMPLE_TOKEN
 # - DNSIMPLE_DOMAIN_ID
 # - DNSIMPLE_RECORD_ID
 #
@@ -24,10 +24,10 @@ source ~/.localrc
 
 IP="$(curl -s checkip.dyndns.org | grep -Eo '[0-9\.]+')"
 
-curl --insecure --header 'Accept: application/json' \
-     --basic --user "$DNSIMPLE_LOGIN:$DNSIMPLE_PASSWORD" \
-     --header 'Content-Type: application/json' \
+curl --header "Accept: application/json" \
+     --header "Content-Type: application/json" \
+     --header "X-DNSimple-Token: $DNSIMPLE_LOGIN:$DNSIMPLE_TOKEN" \
      --include --request PUT "https://api.dnsimple.com/v1/domains/$DNSIMPLE_DOMAIN_ID/records/$DNSIMPLE_RECORD_ID" \
      --data "{\"record\":{\"content\":\"$IP\"}}" \
-     --silent --write-out "\n => %{http_code}: Set IP to $IP\n\n" \
+     --silent --write-out "\n => %{http_code}: Set IP to $IP\n" \
      --output /dev/null
