@@ -22,17 +22,18 @@ set :tmux_theme, "#[fg=mycolor,bg=mycolor]#[fg=%s]%s#[fg=mycolor,bg=mycolor]"
 # before(:all) do
 #   `mplayer ~/music/flight-of-the-bumble-bee.mp3 &`
 # end
-# 
-# # execute hook before each pomodoro
-# before do
-#   `terminal-notifier -message "Let's get started!"`
-# end
-# 
-# # execute hook after each pomodoro
-# after do |seconds_left|
-#   `terminal-notifier -message "Thyme's Up!"` if seconds_left == 0
-# end
-# 
+
+# execute hook before each pomodoro
+before do
+  # `terminal-notifier -message "Let's get started!"`
+  `afplay /System/Library/Sounds/Glass.aiff`
+end
+
+# execute hook after each pomodoro
+after do |seconds_left|
+  `terminal-notifier -message "Thyme's Up!"` if seconds_left == 0
+end
+
 # # execute hook after thyme program quits
 # after(:all) do
 #   `mplayer ~/music/victory.mp3 &`

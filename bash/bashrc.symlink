@@ -30,6 +30,12 @@ export PATH=$PATH:$HOME/bin
 export PATH=$PATH:/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin
 export PATH=$PATH:/usr/local/share/git-core/contrib/credential/netrc
 
+# GPGTools
+export GPG_TTY=$(tty)
+if [[ -n "$SSH_CONNECTION" ]] ;then
+  export PINENTRY_USER_DATA="USE_CURSES=1"
+fi
+
 # Anybar
 function anybar {
   if [ "$1" = 'open' ]; then
@@ -120,6 +126,7 @@ alias lc='launchctl'
 alias ll='ls -al'
 alias lock='/System/Library/CoreServices/Menu\ Extras/User.menu/Contents/Resources/CGSession -suspend'
 alias serve='ruby -run -e httpd ./ --port 3333'
+alias sound='afplay /System/Library/Sounds/Glass.aiff'
 alias ssh_up='systemsetup -setremotelogin on'
 alias ssh_down='systemsetup -setremotelogin off'
 

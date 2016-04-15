@@ -42,7 +42,7 @@ endpoint="https://api.github.com/repos/$owner/$repo/pulls"
 auth="Authorization: token $GITHUB_TOKEN"
 
 # Check if $1 is actually a pull request number
-if $(echo $1 | grep --silent '^\d*$'); then
+if $(test ! -z $1 && echo $1 | grep --silent '^\d*$'); then
   pull=$1
 else
   # Get the first matching pull request for $branch

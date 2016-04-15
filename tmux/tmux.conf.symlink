@@ -28,7 +28,7 @@ set-option -gw            status-interval                 1
 set-option -gw            status-left                     " #[fg=default,bold]#S " #" #S  #I:#P  ✖"
 set-option -gw            status-left-length              60
 set-option -gw            status-position                 top
-set-option -gw            status-right                    "#[fg=white] #(battery)  %m|%d  %H:%M #(cat ~/.thyme-tmux) "
+set-option -gw            status-right                    "#[fg=white] #(battery)  %m|%d  %H:%M  #(cat ~/.thyme-tmux) "
 set-option -gw            status-right-length             60
 set-option -gw            status-style                    "bg=default"
 set-option -gw            status-utf8                     on

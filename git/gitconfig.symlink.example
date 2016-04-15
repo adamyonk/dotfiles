@@ -33,6 +33,9 @@
   status            = auto
   ui                = 1
 
+[commit]
+	gpgsign = true
+
 [core]
   editor            = mvim -v
   excludesfile      = ~/.gitignore
