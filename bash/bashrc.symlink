@@ -32,9 +32,10 @@ export PATH=$PATH:/usr/local/share/git-core/contrib/credential/netrc
 
 # GPGTools
 export GPG_TTY=$(tty)
-if [[ -n "$SSH_CONNECTION" ]] ;then
-  export PINENTRY_USER_DATA="USE_CURSES=1"
-fi
+export PINENTRY_USER_DATA="USE_CURSES=1"
+# if [[ -n "$SSH_CONNECTION" ]] ;then
+#   export PINENTRY_USER_DATA="USE_CURSES=1"
+# fi
 
 # Anybar
 function anybar {
