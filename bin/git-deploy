@@ -25,10 +25,21 @@ fi
 
 echo -e "\n > git checkout master"
 git checkout master
+if [ $? != 0 ]; then
+  echo "Could not checkout master"
+  exit 1
+fi
 
 echo -e "\n > git pull"
 git pull
+if [ $? != 0 ]; then
+  echo "Could not pull latest"
+  exit 1
+fi
 
 echo -e "\n > git new-tag"
 git new-tag
-
+if [ $? != 0 ]; then
+  echo "Unable to create new tag"
+  exit 1
+fi

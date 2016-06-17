@@ -14,5 +14,5 @@ echo "\"$COMMAND\" copied to clipboard."
 
 status="$(hub ci-status)"
 if [ "$status" != 'success' ]; then
-  echo " > CAUTION: CI status is \"$status\""
+  echo "CAUTION: CI status is \"$status\""
 fi
