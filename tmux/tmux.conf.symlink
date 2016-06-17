@@ -1,40 +1,39 @@
-set-option -g             default-command                 "which reattach-to-user-namespace > /dev/null && reattach-to-user-namespace -l $SHELL || $SHELL"
-set-option -g             default-terminal                'screen-256color'
-set-option -ga            update-environment              ' ITERM_PROFILE'
-set-option -g             prefix                          C-a
-set-option -g             status-keys                     vi
-set-option -g             escape-time                     1
-set-option -g             repeat-time                     100
-set-option -g             history-limit                   2000
-set-option -g             mode-mouse                      on
+set -g default-command "which reattach-to-user-namespace > /dev/null && reattach-to-user-namespace -l $SHELL || $SHELL"
+set -g default-terminal 'tmux-256color'
+set -as terminal-overrides ',xterm*:sitm=\E[3m' # this probably only needs to happen in OS X
+set -ga update-environment ' ITERM_PROFILE'
+set -g prefix C-a
+set -g status-keys vi
+set -g escape-time 1
+set -g repeat-time 100
+set -g history-limit 2000
+set -g mouse on
 
-set-option -gw            mode-keys                       vi
-set-option -gw            mode-mouse                      on
-set-option -gw            aggressive-resize               on
+set -gw mode-keys vi
+set -gw aggressive-resize on
 
 # panes
-set-option -g             base-index                      1
-set-option -g             pane-active-border-style        "bg=brightyellow,fg=brightyellow"
-set-option -g             pane-border-style               "bg=brightgreen,fg=brightgreen"
-set-option -gw            pane-base-index                 1
+set -g base-index 1
+set -g pane-active-border-style "bg=brightyellow,fg=brightyellow"
+set -g pane-border-style "bg=brightgreen,fg=brightgreen"
+set -gw pane-base-index 1
 
 # status bar
-set-option -gw            automatic-rename                on
-set-option -gw            display-time                    5000
-set-option -gw            message-style                   "bg=default,fg=default"
-set-option -gw            monitor-activity                on
-set-option -gw            set-titles                      off # tmux window titling for X
-set-option -gw            status-interval                 1
-set-option -gw            status-left                     " #[fg=default,bold]#S " #" #S  #I:#P  ✖"
-set-option -gw            status-left-length              60
-set-option -gw            status-position                 top
-set-option -gw            status-right                    "#[fg=white] #(battery)  %m|%d  %H:%M  #(cat ~/.thyme-tmux) "
-set-option -gw            status-right-length             60
-set-option -gw            status-style                    "bg=default"
-set-option -gw            status-utf8                     on
-set-option -gw            visual-activity                 off
-set-option -gw            window-status-current-format    '#[bg=yellow,fg=brightwhite] #W '
-set-option -gw            window-status-format            '#[fg=white] #W '
+set -gw automatic-rename on
+set -gw display-time 5000
+set -gw message-style "bg=default,fg=default"
+set -gw monitor-activity on
+set -gw set-titles off # tmux window titling for X
+set -gw status-interval 1
+set -gw status-left " #[fg=default,bold]#S " #" #S  #I:#P  ✖"
+set -gw status-left-length 60
+set -gw status-position top
+set -gw status-right "#[fg=white] #(battery)  %m|%d  %H:%M  #(date -u | awk '{print $4}' | awk -F : '{printf $1; printf \":\"; printf $2}')  #(cat ~/.thyme-tmux) "
+set -gw status-right-length 60
+set -gw status-style "bg=default"
+set -gw visual-activity off
+set -gw window-status-current-format '#[bg=yellow,fg=brightwhite] #W '
+set -gw window-status-format '#[fg=white] #W '
 
 # keybindings
 unbind-key "'"
@@ -62,54 +61,55 @@ unbind-key u
 unbind-key y
 unbind-key -t vi-copy Enter
 
-bind-key +                resize-pane -Z
-bind-key ,                previous-window
-bind-key -                split-window -c "#{pane_current_path}" -v
+bind-key + resize-pane -Z
+bind-key , previous-window
+bind-key - split-window -c "#{pane_current_path}" -v
 bind-key -t vi-copy Enter copy-pipe 'reattach-to-user-namespace pbcopy'
-bind-key -t vi-copy v     begin-selection
-bind-key -t vi-copy y     copy-pipe 'reattach-to-user-namespace pbcopy'
-bind-key .                next-window
-bind-key /                set-option status 
-bind-key <                swap-window -t :-
-bind-key >                swap-window -t :+
-bind-key C-a              last-window
-bind-key C-h              select-window -t :-
-bind-key C-l              select-window -t :+
-bind-key Escape           copy-mode
-bind-key H                resize-pane -L 10
-bind-key J                resize-pane -D 10
-bind-key K                resize-pane -U 10
-bind-key L                resize-pane -R 10
-bind-key N                command-prompt 'rename-session %%'
-bind-key Q                confirm-before kill-server
-bind-key R                refresh-client
-bind-key X                kill-window
-bind-key \                split-window -c "#{pane_current_path}" -h
-bind-key _                run-shell 'tmux-ssh-split -v'
-bind-key a                send-key C-a
-bind-key c                new-window -c "#{pane_current_path}"
-bind-key h                select-pane -L
-bind-key j                select-pane -D
-bind-key k                select-pane -U
-bind-key l                select-pane -R
-bind-key n                command-prompt 'rename-window %%'
-bind-key p                paste-buffer
-bind-key q                confirm-before kill-session
-bind-key r                source-file $HOME/.tmux.conf; display 'Reloaded configuration'
-bind-key x                kill-pane
-bind-key y                run-shell 'tmux show-buffer | reattach-to-user-namespace pbcopy'
-bind-key |                run-shell 'tmux-ssh-split -h'
-#bind-key u                capture-pane; save-buffer /tmp/tmux-buffer; run-shell "$TERMINAL -e 'cat /tmp/tmux-buffer | urlview'"
+bind-key -t vi-copy v begin-selection
+bind-key -t vi-copy y copy-pipe 'reattach-to-user-namespace pbcopy'
+bind-key . next-window
+bind-key / set-option status 
+bind-key < swap-window -t :-
+bind-key > swap-window -t :+
+bind-key C-a last-window
+bind-key C-h select-window -t :-
+bind-key C-l select-window -t :+
+bind-key Escape copy-mode
+bind-key H resize-pane -L 10
+bind-key J resize-pane -D 10
+bind-key K resize-pane -U 10
+bind-key L resize-pane -R 10
+bind-key N command-prompt 'rename-session %%'
+bind-key Q confirm-before kill-server
+bind-key R refresh-client
+bind-key X kill-window
+bind-key \ split-window -c "#{pane_current_path}" -h
+bind-key _ run-shell 'tmux-ssh-split -v'
+bind-key a send-key C-a
+bind-key c new-window -c "#{pane_current_path}"
+bind-key h select-pane -L
+bind-key j select-pane -D
+bind-key k select-pane -U
+bind-key l select-pane -R
+bind-key n command-prompt 'rename-window %%'
+bind-key p paste-buffer
+bind-key q confirm-before kill-session
+bind-key r source-file $HOME/.tmux.conf; display 'Reloaded configuration'
+bind-key x kill-pane
+bind-key y run-shell 'tmux show-buffer | reattach-to-user-namespace pbcopy'
+bind-key | run-shell 'tmux-ssh-split -h'
+#bind-key u capture-pane; save-buffer /tmp/tmux-buffer; run-shell "$TERMINAL -e 'cat /tmp/tmux-buffer | urlview'"
+
 # Smart pane switching with awareness of vim splits
 is_vim='echo "#{pane_current_command}" | grep -iqE "(^|\/)g?(view|n?vim?x?)(diff)?$"'
-bind-key -n C-h           if-shell "$is_vim" "send-keys C-h" "select-pane -L"
-bind-key -n C-j           if-shell "$is_vim" "send-keys C-j" "select-pane -D"
-bind-key -n C-k           if-shell "$is_vim" "send-keys C-k" "select-pane -U"
-bind-key -n C-l           if-shell "$is_vim" "send-keys C-l" "select-pane -R"
-bind-key -n C-\           if-shell "$is_vim" "send-keys C-\\" "select-pane -l"
+bind-key -n C-h if-shell "$is_vim" "send-keys C-h" "select-pane -L"
+bind-key -n C-j if-shell "$is_vim" "send-keys C-j" "select-pane -D"
+bind-key -n C-k if-shell "$is_vim" "send-keys C-k" "select-pane -U"
+bind-key -n C-l if-shell "$is_vim" "send-keys C-l" "select-pane -R"
+bind-key -n C-\ if-shell "$is_vim" "send-keys C-\\" "select-pane -l"
 
-bind-key -n               WheelUpPane if-shell -F -t = "#{mouse_any_flag}" "send-keys -M" "if -Ft= '#{pane_in_mode}' 'send-keys -M' 'select-pane -t=; copy-mode -e; send-keys -M'"
-bind-key -n               WheelDownPane select-pane -t= \; send-keys -M
+bind-key -n WheelUpPane if-shell -F -t = "#{mouse_any_flag}" "send-keys -M" "if -Ft= '#{pane_in_mode}' 'send-keys -M' 'select-pane -t=; copy-mode -e; send-keys -M'"  
+bind-key -n WheelDownPane select-pane -t= \; send-keys -M  
 
 # OSX
 #if-shell 'test "$(uname)" = "Darwin"' ''

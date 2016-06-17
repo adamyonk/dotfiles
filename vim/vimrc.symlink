@@ -80,8 +80,10 @@ set colorcolumn=+1 " columns to highlight
 let base16colorspace=256
 set bg=light
 colorscheme base16-solarized
-set spellfile=~/.vim/spellfile.utf-8.add " file that "zg" adds good words to
 syntax enable " switch on syntax highlighting
+highlight Comment cterm=italic
+
+set spellfile=~/.vim/spellfile.utf-8.add " file that "zg" adds good words to
 filetype plugin on " enable loading the plugin files for specific file types
 filetype indent on " enable loading the indent file for specific file types
 augroup filetypes
