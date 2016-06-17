@@ -25,14 +25,16 @@ alias light="source $BASE16_SHELL/base16-solarized.light.sh"
 
 # Path
 export PATH=.git/safe/../../bin
+export PATH=$PATH:./node_modules/.bin
 export PATH=$PATH:./bin
 export PATH=$PATH:$HOME/bin
 export PATH=$PATH:/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin
 export PATH=$PATH:/usr/local/share/git-core/contrib/credential/netrc
 
 # GPGTools
-export GPG_TTY=$(tty)
-export PINENTRY_USER_DATA="USE_CURSES=1"
+# export GPG_TTY=$(tty)
+# export PINENTRY_USER_DATA="USE_CURSES=1"
+
 # if [[ -n "$SSH_CONNECTION" ]] ;then
 #   export PINENTRY_USER_DATA="USE_CURSES=1"
 # fi
@@ -121,6 +123,8 @@ function colours() {
     printf "\x1b[38;5;${i}m${i} "
   done
 }
+alias c='caffeinate -d'
+alias cta='caffeinate -d tmux at'
 alias fliptable='echo （╯°□°）╯︵ ┻━┻'
 alias ios='open /Applications/Xcode.app/Contents/Applications/iOS\ Simulator.app'
 alias lc='launchctl'
@@ -130,6 +134,9 @@ alias serve='ruby -run -e httpd ./ --port 3333'
 alias sound='afplay /System/Library/Sounds/Glass.aiff'
 alias ssh_up='systemsetup -setremotelogin on'
 alias ssh_down='systemsetup -setremotelogin off'
+
+alias start_services='brew services start cassandra mysql postgresql redis zookeeper'
+alias stop_services='brew services stop cassandra mysql postgresql redis zookeeper'
 
 # Tmux
 alias tmux='tmux -2'
