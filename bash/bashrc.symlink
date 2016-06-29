@@ -18,14 +18,13 @@ export BROWSER=open
 [[ -f "$dotfiles/bash/bash-sensible/sensible.bash" ]] && source "$dotfiles/bash/bash-sensible/sensible.bash"
 
 # Base16 Shell (doesn't work in Terminal.app)
-BASE16_SHELL="$HOME/.config/base16-shell"
-alias dark="source $BASE16_SHELL/base16-solarized.dark.sh"
-alias light="source $BASE16_SHELL/base16-solarized.light.sh"
+BASE16_SHELL="$HOME/.config/base16-shell/scripts"
+alias dark="source $BASE16_SHELL/base16-solarized-dark.sh"
+alias light="source $BASE16_SHELL/base16-solarized-light.sh"
 [[ -d "$BASE16_SHELL" ]] && light
 
 # Path
 export PATH=.git/safe/../../bin
-export PATH=$PATH:./node_modules/.bin
 export PATH=$PATH:./bin
 export PATH=$PATH:$HOME/bin
 export PATH=$PATH:/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin
@@ -146,3 +145,5 @@ alias v='vagrant'
 
 source $dotfiles/bash/prompt.bash
 source $dotfiles/bash/completions/*
+
+[ -f ~/.fzf.bash ] && source ~/.fzf.bash

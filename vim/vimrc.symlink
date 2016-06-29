@@ -12,21 +12,23 @@ Plug 'airblade/vim-gitgutter'
 " Plug 'benekastah/neomake'
 Plug 'chriskempson/base16-vim'
 Plug 'easymotion/vim-easymotion'
-Plug 'ervandew/supertab'
-Plug 'godlygeek/tabular'
+" Plug 'ervandew/supertab'
+" Plug 'godlygeek/tabular'
 Plug 'isRuslan/vim-es6'
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+Plug 'junegunn/fzf.vim'
 Plug 'junegunn/gv.vim'
 Plug 'junegunn/vim-easy-align'
 Plug 'junegunn/vim-emoji'
 Plug 'junegunn/vim-github-dashboard'
 Plug 'kchmck/vim-coffee-script'
-Plug 'kien/ctrlp.vim'
+" Plug 'kien/ctrlp.vim'
 Plug 'mattn/gist-vim'
 Plug 'mattn/webapi-vim'
 Plug 'mxw/vim-jsx'
 Plug 'nelstrom/vim-visual-star-search'
 Plug 'plasticboy/vim-markdown'
-Plug 'rking/ag.vim'
+" Plug 'rking/ag.vim'
 Plug 'scrooloose/syntastic'
 Plug 'sjl/vitality.vim'
 Plug 'tpope/vim-commentary'
@@ -38,7 +40,7 @@ Plug 'tpope/vim-rsi'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-unimpaired'
 Plug 'tpope/vim-vinegar'
-Plug 'vim-scripts/ZoomWin'
+" Plug 'vim-scripts/ZoomWin'
 Plug 'vim-scripts/netrw.vim'
 Plug 'vim-scripts/visualrepeat'
 Plug 'christoomey/vim-tmux-navigator'
@@ -79,7 +81,7 @@ set cursorline " highlight the screen line of the cursor
 set colorcolumn=+1 " columns to highlight
 let base16colorspace=256
 set bg=light
-colorscheme base16-solarized
+colorscheme base16-solarized-light
 syntax enable " switch on syntax highlighting
 highlight Comment cterm=italic
 
@@ -257,8 +259,8 @@ xmap ga <Plug>(EasyAlign)
 nmap ga <Plug>(EasyAlign)
 
 nnoremap <leader>w :w<cr>
-nnoremap <leader>bl :set bg=light<cr>
-nnoremap <leader>bd :set bg=dark<cr>
+" nnoremap <leader>bl :set bg=light<cr>
+" nnoremap <leader>bd :set bg=dark<cr>
 imap <C-h> <C-o>h
 imap <C-j> <C-o>j
 imap <C-k> <C-o>k
