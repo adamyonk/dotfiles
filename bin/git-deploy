@@ -30,6 +30,12 @@ if [ $? != 0 ]; then
   exit 1
 fi
 
+echo -e "\n > "
+git push origin :"$branch"
+if [ $/ != 0 ]; then
+  echo "Could not delete remote branch $branch"
+fi
+
 echo -e "\n > git pull"
 git pull
 if [ $? != 0 ]; then
