@@ -9,4 +9,4 @@ let g:syntastic_check_on_open = 1
 
 let g:syntastic_javascript_checkers = ['eslint']
 
-" let b:syntastic_javascript_eslint_exec = system('which eslint')
+let g:syntastic_javascript_eslint_exec = system('npm bin | tr -d "\n"') . "/eslint"

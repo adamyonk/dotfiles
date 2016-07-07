@@ -1,8 +1,9 @@
 " Default fzf layout
 " - down / up / left / right
 " - window (nvim only)
-let g:fzf_layout = { 'down': '~20%' }
+let g:fzf_layout = { 'down': '~15%' }
 nnoremap <leader>f :Files<cr>
+nnoremap <leader>F :Ag<cr>
 
 " Customize fzf colors to match your color scheme
 let g:fzf_colors =

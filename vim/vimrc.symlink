@@ -8,12 +8,13 @@ set nocompatible " don't behave like Vi
 " Plug
 call plug#begin('~/.vim/plugged')
 
+" Plug 'amperser/proselint', { 'do': 'find . -not -name "plugins" -exec rm -rf {}\; cp plugins/vim/syntastic_proselint/* ./; rm -rf plugins' }
 Plug 'airblade/vim-gitgutter'
-" Plug 'benekastah/neomake'
+Plug 'benekastah/neomake'
 Plug 'chriskempson/base16-vim'
+Plug 'christoomey/vim-tmux-navigator'
 Plug 'easymotion/vim-easymotion'
-" Plug 'ervandew/supertab'
-" Plug 'godlygeek/tabular'
+Plug 'ervandew/supertab'
 Plug 'isRuslan/vim-es6'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
@@ -22,13 +23,11 @@ Plug 'junegunn/vim-easy-align'
 Plug 'junegunn/vim-emoji'
 Plug 'junegunn/vim-github-dashboard'
 Plug 'kchmck/vim-coffee-script'
-" Plug 'kien/ctrlp.vim'
 Plug 'mattn/gist-vim'
 Plug 'mattn/webapi-vim'
 Plug 'mxw/vim-jsx'
 Plug 'nelstrom/vim-visual-star-search'
 Plug 'plasticboy/vim-markdown'
-" Plug 'rking/ag.vim'
 Plug 'scrooloose/syntastic'
 Plug 'sjl/vitality.vim'
 Plug 'tpope/vim-commentary'
@@ -40,12 +39,8 @@ Plug 'tpope/vim-rsi'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-unimpaired'
 Plug 'tpope/vim-vinegar'
-" Plug 'vim-scripts/ZoomWin'
 Plug 'vim-scripts/netrw.vim'
 Plug 'vim-scripts/visualrepeat'
-Plug 'christoomey/vim-tmux-navigator'
-
-" Plug 'amperser/proselint', { 'do': 'find . -not -name "plugins" -exec rm -rf {}\; cp plugins/vim/syntastic_proselint/* ./; rm -rf plugins' }
 
 call plug#end()
 
@@ -237,7 +232,7 @@ set shell=/usr/local/bin/bash " name of the shell program used for external comm
 " 24 language specific
 " =============================================================================
 
-set encoding=utf-8 " character encoding used in Vim: "latin1", "utf-8" "euc-jp", "big5", etc.
+" set encoding=utf-8 " character encoding used in Vim: "latin1", "utf-8" "euc-jp", "big5", etc.
 
 " =============================================================================
 " 25 multi-byte characters
@@ -261,10 +256,7 @@ nmap ga <Plug>(EasyAlign)
 nnoremap <leader>w :w<cr>
 " nnoremap <leader>bl :set bg=light<cr>
 " nnoremap <leader>bd :set bg=dark<cr>
-imap <C-h> <C-o>h
-imap <C-j> <C-o>j
-imap <C-k> <C-o>k
-imap <C-l> <C-o>l
+
 " reload tags
 "command! ReloadTags :!/usr/local/bin/ctags --tagfile .vim-tags --extra=+f --exclude=.git --exclude=doc --exclude=gems --recurse --tag-relative
 "command! GitTags :!.git/hooks/ctags
@@ -293,13 +285,6 @@ nnoremap Y y$
 " reselect visual block after indent/outdent
 vnoremap < <gv
 vnoremap > >gv
-" wrap current paragraph
-" nnoremap <leader>wp gqip
-" split window navigation
-"nnoremap <c-j> <c-w>j
-"nnoremap <c-k> <c-w>k
-"nnoremap <c-h> <c-w>h
-"nnoremap <c-l> <c-w>l
 " redraw!
 nnoremap <leader>rr :redraw!<cr>
 " reload .vimrc

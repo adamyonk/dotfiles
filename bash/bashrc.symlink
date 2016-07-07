@@ -47,12 +47,14 @@ function anybar {
 }
 
 # Editor
-if [[ -f `which mvim` ]] ; then
-  export EDITOR='mvim -v'
-elif [[ -f `which nvim` ]] ; then
+if [[ -f `which nvim` ]] ; then
   export EDITOR='nvim'
-else
+elif [[ -f `which mvim` ]] ; then
+  export EDITOR='mvim -v'
+elif [[ -f `which vim` ]] ; then
   export EDITOR='vim'
+else
+  export EDITOR='vi'
 fi
 alias e=$EDITOR
 
@@ -146,4 +148,5 @@ alias v='vagrant'
 source $dotfiles/bash/prompt.bash
 source $dotfiles/bash/completions/*
 
+export FZF_DEFAULT_COMMAND='ag -g ""'
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash

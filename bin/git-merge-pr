@@ -67,5 +67,4 @@ else
   response="Couldn't find an open pull request based on $branch."
 fi
 
-echo -e "\n$response"
-
+echo -e "$response"
