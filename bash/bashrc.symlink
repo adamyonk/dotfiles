@@ -90,6 +90,10 @@ alias p='production'
 # Homebrew
 export HOMEBREW_CASK_OPTS="--appdir=/Applications"
 
+# Java
+export PATH="$HOME/.jenv/bin:$PATH"
+if which jenv > /dev/null; then eval "$(jenv init -)"; fi
+
 # NVM
 export NVM_DIR="/Users/adamyonk/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
@@ -136,8 +140,17 @@ alias sound='afplay /System/Library/Sounds/Glass.aiff'
 alias ssh_up='systemsetup -setremotelogin on'
 alias ssh_down='systemsetup -setremotelogin off'
 
-alias start_services='brew services start cassandra mysql postgresql redis zookeeper'
-alias stop_services='brew services stop cassandra mysql postgresql redis zookeeper'
+services='cassandra memcached mysql postgresql redis zookeeper'
+function start_services() {
+  for service in services ; do
+    brew services start "$service"
+  done
+}
+function stop_services() {
+  for service in services ; do
+    brew services stop "$service"
+  done
+}
 
 # Tmux
 alias tmux='tmux -2'

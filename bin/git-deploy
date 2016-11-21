@@ -10,7 +10,7 @@ fi
 
 echo -e "\n > hub ci-status"
 if [ "$(hub ci-status)" != 'success' ]; then
-  read -n 1 -p "CI Failure. Override?" response
+  read -n 1 -p "CI Failure. Override? " response
   if [ "$response" != 'y' ]; then
     exit 1
   fi
@@ -32,7 +32,7 @@ fi
 
 echo -e "\n > git push origin :$branch"
 git push origin :"$branch"
-if [ $/ != 0 ]; then
+if [ $? != 0 ]; then
   echo "Could not delete remote branch $branch"
 fi
 
@@ -41,6 +41,12 @@ git pull
 if [ $? != 0 ]; then
   echo "Could not pull latest"
   exit 1
+fi
+
+echo -e "\n > git branch -d $branch"
+git branch -d "$branch"
+if [ $? != 0 ]; then
+  echo "Could not delete local branch $branch"
 fi
 
 echo -e "\n > git new-tag"

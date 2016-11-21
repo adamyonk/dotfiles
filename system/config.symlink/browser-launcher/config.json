@@ -1,0 +1,24 @@
+{
+  "browsers": {
+    "local": [
+      {
+        "command": "/Applications/Firefox.app/Contents/MacOS/firefox-bin",
+        "version": "39.0",
+        "name": "firefox",
+        "re": {},
+        "type": "firefox",
+        "profile": {
+          "name": "browser-launcher-46a1a1771d5bc",
+          "file": "/Users/adamyonk/Library/Application Support/Firefox/Profiles/3s5zlkkb.browser-launcher-46a1a1771d5bc/prefs.js"
+        }
+      },
+      {
+        "command": "/Applications/Safari.app",
+        "version": "10.0.1",
+        "name": "safari",
+        "type": "safari",
+        "profile": false
+      }
+    ]
+  }
+}

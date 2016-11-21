@@ -8,7 +8,6 @@ set nocompatible " don't behave like Vi
 " Plug
 call plug#begin('~/.vim/plugged')
 
-" Plug 'amperser/proselint', { 'do': 'find . -not -name "plugins" -exec rm -rf {}\; cp plugins/vim/syntastic_proselint/* ./; rm -rf plugins' }
 Plug 'airblade/vim-gitgutter'
 Plug 'benekastah/neomake'
 Plug 'chriskempson/base16-vim'
@@ -28,7 +27,6 @@ Plug 'mattn/webapi-vim'
 Plug 'mxw/vim-jsx'
 Plug 'nelstrom/vim-visual-star-search'
 Plug 'plasticboy/vim-markdown'
-Plug 'scrooloose/syntastic'
 Plug 'sjl/vitality.vim'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-fugitive'

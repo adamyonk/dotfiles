@@ -5,4 +5,4 @@ OUTPUT=$(pmset -g batt | grep Internal)
 # Now drawing from 'Battery Power'
 #  -InternalBattery-0     55%; discharging; 3:41 remaining present: true
 
-echo $OUTPUT | awk '{print $2}' | sed 's/;//'
+echo $OUTPUT | awk '{print $3}' | sed 's/;//'

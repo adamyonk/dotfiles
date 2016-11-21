@@ -10,7 +10,7 @@ else
   COMMAND="lita ship $BRANCH to $(basename $(pwd)) staging"
 fi
 echo -n "$COMMAND" | pbcopy
-echo "\"$COMMAND\" copied to clipboard."
+echo -e "\n\"$COMMAND\" copied to clipboard."
 
 status="$(hub ci-status)"
 if [ "$status" != 'success' ]; then

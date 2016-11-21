@@ -1,0 +1,9 @@
+#!/usr/bin/env sh
+
+input="${1:-$(cat)}"
+
+curl -s \
+  --form-string "token=$PUSHOVER_API_TOKEN" \
+  --form-string "user=$PUSHOVER_API_USER" \
+  --form-string "message=$input" \
+  https://api.pushover.net/1/messages.json
