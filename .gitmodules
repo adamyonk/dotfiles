@@ -1,15 +1,6 @@
-[submodule "ruby/chruby"]
-	path = ruby/chruby
-	url = https://github.com/postmodern/chruby.git
-[submodule "ruby/ruby-build"]
-	path = ruby/ruby-build
-	url = https://github.com/sstephenson/ruby-build.git
 [submodule "system/config.symlink/base16-shell"]
 	path = system/config.symlink/base16-shell
 	url = https://github.com/chriskempson/base16-shell.git
-[submodule "system/keyboard"]
-	path = system/keyboard
-	url = https://github.com/jasonrudolph/keyboard.git
-[submodule "vim/vim.symlink/autoload/plug.vim"]
-	path = vim/vim.symlink/autoload/plug.vim
-	url = https://github.com/junegunn/vim-plug
+[submodule "bash/bash-sensible"]
+	path = bash/bash-sensible
+	url = https://github.com/mrzool/bash-sensible
