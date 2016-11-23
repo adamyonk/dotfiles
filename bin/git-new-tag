@@ -33,4 +33,4 @@ echo "Bumping tag from $PREV_TAG -> $NEW_TAG"
 git tag -a "$NEW_TAG" -m "$MSG"
 git push origin "$NEW_TAG"
 
-git lita-ship
+git lita-shipit

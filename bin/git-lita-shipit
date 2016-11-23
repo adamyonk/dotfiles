@@ -5,9 +5,9 @@
 BRANCH=$(git branch --no-color | grep \* | sed 's/* //')
 if [ "$BRANCH" == 'master' ]; then
   TAG=$(git describe | cut -d '-' -f 1)
-  COMMAND="lita ship $TAG to $(basename $(pwd)) production"
+  COMMAND="lita shipit -a $(basename $(pwd)) -b $TAG -e production"
 else
-  COMMAND="lita ship $BRANCH to $(basename $(pwd)) staging"
+  COMMAND="lita shipit -a $(basename $(pwd)) -b $BRANCH -e staging"
 fi
 echo -n "$COMMAND" | pbcopy
 echo -e "\n\"$COMMAND\" copied to clipboard."
