@@ -3,36 +3,28 @@
 require 'colorize'
 
 brews = [
+  'fzf',
   'gawk',
-  'gh',
+  'gcc49',
+  'hub'
   'jq',
-  'macvim',
-  'openssl',
+  'neovim/neovim/neovim',
   'reattach-to-user-namespace',
   'the_silver_searcher',
   'tmux',
   'wget',
-  'youtube-dl',
 ]
 
 casks = [
-  'betterzipql',
-  'flux',
-  'github',
+  '1password',
   'google-chrome',
   'iterm2',
-  'qlcolorcode',
-  'qlmarkdown',
-  'qlprettypatch',
-  'qlstephen',
-  'qlstephen',
-  'quicklook-csv',
-  'quicklook-json',
   'slack',
-  'webpquicklook',
+  'spectacle',
 ]
 
 INSTALLED_BREWS = `brew list`.split("\n")
+CASK_INSTALLED = `brew tap`.split("\n").include? 'caskroom/cask'
 INSTALLED_CASKS = `brew cask list`.split("\n")
 
 system "brew update"
@@ -45,12 +37,11 @@ brews.each do |brew|
   end
 end
 
-if INSTALLED_BREWS.include? 'brew-cask'
-  system "brew upgrade caskroom/cask/brew-cask"
+if CASK_INSTALLED
+  system "brew cask update"
 else
-  system "brew install caskroom/cask/brew-cask"
+  system "brew tap caskroom/cask"
 end
-system "brew cask update"
 casks.each do |cask|
   if INSTALLED_CASKS.include? cask
     puts "#{cask} already installed"
