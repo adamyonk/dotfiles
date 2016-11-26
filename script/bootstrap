@@ -143,19 +143,19 @@ install_deps () {
     info "installing dependencies"
     if ! (which brew)
       then
-      ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+      /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
     fi
     ruby "$DOTFILES_ROOT/script/install_brews"
     success "dependencies installed"
   fi
 }
 
-#setup_gitconfig
-#update_submodules
+setup_gitconfig
+update_submodules
 install_dotfiles
 symlink_files
+install_deps
 #install_ruby
-#install_deps
 
 echo ''
 echo '  All installed!'
