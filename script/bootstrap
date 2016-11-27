@@ -34,8 +34,10 @@ setup_gitconfig () {
     read -e git_authorname
     user ' - What is your github author email?'
     read -e git_authoremail
+    user ' - What is your github username?'
+    read -e git_username
 
-    sed -e "s/AUTHORNAME/$git_authorname/g" -e "s/AUTHOREMAIL/$git_authoremail/g" git/gitconfig.symlink.example > git/gitconfig.symlink
+    sed -e "s/AUTHORNAME/$git_authorname/g" -e "s/AUTHOREMAIL/$git_authoremail/g" -e "s/GITHUB_USERNAME/$git_username/g" git/gitconfig.symlink.example > git/gitconfig.symlink
 
     success 'gitconfig'
   fi
@@ -120,7 +122,6 @@ install_dotfiles () {
 }
 
 symlink_files () {
-  link_files "$DOTFILES_ROOT/system/keyremap4macbook/private.xml" "~/Library/Application Support/Karabiner/private.xml"
   link_files "$DOTFILES_ROOT/bin" "~/bin"
 }
 

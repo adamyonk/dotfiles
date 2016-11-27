@@ -1,14 +1,17 @@
 #!/usr/bin/env ruby
 
-require 'colorize'
-
 brews = [
+  'bash',
   'chruby',
   'fzf',
   'gawk',
-  'gcc49',
-  'hub'
+  'git',
+  'gpg',
+  'gpg1', # http://stackoverflow.com/a/40066889
+  'homebrew/versions/gcc49',
+  'hub',
   'jq',
+  'keybase',
   'neovim/neovim/neovim',
   'reattach-to-user-namespace',
   'ruby-install',
@@ -20,9 +23,11 @@ brews = [
 casks = [
   '1password',
   'google-chrome',
+  'grandperspective',
   'iterm2',
   'slack',
   'spectacle',
+  'tunnelblick',
 ]
 
 INSTALLED_BREWS = `brew list`.split("\n")
@@ -34,7 +39,7 @@ brews.each do |brew|
   if INSTALLED_BREWS.include? brew
     puts "#{brew} already installed"
   else
-    puts "Installing #{brew}".green
+    puts "Installing #{brew}"
     system "brew install #{brew}"
   end
 end
@@ -48,7 +53,12 @@ casks.each do |cask|
   if INSTALLED_CASKS.include? cask
     puts "#{cask} already installed"
   else
-    puts "Installing cask #{cask}".green
+    puts "Installing cask #{cask}"
     system "brew cask install #{cask}"
   end
 end
+
+system "ln -s /usr/local/bin/gcc-4.9 /usr/local/bin/gcc"
+system "/usr/local/opt/fzf/install"
+system "echo /usr/local/bin/bash >> /etc/shells"
+system "chsh -s /usr/local/bin/bash"

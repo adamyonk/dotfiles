@@ -1,91 +1,94 @@
 [alias]
-  b                 = branch
-  ci                = ci-status
-  co                = checkout
-  d                 = diff --color-words
-  dlc               = diff --cached HEAD^
-  f                 = fetch
-  l                 = log --abbrev-commit --color --graph --pretty=format:"%Cred%h%Creset\\ -%C(yellow)%d%Creset\\ %s\\ %Cgreen(%cr)%C(bold\\ blue)\\ <%an>%Creset"
-  m                 = merge
-  mypulls           = browse -- pulls/adamyonk
-  pl                = pull
-  ps                = push
-  s                 = status --short
-  safe              = !mkdir -p .git/safe && echo "Repository marked safe!"
-  se                = "!git checkout $(git branch | sed 's/*/ /' | selecta)"
-  standup           = log --author=\"AUTHORNAME\" --pretty=oneline --since yesterday
-  sub               = submodule
-  suba              = submodule add
-  subf              = submodule foreach
-  subu              = submodule foreach git pull origin master
-  wci               = watch-ci
-  wip               = "!$EDITOR $(git ls-files -m)"
+  b = branch
+  ci = ci-status
+  co = checkout
+  d = diff --color-words
+  dlc = diff --cached HEAD^
+  f = fetch
+  l = log --abbrev-commit --color --graph --pretty=format:"%Cred%h%Creset\\ -%C(yellow)%d%Creset\\ %s\\ %Cgreen(%cr)%C(bold\\ blue)\\ <%an>%Creset"
+  m = merge
+  mypulls = browse -- pulls/GITHUB_USERNAME
+  pl = pull
+  ps = push
+  s = status --short
+  safe = !mkdir -p .git/safe && echo "Repository marked safe!"
+  se = "!git checkout $(git branch | sed 's/*/ /' | selecta)"
+  standup = log --author=\"AUTHORNAME\" --pretty=oneline --since yesterday
+  sub = submodule
+  suba = submodule add
+  subf = submodule foreach
+  subu = submodule foreach git pull origin master
+  wci = watch-ci
+  wip = "!$EDITOR $(git ls-files -m)"
 
 [branch]
-  autosetuprebase   = always
+  autosetuprebase = always
 
 [credential]
-  helper            = netrc
+  helper = netrc
 
 [color]
-  branch            = auto
-  diff              = auto
-  status            = auto
-  ui                = 1
+  branch = auto
+  diff = auto
+  status = auto
+  ui = 1
 
 [commit]
-	gpgsign = true
+  gpgsign = true
 
 [core]
-  editor            = mvim -v
-  excludesfile      = ~/.gitignore
-  quotepath         = false
+  editor = nvim
+  excludesfile = ~/.gitignore
+  quotepath = false
 
 [fetch]
-  prune             = true
+  prune = true
 
 [gh]
-  protocol          = ssh
+  protocol = https
 
 [ghi]
-  token             = GHI_TOKEN
+  token = GHI_TOKEN
 
 [github]
-  user              = adamyonk
+  user = GITHUB_USERNAME
+
+[gpg]
+  program = gpg1
 
 [help]
-  autocorrect       = 1
+  autocorrect = 1
 
 [heroku]
-	account           = me
+  account = me
 
 [hub]
-  protocol          = ssh
+  protocol = https
 
 [include]
-  path              = ~/.gitconfig.local
+  path = ~/.gitconfig.local
 
 [init]
-  templatedir       = ~/.git_template
+  templatedir = ~/.git_template
 
 [merge]
-  ff                = false
+  ff = false
 
 [mergetool]
-  keepbackup        = false
+  keepbackup = false
 
 [pull]
-  rebase            = true
+  rebase = true
 
 [push]
-  default           = tracking
+  default = tracking
 
 [rebase]
-  autosquash        = true
+  autosquash = true
 
 [rerere]
-  enabled           = 1
+  enabled = 1
 
 [user]
-  email             = AUTHOREMAIL
-  name              = AUTHORNAME
+  email = AUTHOREMAIL
+  name = AUTHORNAME
