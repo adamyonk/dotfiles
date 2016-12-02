@@ -76,6 +76,9 @@ if [ -d $(brew --prefix)/etc/bash_completion.d ]; then
   . $(brew --prefix)/etc/bash_completion.d/hub.bash_completion.sh
 fi
 
+# GnuPG
+export GPG_TTY=$(tty)
+
 # Go
 export GOPATH=$projects/Go
 export GOROOT=/usr/local/opt/go/libexec

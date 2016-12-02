@@ -5,6 +5,7 @@
 # Adam Jahnke - github.com/adamyonk
 
 # Heavily inspired by http://leancrew.com/all-this/2015/04/passphrases-via-shell-pipeline/
+# Depends on gshuf (coreutils on homebrew)
 
 # Usage:
 #   dice source [words]

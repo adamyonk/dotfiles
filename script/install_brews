@@ -3,11 +3,12 @@
 brews = [
   'bash',
   'chruby',
+  'coreutils',
   'fzf',
   'gawk',
   'git',
-  'gpg',
-  'gpg1', # http://stackoverflow.com/a/40066889
+  'gnupg2',
+  'gnupg', # http://stackoverflow.com/a/40066889
   'homebrew/versions/gcc49',
   'hub',
   'jq',
@@ -15,6 +16,7 @@ brews = [
   'neovim/neovim/neovim',
   'reattach-to-user-namespace',
   'ruby-install',
+  'terminal-notifier',
   'the_silver_searcher',
   'tmux',
   'wget',
@@ -30,11 +32,17 @@ casks = [
   'tunnelblick',
 ]
 
+taps = [
+  'cask',
+  'fonts',
+]
+
 INSTALLED_BREWS = `brew list`.split("\n")
-CASK_INSTALLED = `brew tap`.split("\n").include? 'caskroom/cask'
+INSTALLED_TAPS = `brew tap`.split("\n")
 INSTALLED_CASKS = `brew cask list`.split("\n")
 
 system "brew update"
+
 brews.each do |brew|
   if INSTALLED_BREWS.include? brew
     puts "#{brew} already installed"
@@ -44,11 +52,6 @@ brews.each do |brew|
   end
 end
 
-if CASK_INSTALLED
-  system "brew cask update"
-else
-  system "brew tap caskroom/cask"
-end
 casks.each do |cask|
   if INSTALLED_CASKS.include? cask
     puts "#{cask} already installed"
@@ -57,6 +60,19 @@ casks.each do |cask|
     system "brew cask install #{cask}"
   end
 end
+
+taps.each do |tap|
+  if ! INSTALLED_TAPS.include? "caskroom/#{tap}"
+    system "brew tap caskroom/#{tap}"
+  end
+end
+
+if INSTALLED_TAPS.include? 'caskroom/cask'
+  system "brew cask update"
+else
+  system "brew tap caskroom/cask"
+end
+
 
 system "ln -s /usr/local/bin/gcc-4.9 /usr/local/bin/gcc"
 system "/usr/local/opt/fzf/install"
