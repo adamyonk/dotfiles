@@ -1,0 +1,45 @@
+tap 'caskroom/cask'
+tap 'caskroom/fonts'
+tap 'homebrew/versions'
+tap 'neovim/neovim'
+
+brew 'bash'
+brew 'chruby'
+brew 'coreutils'
+brew 'fzf'
+brew 'gawk'
+brew 'git'
+brew 'gnupg21'
+brew 'gcc49'
+brew 'hub'
+brew 'jq'
+brew 'keybase'
+brew 'mas'
+brew 'neovim'
+brew 'reattach-to-user-namespace'
+brew 'ruby-install'
+brew 'terminal-notifier'
+brew 'the_silver_searcher'
+brew 'tmux'
+brew 'wget'
+
+cask 'google-chrome'
+cask 'grandperspective'
+cask 'iterm2'
+cask 'slack'
+cask 'spectacle'
+cask 'tunnelblick'
+
+mas '1Blocker', id: 1107421413
+mas 'Deliveries', id: 924726344
+mas 'GIPHY CAPTURE', id: 668208984
+mas 'Reeder 3', id: 880001334
+mas 'Shush', id: 496437906
+mas 'Sip', id: 507257563
+mas 'Sketch', id: 852320343
+mas 'Tweetbot', id: 557168941
+
+system "ln -s /usr/local/bin/gcc-4.9 /usr/local/bin/gcc"
+system "/usr/local/opt/fzf/install"
+system "echo /usr/local/bin/bash >> /etc/shells"
+system "chsh -s /usr/local/bin/bash"

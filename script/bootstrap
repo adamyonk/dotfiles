@@ -123,17 +123,7 @@ install_dotfiles () {
 
 symlink_files () {
   link_files "$DOTFILES_ROOT/bin" "~/bin"
-}
-
-install_ruby() {
-  user "Would you like to install ruby? [y]es or [n]o"
-  read -n 1 action
-  case "$action" in
-    y )
-      "$DOTFILES_ROOT/script/install_ruby";;
-    * )
-      ;;
-  esac
+  link_files "$DOTFILES_ROOT/system/Brewfile" "~/Brewfile"
 }
 
 install_deps () {
@@ -146,7 +136,7 @@ install_deps () {
       then
       /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
     fi
-    ruby "$DOTFILES_ROOT/script/install_brews"
+    brew bundle --file=~/Brewfile
     success "dependencies installed"
   fi
 }
@@ -156,7 +146,6 @@ update_submodules
 install_dotfiles
 symlink_files
 install_deps
-#install_ruby
 
 echo ''
 echo '  All installed!'
