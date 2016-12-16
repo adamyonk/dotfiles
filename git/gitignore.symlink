@@ -14,5 +14,6 @@ brakeman.html
 .tmux
 script/tmux
 Procfile.local
+.agignore
 
 .otto
