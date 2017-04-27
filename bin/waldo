@@ -10,8 +10,8 @@
 # This is a script for pointing a DNSimple A record to your current IP.
 #
 # Set environment (in ~/.localrc, if you please) variables for:
-# - DNSIMPLE_LOGIN
-# - DNSIMPLE_TOKEN
+# - DNSIMPLE_API_TOKEN
+# - DNSIMPLE_ACCOUNT_ID
 # - DNSIMPLE_DOMAIN_ID
 # - DNSIMPLE_RECORD_ID
 #
@@ -22,12 +22,11 @@
 # Source env vars for account, in case this is being called from a cron job.
 source ~/.localrc
 
-IP="$(curl -s checkip.dyndns.org | grep -Eo '[0-9\.]+')"
+IP=`curl -s -4 http://icanhazip.com/`
 
-curl --header "Accept: application/json" \
+curl --header "Authorization: Bearer $DNSIMPLE_API_TOKEN" \
      --header "Content-Type: application/json" \
-     --header "X-DNSimple-Token: $DNSIMPLE_LOGIN:$DNSIMPLE_TOKEN" \
-     --include --request PUT "https://api.dnsimple.com/v1/domains/$DNSIMPLE_DOMAIN_ID/records/$DNSIMPLE_RECORD_ID" \
-     --data "{\"record\":{\"content\":\"$IP\"}}" \
-     --silent --write-out "\n => %{http_code}: Set IP to $IP\n" \
-     --output /dev/null
+     --header "Accept: application/json" \
+     --request "PATCH" \
+     --include "https://api.dnsimple.com/v2/$DNSIMPLE_ACCOUNT_ID/zones/$DNSIMPLE_DOMAIN_ID/records/$DNSIMPLE_RECORD_ID" \
+     --data "{\"content\":\"$IP\"}"
