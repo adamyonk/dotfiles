@@ -1,39 +1,52 @@
-set -g default-command "which reattach-to-user-namespace > /dev/null && reattach-to-user-namespace -l $SHELL || $SHELL"
+set -g default-command "command -v reattach-to-user-namespace > /dev/null && reattach-to-user-namespace -l $SHELL || $SHELL"
+set -g default-shell $SHELL
 set -g default-terminal 'tmux-256color'
 set -as terminal-overrides ',xterm*:sitm=\E[3m' # this probably only needs to happen in OS X
-set -ga update-environment ' ITERM_PROFILE'
+set -ag update-environment ' ITERM_PROFILE'
 set -g prefix C-a
 set -g status-keys vi
 set -g escape-time 1
 set -g repeat-time 100
 set -g history-limit 2000
 set -g mouse on
+set -g focus-events on
 
 set -gw mode-keys vi
 set -gw aggressive-resize on
 
 # panes
 set -g base-index 1
-set -g pane-active-border-style "bg=brightyellow,fg=brightyellow"
-set -g pane-border-style "bg=brightgreen,fg=brightgreen"
+set -g pane-active-border-style bg=brightyellow,fg=brightyellow
+set -g pane-border-style bg=brightgreen,fg=brightgreen
 set -gw pane-base-index 1
 
 # status bar
 set -gw automatic-rename on
 set -gw display-time 5000
-set -gw message-style "bg=default,fg=default"
+set -gw message-style bg=default,fg=default
 set -gw monitor-activity on
 set -gw set-titles off # tmux window titling for X
-set -gw status-interval 1
-set -gw status-left " #[fg=default,bold]#S " #" #S  #I:#P  ✖"
-set -gw status-left-length 60
-set -gw status-position top
-set -gw status-right "#[fg=white] #(battery)  %m|%d  %H:%M  #(date -u | awk '{print $4}' | awk -F : '{printf $1; printf \":\"; printf $2}')  #(cat ~/.thyme-tmux) "
-set -gw status-right-length 60
-set -gw status-style "bg=default"
 set -gw visual-activity off
-set -gw window-status-current-format '#[bg=yellow,fg=brightwhite] #W '
-set -gw window-status-format '#[fg=white] #W '
+
+set -g status on
+set -g status-interval 1
+set -g status-position 'top'
+set -g status-style bg=default,fg=white
+
+set -g status-left " #S  "
+set -g status-left-length 60
+set -ag status-left-style fg=default,bold
+
+set -g status-right " %m|%d  %H:%M "
+set -ag status-right " #(battery) "
+#set -ag status-right " #(date -u | awk '{print $5}' | awk -F : '{printf $1; printf \":\"; printf $2}') "
+set -ag status-right " #(pomodoro status) "
+set -g status-right-length 100
+
+set -gw window-status-current-style bg=green,fg=brightwhite
+set -gw window-status-current-format " #W "
+set -gw window-status-style fg=white
+set -gw window-status-format " #W "
 
 # keybindings
 unbind-key "'"
@@ -59,16 +72,14 @@ unbind-key p
 unbind-key r
 unbind-key u
 unbind-key y
-unbind-key -t vi-copy Enter
 
 bind-key + resize-pane -Z
 bind-key , previous-window
 bind-key - split-window -c "#{pane_current_path}" -v
-bind-key -t vi-copy Enter copy-pipe 'reattach-to-user-namespace pbcopy'
-bind-key -t vi-copy v begin-selection
-bind-key -t vi-copy y copy-pipe 'reattach-to-user-namespace pbcopy'
+bind-key -Tcopy-mode-vi v send -X begin-selection
+bind-key -Tcopy-mode-vi y send -X copy-pipe 'reattach-to-user-namespace pbcopy'
 bind-key . next-window
-bind-key / set-option status 
+bind-key / set-option status
 bind-key < swap-window -t :-
 bind-key > swap-window -t :+
 bind-key C-a last-window
@@ -94,7 +105,7 @@ bind-key l select-pane -R
 bind-key n command-prompt 'rename-window %%'
 bind-key p paste-buffer
 bind-key q confirm-before kill-session
-bind-key r source-file $HOME/.tmux.conf; display 'Reloaded configuration'
+bind-key r source-file $HOME/.tmux.conf; display ' Reloaded configuration'
 bind-key x kill-pane
 bind-key y run-shell 'tmux show-buffer | reattach-to-user-namespace pbcopy'
 bind-key | run-shell 'tmux-ssh-split -h'
