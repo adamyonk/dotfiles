@@ -59,7 +59,21 @@
 "   let g:neomake_open_list = 2
 " endif
 
-autocmd! BufWritePost * Neomake
-let g:neomake_javascript_enabled_makers = ['eslint']
-let g:neomake_jsx_enabled_makers = ['eslint']
-let g:neomake_javascript_eslint_exe = system('PATH=$(npm bin):$PATH && which eslint | tr -d "\n"')
+if has('nvim')
+  function! ConfigNeoMakeEsLint()
+    if executable('yarn')
+      let l:eslint_bin = system('PATH=$(yarn bin):$PATH && which eslint | tr -d "\n"')
+      if executable(l:eslint_bin)
+        let g:neomake_javascript_enabled_makers = ['eslint']
+        let g:neomake_jsx_enabled_makers = ['eslint']
+        let g:neomake_javascript_eslint_exe = l:eslint_bin
+        " let g:neomake_javascript_eslint_maker = {
+        "     \ 'args': ['--fix'],
+        "     \ }
+        autocmd! BufWritePost *.js Neomake
+      endif
+    endif
+  endfunction
+
+  call ConfigNeoMakeEsLint()
+endif

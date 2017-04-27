@@ -8,12 +8,14 @@ set nocompatible " don't behave like Vi
 " Plug
 call plug#begin('~/.vim/plugged')
 
-Plug 'airblade/vim-gitgutter'
+" Plug 'airblade/vim-gitgutter'
+" Plug 'altercation/vim-colors-solarized'
 Plug 'benekastah/neomake'
 Plug 'chriskempson/base16-vim'
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'easymotion/vim-easymotion'
 Plug 'ervandew/supertab'
+Plug 'fleischie/vim-styled-components'
 Plug 'isRuslan/vim-es6'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
@@ -24,14 +26,18 @@ Plug 'junegunn/vim-github-dashboard'
 Plug 'kchmck/vim-coffee-script'
 Plug 'mattn/gist-vim'
 Plug 'mattn/webapi-vim'
+Plug 'maxmellon/vim-jsx-pretty'
 Plug 'mxw/vim-jsx'
 Plug 'nelstrom/vim-visual-star-search'
+Plug 'pangloss/vim-javascript'
 Plug 'plasticboy/vim-markdown'
+Plug 'sbdchd/neoformat'
 Plug 'sjl/vitality.vim'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-haml'
 Plug 'tpope/vim-projectile'
+Plug 'tpope/vim-projectionist'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-rsi'
 Plug 'tpope/vim-surround'
@@ -64,6 +70,7 @@ set sidescrolloff=15 " minimal number of columns to keep left and right of the c
 set list " show <Tab> as ^I and end-of-line as $
 set listchars=tab:\ \ ,trail:· " list strings used for list mode
 set number " show the line number for each line
+" set relativenumber
 
 " =============================================================================
 " 5 syntax, highlighting and spelling
@@ -72,11 +79,13 @@ set number " show the line number for each line
 set hlsearch " highlight all matches for the last used search pattern
 set cursorline " highlight the screen line of the cursor
 set colorcolumn=+1 " columns to highlight
+
 let base16colorspace=256
-set bg=light
-colorscheme base16-solarized-light
 syntax enable " switch on syntax highlighting
+set background=light
+colorscheme base16-solarized-light
 highlight Comment cterm=italic
+highlight Search ctermfg=black
 
 set spellfile=~/.vim/spellfile.utf-8.add " file that "zg" adds good words to
 filetype plugin on " enable loading the plugin files for specific file types
@@ -120,13 +129,13 @@ set splitright " a new window is put right of the current one
 " =============================================================================
 
 set lazyredraw
-set ttyfast " terminal connection is fast
+set ttyfast " default in nvim
 
 " =============================================================================
 " 9 using the mouse
 " =============================================================================
 
-set mouse=a
+set mouse=a " default in nvim
 
 " =============================================================================
 " 10 GUI
@@ -254,6 +263,7 @@ nmap ga <Plug>(EasyAlign)
 nnoremap <leader>w :w<cr>
 " nnoremap <leader>bl :set bg=light<cr>
 " nnoremap <leader>bd :set bg=dark<cr>
+nnoremap <leader>n :set nonumber<cr>
 
 " reload tags
 "command! ReloadTags :!/usr/local/bin/ctags --tagfile .vim-tags --extra=+f --exclude=.git --exclude=doc --exclude=gems --recurse --tag-relative
@@ -262,11 +272,13 @@ nnoremap <leader>t :silent !.git/hooks/ctags<cr>:redraw!<cr>
 " automatically reload vimrc when it's saved
 autocmd! BufWritePost vim/vimrc.symlink source ~/.vimrc
 " run spec under current line
-nnoremap <leader>s :!bundle exec rake spec SPEC=%:<cr>=line('.')<cr><cr>
+" nnoremap <leader>s :!bundle exec rake spec SPEC=%:<cr>=line('.')<cr><cr>
 " run current spec file
-nnoremap <leader>S :!bundle exec rake spec SPEC=%<cr>
+" nnoremap <leader>S :!bundle exec rake spec SPEC=%<cr>
+"
+nnoremap <leader>= :wincmd =<cr>
 " insert Mode
-inoremap jk <esc>
+" inoremap jk <esc>
 " toggle "keep current line centered" mode
 nnoremap <leader>C :let &scrolloff=999-&scrolloff<cr>
 " clean trailing whitespace
@@ -305,6 +317,13 @@ command! W w !sudo tee % > /dev/null
 if filereadable(expand('~/.vimrc.local'))
   source ~/.vimrc.local
 endif
+if filereadable(expand('./.vimrc'))
+  source ./.vimrc
+endif
+
+autocmd BufNewFile,BufRead *.json set filetype=json
+autocmd FileType * setlocal formatprg=
+autocmd FileType json setlocal formatprg=jq\ -sM\ .
 
 set exrc
 set secure
