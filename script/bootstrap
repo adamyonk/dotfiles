@@ -123,7 +123,6 @@ install_dotfiles () {
 
 symlink_files () {
   link_files "$DOTFILES_ROOT/bin" "~/bin"
-  link_files "$DOTFILES_ROOT/system/Brewfile" "~/Brewfile"
 }
 
 install_deps () {
@@ -136,7 +135,7 @@ install_deps () {
       then
       /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
     fi
-    brew bundle --file=~/Brewfile
+    brew bundle --file="$DOTFILES_ROOT/system/Brewfile"
     success "dependencies installed"
   fi
 }
