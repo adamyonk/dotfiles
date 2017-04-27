@@ -4,3 +4,9 @@
 [submodule "bash/bash-sensible"]
 	path = bash/bash-sensible
 	url = https://github.com/mrzool/bash-sensible
+[submodule "system/asdf.symlink"]
+	path = system/asdf.symlink
+	url = https://github.com/asdf-vm/asdf.git
+[submodule "system/keyboard"]
+	path = system/keyboard
+	url = https://github.com/jasonrudolph/keyboard.git

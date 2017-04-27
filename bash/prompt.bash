@@ -40,7 +40,7 @@ _prompt_char() {
 }
 
 set_ps1() {
-  PS1='\n\[\033[G\] $(_prompt_status) $(_prompt_dir)$(_prompt_git)\n $(_prompt_char) '
+  PS1='\n\[\033[G\]$(_prompt_status) $(_prompt_dir)$(_prompt_git)\n$(_prompt_char) '
 }
 
 # Prompt command

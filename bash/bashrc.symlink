@@ -21,14 +21,19 @@ export BROWSER=open
 BASE16_SHELL="$HOME/.config/base16-shell/scripts"
 alias dark="source $BASE16_SHELL/base16-solarized-dark.sh"
 alias light="source $BASE16_SHELL/base16-solarized-light.sh"
-[[ -d "$BASE16_SHELL" ]] && light
+[[ -d "$BASE16_SHELL" ]] && dark
 
 # Path
 export PATH=.git/safe/../../bin
-export PATH=$PATH:./bin
-export PATH=$PATH:$HOME/bin
-export PATH=$PATH:/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin
-export PATH=$PATH:/usr/local/share/git-core/contrib/credential/netrc
+export PATH="$PATH:./bin"
+export PATH="$PATH:$HOME/bin"
+# export PATH="$PATH:/usr/local/opt/openssl/bin" # get homebrew openssl in front of /usr/bin
+export PATH="$PATH:/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin"
+export PATH="$PATH:/usr/local/share/git-core/contrib/credential/netrc"
+# export PATH="$PATH:`yarn bin`"
+export PATH="$PATH:$HOME/.yarn/bin"
+export PATH="$PATH:`yarn global bin`"
+export PATH="$PATH:$HOME/.config/yarn/global/node_modules/.bin"
 
 # GPGTools
 # export GPG_TTY=$(tty)
@@ -45,6 +50,14 @@ function anybar {
   fi
   echo -n ${1:-white} | nc -4u -w0 localhost ${2:-1738}
 }
+
+# asdf
+. $HOME/.asdf/asdf.sh
+. $HOME/.asdf/completions/asdf.bash
+
+# Docker
+alias d='docker'
+alias dc='docker-compose'
 
 # Editor
 if [[ -f `which nvim` ]] ; then
@@ -98,8 +111,8 @@ export PATH="$HOME/.jenv/bin:$PATH"
 if which jenv > /dev/null; then eval "$(jenv init -)"; fi
 
 # NVM
-export NVM_DIR="/Users/adamyonk/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
+# export NVM_DIR="/Users/adamyonk/.nvm"
+# [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
 
 # Ruby
 alias b='bundle'
@@ -111,16 +124,16 @@ alias fb='foreman run bundle exec'
 alias fr='foreman run'
 alias r='rake'
 
-if [[ -e /usr/local/share/chruby ]]; then
-  source /usr/local/share/chruby/chruby.sh
-  source /usr/local/share/chruby/auto.sh
-fi
+# if [[ -e /usr/local/share/chruby ]]; then
+#   source /usr/local/share/chruby/chruby.sh
+#   source /usr/local/share/chruby/auto.sh
+# fi
 
 # AWS
 alias source_awsam="export AWS_DEFAULT_USER=ubuntu;source $HOME/.awsam/bash.rc"
-#if [ -s $HOME/.awsam/bash.rc ]; then
-#  source $HOME/.awsam/bash.rc
-#fi
+if [ -s $HOME/.awsam/bash.rc ]; then
+  source $HOME/.awsam/bash.rc
+fi
 #ec2-find() {
 #  aws ec2 describe-instances --filters Name=tag-value,Values=*$1* | grep "$1\|InstanceId" | uniq | sed -e 's/^[ \t\]*//' -e 's/,//g' | paste - -
 #}
@@ -160,6 +173,9 @@ alias tmux='tmux -2'
 
 # Vagrant
 alias v='vagrant'
+
+# Yarn
+alias y='yarn'
 
 source $dotfiles/bash/prompt.bash
 source $dotfiles/bash/completions/*

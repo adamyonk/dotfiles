@@ -14,6 +14,12 @@ system/config.symlink/fish/*
 !system/config.symlink/fish/config.fish
 !system/config.symlink/fish/completions/
 
-system/karabiner.d.symlink/log
+!system/config.symlink/karabiner/
+system/config.symlink/karabiner/*
+!system/config.symlink/karabiner/karabiner.json
+
+system/asdf.symlink/plugins/
+system/asdf.symlink/installs/
+system/asdf.symlink/shims/
 
 .tmux
