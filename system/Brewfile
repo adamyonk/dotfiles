@@ -1,59 +1,56 @@
 tap 'caskroom/cask'
 tap 'caskroom/fonts'
+tap 'caskroom/versions'
 tap 'homebrew/versions'
 tap 'neovim/neovim'
 
-brew 'autoconf'
-brew 'automake'
+brew 'asdf'
+brew 'awscli'
 brew 'bash'
-brew 'chruby'
 brew 'coreutils'
+brew 'ctop'
 brew 'fzf'
 brew 'gawk'
-brew 'gcc49'
 brew 'git'
-brew 'gnupg21'
+brew 'gnupg'
 brew 'heroku'
 brew 'hub'
 brew 'jq'
 brew 'keybase'
-brew 'libtool'
-brew 'libxslt'
-brew 'libyaml'
 brew 'mas'
 brew 'neovim'
 brew 'openssl'
-brew 'readline'
-brew 'ruby-install'
-brew 'speedtest_cli'
+brew 'reattach-to-user-namespace'
+brew 'shellcheck'
 brew 'terminal-notifier'
 brew 'the_silver_searcher'
 brew 'tmux'
-brew 'unixodbc'
+brew 'vagrant'
 brew 'wget'
 
+cask '1password'
 cask 'cloak'
-cask 'google-chrome'
+cask 'docker'
+cask 'google-chrome-dev'
+cask 'graphiql'
 cask 'grandperspective'
 cask 'hammerspoon'
 cask 'iterm2'
 cask 'karabiner-elements'
+cask 'sabaki'
 cask 'slack'
-cask 'spectacle'
 cask 'tunnelblick'
+cask 'virtualbox'
 
 mas '1Blocker', id: 1107421413
 mas 'Deliveries', id: 924726344
 mas 'GIPHY CAPTURE', id: 668208984
 mas 'Pixelmator', id: 407963104
 mas 'Reeder 3', id: 880001334
-mas 'Shush', id: 496437906
 mas 'Sip', id: 507257563
-mas 'Sketch', id: 852320343
 mas 'Soulver', id: 413965349
 mas 'Tweetbot', id: 557168941
 
-system "ln -s /usr/local/bin/gcc-4.9 /usr/local/bin/gcc"
 system "/usr/local/opt/fzf/install"
 system "echo /usr/local/bin/bash >> /etc/shells"
 system "chsh -s /usr/local/bin/bash"
