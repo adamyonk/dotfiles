@@ -1,118 +1,139 @@
 export PROMPT_COMMAND="history -a;history -c;history -r;$PROMPT_COMMAND"
 
 SOURCE="${BASH_SOURCE[0]}"
-while [ -h "$SOURCE" ]; do # resolve $SOURCE until the file is no longer a symlink
+while [[ -h "$SOURCE" ]]; do # resolve $SOURCE until the file is no longer a symlink
   DIR="$( cd -P "$( dirname "$SOURCE" )" && pwd )"
   SOURCE="$(readlink "$SOURCE")"
-  [[ $SOURCE != /* ]] && SOURCE="$DIR/$SOURCE" # if $SOURCE was a relative symlink, we need to resolve it relative to the path where the symlink file was located
+  [[ "$SOURCE" != /* ]] && SOURCE="$DIR/$SOURCE" # if $SOURCE was a relative symlink, we need to resolve it relative to the path where the symlink file was located
 done
 DIR="$( cd -P "$( dirname "$SOURCE" )" && pwd )"
 export dotfiles="${DIR%bash*}"
 
-alias reload='source $HOME/.bashrc'
+alias reload='. $HOME/.bashrc'
 
 export BROWSER=open
+alias chrome="/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome"
 
 # Source ~/.localrc if it exists
-[[ -e "$HOME/.localrc" ]] && source "$HOME/.localrc"
-[[ -f "$dotfiles/bash/bash-sensible/sensible.bash" ]] && source "$dotfiles/bash/bash-sensible/sensible.bash"
+[[ -e "$HOME"/.localrc ]] && . "$HOME"/.localrc
+[[ -f "$dotfiles"bash/bash-sensible/sensible.bash ]] && . "$dotfiles"/bash/bash-sensible/sensible.bash
 
 # Base16 Shell (doesn't work in Terminal.app)
 BASE16_SHELL="$HOME/.config/base16-shell/scripts"
-alias dark="source $BASE16_SHELL/base16-solarized-dark.sh"
-alias light="source $BASE16_SHELL/base16-solarized-light.sh"
-[[ -d "$BASE16_SHELL" ]] && dark
+alias dark=". \$BASE16_SHELL/base16-solarized-dark.sh"
+alias light=". \$BASE16_SHELL/base16-solarized-light.sh"
+[[ -d "$BASE16_SHELL" ]] && [[ -n "$ITERM_SESSION_ID" ]] && light
 
 # Path
 export PATH=.git/safe/../../bin
 export PATH="$PATH:./bin"
 export PATH="$PATH:$HOME/bin"
-# export PATH="$PATH:/usr/local/opt/openssl/bin" # get homebrew openssl in front of /usr/bin
 export PATH="$PATH:/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin"
 export PATH="$PATH:/usr/local/share/git-core/contrib/credential/netrc"
 # export PATH="$PATH:`yarn bin`"
-export PATH="$PATH:$HOME/.yarn/bin"
-export PATH="$PATH:`yarn global bin`"
-export PATH="$PATH:$HOME/.config/yarn/global/node_modules/.bin"
+# export PATH="$PATH:$HOME/.yarn/bin"
+# export PATH="$PATH:$HOME/.config/yarn/global/node_modules/.bin"
+
+# Colors
+RED="$(tput setaf 1)"
+GREEN="$(tput setaf 2)"
+YELLOW="$(tput setaf 3)"
+BLUE="$(tput setaf 4)"
+MAGENTA="$(tput setaf 5)"
+CYAN="$(tput setaf 6)"
+WHITE="$(tput setaf 7)"
+GRAY="$(tput setaf 8)"
+BOLD="$(tput bold)"
+UNDERLINE="$(tput sgr 0 1)"
+INVERT="$(tput sgr 1 0)"
+NOCOLOR="$(tput sgr0)"
+export RED
+export GREEN
+export YELLOW
+export BLUE
+export MAGENTA
+export CYAN
+export WHITE
+export GRAY
+export BOLD
+export UNDERLINE
+export INVERT
+export NOCOLOR
 
 # GPGTools
 # export GPG_TTY=$(tty)
 # export PINENTRY_USER_DATA="USE_CURSES=1"
 
-# if [[ -n "$SSH_CONNECTION" ]] ;then
+# if [[ -n "$SSH_CONNECTION" ]]; then
 #   export PINENTRY_USER_DATA="USE_CURSES=1"
 # fi
 
 # Anybar
-function anybar {
-  if [ "$1" = 'open' ]; then
+anybar() {
+  if [[ "$1" = 'open' ]]; then
     open /Applications/AnyBar.app; exit
   fi
-  echo -n ${1:-white} | nc -4u -w0 localhost ${2:-1738}
+  printf "%s" "${1:-white}" | nc -4u -w0 localhost "${2:-1738}"
 }
 
 # asdf
-. $HOME/.asdf/asdf.sh
-. $HOME/.asdf/completions/asdf.bash
+# For brew version:
+# [[ -f "/usr/local/opt/asdf/asdf.sh" ]] && . /usr/local/opt/asdf/asdf.sh
+# [[ -f "/usr/local/etc/bash_completion.d/asdf.bash" ]] && . /usr/local/etc/bash_completion.d/asdf.bash
+[[ -f "$HOME/.asdf/asdf.sh" ]] && . "$HOME/.asdf/asdf.sh"
+[[ -f "$HOME/.asdf/completions/asdf.bash" ]] && . "$HOME/.asdf/completions/asdf.bash"
 
 # Docker
 alias d='docker'
 alias dc='docker-compose'
 
 # Editor
-if [[ -f `which nvim` ]] ; then
+if [[ -f "$(which nvim)" ]]; then
   export EDITOR='nvim'
-elif [[ -f `which mvim` ]] ; then
+elif [[ -f "$(which mvim)" ]]; then
   export EDITOR='mvim -v'
-elif [[ -f `which vim` ]] ; then
+elif [[ -f "$(which vim)" ]]; then
   export EDITOR='vim'
 else
   export EDITOR='vi'
 fi
-alias e=$EDITOR
+alias e="\$EDITOR"
+
+# FZF
+export FZF_DEFAULT_COMMAND='ag -g ""'
+[[ -f "$HOME/.fzf.bash" ]] && . "$HOME/.fzf.bash"
 
 # Git
-[[ -f `which hub` ]] && alias git='hub'
+[[ -f "$(which hub)" ]] && alias git='hub'
 alias g='git'
 complete -o default -o nospace -F _git g
 
-if [[ -f `which hitch` ]] ; then
+if [[ -f "$(which hitch)" ]]; then
   alias unhitch='hitch --unhitch'
   hitch() {
     command hitch "$@"
-    if [[ -s "$HOME/.hitch_export_authors" ]] ; then source "$HOME/.hitch_export_authors" ; fi
+    [[ -s "$HOME/.hitch_export_authors" ]] && . "$HOME/.hitch_export_authors"
   }
 fi
 
-if [ -d $(brew --prefix)/etc/bash_completion.d ]; then
-  . $(brew --prefix)/etc/bash_completion.d/git-completion.bash
-  . $(brew --prefix)/etc/bash_completion.d/hub.bash_completion.sh
+if [[ -d "$(brew --prefix)/etc/bash_completion.d/" ]]; then
+  for f in "$(brew --prefix)"/etc/bash_completion.d/*; do
+    . "$f"
+  done
 fi
 
 # GnuPG
-export GPG_TTY=$(tty)
-
-# Go
-export GOPATH=$projects/Go
-export GOROOT=/usr/local/opt/go/libexec
-export PATH=$PATH:$GOPATH/bin:$GOROOT/bin
+GPG_TTY="$(tty)"
+export GPG_TTY
 
 # Heroku
-export PATH=$PATH:/usr/local/heroku/bin
+export PATH="$PATH:/usr/local/heroku/bin"
 alias h='heroku'
 alias s='staging'
 alias p='production'
 
 # Homebrew
 export HOMEBREW_CASK_OPTS="--appdir=/Applications"
-
-# Java
-export PATH="$HOME/.jenv/bin:$PATH"
-if which jenv > /dev/null; then eval "$(jenv init -)"; fi
-
-# NVM
-# export NVM_DIR="/Users/adamyonk/.nvm"
-# [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
 
 # Ruby
 alias b='bundle'
@@ -122,51 +143,35 @@ alias bu='bundle update'
 alias f='foreman'
 alias fb='foreman run bundle exec'
 alias fr='foreman run'
+alias fs='foreman start'
 alias r='rake'
 
-# if [[ -e /usr/local/share/chruby ]]; then
-#   source /usr/local/share/chruby/chruby.sh
-#   source /usr/local/share/chruby/auto.sh
-# fi
-
 # AWS
-alias source_awsam="export AWS_DEFAULT_USER=ubuntu;source $HOME/.awsam/bash.rc"
-if [ -s $HOME/.awsam/bash.rc ]; then
-  source $HOME/.awsam/bash.rc
+if [[ -s "$HOME"/.awsam/bash.rc ]]; then
+  export AWS_DEFAULT_USER=ubuntu
+  . "$HOME"/.awsam/bash.rc
 fi
+
 #ec2-find() {
 #  aws ec2 describe-instances --filters Name=tag-value,Values=*$1* | grep "$1\|InstanceId" | uniq | sed -e 's/^[ \t\]*//' -e 's/,//g' | paste - -
 #}
 
 # System
-function colours() {
-  for i in {0..255} ; do
-    printf "\x1b[38;5;${i}m${i} "
+colours() {
+  for i in {0..255}; do
+    printf "%s" "\x1b[38;5;${i}m${i} "
   done
+  unset i
 }
 alias c='caffeinate -d'
 alias cta='caffeinate -d tmux at'
 alias fliptable='echo （╯°□°）╯︵ ┻━┻'
-alias ios='open /Applications/Xcode.app/Contents/Applications/iOS\ Simulator.app'
 alias lc='launchctl'
 alias ll='ls -al'
 alias lock='/System/Library/CoreServices/Menu\ Extras/User.menu/Contents/Resources/CGSession -suspend'
-alias serve='ruby -run -e httpd ./ --port 3333'
 alias sound='afplay /System/Library/Sounds/Glass.aiff'
 alias ssh_up='systemsetup -setremotelogin on'
 alias ssh_down='systemsetup -setremotelogin off'
-
-services='cassandra memcached mysql postgresql redis zookeeper'
-function start_services() {
-  for service in services ; do
-    brew services start "$service"
-  done
-}
-function stop_services() {
-  for service in services ; do
-    brew services stop "$service"
-  done
-}
 
 # Tmux
 alias tmux='tmux -2'
@@ -177,8 +182,7 @@ alias v='vagrant'
 # Yarn
 alias y='yarn'
 
-source $dotfiles/bash/prompt.bash
-source $dotfiles/bash/completions/*
+. "$dotfiles"bash/prompt.bash
+. "$dotfiles"bash/completions/*
 
-export FZF_DEFAULT_COMMAND='ag -g ""'
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
