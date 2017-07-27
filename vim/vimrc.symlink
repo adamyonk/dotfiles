@@ -10,41 +10,44 @@ call plug#begin('~/.vim/plugged')
 
 " Plug 'airblade/vim-gitgutter'
 " Plug 'altercation/vim-colors-solarized'
-Plug 'benekastah/neomake'
+" Plug 'benekastah/neomake'
 Plug 'chriskempson/base16-vim'
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'easymotion/vim-easymotion'
 Plug 'ervandew/supertab'
 Plug 'fleischie/vim-styled-components'
-Plug 'isRuslan/vim-es6'
+" Plug 'isRuslan/vim-es6'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 Plug 'junegunn/gv.vim'
 Plug 'junegunn/vim-easy-align'
 Plug 'junegunn/vim-emoji'
 Plug 'junegunn/vim-github-dashboard'
-Plug 'kchmck/vim-coffee-script'
+" Plug 'kchmck/vim-coffee-script'
 Plug 'mattn/gist-vim'
 Plug 'mattn/webapi-vim'
 Plug 'maxmellon/vim-jsx-pretty'
-Plug 'mxw/vim-jsx'
+" Plug 'mxw/vim-jsx'
 Plug 'nelstrom/vim-visual-star-search'
-Plug 'pangloss/vim-javascript'
-Plug 'plasticboy/vim-markdown'
-Plug 'sbdchd/neoformat'
+" Plug 'pangloss/vim-javascript'
+" Plug 'plasticboy/vim-markdown'
+" Plug 'sbdchd/neoformat'
+Plug 'sheerun/vim-polyglot'
 Plug 'sjl/vitality.vim'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-haml'
-Plug 'tpope/vim-projectile'
 Plug 'tpope/vim-projectionist'
 Plug 'tpope/vim-repeat'
+Plug 'tpope/vim-rhubarb'
 Plug 'tpope/vim-rsi'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-unimpaired'
 Plug 'tpope/vim-vinegar'
 Plug 'vim-scripts/netrw.vim'
 Plug 'vim-scripts/visualrepeat'
+Plug 'vimwiki/vimwiki'
+Plug 'w0rp/ale'
 
 call plug#end()
 
@@ -53,6 +56,7 @@ call plug#end()
 " =============================================================================
 
 set incsearch " show match for partly typed search command
+" set autochdir " cd to opened file's dir
 
 " =============================================================================
 " 3 tags
@@ -265,12 +269,15 @@ nnoremap <leader>w :w<cr>
 " nnoremap <leader>bd :set bg=dark<cr>
 nnoremap <leader>n :set nonumber<cr>
 
+" `gf` opens file under cursor in a new vertical split
+nnoremap gf :vertical wincmd f<cr>
+
 " reload tags
 "command! ReloadTags :!/usr/local/bin/ctags --tagfile .vim-tags --extra=+f --exclude=.git --exclude=doc --exclude=gems --recurse --tag-relative
 "command! GitTags :!.git/hooks/ctags
 nnoremap <leader>t :silent !.git/hooks/ctags<cr>:redraw!<cr>
 " automatically reload vimrc when it's saved
-autocmd! BufWritePost vim/vimrc.symlink source ~/.vimrc
+autocmd! BufWritePost vim/vimrc.symlink source ~/.vim/init.vim
 " run spec under current line
 " nnoremap <leader>s :!bundle exec rake spec SPEC=%:<cr>=line('.')<cr><cr>
 " run current spec file
@@ -298,7 +305,7 @@ vnoremap > >gv
 " redraw!
 nnoremap <leader>rr :redraw!<cr>
 " reload .vimrc
-nnoremap <leader>r :source ~/.vimrc<cr>:echo 'Reloaded ~/.vimrc'<cr>
+nnoremap <leader>r :source ~/.vim/init.vim<cr>:echo 'Reloaded ~/.vim/init.vim'<cr>
 " custom grep
 if executable('ag')
   set grepprg=ag\ --nogroup\ --nocolor
@@ -313,13 +320,6 @@ command! W w !sudo tee % > /dev/null
 "vmap <leader># c#{<C-R>"}<esc>
 "vmap <leader>( c(<C-R>")<esc>
 "vmap <leader>[ c[<C-R>"]<esc>
-" source ~/.vimrc.local if it exists
-if filereadable(expand('~/.vimrc.local'))
-  source ~/.vimrc.local
-endif
-if filereadable(expand('./.vimrc'))
-  source ./.vimrc
-endif
 
 autocmd BufNewFile,BufRead *.json set filetype=json
 autocmd FileType * setlocal formatprg=
@@ -327,3 +327,43 @@ autocmd FileType json setlocal formatprg=jq\ -sM\ .
 
 set exrc
 set secure
+
+augroup vimrc
+  autocmd!
+augroup END
+
+if exists(':terminal')
+  tnoremap <expr> <C-\><C-R> '<C-\><C-N>"'.nr2char(getchar()).'pi'
+
+  autocmd vimrc TermOpen * nnoremap <buffer> I I<C-a>
+  autocmd vimrc TermOpen * nnoremap <buffer> A A<C-e>
+  autocmd vimrc TermOpen * nnoremap <buffer> C i<C-k>
+  autocmd vimrc TermOpen * nnoremap <buffer> D i<C-k><C-\><C-n>
+  autocmd vimrc TermOpen * nnoremap <buffer> cc i<C-e><C-u>
+  autocmd vimrc TermOpen * nnoremap <buffer> dd i<C-e><C-u><C-\><C-n>
+endif
+
+" https://github.com/neovim/neovim/pull/2076#issuecomment-76998265
+nnoremap <a-h> <c-w>h
+nnoremap <a-j> <c-w>j
+nnoremap <a-k> <c-w>k
+nnoremap <a-l> <c-w>l
+vnoremap <a-h> <c-\><c-n><c-w>h
+vnoremap <a-j> <c-\><c-n><c-w>j
+vnoremap <a-k> <c-\><c-n><c-w>k
+vnoremap <a-l> <c-\><c-n><c-w>l
+inoremap <a-h> <c-\><c-n><c-w>h
+inoremap <a-j> <c-\><c-n><c-w>j
+inoremap <a-k> <c-\><c-n><c-w>k
+inoremap <a-l> <c-\><c-n><c-w>l
+cnoremap <a-h> <c-\><c-n><c-w>h
+cnoremap <a-j> <c-\><c-n><c-w>j
+cnoremap <a-k> <c-\><c-n><c-w>k
+cnoremap <a-l> <c-\><c-n><c-w>l
+if has('nvim')
+  tnoremap <a-h> <c-\><c-n><c-w>h
+  tnoremap <a-j> <c-\><c-n><c-w>j
+  tnoremap <a-k> <c-\><c-n><c-w>k
+  tnoremap <a-l> <c-\><c-n><c-w>l
+  tnoremap <Esc> <C-\><C-n>
+endif

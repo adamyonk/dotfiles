@@ -2,6 +2,7 @@
 " - down / up / left / right
 " - window (nvim only)
 let g:fzf_layout = { 'down': '~15%' }
+let g:fzf_prefer_tmux = 1
 nnoremap <leader>f :Files<cr>
 nnoremap <leader>F :Ag<cr>
 
