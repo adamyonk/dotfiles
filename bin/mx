@@ -62,8 +62,8 @@ if ! (tmux ls | grep --silent "^$SESSION_NAME:"); then
     SESSION_PATH=$PWD
   fi
 
-  if [ -x "$SESSION_PATH"/.tmux ]; then
-    "$SESSION_PATH"/.tmux "$SESSION_NAME" "$SESSION_PATH"
+  if [ -f "$SESSION_PATH"/.tmux ]; then
+    bash "$SESSION_PATH"/.tmux "$SESSION_NAME" "$SESSION_PATH"
   else
     tmux new-session -d -c "$SESSION_PATH" -s "$SESSION_NAME" -n editor
     tmux send-keys -t "$SESSION_NAME" "$EDITOR" C-m

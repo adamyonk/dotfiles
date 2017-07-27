@@ -1,0 +1,7 @@
+#!/usr/bin/env sh
+
+# Requires tag:
+# $ brew install tag
+
+find ~/Code -name node_modules -depth 2 | xargs tmutil addexclusion
+find ~/Code -name node_modules -depth 2 | xargs tag --add 'Skip Backup'
