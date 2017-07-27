@@ -4,6 +4,7 @@
   co = checkout
   d = diff --color-words
   dlc = diff --cached HEAD^
+  dw = diff --color-words --word-diff -w
   f = fetch
   l = log --abbrev-commit --color --graph --pretty=format:"%Cred%h%Creset\\ -%C(yellow)%d%Creset\\ %s\\ %Cgreen(%cr)%C(bold\\ blue)\\ <%an>%Creset"
   m = merge
@@ -20,6 +21,7 @@
   subu = submodule foreach git pull origin master
   wci = watch-ci
   wip = "!$EDITOR $(git ls-files -m)"
+  who = blame
 
 [branch]
   autosetuprebase = always
@@ -48,13 +50,13 @@
   protocol = https
 
 [ghi]
-  token = GHI_TOKEN
+	token = !security find-internet-password -a adamyonk -s github.com -l 'ghi token' -w
 
 [github]
   user = GITHUB_USERNAME
 
 [gpg]
-  program = gpg1
+  program = gpg
 
 [help]
   autocorrect = 1
