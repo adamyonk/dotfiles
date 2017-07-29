@@ -54,3 +54,8 @@ mas 'Tweetbot', id: 557168941
 system "/usr/local/opt/fzf/install"
 system "echo /usr/local/bin/bash >> /etc/shells"
 system "chsh -s /usr/local/bin/bash"
+
+system "asdf plugin-add ruby https://github.com/asdf-vm/asdf-ruby.git"
+system "asdf plugin-add nodejs https://github.com/asdf-vm/asdf-nodejs.git"
+system "bash /usr/local/opt/asdf/plugins/nodejs/bin/import-release-team-keyring"
+system "asdf plugin-add python https://github.com/tuvistavie/asdf-python.git"
