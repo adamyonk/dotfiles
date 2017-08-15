@@ -73,7 +73,11 @@ unbind-key r
 unbind-key u
 unbind-key y
 
+bind-key -r Left swap-window -t -1
+bind-key -r Right swap-window -t +1
+
 bind-key + resize-pane -Z
+bind-key = resize-pane -Z
 bind-key , previous-window
 bind-key - split-window -c "#{pane_current_path}" -v
 bind-key -Tcopy-mode-vi v send -X begin-selection
