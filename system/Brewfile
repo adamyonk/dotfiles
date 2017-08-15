@@ -29,6 +29,7 @@ brew 'vagrant'
 brew 'wget'
 
 cask '1password'
+cask 'calibre'
 cask 'cloak'
 cask 'docker'
 cask 'google-chrome-dev'
@@ -37,10 +38,12 @@ cask 'grandperspective'
 cask 'hammerspoon'
 cask 'iterm2'
 cask 'karabiner-elements'
+cask 'kindle'
 cask 'sabaki'
 cask 'slack'
 cask 'tunnelblick'
 cask 'virtualbox'
+cask 'vlc'
 
 mas '1Blocker', id: 1107421413
 mas 'Deliveries', id: 924726344
@@ -50,6 +53,10 @@ mas 'Reeder 3', id: 880001334
 mas 'Sip', id: 507257563
 mas 'Soulver', id: 413965349
 mas 'Tweetbot', id: 557168941
+
+# Make Kindle download a format compatible with calibre
+# https://www.mobileread.com/forums/showthread.php?t=283371
+system "chmod -x /Applications/Kindle.app/Contents/MacOS/renderer-test"
 
 system "/usr/local/opt/fzf/install"
 system "echo /usr/local/bin/bash >> /etc/shells"
