@@ -26,7 +26,7 @@ alias light=". \$BASE16_SHELL/base16-solarized-light.sh"
 
 # Path
 export PATH=.git/safe/../../bin
-export PATH="$PATH:./bin"
+# export PATH="$PATH:./bin"
 export PATH="$PATH:$HOME/bin"
 export PATH="$PATH:/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin"
 export PATH="$PATH:/usr/local/share/git-core/contrib/credential/netrc"
@@ -85,7 +85,7 @@ anybar() {
 # [[ -f "$HOME/.asdf/completions/asdf.bash" ]] && . "$HOME/.asdf/completions/asdf.bash"
 
 # Docker
-alias d='docker'
+# alias d='docker'
 alias dc='docker-compose'
 
 # Editor
@@ -163,6 +163,12 @@ colours() {
     printf "%s" "\x1b[38;5;${i}m${i} "
   done
   unset i
+}
+fixcamera() {
+  sudo killall VDCAssistant
+}
+publicip() {
+  curl https://api.ipify.org
 }
 alias c='caffeinate -d'
 alias cta='caffeinate -d tmux at'
