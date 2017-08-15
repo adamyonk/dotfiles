@@ -34,6 +34,7 @@ Plug 'nelstrom/vim-visual-star-search'
 " Plug 'sbdchd/neoformat'
 Plug 'sheerun/vim-polyglot'
 Plug 'sjl/vitality.vim'
+Plug 'tpope/vim-characterize'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-haml'
@@ -56,6 +57,7 @@ call plug#end()
 " =============================================================================
 
 set incsearch " show match for partly typed search command
+set inccommand=split
 " set autochdir " cd to opened file's dir
 
 " =============================================================================
@@ -267,7 +269,7 @@ nmap ga <Plug>(EasyAlign)
 nnoremap <leader>w :w<cr>
 " nnoremap <leader>bl :set bg=light<cr>
 " nnoremap <leader>bd :set bg=dark<cr>
-nnoremap <leader>n :set nonumber<cr>
+nnoremap <leader>n :set invnumber<cr>
 
 " `gf` opens file under cursor in a new vertical split
 nnoremap gf :vertical wincmd f<cr>
