@@ -140,7 +140,7 @@ install_deps () {
   fi
 }
 
-setup_gitconfig
+# setup_gitconfig
 update_submodules
 install_dotfiles
 symlink_files
