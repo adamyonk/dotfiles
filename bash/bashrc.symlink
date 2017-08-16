@@ -117,10 +117,12 @@ if [[ -f "$(which hitch)" ]]; then
   }
 fi
 
-if [[ -d "$(brew --prefix)/etc/bash_completion.d/" ]]; then
-  for f in "$(brew --prefix)"/etc/bash_completion.d/*; do
-    . "$f"
-  done
+if [[ -f "$(which brew)" ]]; then
+  if [[ -d "$(brew --prefix)/etc/bash_completion.d/" ]]; then
+    for f in "$(brew --prefix)"/etc/bash_completion.d/*; do
+      . "$f"
+    done
+  fi
 fi
 
 # GnuPG
