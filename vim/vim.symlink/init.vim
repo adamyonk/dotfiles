@@ -1,1 +1,1 @@
-/Users/adamyonk/Code/dotfiles/vim/vimrc.symlink
+../vimrc.symlink

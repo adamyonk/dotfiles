@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+set -e
+
+if ! (command -v brew)
+  then
+  echo "Installing homebrew"
+  /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+fi
+echo "Installing brews"
+brew bundle --file="macos/Brewfile"

@@ -4,7 +4,6 @@ tap 'caskroom/versions'
 tap 'homebrew/versions'
 tap 'neovim/neovim'
 
-brew 'asdf'
 brew 'awscli'
 brew 'bash'
 brew 'coreutils'

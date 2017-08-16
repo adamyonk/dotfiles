@@ -8,13 +8,13 @@
   f = fetch
   l = log --abbrev-commit --color --graph --pretty=format:"%Cred%h%Creset\\ -%C(yellow)%d%Creset\\ %s\\ %Cgreen(%cr)%C(bold\\ blue)\\ <%an>%Creset"
   m = merge
-  mypulls = browse -- pulls/GITHUB_USERNAME
+  mypulls = browse -- pulls/adamyonk
   pl = pull
   ps = push
   s = status --short
   safe = !mkdir -p .git/safe && echo "Repository marked safe!"
   se = "!git checkout $(git branch | sed 's/*/ /' | selecta)"
-  standup = log --author=\"AUTHORNAME\" --pretty=oneline --since yesterday
+  standup = log --author=\"Adam Jahnke\" --pretty=oneline --since yesterday
   sub = submodule
   suba = submodule add
   subf = submodule foreach
@@ -36,7 +36,7 @@
   ui = 1
 
 [commit]
-  gpgsign = true
+	gpgsign = true
 
 [core]
   editor = nvim
@@ -53,7 +53,7 @@
 	token = !security find-internet-password -a adamyonk -s github.com -l 'ghi token' -w
 
 [github]
-  user = GITHUB_USERNAME
+  user = adamyonk
 
 [gpg]
   program = gpg
@@ -92,5 +92,5 @@
   enabled = 1
 
 [user]
-  email = AUTHOREMAIL
-  name = AUTHORNAME
+  email = adamyonk@me.com
+  name = Adam Jahnke

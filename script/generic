@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+
+set -e
+
+source $HOME/.asdf/asdf.sh
+
+asdf plugin-add golang https://github.com/kennyp/asdf-golang
+asdf plugin-add nodejs
+asdf plugin-add ruby
+
+export GNUPGHOME="${ASDF_DIR:-$HOME/.asdf}/keyrings/nodejs" && mkdir -p "$GNUPGHOME" && chmod 0700 "$GNUPGHOME"
+bash ~/.asdf/plugins/nodejs/bin/import-release-team-keyring
+
+cd ~/
+asdf install
+cd -
+
+# find generic installers and run them interactively
+echo "Running generic installers"
+find . -name all.sh | while read installer ; do sh -c "${installer}" > /dev/null ; done
