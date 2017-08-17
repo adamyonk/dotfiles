@@ -34,6 +34,11 @@ export PATH="$PATH:/usr/local/share/git-core/contrib/credential/netrc"
 # export PATH="$PATH:$HOME/.yarn/bin"
 # export PATH="$PATH:$HOME/.config/yarn/global/node_modules/.bin"
 
+# Go
+export GOPATH=$HOME/go
+export PATH=$PATH:$GOPATH/bin
+
+
 # Colors
 RED="$(tput setaf 1)"
 GREEN="$(tput setaf 2)"
