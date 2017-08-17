@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+ln -s "$(PWD)"/bin ~/bin
+
 source $HOME/.asdf/asdf.sh
 
 asdf plugin-add golang https://github.com/kennyp/asdf-golang
