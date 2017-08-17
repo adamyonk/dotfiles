@@ -27,7 +27,7 @@
   autosetuprebase = always
 
 [credential]
-  helper = netrc
+  helper = envvar
 
 [color]
   branch = auto
