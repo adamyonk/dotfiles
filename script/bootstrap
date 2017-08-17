@@ -9,3 +9,5 @@ echo "Bootstrapping"
 script/symlinks
 script/generic
 script/platform
+
+echo "All done ⚡️"
