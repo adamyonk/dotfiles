@@ -15,6 +15,9 @@ cd ~/
 asdf install
 cd -
 
+echo "Installing hub"
+go get github.com/github/hub/...
+
 # find generic installers and run them interactively
 echo "Running generic installers"
 find . -name all.sh | while read installer ; do sh -c "${installer}" > /dev/null ; done

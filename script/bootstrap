@@ -7,7 +7,7 @@ set -e
 echo "Bootstrapping"
 
 script/symlinks
-script/generic
 script/platform
+script/generic
 
 echo "All done ⚡️"

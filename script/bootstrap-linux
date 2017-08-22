@@ -13,9 +13,6 @@ sudo add-apt-repository ppa:neovim-ppa/stable -y
 sudo apt-get update > /dev/null
 cat linux/deps | xargs sudo apt-get install -y
 
-echo "Installing hub"
-go get github.com/github/hub/...
-
 echo "Installing ctop"
 sudo wget https://github.com/bcicen/ctop/releases/download/v0.6.1/ctop-0.6.1-linux-amd64 -O /usr/local/bin/ctop
 sudo chmod +x /usr/local/bin/ctop
