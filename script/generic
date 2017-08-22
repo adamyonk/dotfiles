@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-ln -s "$(PWD)"/bin ~/bin
+ln -fs "$PWD"/bin ~/bin
 
 source $HOME/.asdf/asdf.sh
 
