@@ -123,16 +123,12 @@ if [[ -f "$(which hitch)" ]]; then
 fi
 
 if [[ -f "$(which brew)" ]]; then
-  if [[ -d "$(brew --prefix)"/etc/bash_completion.d/ ]]; then
-    for f in "$(brew --prefix)"/etc/bash_completion.d/*; do
-      . "$f"
-    done
+  if [[ -f "$(brew --prefix)"/etc/bash_completion ]]; then
+    . "$(brew --prefix)"/etc/bash_completion
   fi
 fi
-if [[ -d /etc/bash_completion.d/ ]]; then
-  for f in /etc/bash_completion.d/*; do
-    . "$f"
-  done
+if [[ -f /usr/share/bash-completion/bash_completion ]]; then
+  . /usr/share/bash-completion/bash_completion
 fi
 
 # GnuPG
