@@ -18,6 +18,14 @@ alias chrome="/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome"
 [[ -e "$HOME"/.localrc ]] && . "$HOME"/.localrc
 [[ -f "$dotfiles"bash/bash-sensible/sensible.bash ]] && . "$dotfiles"/bash/bash-sensible/sensible.bash
 
+if [[ -n "$TMUX" ]]; then
+  refresh() {
+    export "$(tmux show-environment | grep '^SSH_AUTH_SOCK')"
+  }
+else
+  refresh() { exit 1; }
+fi
+
 # Base16 Shell (doesn't work in Terminal.app)
 BASE16_SHELL="$HOME/.config/base16-shell/scripts"
 alias dark=". \$BASE16_SHELL/base16-solarized-dark.sh"
