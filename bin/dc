@@ -3,7 +3,7 @@
 # Borrowed from @ggerrietts, @pengwynn
 
 function rebuild {
-  docker-compose build "$@" && docker-compose stop "$@" && docker-compose up -d "$@"
+  docker-compose build "$@" && cycle
 }
 
 function cycle {
@@ -29,6 +29,10 @@ function ports {
   docker ps --filter name="$1" --format "{{.Names}}: {{.Ports}}"
 }
 
+function cp {
+  docker cp "$1" "$2":/app
+}
+
 if [[ $# -gt 0 ]]; then
   case "$1" in
     clean )
@@ -37,6 +41,10 @@ if [[ $# -gt 0 ]]; then
     console )
       shift
       console "$@"
+      ;;
+    cp )
+      shift
+      cp "$@"
       ;;
     cycle )
       shift
