@@ -9,7 +9,6 @@ set nocompatible " don't behave like Vi
 call plug#begin('~/.vim/plugged')
 
 " Plug 'airblade/vim-gitgutter'
-" Plug 'altercation/vim-colors-solarized'
 " Plug 'benekastah/neomake'
 Plug 'chriskempson/base16-vim'
 Plug 'christoomey/vim-tmux-navigator'
@@ -31,7 +30,6 @@ Plug 'maxmellon/vim-jsx-pretty'
 Plug 'nelstrom/vim-visual-star-search'
 " Plug 'pangloss/vim-javascript'
 " Plug 'plasticboy/vim-markdown'
-" Plug 'sbdchd/neoformat'
 Plug 'sheerun/vim-polyglot'
 Plug 'sjl/vitality.vim'
 Plug 'tpope/vim-characterize'
