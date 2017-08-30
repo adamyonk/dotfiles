@@ -99,7 +99,7 @@ anybar() {
 
 # Docker
 # alias d='docker'
-alias dc='docker-compose'
+# alias dc='docker-compose'
 
 # Editor
 if [[ -f "$(which nvim)" ]]; then
@@ -130,14 +130,24 @@ if [[ -f "$(which hitch)" ]]; then
   }
 fi
 
+
+
+
+
 if [[ -f "$(which brew)" ]]; then
-  if [[ -f "$(brew --prefix)"/etc/bash_completion ]]; then
-    . "$(brew --prefix)"/etc/bash_completion
+  if [[ -d "$(brew --prefix)"/etc/bash_completion.d/ ]]; then
+    for f in "$(brew --prefix)"/etc/bash_completion.d/*; do
+      . "$f"
+    done
   fi
 fi
-if [[ -f /usr/share/bash-completion/bash_completion ]]; then
-  . /usr/share/bash-completion/bash_completion
+
+if [[ -d /usr/share/bash-completion/completions/ ]]; then
+  for f in /usr/share/bash-completion/completions/*; do
+    . "$f"
+  done
 fi
+
 
 # GnuPG
 GPG_TTY="$(tty)"
