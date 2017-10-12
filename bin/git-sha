@@ -1,4 +1,4 @@
 #!/usr/bin/env bash
 
 sha="$(git rev-parse HEAD)"
-printf "${sha:0:7}" | tee >(pbcopy) | cat
+printf "${sha:0:8}" | tee >(pbcopy) | cat

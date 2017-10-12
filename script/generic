@@ -19,7 +19,7 @@ echo "Installing hub"
 go get github.com/github/hub/...
 
 echo "Installing vim plugins"
-nvmin -E +PlugUpgrade +PlugUpdate +PlugClean! +qa
+nvim -E +PlugUpgrade +PlugUpdate +PlugClean! +qa
 
 # find generic installers and run them interactively
 echo "Running generic installers"

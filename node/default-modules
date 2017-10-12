@@ -1,5 +1,8 @@
-vtop
-prettier
+babel-eslint
 eslint
 eslint-plugin-react
-babel-eslint
+fast-cli
+gtop
+lock-cli
+prettier
+vtop
