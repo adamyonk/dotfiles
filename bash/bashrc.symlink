@@ -105,9 +105,6 @@ fi
 #  aws ec2 describe-instances --filters Name=tag-value,Values=*$1* | grep "$1\|InstanceId" | uniq | sed -e 's/^[ \t\]*//' -e 's/,//g' | paste - -
 #}
 
-# dev-cli
-eval "$($HOME/.dev-cli/bin/dev init -)"
-
 # Docker
 # alias d='docker'
 # alias dc='docker-compose'
