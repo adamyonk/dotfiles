@@ -242,7 +242,7 @@ set undodir=~/.vim_undo " list of directories for undo files
 " 22 executing external commands
 " =============================================================================
 
-set shell=/usr/local/bin/bash " name of the shell program used for external commands
+" set shell=/usr/local/bin/bash " name of the shell program used for external commands
 
 " =============================================================================
 " 23 running make and jumping to errors
