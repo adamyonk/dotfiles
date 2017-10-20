@@ -1,4 +1,5 @@
 babel-eslint
+caniuse-cmd
 eslint
 eslint-plugin-react
 fast-cli

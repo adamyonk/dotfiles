@@ -1,65 +1,65 @@
 #!/usr/bin/env bash
 
-# Borrowed from @ggerrietts, @pengwynn
+# Borrowed from @ggerrietts
 
-function rebuild {
-  docker-compose build "$@" && cycle
+function dc_rebuild {
+  docker-compose build "$@" && docker-compose stop "$@" && docker-compose up -d "$@"
 }
 
-function cycle {
+function dc_cycle {
   docker-compose stop "$@" && docker-compose up -d "$@"
 }
 
-function clean {
-  docker rm "$(docker ps -a -q)"
-  docker rmi "$(docker images -q -f dangling=true)"
+function dc_clean {
+  docker rm $(docker ps -a -q)
+  docker rmi $(docker images -q -f dangling=true)
 }
 
-function nuke {
-  docker kill "$(docker ps -q)"
-  docker rm "$(docker ps -a -q)"
-  docker rmi "$(docker images -q)"
+function dc_nuke {
+  docker kill $(docker ps -q)
+  docker rm $(docker ps -a -q)
+  docker rmi $(docker images -q)
 }
 
-function console {
+function dc_console {
   docker-compose exec "$1" /bin/bash
 }
 
-function ports {
+function dc_ports {
   docker ps --filter name="$1" --format "{{.Names}}: {{.Ports}}"
 }
 
-function cp {
+function dc_cp {
   docker cp "$1" "$2":/app
 }
 
 if [[ $# -gt 0 ]]; then
   case "$1" in
     clean )
-      clean
+      dc_clean
       ;;
     console )
       shift
-      console "$@"
+      dc_console "$@"
       ;;
     cp )
       shift
-      cp "$@"
+      dc_cp "$@"
       ;;
     cycle )
       shift
-      cycle "$@"
+      dc_cycle "$@"
       ;;
     nuke )
-      nuke
+      dc_nuke
       ;;
     ports )
       shift
-      ports "$@"
+      dc_ports "$@"
       ;;
     rebuild )
       shift
-      rebuild "$@"
+      dc_rebuild "$@"
       ;;
     *)
       docker-compose "$@"
@@ -68,4 +68,3 @@ if [[ $# -gt 0 ]]; then
 else
   docker-compose
 fi
-

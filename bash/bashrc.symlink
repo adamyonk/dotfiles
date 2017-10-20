@@ -9,36 +9,6 @@ done
 DIR="$( cd -P "$( dirname "$SOURCE" )" && pwd )"
 export dotfiles="${DIR%bash*}"
 
-alias reload='. $HOME/.bashrc'
-
-export BROWSER=open
-alias chrome="/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome"
-
-# Source ~/.localrc if it exists
-[[ -e "$HOME"/.localrc ]] && . "$HOME"/.localrc
-[[ -f "$dotfiles"bash/bash-sensible/sensible.bash ]] && . "$dotfiles"/bash/bash-sensible/sensible.bash
-
-if [[ -n "$TMUX" ]]; then
-  refresh() {
-    export "$(tmux show-environment | grep '^SSH_AUTH_SOCK')"
-  }
-else
-  refresh() { exit 1; }
-fi
-
-# Base16 Shell (doesn't work in Terminal.app)
-BASE16_SHELL="$HOME/.config/base16-shell/scripts"
-alias dark=". \$BASE16_SHELL/base16-solarized-dark.sh"
-alias light=". \$BASE16_SHELL/base16-solarized-light.sh"
-[[ -d "$BASE16_SHELL" ]] && [[ -n "$ITERM_SESSION_ID" ]] && dark
-theme() {
-  if [ $# -eq 0 ]; then
-    ls -1 $BASE16_SHELL | sed -E "s/base16-//g" | sed -E "s/.sh//g" | column
-  else
-    . $BASE16_SHELL/base16-$1.sh
-  fi
-}
-
 # Path
 export PATH=.git/safe/../../bin
 # export PATH="$PATH:./bin"
@@ -48,6 +18,48 @@ export PATH="$PATH:/usr/local/share/git-core/contrib/credential/netrc"
 # export PATH="$PATH:`yarn bin`"
 # export PATH="$PATH:$HOME/.yarn/bin"
 # export PATH="$PATH:$HOME/.config/yarn/global/node_modules/.bin"
+
+# Source ~/.localrc if it exists
+[[ -e "$HOME"/.localrc ]] && . "$HOME"/.localrc
+
+# Base16 Shell (doesn't work in Terminal.app)
+if [ -n "$ITERM_SESSION_ID" ]; then
+  BASE16_SHELL="$HOME/.config/base16-shell/"
+  [ -n "$PS1" ] && [ -s "$BASE16_SHELL/profile_helper.sh" ] && eval "$($BASE16_SHELL/profile_helper.sh)"
+fi
+
+# Anybar
+anybar() {
+  if [[ "$1" = 'open' ]]; then
+    open /Applications/AnyBar.app; exit
+  fi
+  printf "%s" "${1:-white}" | nc -4u -w0 localhost "${2:-1738}"
+}
+
+# asdf
+# For brew version:
+# [[ -f "/usr/local/opt/asdf/asdf.sh" ]] && . /usr/local/opt/asdf/asdf.sh
+# [[ -f "/usr/local/etc/bash_completion.d/asdf.bash" ]] && . /usr/local/etc/bash_completion.d/asdf.bash
+# For manual install
+[[ -f "$HOME/.asdf/asdf.sh" ]] && . "$HOME/.asdf/asdf.sh"
+[[ -f "$HOME/.asdf/completions/asdf.bash" ]] && . "$HOME/.asdf/completions/asdf.bash"
+
+# AWS
+if [[ -s "$HOME"/.awsam/bash.rc ]]; then
+  export AWS_DEFAULT_USER=ubuntu
+  . "$HOME"/.awsam/bash.rc
+fi
+#ec2-find() {
+#  aws ec2 describe-instances --filters Name=tag-value,Values=*$1* | grep "$1\|InstanceId" | uniq | sed -e 's/^[ \t\]*//' -e 's/,//g' | paste - -
+#}
+
+
+# Bash Sensible
+[[ -f "$dotfiles"bash/bash-sensible/sensible.bash ]] && . "$dotfiles"/bash/bash-sensible/sensible.bash
+
+# Browser
+export BROWSER=open
+alias chrome="/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome"
 
 # Go
 export GOPATH=$HOME/go
@@ -79,31 +91,20 @@ export UNDERLINE
 export INVERT
 export NOCOLOR
 
-# Anybar
-anybar() {
-  if [[ "$1" = 'open' ]]; then
-    open /Applications/AnyBar.app; exit
+# Completions
+if [[ -f "$(which brew)" ]]; then
+  if [[ -d "$(brew --prefix)"/etc/bash_completion.d/ ]]; then
+    for f in "$(brew --prefix)"/etc/bash_completion.d/*; do
+      . "$f"
+    done
   fi
-  printf "%s" "${1:-white}" | nc -4u -w0 localhost "${2:-1738}"
-}
-
-# asdf
-# For brew version:
-# [[ -f "/usr/local/opt/asdf/asdf.sh" ]] && . /usr/local/opt/asdf/asdf.sh
-# [[ -f "/usr/local/etc/bash_completion.d/asdf.bash" ]] && . /usr/local/etc/bash_completion.d/asdf.bash
-# For manual install
-[[ -f "$HOME/.asdf/asdf.sh" ]] && . "$HOME/.asdf/asdf.sh"
-[[ -f "$HOME/.asdf/completions/asdf.bash" ]] && . "$HOME/.asdf/completions/asdf.bash"
-
-# AWS
-if [[ -s "$HOME"/.awsam/bash.rc ]]; then
-  export AWS_DEFAULT_USER=ubuntu
-  . "$HOME"/.awsam/bash.rc
 fi
 
-#ec2-find() {
-#  aws ec2 describe-instances --filters Name=tag-value,Values=*$1* | grep "$1\|InstanceId" | uniq | sed -e 's/^[ \t\]*//' -e 's/,//g' | paste - -
-#}
+if [[ -d /usr/share/bash-completion/completions/ ]]; then
+  for f in /usr/share/bash-completion/completions/*; do
+    . "$f"
+  done
+fi
 
 # Docker
 # alias d='docker'
@@ -136,20 +137,6 @@ if [[ -f "$(which hitch)" ]]; then
     command hitch "$@"
     [[ -s "$HOME/.hitch_export_authors" ]] && . "$HOME/.hitch_export_authors"
   }
-fi
-
-if [[ -f "$(which brew)" ]]; then
-  if [[ -d "$(brew --prefix)"/etc/bash_completion.d/ ]]; then
-    for f in "$(brew --prefix)"/etc/bash_completion.d/*; do
-      . "$f"
-    done
-  fi
-fi
-
-if [[ -d /usr/share/bash-completion/completions/ ]]; then
-  for f in /usr/share/bash-completion/completions/*; do
-    . "$f"
-  done
 fi
 
 # GnuPG
@@ -203,12 +190,20 @@ alias fliptable='echo （╯°□°）╯︵ ┻━┻'
 alias lc='launchctl'
 alias ll='ls -al'
 alias lock='/System/Library/CoreServices/Menu\ Extras/User.menu/Contents/Resources/CGSession -suspend'
+alias reload='. $HOME/.bashrc'
 alias sound='afplay /System/Library/Sounds/Glass.aiff'
 alias ssh_up='systemsetup -setremotelogin on'
 alias ssh_down='systemsetup -setremotelogin off'
 
 # Tmux
 alias tmux='tmux -2'
+if [ -n "$TMUX" ]; then
+  refresh() {
+    export "$(tmux show-environment | grep '^SSH_AUTH_SOCK')"
+  }
+else
+  refresh() { exit 1; }
+fi
 
 # Vagrant
 alias v='vagrant'
