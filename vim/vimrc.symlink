@@ -86,8 +86,10 @@ set colorcolumn=+1 " columns to highlight
 
 syntax enable " switch on syntax highlighting
 
-if $ITERM_SESSION_ID != '' && filereadable(expand("~/.vimrc_background"))
+if $TERM =~ '256'
   let base16colorspace=256
+endif
+if filereadable(expand("~/.vimrc_background"))
   source ~/.vimrc_background
 else
   colorscheme base16-solarized-dark

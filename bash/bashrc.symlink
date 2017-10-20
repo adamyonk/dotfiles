@@ -23,7 +23,7 @@ export PATH="$PATH:/usr/local/share/git-core/contrib/credential/netrc"
 [[ -e "$HOME"/.localrc ]] && . "$HOME"/.localrc
 
 # Base16 Shell (doesn't work in Terminal.app)
-if [ -n "$ITERM_SESSION_ID" ]; then
+if [[ "$TERM" =~ "256" ]]; then
   BASE16_SHELL="$HOME/.config/base16-shell/"
   [ -n "$PS1" ] && [ -s "$BASE16_SHELL/profile_helper.sh" ] && eval "$($BASE16_SHELL/profile_helper.sh)"
 fi
@@ -100,11 +100,11 @@ if [[ -f "$(which brew)" ]]; then
   fi
 fi
 
-if [[ -d /usr/share/bash-completion/completions/ ]]; then
-  for f in /usr/share/bash-completion/completions/*; do
-    . "$f"
-  done
-fi
+# if [[ -d /usr/share/bash-completion/completions/ ]]; then
+#   for f in /usr/share/bash-completion/completions/*; do
+#     . "$f"
+#   done
+# fi
 
 # Docker
 # alias d='docker'
