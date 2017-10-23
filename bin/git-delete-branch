@@ -3,7 +3,7 @@
 branch=$(git branch-porcelain)
 if [ "$branch" == "$1" ]; then
   echo "Run this from a different branch."
-  return
+  exit 1
 fi
 
 git push origin :"$1"

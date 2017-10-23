@@ -5,7 +5,7 @@
 branch=$(git branch-porcelain)
 if [ "$branch" == 'master' ]; then
   echo "Run this from a PR branch."
-  return
+  exit 1
 fi
 
 echo -e "\n > hub ci-status"
