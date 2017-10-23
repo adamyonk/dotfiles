@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# Depends on hub, git-branch-porcelain, git-lita-ship, git-merge-pr, git-new-tag
+# Depends on hub, git-branch-porcelain, git-delete-branch, git-lita-ship, git-merge-pr, git-new-tag
 
 branch=$(git branch-porcelain)
 if [ "$branch" == 'master' ]; then
@@ -30,12 +30,6 @@ if [ $? != 0 ]; then
   exit 1
 fi
 
-echo -e "\n > git push origin :$branch"
-git push origin :"$branch"
-if [ $? != 0 ]; then
-  echo "Could not delete remote branch $branch"
-fi
-
 echo -e "\n > git pull"
 git pull
 if [ $? != 0 ]; then
@@ -43,10 +37,10 @@ if [ $? != 0 ]; then
   exit 1
 fi
 
-echo -e "\n > git branch -d $branch"
-git branch -d "$branch"
+echo -e "\n > git delete-branch $branch"
+git delete-branch "$branch"
 if [ $? != 0 ]; then
-  echo "Could not delete local branch $branch"
+  echo "Could not delete branch $branch"
 fi
 
 echo -e "\n > git new-tag"
