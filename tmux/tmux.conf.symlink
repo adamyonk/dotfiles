@@ -108,7 +108,7 @@ bind-key l select-pane -R
 bind-key n command-prompt 'rename-window %%'
 bind-key p paste-buffer
 bind-key q confirm-before kill-session
-bind-key r source-file $HOME/.tmux.conf; display ' Reloaded configuration'
+bind-key r source-file $HOME/.tmux.conf \; display ' Reloaded configuration'
 bind-key x kill-pane
 bind-key y run-shell 'tmux show-buffer | reattach-to-user-namespace pbcopy'
 bind-key | run-shell 'tmux-ssh-split -h'
@@ -129,8 +129,8 @@ bind-key -T copy-mode-vi C-k select-pane -U
 bind-key -T copy-mode-vi C-l select-pane -R
 bind-key -T copy-mode-vi C-\ select-pane -l
 
-bind-key -n WheelUpPane if-shell -F -t = "#{mouse_any_flag}" "send-keys -M" "if -Ft= '#{pane_in_mode}' 'send-keys -M' 'select-pane -t=; copy-mode -e; send-keys -M'"  
-bind-key -n WheelDownPane select-pane -t= \; send-keys -M  
+# bind-key -n WheelUpPane if-shell -F -t = "#{mouse_any_flag}" "send-keys -M" "if -Ft= '#{pane_in_mode}' 'send-keys -M' 'select-pane -t=; copy-mode -e; send-keys -M'"
+# bind-key -n WheelDownPane select-pane -t= \; send-keys -M
 
 # OSX
 #if-shell 'test "$(uname)" = "Darwin"' ''

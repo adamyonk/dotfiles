@@ -14,7 +14,7 @@ export PATH=.git/safe/../../bin
 # export PATH="$PATH:./bin"
 export PATH="$PATH:$HOME/bin"
 export PATH="$PATH:/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin"
-export PATH="$PATH:/usr/local/share/git-core/contrib/credential/netrc"
+# export PATH="$PATH:/usr/local/share/git-core/contrib/credential/netrc"
 # export PATH="$PATH:`yarn bin`"
 # export PATH="$PATH:$HOME/.yarn/bin"
 # export PATH="$PATH:$HOME/.config/yarn/global/node_modules/.bin"
@@ -92,19 +92,8 @@ export INVERT
 export NOCOLOR
 
 # Completions
-if [[ -f "$(which brew)" ]]; then
-  if [[ -d "$(brew --prefix)"/etc/bash_completion.d/ ]]; then
-    for f in "$(brew --prefix)"/etc/bash_completion.d/*; do
-      . "$f"
-    done
-  fi
-fi
-
-# if [[ -d /usr/share/bash-completion/completions/ ]]; then
-#   for f in /usr/share/bash-completion/completions/*; do
-#     . "$f"
-#   done
-# fi
+[ -f /usr/local/share/bash-completion/bash_completion ] && . /usr/local/share/bash-completion/bash_completion
+[ -f /etc/bash_completion ] && . /etc/bash_completion
 
 # Docker
 # alias d='docker'

@@ -3,5 +3,9 @@ _mx () {
   COMPREPLY=( $(compgen -W "$(ls -l $projects | grep '^d' | awk '{printf $NF" "}')" -- $word) )
 }
 
-#complete -F _mx mx
-complete -C compgen -W "$(ls -l $projects | grep '^d' | awk '{printf $NF" "}')" -- $word mx
+complete -F _mx mx
+#complete -C compgen -W "$(ls -l $projects | grep '^d' | awk '{printf $NF" "}')" -- $word mx
+
+_git_delete_branch(){
+  __gitcomp "$(__git_heads)"
+}

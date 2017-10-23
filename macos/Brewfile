@@ -6,6 +6,7 @@ tap 'neovim/neovim'
 
 brew 'awscli'
 brew 'bash'
+brew 'bash-completion@2'
 brew 'coreutils'
 brew 'ctop'
 brew 'fzf'
