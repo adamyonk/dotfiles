@@ -18,7 +18,7 @@
 
 set -e
 
-if [[ "$1" == "--help" || "$1" == '-h' ]]; then
+if [[ "$1" == "--help" || "$1" == "-h" ]]; then
   grep ^#/ "$0" | cut -c4-
   exit
 fi
