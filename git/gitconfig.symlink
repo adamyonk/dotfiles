@@ -94,3 +94,9 @@
 [user]
   email = adamyonk@me.com
   name = Adam Jahnke
+
+[url "https://github"]
+	insteadOf = git://github
+
+[url "https://github.com/"]
+	insteadOf = git@github.com:
