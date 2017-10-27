@@ -26,6 +26,7 @@ brew 'tag'
 brew 'terminal-notifier'
 brew 'the_silver_searcher'
 brew 'tmux'
+brew 'tree'
 brew 'vagrant'
 brew 'wget'
 
