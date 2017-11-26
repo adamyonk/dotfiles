@@ -9,16 +9,6 @@ done
 DIR="$( cd -P "$( dirname "$SOURCE" )" && pwd )"
 export dotfiles="${DIR%bash*}"
 
-# Path
-export PATH=.git/safe/../../bin
-# export PATH="$PATH:./bin"
-export PATH="$PATH:$HOME/bin"
-export PATH="$PATH:/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin"
-# export PATH="$PATH:/usr/local/share/git-core/contrib/credential/netrc"
-# export PATH="$PATH:`yarn bin`"
-# export PATH="$PATH:$HOME/.yarn/bin"
-# export PATH="$PATH:$HOME/.config/yarn/global/node_modules/.bin"
-
 # Source ~/.localrc if it exists
 [[ -e "$HOME"/.localrc ]] && . "$HOME"/.localrc
 
@@ -53,17 +43,12 @@ fi
 #  aws ec2 describe-instances --filters Name=tag-value,Values=*$1* | grep "$1\|InstanceId" | uniq | sed -e 's/^[ \t\]*//' -e 's/,//g' | paste - -
 #}
 
-
 # Bash Sensible
 [[ -f "$dotfiles"bash/bash-sensible/sensible.bash ]] && . "$dotfiles"/bash/bash-sensible/sensible.bash
 
 # Browser
 export BROWSER=open
 alias chrome="/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome"
-
-# Go
-export GOPATH=$HOME/go
-export PATH=$PATH:$GOPATH/bin
 
 # Colors
 RED="$(tput setaf 1)"
@@ -95,15 +80,9 @@ export NOCOLOR
 [ -f /usr/local/share/bash-completion/bash_completion ] && . /usr/local/share/bash-completion/bash_completion
 [ -f /etc/bash_completion ] && . /etc/bash_completion
 
-# Docker
-# alias d='docker'
-# alias dc='docker-compose'
-
 # Editor
 if [[ -f "$(which nvim)" ]]; then
   export EDITOR='nvim'
-elif [[ -f "$(which mvim)" ]]; then
-  export EDITOR='mvim -v'
 elif [[ -f "$(which vim)" ]]; then
   export EDITOR='vim'
 else
@@ -117,7 +96,6 @@ export FZF_DEFAULT_COMMAND='ag -g ""'
 
 # Git
 [[ -f "$(which hub)" ]] && alias git='hub'
-alias g='git'
 complete -o default -o nospace -F _git g
 
 if [[ -f "$(which hitch)" ]]; then
@@ -140,11 +118,13 @@ export GPG_TTY
 #   export PINENTRY_USER_DATA="USE_CURSES=1"
 # fi
 
+# Go
+export GOPATH=$HOME/go
+export PATH=$PATH:$GOPATH/bin
+
 # Heroku
 export PATH="$PATH:/usr/local/heroku/bin"
 alias h='heroku'
-alias s='staging'
-alias p='production'
 
 # Homebrew
 export HOMEBREW_CASK_OPTS="--appdir=/Applications"

@@ -1,0 +1,3 @@
+export PATH=".git/safe/../../bin"
+export PATH="$PATH:$HOME/bin"
+export PATH="$PATH:/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin"
