@@ -2,7 +2,8 @@ babel-eslint
 caniuse-cmd
 eslint
 eslint-plugin-react
-fast-cli
 gtop
 lock-cli
 prettier
+speed-test
+tldr
