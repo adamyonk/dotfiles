@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+
+GIT=git
+
+if command -v hub > /dev/null; then
+  GIT=hub
+fi
+
+if [[ $# -gt 0 ]]; then
+  $GIT "$@"
+else
+  $GIT status --short --branch
+fi
