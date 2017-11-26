@@ -13,14 +13,11 @@
   ps = push
   s = status --short
   safe = !mkdir -p .git/safe && echo "Repository marked safe!"
-  se = "!git checkout $(git branch | sed 's/*/ /' | selecta)"
   standup = log --author=\"Adam Jahnke\" --pretty=oneline --since yesterday
   sub = submodule
   suba = submodule add
   subf = submodule foreach
   subu = submodule foreach git pull origin master
-  wci = watch-ci
-  wip = "!$EDITOR $(git ls-files -m)"
   who = blame
 
 [branch]
