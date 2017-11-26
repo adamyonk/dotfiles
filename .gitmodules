@@ -1,15 +1,15 @@
 [submodule "bash/bash-sensible"]
 	path = bash/bash-sensible
 	url = https://github.com/mrzool/bash-sensible
-[submodule "system/config.symlink/base16-shell"]
-	path = system/config.symlink/base16-shell
-	url = https://github.com/chriskempson/base16-shell.git
+[submodule "macos/hammerspoon.symlink/Spoons/ControlEscape.spoon"]
+	path = macos/hammerspoon.symlink/Spoons/ControlEscape.spoon
+	url = https://github.com/jasonrudolph/ControlEscape.spoon
 [submodule "macos/hammerspoon.symlink/Spoons/PushToTalk.spoon"]
 	path = macos/hammerspoon.symlink/Spoons/PushToTalk.spoon
-	url = https://github.com/adamyonk/PushToTalk.spoon.git
-[submodule "macos/keyboard"]
-	path = macos/keyboard
-	url = https://github.com/jasonrudolph/keyboard.git
+	url = https://github.com/adamyonk/PushToTalk.spoon
 [submodule "system/asdf.symlink"]
 	path = system/asdf.symlink
 	url = https://github.com/asdf-vm/asdf.git
+[submodule "system/config.symlink/base16-shell"]
+	path = system/config.symlink/base16-shell
+	url = https://github.com/chriskempson/base16-shell.git
