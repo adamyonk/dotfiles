@@ -15,18 +15,16 @@
     "stripped_doc" : [
 
     ],
+    "desc" : "TODO: Write description",
     "Deprecated" : [
 
     ],
     "type" : "Module",
-    "desc" : "TODO: Write description",
     "Constructor" : [
 
     ],
+    "doc" : "TODO: Write description",
     "Field" : [
-
-    ],
-    "Method" : [
 
     ],
     "Command" : [
@@ -35,7 +33,9 @@
     "items" : [
 
     ],
-    "doc" : "TODO: Write description",
+    "Method" : [
+
+    ],
     "name" : "WindowLayout"
   }
 ]

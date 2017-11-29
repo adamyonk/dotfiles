@@ -5,7 +5,7 @@ hs.hotkey.bind({'ctrl'}, '`', nil, function()
 end)
 
 hs.loadSpoon('ControlEscape')
-hs.loadSpoon('Markdown')
+-- hs.loadSpoon('Markdown')
 hs.loadSpoon('PushToTalk')
 hs.loadSpoon('WindowLayout')
 

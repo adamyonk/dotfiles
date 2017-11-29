@@ -47,7 +47,7 @@ Plug 'tpope/vim-unimpaired'
 Plug 'tpope/vim-vinegar'
 Plug 'vim-scripts/netrw.vim'
 Plug 'vim-scripts/visualrepeat'
-" Plug 'vimwiki/vimwiki'
+Plug 'vimwiki/vimwiki'
 Plug 'w0rp/ale'
 
 call plug#end()
@@ -286,7 +286,7 @@ nnoremap gf :vertical wincmd f<cr>
 " reload tags
 "command! ReloadTags :!/usr/local/bin/ctags --tagfile .vim-tags --extra=+f --exclude=.git --exclude=doc --exclude=gems --recurse --tag-relative
 "command! GitTags :!.git/hooks/ctags
-nnoremap <leader>t :silent !.git/hooks/ctags<cr>:redraw!<cr>
+" nnoremap <leader>t :silent !.git/hooks/ctags<cr>:redraw!<cr>
 " automatically reload vimrc when it's saved
 autocmd! BufWritePost vim/vimrc.symlink source ~/.vim/init.vim
 " run spec under current line
