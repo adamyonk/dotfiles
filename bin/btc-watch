@@ -1,0 +1,52 @@
+#!/usr/bin/env bash
+
+last_val=
+RED=
+GREEN=
+NOCOLOR=
+TMUX_STATUS=
+
+if [[ "$TMUX" == *"-1" ]]; then
+  TMUX_STATUS=true
+fi
+
+if [ "$TMUX_STATUS" ]; then
+  RED="#[fg=red]"
+  GREEN="#[fg=green]"
+  NOCOLOR="#[fg=white]"
+else
+  RED="$(tput setaf 1)"
+  GREEN="$(tput setaf 2)"
+  NOCOLOR="$(tput sgr0)"
+fi
+
+color="$NOCOLOR"
+
+run() {
+  if [ -f /tmp/btc ]; then
+    last_value="$(cat /tmp/btc)"
+  fi
+  next_val="$(btc-price)"
+  printf "$next_val" >| /tmp/btc
+
+  if (( $(echo "$next_val > ${last_val:-$next_val}" | bc -l) )); then
+    color=$GREEN
+  elif (( $(echo "$next_val < ${last_val:-$next_val}" | bc -l) )); then
+    color=$RED
+  fi
+
+  printf "${color}${next_val}${NOCOLOR}"
+}
+
+if [ "$TMUX_STATUS" ]; then
+  run
+else
+  tput sc
+
+  while sleep 3; do
+    tput rc
+    tput ed
+
+    run
+  done
+fi

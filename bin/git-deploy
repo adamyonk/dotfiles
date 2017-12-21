@@ -43,9 +43,9 @@ if [ $? != 0 ]; then
   echo "Could not delete branch $branch"
 fi
 
-echo -e "\n > git new-tag"
-git new-tag
-if [ $? != 0 ]; then
-  echo "Unable to create new tag"
-  exit 1
-fi
+# echo -e "\n > git new-tag"
+# git new-tag
+# if [ $? != 0 ]; then
+#   echo "Unable to create new tag"
+#   exit 1
+# fi
