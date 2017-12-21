@@ -29,6 +29,10 @@ function dc_ports {
   docker ps --filter name="$1" --format "{{.Names}}: {{.Ports}}"
 }
 
+function dc_status {
+  docker ps --all --format "table {{.Names}}\t{{.Status}}" | tail -n +2 | sort
+}
+
 function dc_cp {
   docker cp "$1" "$2":/app
 }
