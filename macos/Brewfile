@@ -31,6 +31,7 @@ brew 'vagrant'
 brew 'wget'
 
 cask '1password'
+cask '1password-cli'
 cask 'calibre'
 cask 'cloak'
 cask 'docker'
@@ -48,6 +49,7 @@ cask 'virtualbox'
 cask 'vlc'
 
 mas '1Blocker', id: 1107421413
+mas 'Black Out', id: 1319884285
 mas 'Deliveries', id: 924726344
 mas 'GIPHY CAPTURE', id: 668208984
 mas 'Pixelmator', id: 407963104
