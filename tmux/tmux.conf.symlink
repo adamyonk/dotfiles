@@ -37,10 +37,11 @@ set -g status-left " #S  "
 set -g status-left-length 60
 set -ag status-left-style fg=default,bold
 
-set -g status-right " %m|%d  %H:%M "
+set -g status-right ""
+set -ag status-right " BTC #(btc-watch)   "
+set -ag status-right " #(TZ=UTC date +%%H:%%M) "
+set -ag status-right " %m|%d  #[fg=green]%H:%M#[fg=white] "
 set -ag status-right " #(battery) "
-#set -ag status-right " #(date -u | awk '{print $5}' | awk -F : '{printf $1; printf \":\"; printf $2}') "
-set -ag status-right " #(pomodoro status) "
 set -g status-right-length 100
 
 set -gw window-status-current-style bg=green,fg=brightwhite
