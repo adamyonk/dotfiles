@@ -96,7 +96,7 @@ bind-key K resize-pane -U 10
 bind-key L resize-pane -R 10
 bind-key N command-prompt 'rename-session %%'
 bind-key Q confirm-before kill-server
-bind-key R refresh-client
+bind-key R source-file $HOME/.tmux.conf \; display ' Reloaded configuration'
 bind-key X kill-window
 bind-key \ split-window -c "#{pane_current_path}" -h
 bind-key _ run-shell 'tmux-ssh-split -v'
@@ -109,7 +109,8 @@ bind-key l select-pane -R
 bind-key n command-prompt 'rename-window %%'
 bind-key p paste-buffer
 bind-key q confirm-before kill-session
-bind-key r source-file $HOME/.tmux.conf \; display ' Reloaded configuration'
+bind-key r send-keys C-c Up Enter
+bind-key u refresh-client
 bind-key x kill-pane
 bind-key y run-shell 'tmux show-buffer | reattach-to-user-namespace pbcopy'
 bind-key | run-shell 'tmux-ssh-split -h'

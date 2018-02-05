@@ -40,6 +40,9 @@
   excludesfile = ~/.gitignore
   quotepath = false
 
+[diff]
+  colorMoved = zebra
+
 [fetch]
   prune = true
 

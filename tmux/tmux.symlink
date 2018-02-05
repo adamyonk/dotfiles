@@ -1,0 +1,10 @@
+#!/usr/bin/env sh
+
+tmux new-session -d -c "$2" -s "$1" -n notes
+tmux send-keys -t "$1" "cd $HOME/Library/Mobile\ Documents/*pro~writer*/Documents" C-m
+tmux send-keys -t "$1" "$EDITOR" C-m
+tmux send-keys -t "$1" "-" C-m
+
+tmux new-window -c "$2" -n shell -t "$1"
+
+tmux select-window -t "$1":1

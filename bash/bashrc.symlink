@@ -91,7 +91,7 @@ fi
 alias e="\$EDITOR"
 
 # FZF
-export FZF_DEFAULT_COMMAND='ag -g ""'
+export FZF_DEFAULT_COMMAND='ag -g "" --hidden --skip-vcs-ignores'
 [[ -f "$HOME/.fzf.bash" ]] && . "$HOME/.fzf.bash"
 
 # Git
@@ -182,3 +182,5 @@ alias y='yarn'
 
 . "$dotfiles"bash/prompt.bash
 . "$dotfiles"bash/completions/*
+
+[ -f ~/.fzf.bash ] && source ~/.fzf.bash

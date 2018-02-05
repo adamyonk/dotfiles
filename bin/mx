@@ -55,7 +55,7 @@ _safe_window() {
   fi
 }
 
-if ! (tmux ls | grep --silent "^$SESSION_NAME:"); then
+if ! (tmux ls 2>/dev/null | grep --silent "^$SESSION_NAME:"); then
   if [ -d "$projects"/"$SESSION" ]; then
     SESSION_PATH="$projects"/"$SESSION"
   else

@@ -2,8 +2,10 @@ babel-eslint
 caniuse-cmd
 eslint
 eslint-plugin-react
+fkill-cli
 gtop
 lock-cli
+netlify-cli
 prettier
 speed-test
 tldr

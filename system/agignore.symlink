@@ -1,8 +1,12 @@
+.DS_Store
+.bundle
+.cache
+.git
 coverage
 doc
 log
 node_modules
 pkg
+public/assets
 tmp
 vendor
-.git

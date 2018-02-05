@@ -1,18 +1,22 @@
 #!/usr/bin/env bash
 
-# Borrowed from @ggerrietts
-
-function dc_rebuild {
-  docker-compose build "$@" && docker-compose stop "$@" && docker-compose up -d "$@"
-}
-
-function dc_cycle {
-  docker-compose stop "$@" && docker-compose up -d "$@"
-}
+# Borrowed from @ggerrietts, @pengwynn
 
 function dc_clean {
   docker rm $(docker ps -a -q)
   docker rmi $(docker images -q -f dangling=true)
+}
+
+function dc_console {
+  docker-compose exec "$1" /bin/bash
+}
+
+function dc_cp {
+  docker cp "$1" "$2":/app
+}
+
+function dc_cycle {
+  docker-compose stop "$@" && docker-compose up -d "$@"
 }
 
 function dc_nuke {
@@ -21,20 +25,20 @@ function dc_nuke {
   docker rmi $(docker images -q)
 }
 
-function dc_console {
-  docker-compose exec "$1" /bin/bash
-}
-
 function dc_ports {
   docker ps --filter name="$1" --format "{{.Names}}: {{.Ports}}"
 }
 
-function dc_status {
-  docker ps --all --format "table {{.Names}}\t{{.Status}}" | tail -n +2 | sort
+function dc_rebuild {
+  docker-compose build "$@" && docker-compose stop "$@" && docker-compose up -d "$@"
 }
 
-function dc_cp {
-  docker cp "$1" "$2":/app
+function dc_restart {
+  sudo /etc/init.d/docker restart
+}
+
+function dc_status {
+  docker ps --all --format "table {{.Names}}\t{{.Status}}" | tail -n +2 | sort
 }
 
 if [[ $# -gt 0 ]]; then
@@ -64,6 +68,9 @@ if [[ $# -gt 0 ]]; then
     rebuild )
       shift
       dc_rebuild "$@"
+      ;;
+    restart )
+      dc_restart
       ;;
     *)
       docker-compose "$@"
