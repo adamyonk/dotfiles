@@ -108,7 +108,8 @@ augroup filetypes
   " Indent-based folding
   autocmd BufRead,BufNewFile,BufWrite *.{coffee,json,py,yaml,yml} set foldmethod=indent
   " JavaScript
-  autocmd BufRead,BufNewFile,BufWrite *.{js.asp,json,es6,jsx} set filetype=javascript
+  autocmd BufRead,BufNewFile,BufWrite *.{js.asp,es6,jsx} set filetype=javascript
+  autocmd BufRead,BufNewFile,BufWrite .{babelrc,eslintrc,prettierrc} set filetype=json
   autocmd BufRead,BufNewFile,BufWrite {*bashrc*,*.bash} set filetype=sh
   " Writing
   autocmd Filetype mkd set wrap linebreak nolist spell textwidth=80
