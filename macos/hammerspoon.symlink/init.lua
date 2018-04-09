@@ -4,7 +4,7 @@ hs.hotkey.bind({'ctrl'}, '`', nil, function()
   hs.reload()
 end)
 
-hs.loadSpoon('ControlEscape'):start()
+-- hs.loadSpoon('ControlEscape'):start()
 -- hs.loadSpoon('Markdown'):start()
 hs.loadSpoon('PushToTalk'):start()
 hs.loadSpoon('WindowLayout'):start()
