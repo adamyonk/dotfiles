@@ -3,6 +3,7 @@ tap 'caskroom/fonts'
 tap 'caskroom/versions'
 tap 'homebrew/versions'
 tap 'neovim/neovim'
+tap 'netlify/netlifyctl'
 
 brew 'awscli'
 brew 'bash'
@@ -19,6 +20,7 @@ brew 'hub'
 brew 'jq'
 brew 'keybase'
 brew 'mas'
+brew 'netlifyctl'
 brew 'neovim'
 brew 'openssl'
 brew 'reattach-to-user-namespace'
@@ -35,6 +37,7 @@ brew 'youtube-dl'
 
 cask '1password'
 cask '1password-cli'
+cask 'alfred'
 cask 'calibre'
 cask 'cloak'
 cask 'docker'
@@ -53,10 +56,13 @@ cask 'vlc'
 
 mas '1Blocker', id: 1107421413
 mas 'Black Out', id: 1319884285
+mas 'Day One', id: 1055511498
 mas 'Deliveries', id: 924726344
+mas 'Gifski', id: 1351639930
 mas 'GIPHY CAPTURE', id: 668208984
+mas 'iA Writer', id: 775737590
 mas 'Pixelmator', id: 407963104
-mas 'Reeder 3', id: 880001334
+mas 'Reeder', id: 880001334
 mas 'Sip', id: 507257563
 mas 'Soulver', id: 413965349
 mas 'Tweetbot', id: 557168941
