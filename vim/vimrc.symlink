@@ -81,7 +81,7 @@ set number " show the line number for each line
 " =============================================================================
 
 set hlsearch " highlight all matches for the last used search pattern
-set cursorline " highlight the screen line of the cursor
+"set cursorline " highlight the screen line of the cursor
 set colorcolumn=+1 " columns to highlight
 
 syntax enable " switch on syntax highlighting
