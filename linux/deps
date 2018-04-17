@@ -1,3 +1,4 @@
+autoconf
 build-essential
 curl
 git
@@ -6,10 +7,12 @@ jq
 libcurl4-openssl-dev
 libffi-dev
 libmysqlclient-dev
+libncurses-dev
 libpq-dev
 libreadline-dev
 libsqlite3-dev
 libssl-dev
+libtool
 libxml2-dev
 libxslt1-dev
 libyaml-dev
@@ -21,6 +24,7 @@ silversearcher-ag
 sqlite3
 tmux
 tree
+unixODBC-devel
 vim
 yarn
 zlib1g-dev
