@@ -3,15 +3,16 @@
 # Depends on hub, git-branch-porcelain, git-delete-branch, git-lita-ship, git-merge-pr, git-new-tag
 
 branch=$(git branch-porcelain)
-if [ "$branch" == 'master' ]; then
+if [ "$branch" == "master" ]; then
   echo "Run this from a PR branch."
   exit 1
 fi
 
 echo -e "\n > hub ci-status"
-if [ "$(hub ci-status)" != 'success' ]; then
-  read -n 1 -p "CI Failure. Override? " response
-  if [ "$response" != 'y' ]; then
+ci_status="$(hub ci-status)"
+if [ "$ci_status" != "success" ]; then
+  read -n 1 -p "CI status: $ci_status. Override? " response
+  if [ "$response" != "y" ]; then
     exit 1
   fi
 fi
