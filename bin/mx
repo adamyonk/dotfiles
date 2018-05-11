@@ -68,9 +68,9 @@ if ! (tmux ls 2>/dev/null | grep --silent "^$SESSION_NAME:"); then
     tmux new-session -d -c "$SESSION_PATH" -s "$SESSION_NAME" -n editor
     tmux send-keys -t "$SESSION_NAME" "$EDITOR" C-m
     tmux new-window -c "$SESSION_PATH" -n shell -t "$SESSION_NAME"
-    _safe_window console bin/console
-    _safe_window server bin/server
-    _safe_window server bin/watch
+    # _safe_window console bin/console
+    # _safe_window server bin/server
+    # _safe_window server bin/watch
     tmux select-window -t "$SESSION_NAME":1
   fi
 fi
