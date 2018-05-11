@@ -9,6 +9,7 @@ set nocompatible " don't behave like Vi
 call plug#begin('~/.vim/plugged')
 
 " Plug 'airblade/vim-gitgutter'
+Plug 'AndrewRadev/switch.vim'
 " Plug 'benekastah/neomake'
 Plug 'chriskempson/base16-vim'
 Plug 'christoomey/vim-tmux-navigator'
@@ -86,6 +87,7 @@ set colorcolumn=+1 " columns to highlight
 
 syntax enable " switch on syntax highlighting
 
+set termguicolors
 if $TERM =~ '256'
   let base16colorspace=256
 endif
