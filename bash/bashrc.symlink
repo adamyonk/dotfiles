@@ -144,6 +144,9 @@ alias fr='foreman run'
 alias fs='foreman start'
 alias r='rake'
 
+# Rust
+export PATH="$PATH:/Users/adamyonk/.cargo/bin"
+
 # System
 colours() {
   for i in {0..255}; do
