@@ -2,7 +2,9 @@
 ruby/rbenv.symlink
 ruby/chruby
 ruby/ruby-build
+system/asdf.symlink/installs
 system/config.symlink/libimobiledevice/
 vim/vim.symlink/.netrwhist
 vim/vim.symlink/bundle
 vim/vim.symlink/undo
+vim/vim.symlink/plugged
