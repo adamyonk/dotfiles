@@ -71,7 +71,7 @@
   path = ~/.gitconfig.local
 
 [init]
-  templatedir = ~/.git_template
+  #templatedir = ~/.git_template
 
 [merge]
   ff = false
@@ -84,6 +84,7 @@
 
 [push]
   default = tracking
+	followTags = true
 
 [rebase]
   autosquash = true

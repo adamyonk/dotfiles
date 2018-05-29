@@ -12,7 +12,6 @@
 #/ branch, and tries to merge it using the merge API (like the Merge Button).
 #/
 #/ Requirements:
-#/   - $GITHUB_TOKEN environment variable
 #/   - jq https://stedolan.github.io/jq/
 #/
 
@@ -23,48 +22,45 @@ if [[ "$1" == "--help" || "$1" == "-h" ]]; then
   exit
 fi
 
-if [[ -z "$GITHUB_TOKEN" ]]; then
-  echo "Please export \$GITHUB_TOKEN"
-  exit 1
-fi
-
 if [[ -z "$(which jq)" ]]; then
   echo "Please install jq: https://stedolan.github.io/jq/"
   exit 1
 fi
 
 remote_url=$(git config --get remote.origin.url)
-owner_repo=$(echo $remote_url | sed -En 's_^(git@|https://)?github.com(:|/)(.*)/(.*)(.git)?_\3 \4_p')
-owner=$(echo $owner_repo | sed 's_ .*__')
-repo=$(echo $owner_repo | sed 's_.* __; s_.git$__')
+owner_repo=$(echo "$remote_url" | sed -En 's_^(git@|https://)?github.com(:|/)(.*)/(.*)(.git)?_\3 \4_p')
+owner=$(echo "$owner_repo" | sed 's_ .*__')
+repo=$(echo "$owner_repo" | sed 's_.* __; s_.git$__')
 branch=${1:-"$(git symbolic-ref HEAD | sed 's_refs/heads/__')"}
 endpoint="https://api.github.com/repos/$owner/$repo/pulls"
-auth="Authorization: token $GITHUB_TOKEN"
 
 # Check if $1 is actually a pull request number
-if $(test ! -z $1 && echo $1 | grep --silent '^\d*$'); then
+if test ! -z "$1" && echo "$1" | grep --silent '^\d*$'; then
   pull=$1
 else
   # Get the first matching pull request for $branch
   # https://developer.github.com/v3/pulls/#list-pull-requests
-  pull=$(curl --silent --header "$auth"\
-    "$endpoint?head=$owner:$branch"\
-    | jq '.[0].number')
+  pr=$(curl --netrc --silent\
+    "$endpoint?head=$owner:$branch")
+  base=$(echo "$pr"\
+    | jq --raw-output '.[0].base.ref')
+  pull=$(echo "$pr"\
+    | jq --raw-output '.[0].number')
 fi
 
 # Try to merge
 # https://developer.github.com/v3/pulls/#merge-a-pull-request-merge-button
 if [[ "$pull" != "null" ]]; then
-  response=$(curl --silent --request PUT --data "{}" --header "$auth"\
-    "$endpoint/$pull/merge"\
-    | jq '.message'\
-    | sed 's_"__g')
+  response=$(curl --netrc --silent --request PUT --data "{}" "$endpoint/$pull/merge")
+  message=$(echo "$response" | jq --raw-output '.message')
+  sha=$(echo "$response" | jq --raw-output '.sha')
+  output="$message\ncommit: $sha\nbase: $base\nhttps://github.com/$owner/$repo/pull/$pull"
 
-  if ! [[ "$response" =~ "success" ]]; then
-    response="$response\nhttps://github.com/$owner/$repo/pull/$pull"
+  if ! [[ "$message" =~ "success" ]]; then
+    output="$message\nhttps://github.com/$owner/$repo/pull/$pull"
   fi
 else
-  response="Couldn't find an open pull request based on $branch."
+  output="Couldn't find an open pull request based on $branch."
 fi
 
-echo -e "$response"
+echo -e "$output"
