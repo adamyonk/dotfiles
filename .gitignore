@@ -1,6 +1,7 @@
 vim/vim.symlink/plugged
 vim/vim.symlink/.netrwhist
 vim/vim.symlink/undo
+vim/vim.symlink/autoload/plug.vim.old
 tags
 .ctrlp-cache
 

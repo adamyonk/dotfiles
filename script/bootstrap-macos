@@ -7,5 +7,12 @@ if ! (command -v brew)
   echo "Installing homebrew"
   /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 fi
+
+# Set up multi-user homebrew
+sudo chgrp -R admin /usr/local/*
+sudo chmod -R g+w /usr/local/*
+sudo chgrp -R admin /opt
+sudo chmod -R g+w /opt
+
 echo "Installing brews"
 brew bundle --file="macos/Brewfile"

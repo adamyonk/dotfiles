@@ -1,16 +1,14 @@
-tap 'caskroom/cask'
-tap 'caskroom/fonts'
-tap 'caskroom/versions'
-tap 'homebrew/versions'
+tap 'homebrew/cask'
+tap 'homebrew/cask-versions'
+tap 'homebrew/cask-fonts'
 tap 'neovim/neovim'
 tap 'netlify/netlifyctl'
 
-brew 'awscli'
 brew 'bash'
 brew 'bash-completion@2'
 brew 'bvi'
 brew 'coreutils'
-brew 'ctop'
+brew 'curl'
 brew 'fzf'
 brew 'gawk'
 brew 'git'
@@ -18,7 +16,6 @@ brew 'gnupg'
 brew 'heroku'
 brew 'hub'
 brew 'jq'
-brew 'keybase'
 brew 'mas'
 brew 'nethack'
 brew 'netlifyctl'
@@ -32,7 +29,6 @@ brew 'terminal-notifier'
 brew 'the_silver_searcher'
 brew 'tmux'
 brew 'tree'
-brew 'vagrant'
 brew 'wget'
 brew 'youtube-dl'
 
@@ -40,9 +36,11 @@ cask '1password'
 cask '1password-cli'
 cask 'alfred'
 cask 'calibre'
-cask 'cloak'
 cask 'docker'
+cask 'font-fira-code'
+cask 'google-chrome'
 cask 'google-chrome-dev'
+cask 'google-chrome-canary'
 cask 'graphiql'
 cask 'grandperspective'
 cask 'hammerspoon'
@@ -72,11 +70,6 @@ mas 'Tweetbot', id: 557168941
 # https://www.mobileread.com/forums/showthread.php?t=283371
 system "chmod -x /Applications/Kindle.app/Contents/MacOS/renderer-test"
 
-system "/usr/local/opt/fzf/install"
+system "$(brew --prefix)/opt/fzf/install"
 system "echo /usr/local/bin/bash >> /etc/shells"
 system "chsh -s /usr/local/bin/bash"
-
-system "asdf plugin-add ruby https://github.com/asdf-vm/asdf-ruby.git"
-system "asdf plugin-add nodejs https://github.com/asdf-vm/asdf-nodejs.git"
-system "bash /usr/local/opt/asdf/plugins/nodejs/bin/import-release-team-keyring"
-system "asdf plugin-add python https://github.com/tuvistavie/asdf-python.git"

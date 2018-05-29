@@ -314,6 +314,9 @@ nnoremap Y y$
 " reselect visual block after indent/outdent
 vnoremap < <gv
 vnoremap > >gv
+" Space bar toggles folds.  This is life changing. [3]
+nnoremap <Space> za
+vnoremap <Space> za
 " redraw!
 nnoremap <leader>rr :redraw!<cr>
 " reload .vimrc
@@ -333,6 +336,7 @@ command! W w !sudo tee % > /dev/null
 "vmap <leader>( c(<C-R>")<esc>
 "vmap <leader>[ c[<C-R>"]<esc>
 
+autocmd BufNewFile,BufRead Dockerfile* set filetype=Dockerfile
 autocmd BufNewFile,BufRead *.json set filetype=json
 autocmd FileType * setlocal formatprg=
 autocmd FileType json setlocal formatprg=jq\ -sM\ .
