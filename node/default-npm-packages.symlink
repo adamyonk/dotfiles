@@ -8,5 +8,6 @@ lock-cli
 netlify-cli
 neovim
 prettier
+serve
 speed-test
 tldr
