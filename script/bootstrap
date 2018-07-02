@@ -2,8 +2,6 @@
 #
 # Run all installers and symlink dotfiles
 
-set -e
-
 echo "Bootstrapping"
 
 script/symlinks

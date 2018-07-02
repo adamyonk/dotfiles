@@ -2,6 +2,14 @@
 
 ln -fs "$PWD"/bin ~/bin
 
+mkdir -p ~/.config
+
+# base16-shell
+git clone https://github.com/chriskempson/base16-shell.git ~/.config/base16-shell
+
+# asdf
+git clone https://github.com/asdf-vm/asdf.git ~/.asdf
+
 source $HOME/.asdf/asdf.sh
 
 asdf plugin-add golang
@@ -10,7 +18,7 @@ asdf plugin-add python
 asdf plugin-add ruby
 asdf plugin-add rust
 
-export GNUPGHOME="${ASDF_DIR:-$HOME/.asdf}/keyrings/nodejs" && mkdir -p "$GNUPGHOME" && chmod 0700 "$GNUPGHOME"
+expor GNUPGHOME="${ASDF_DIR:-$HOME/.asdf}/keyrings/nodejs" && mkdir -p "$GNUPGHOME" && chmod 0700 "$GNUPGHOME"
 bash ~/.asdf/plugins/nodejs/bin/import-release-team-keyring
 
 cd ~/
@@ -21,6 +29,8 @@ echo "Installing hub"
 go get github.com/github/hub/...
 
 echo "Installing vim plugins"
+asdf reshim python
+pip install --upgrade neovim
 nvim -E +PlugUpgrade +PlugUpdate +PlugClean! +qa
 
 # find generic installers and run them interactively

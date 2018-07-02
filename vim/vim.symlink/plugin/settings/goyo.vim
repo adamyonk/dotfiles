@@ -1,4 +1,4 @@
-nnoremap <leader>t :Goyo<cr>
+nnoremap <leader>y :Goyo<cr>
 
 function! s:goyo_enter()
   " silent !tmux set status off

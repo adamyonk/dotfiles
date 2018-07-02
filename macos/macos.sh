@@ -427,8 +427,8 @@ defaults write com.apple.dock wvous-tl-modifier -int 0
 # Top right screen corner → Desktop
 defaults write com.apple.dock wvous-tr-corner -int 4
 defaults write com.apple.dock wvous-tr-modifier -int 0
-# Bottom right screen corner → Start screen saver
-defaults write com.apple.dock wvous-br-corner -int 5
+# Bottom right screen corner → Put display to sleep
+defaults write com.apple.dock wvous-br-corner -int 10
 defaults write com.apple.dock wvous-br-modifier -int 0
 
 ###############################################################################
@@ -593,7 +593,7 @@ sudo mdutil -i on / > /dev/null
 sudo mdutil -E / > /dev/null
 
 ###############################################################################
-# Terminal & iTerm 2                                                          #
+# Terminal & iTerm2                                                          #
 ###############################################################################
 
 # Install the Solarized Dark theme for iTerm
@@ -602,11 +602,12 @@ sudo mdutil -E / > /dev/null
 # Don’t display the annoying prompt when quitting iTerm
 # defaults write com.googlecode.iterm2 PromptOnQuit -bool false
 
-/usr/libexec/PlistBuddy -c 'set :HideScrollbar 1' ~/Library/Preferences/com.googlecode.iterm2.plist
-/usr/libexec/PlistBuddy -c 'set :TabStyle 1' ~/Library/Preferences/com.googlecode.iterm2.plist
-/usr/libexec/PlistBuddy -c 'set :PromptOnQuit false' ~/Library/Preferences/com.googlecode.iterm2.plist
+/usr/libexec/PlistBuddy -c 'add :HideScrollbar integer 1' ~/Library/Preferences/com.googlecode.iterm2.plist
+/usr/libexec/PlistBuddy -c 'add :TabStyle integer 1' ~/Library/Preferences/com.googlecode.iterm2.plist
+/usr/libexec/PlistBuddy -c 'add :PromptOnQuit bool false' ~/Library/Preferences/com.googlecode.iterm2.plist
 /usr/libexec/PlistBuddy -c 'set :New\ Bookmarks:0:Normal\ Font "FiraCode-Retina 13"' ~/Library/Preferences/com.googlecode.iterm2.plist
-/usr/libexec/PlistBuddy -c 'set :New\ Bookmarks:0:ASCII\ Ligatures true' ~/Library/Preferences/com.googlecode.iterm2.plist
+/usr/libexec/PlistBuddy -c 'add :New\ Bookmarks:0:ASCII\ Ligatures bool true' ~/Library/Preferences/com.googlecode.iterm2.plist
+/usr/libexec/PlistBuddy -c 'set :New\ Bookmarks:0:Silence\ Bell bool true' ~/Library/Preferences/com.googlecode.iterm2.plist
 
 # Only use UTF-8 in Terminal.app
 defaults write com.apple.terminal StringEncodings -array 4

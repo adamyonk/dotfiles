@@ -7,6 +7,7 @@ tap 'netlify/netlifyctl'
 brew 'bash'
 brew 'bash-completion@2'
 brew 'bvi'
+brew 'cmake'
 brew 'coreutils'
 brew 'curl'
 brew 'fzf'
@@ -21,6 +22,7 @@ brew 'nethack'
 brew 'netlifyctl'
 brew 'neovim'
 brew 'openssl'
+brew 'readline'
 brew 'reattach-to-user-namespace'
 brew 'ripgrep'
 brew 'shellcheck'
@@ -30,17 +32,20 @@ brew 'the_silver_searcher'
 brew 'tmux'
 brew 'tree'
 brew 'wget'
+brew 'xz'
 brew 'youtube-dl'
 
 cask '1password'
 cask '1password-cli'
 cask 'alfred'
+cask 'arq'
 cask 'calibre'
 cask 'docker'
+cask 'encryptme'
 cask 'font-fira-code'
 cask 'google-chrome'
-cask 'google-chrome-dev'
 cask 'google-chrome-canary'
+cask 'gpg-suite'
 cask 'graphiql'
 cask 'grandperspective'
 cask 'hammerspoon'
@@ -49,12 +54,15 @@ cask 'kap'
 cask 'karabiner-elements'
 cask 'keybase'
 cask 'kindle'
+cask 'pritunl'
 cask 'rescuetime'
 cask 'sabaki'
 cask 'slack'
 cask 'tunnelblick'
+cask 'vanilla'
 cask 'virtualbox'
 cask 'vlc'
+cask 'zoomus'
 
 mas '1Blocker', id: 1107421413
 mas 'Black Out', id: 1319884285
@@ -73,6 +81,4 @@ mas 'Tweetbot', id: 557168941
 # https://www.mobileread.com/forums/showthread.php?t=283371
 system "chmod -x /Applications/Kindle.app/Contents/MacOS/renderer-test"
 
-system "$(brew --prefix)/opt/fzf/install"
-system "echo /usr/local/bin/bash >> /etc/shells"
-system "chsh -s /usr/local/bin/bash"
+system "sudo chsh -s /usr/local/bin/bash"

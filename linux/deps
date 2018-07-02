@@ -18,6 +18,7 @@ libxslt1-dev
 libyaml-dev
 mosh
 neovim
+python-neovim
 python-software-properties
 screenfetch
 silversearcher-ag

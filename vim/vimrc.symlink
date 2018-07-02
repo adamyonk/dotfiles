@@ -8,14 +8,12 @@ set nocompatible " don't behave like Vi
 " Plug
 call plug#begin('~/.vim/plugged')
 
-" Plug 'airblade/vim-gitgutter'
 Plug 'AndrewRadev/switch.vim'
-" Plug 'benekastah/neomake'
+Plug 'Quramy/tsuquyomi'
 Plug 'chriskempson/base16-vim'
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'easymotion/vim-easymotion'
-Plug 'ervandew/supertab'
-Plug 'fleischie/vim-styled-components'
+"Plug 'ervandew/supertab'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 Plug 'junegunn/goyo.vim'
@@ -23,12 +21,14 @@ Plug 'junegunn/gv.vim'
 Plug 'junegunn/vim-easy-align'
 Plug 'junegunn/vim-emoji'
 Plug 'junegunn/vim-github-dashboard'
+Plug 'leafgarland/typescript-vim'
 Plug 'luochen1990/rainbow'
 Plug 'mattn/gist-vim'
 Plug 'mattn/webapi-vim'
 Plug 'maxmellon/vim-jsx-pretty'
 Plug 'nelstrom/vim-visual-star-search'
 Plug 'sheerun/vim-polyglot'
+Plug 'Shougo/vimproc.vim', {'do' : 'make'}
 Plug 'sjl/vitality.vim'
 Plug 'tpope/vim-abolish'
 Plug 'tpope/vim-characterize'
@@ -43,6 +43,7 @@ Plug 'tpope/vim-rsi'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-unimpaired'
 Plug 'tpope/vim-vinegar'
+Plug 'Valloric/YouCompleteMe', { 'do': './install.py --all' }
 Plug 'vim-scripts/netrw.vim'
 Plug 'vim-scripts/vis'
 Plug 'vim-scripts/visualrepeat'
@@ -50,6 +51,8 @@ Plug 'vimwiki/vimwiki'
 Plug 'w0rp/ale'
 
 call plug#end()
+
+let g:python_host_prog = '/Users/adam/.asdf/installs/python/2.7.14/bin/python'
 
 " =============================================================================
 " 2 moving around, searching and patterns
@@ -113,6 +116,8 @@ augroup filetypes
   autocmd BufRead,BufNewFile,BufWrite *.{js.asp,es6,jsx} set filetype=javascript
   autocmd BufRead,BufNewFile,BufWrite .{babelrc,eslintrc,prettierrc} set filetype=json
   autocmd BufRead,BufNewFile,BufWrite {*bashrc*,*.bash} set filetype=sh
+  " Ruby
+  autocmd BufRead,BufNewFile,BufWrite Brewfile set filetype=ruby
   " Writing
   autocmd Filetype mkd set wrap linebreak nolist spell textwidth=80
   autocmd Filetype txt set wrap linebreak nolist spell textwidth=80
