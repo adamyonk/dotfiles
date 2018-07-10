@@ -3,7 +3,7 @@
 " - window (nvim only)
 let g:fzf_layout = { 'down': '~15%' }
 " let g:fzf_prefer_tmux = 1
-command! -bang -nargs=* Ag call fzf#vim#ag(<q-args>, '--hidden --skip-vcs-ignores', <bang>0)
+command! -bang -nargs=* Ag call fzf#vim#ag(<q-args>, '--hidden', <bang>0)
 
 " ripgrep
 " command! -bang -nargs=* Rg

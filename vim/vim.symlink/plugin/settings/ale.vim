@@ -8,9 +8,10 @@ let g:ale_fixers = {
       \ 'vimwiki': ['prettier']
 \}
 let g:ale_linters = {
-      \ 'jsx': ['stylelint', 'eslint']
+      \ 'jsx': ['stylelint', 'eslint'],
+      \ 'typescript': ['eslint', 'tslint', 'tsserver']
 \}
-" \ 'typescript': ['tslint', 'tsserver', 'typecheck']
+" \ 'typescript': ['eslint', 'tslint', 'tsserver', 'typecheck']
 let g:ale_linter_aliases = { 'jsx': 'css' }
 let g:ale_javascript_prettier_use_local_config = 1
 let g:ale_javascript_eslint_options = '--no-ignore'
