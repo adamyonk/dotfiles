@@ -10,6 +10,8 @@ DIR="$( cd -P "$( dirname "$SOURCE" )" && pwd )"
 export dotfiles="${DIR%bash*}"
 
 export PATH=".git/safe/../../bin"
+export PATH=".git/safe/../../script"
+export PATH=".git/safe/../../scripts"
 export PATH="$PATH:$HOME/bin"
 export PATH="$PATH:/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin"
 
@@ -48,7 +50,7 @@ fi
 #}
 
 # Bash Sensible
-[[ -f "$dotfiles"bash/bash-sensible/sensible.bash ]] && . "$dotfiles"/bash/bash-sensible/sensible.bash
+[[ -f "$dotfiles"bash/bash-sensible.bash ]] && . "$dotfiles"/bash/bash-sensible.bash
 
 # Browser
 export BROWSER=open
@@ -95,7 +97,7 @@ fi
 alias e="\$EDITOR"
 
 # FZF
-export FZF_DEFAULT_COMMAND='ag -g "" --hidden --skip-vcs-ignores'
+export FZF_DEFAULT_COMMAND='ag -g "" --hidden'
 [[ -f "$HOME/.fzf.bash" ]] && . "$HOME/.fzf.bash"
 
 # Git
@@ -123,7 +125,7 @@ export GPG_TTY
 # fi
 
 # Go
-export GOPATH=$HOME/go
+export GOPATH=$HOME/Code/go
 export PATH=$PATH:$GOPATH/bin
 
 # Heroku
@@ -191,3 +193,7 @@ alias y='yarn'
 . "$dotfiles"bash/completions/*
 
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
