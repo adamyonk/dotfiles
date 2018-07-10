@@ -41,6 +41,7 @@ set -g status-right ""
 set -ag status-right " BTC #(btc-watch)   "
 set -ag status-right " #(TZ=UTC date +%%H:%%M) "
 set -ag status-right " %m|%d  #[fg=green]%l:%M#[fg=white] "
+set -ag status-right "#(airpod_battery 4c-32-75-ba-e3-16)"
 set -ag status-right " #(battery) "
 set -g status-right-length 100
 
