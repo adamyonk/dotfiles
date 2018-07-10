@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+levels=$(PlistBuddy -c "print DeviceCache:$1:BatteryPercentLeft" -c "print DeviceCache:$1:BatteryPercentRight" /Library/Preferences/com.apple.Bluetooth.plist 2>/dev/null | tr '\n' ' ')
+if [[ $? ]]; then
+  printf "  🎧 $levels"
+fi
