@@ -9,11 +9,11 @@ set nocompatible " don't behave like Vi
 call plug#begin('~/.vim/plugged')
 
 Plug 'AndrewRadev/switch.vim'
-Plug 'Quramy/tsuquyomi'
+" Plug 'Quramy/tsuquyomi'
 Plug 'chriskempson/base16-vim'
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'easymotion/vim-easymotion'
-"Plug 'ervandew/supertab'
+Plug 'ervandew/supertab'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 Plug 'junegunn/goyo.vim'
@@ -43,7 +43,7 @@ Plug 'tpope/vim-rsi'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-unimpaired'
 Plug 'tpope/vim-vinegar'
-Plug 'Valloric/YouCompleteMe', { 'do': './install.py --all' }
+" Plug 'Valloric/YouCompleteMe', { 'do': './install.py --all' }
 Plug 'vim-scripts/netrw.vim'
 Plug 'vim-scripts/vis'
 Plug 'vim-scripts/visualrepeat'

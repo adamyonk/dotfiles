@@ -9,12 +9,12 @@ let g:ale_fixers = {
 \}
 let g:ale_linters = {
       \ 'jsx': ['stylelint', 'eslint'],
-      \ 'typescript': ['eslint', 'tslint', 'tsserver']
+      \ 'typescript': ['tslint']
 \}
 " \ 'typescript': ['eslint', 'tslint', 'tsserver', 'typecheck']
 let g:ale_linter_aliases = { 'jsx': 'css' }
 let g:ale_javascript_prettier_use_local_config = 1
-let g:ale_javascript_eslint_options = '--no-ignore'
+let g:ale_javascript_eslint_options = '--ignore-pattern "!.*.js" --no-ignore'
 
 nnoremap <leader>F :ALEFix<cr>
 nnoremap ]r :ALENextWrap<cr>
