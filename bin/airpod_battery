@@ -1,7 +1,12 @@
 #!/usr/bin/env bash
 
-active=$(PlistBuddy -c "print DeviceCache:$1:InEar" /Library/Preferences/com.apple.Bluetooth.plist)
-levels=$(PlistBuddy -c "print DeviceCache:$1:BatteryPercentLeft" -c "print DeviceCache:$1:BatteryPercentRight" /Library/Preferences/com.apple.Bluetooth.plist 2>/dev/null | tr '\n' ' ')
+if [[ -z "$1" ]]; then
+  echo "Please supply the MAC address for your AirPods"
+  exit 1
+fi
+
+active=$(/usr/libexec/PlistBuddy -c "print DeviceCache:$1:InEar" /Library/Preferences/com.apple.Bluetooth.plist)
+levels=$(/usr/libexec/PlistBuddy -c "print DeviceCache:$1:BatteryPercentLeft" -c "print DeviceCache:$1:BatteryPercentRight" /Library/Preferences/com.apple.Bluetooth.plist 2>/dev/null | tr '\n' ' ')
 
 if [[ "$active" == "true" ]] && [[ $? ]]; then
   printf "  🎧 %s" "$levels"
