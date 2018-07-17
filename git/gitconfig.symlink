@@ -13,6 +13,7 @@
   ps = push
   s = status --short
   safe = !mkdir -p .git/safe && echo "Repository marked safe!"
+  shove = push --force-with-lease
   standup = log --author=\"Adam Jahnke\" --pretty=oneline --since yesterday
   sub = submodule
   suba = submodule add
