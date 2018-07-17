@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 
+active=$(PlistBuddy -c "print DeviceCache:$1:InEar" /Library/Preferences/com.apple.Bluetooth.plist)
 levels=$(PlistBuddy -c "print DeviceCache:$1:BatteryPercentLeft" -c "print DeviceCache:$1:BatteryPercentRight" /Library/Preferences/com.apple.Bluetooth.plist 2>/dev/null | tr '\n' ' ')
-if [[ $? ]]; then
-  printf "  🎧 $levels"
+
+if [[ "$active" == "true" ]] && [[ $? ]]; then
+  printf "  🎧 %s" "$levels"
 fi
