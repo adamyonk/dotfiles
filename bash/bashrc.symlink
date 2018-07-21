@@ -159,6 +159,9 @@ colours() {
 fixcamera() {
   sudo killall VDCAssistant
 }
+fixaudio() {
+  sudo killall coreaudiod
+}
 publicip() {
   curl https://api.ipify.org
 }
