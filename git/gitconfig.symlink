@@ -1,6 +1,8 @@
 [alias]
+  aa = add --intent-to-add .
   b = branch
-  ci = ci-status
+  c = commit
+  ca = !git add --intent-to-add . && git commit -a
   co = checkout
   d = diff --color-words
   dlc = diff --cached HEAD^

@@ -2,13 +2,13 @@
 command -v git >/dev/null 2>&1 || { echo >&2 "This command needs git installed and in PATH."; exit 1; }
 command -v jq >/dev/null 2>&1 || { echo >&2 "This command needs jq installed and in PATH. Install with brew install jq"; exit 1; }
 
-GREEN="\e[0;32;7m"
-YELLOW="\e[0;33;7m"
-RED="\e[0;31;7m"
-NOCOLOR="\e[0m"
+GREEN='\e[0;32;7m'
+YELLOW='\e[0;33;7m'
+RED='\e[0;31;7m'
+NOCOLOR='\e[0m'
 
 function usage {
-read -d '' USAGE <<"BLOCK"
+read -rd '' USAGE <<"BLOCK"
 USAGE:   git-ci [OPTION] [SHA1]
 
 SYNOPSIS:
@@ -66,32 +66,32 @@ if [ -z "$SHA" ]; then
   exit 1
 fi
 
-REPO=$(git config remote.origin.url | cut -d/ -f4- | sed s/.git$//g)
-REPO=$(git config --get remote.origin.url | perl -pe's/(git@|https:\/\/)?github.com(:|\/)([-\.\w]+)\/([-\w]+)(\.git)?/$3\/$4/')
+REPO=$(git config remote.origin.url | cut -d / -f 4 - | sed s/.git$//g)
+REPO=$(git config --get remote.origin.url | perl -pe 's/(git@|https:\/\/)?github.com(:|\/)([-\.\w]+)\/([-\w]+)(\.git)?/$3\/$4/')
 API_URL="https://api.github.com/repos/$REPO/statuses/$SHA"
 
-RESPONSE=$(curl -H"Authorization: bearer $GITHUB_TOKEN" $API_URL)
+RESPONSE=$(curl --silent --header "Authorization: bearer $GITHUB_TOKEN" "$API_URL")
 
-STATE=$(echo $RESPONSE | jq -r '.[0].state')
-TARGET=$(echo $RESPONSE | jq -r '.[0].target_url')
+STATE=$(echo "$RESPONSE" | jq --raw-output '.[0].state')
+TARGET=$(echo "$RESPONSE" | jq --raw-output '.[0].target_url')
 
 case "$STATE" in
   pending )
-    printf "$YELLOW%s$NOCOLOR %s\n" $STATE $TARGET
+    printf '%b%s%b %s\n' "$YELLOW" "$STATE" "$NOCOLOR" "$TARGET"
     ;;
   failure )
-    printf "$RED%s$NOCOLOR %s\n" $STATE $TARGET
+    printf '%b%s%b %s\n' "$RED" "$STATE" "$NOCOLOR" "$TARGET"
     ;;
   success )
-    printf "$GREEN%s$NOCOLOR %s\n" $STATE $TARGET
+    printf '%b%s%b %s\n' "$GREEN" "$STATE" "$NOCOLOR" "$TARGET"
     ;;
 esac
 
 if [[ -n $OPEN_TARGET ]] && [[ -n $TARGET ]]; then
-  open $TARGET;
+  open "$TARGET";
 fi
 
 if [[ -n $DEBUG ]]; then
-  echo $API_URL
-  echo $RESPONSE
+  echo "$API_URL"
+  echo "$RESPONSE"
 fi
