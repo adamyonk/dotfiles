@@ -31,7 +31,8 @@ function prompt_command() {
 	local git_prompt=
 	if [[ "true" = "$(git rev-parse --is-inside-work-tree 2>/dev/null)" ]]; then
 		# Branch name
-		local branch="$(git symbolic-ref HEAD 2>/dev/null)"
+		local branch
+    branch="$(git symbolic-ref HEAD 2>/dev/null)"
 		branch="${branch##refs/heads/}"
 
 		# Working tree status (red when dirty)
@@ -52,7 +53,7 @@ function prompt_command() {
 	# Virtualenv
 	local venv_prompt=
 	if [ -n "$VIRTUAL_ENV" ]; then
-	    venv_prompt=" $BLUE$prompt_venv_symbol$(basename $VIRTUAL_ENV)$NOCOLOR"
+	    venv_prompt=" $BLUE$prompt_venv_symbol$(basename "$VIRTUAL_ENV")$NOCOLOR"
 	fi
 
 	# Only show username if not default
@@ -68,19 +69,20 @@ function prompt_command() {
 	[ -n "$user_prompt" ] || [ -n "$host_prompt" ] && login_delimiter=":"
 
 	# Format prompt
-	first_line="$user_prompt$host_prompt$login_delimiter$WHITE\w$NOCOLOR$git_prompt$venv_prompt"
+	first_line="$user_prompt$host_prompt$login_delimiter$WHITE\\w$NOCOLOR$git_prompt$venv_prompt"
 	# Text (commands) inside \[...\] does not impact line length calculation which fixes stange bug when looking through the history
 	# $? is a status of last command, should be processed every time prompt prints
-	second_line="\`if [ \$? = 0 ]; then echo \[\$CYAN\]; else echo \[\$RED\]; fi\`\$prompt_symbol\[\$NOCOLOR\] "
-	PS1="\n$first_line\n$second_line"
+	second_line="\`if [ \$? = 0 ]; then echo \\[\$CYAN\\]; else echo \\[\$RED\\]; fi\`\$prompt_symbol\\[\$NOCOLOR\\] "
+	PS1="\\n$first_line\\n$second_line"
 
 	# Multiline command
-	PS2="\[$CYAN\]$prompt_symbol\[$NOCOLOR\] "
+	PS2="\\[$CYAN\\]$prompt_symbol\\[$NOCOLOR\\] "
 
 	# Terminal title
-	local title="$(basename "$PWD")"
-	[ -n "$remote" ] && title="$title \xE2\x80\x94 $HOSTNAME"
-	echo -ne "\033]0;$title"; echo -ne "\007"
+	local title
+  title="$(basename "$PWD")"
+	[ -n "$remote" ] && title="$title \\xE2\\x80\\x94 $HOSTNAME"
+	echo -ne "\\033]0;$title"; echo -ne "\\007"
 }
 
 # Show awesome prompt only if Git is istalled

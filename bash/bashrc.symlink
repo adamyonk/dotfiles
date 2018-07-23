@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 export PROMPT_COMMAND="history -a;history -c;history -r;$PROMPT_COMMAND"
 
 SOURCE="${BASH_SOURCE[0]}"
@@ -7,7 +8,7 @@ while [[ -h "$SOURCE" ]]; do # resolve $SOURCE until the file is no longer a sym
   [[ "$SOURCE" != /* ]] && SOURCE="$DIR/$SOURCE" # if $SOURCE was a relative symlink, we need to resolve it relative to the path where the symlink file was located
 done
 DIR="$( cd -P "$( dirname "$SOURCE" )" && pwd )"
-export dotfiles="${DIR%bash*}"
+export dotfiles="${DIR%/bash*}"
 
 export PATH=".git/safe/../../bin"
 export PATH=".git/safe/../../script"
@@ -21,7 +22,7 @@ export PATH="$PATH:/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin"
 # Base16 Shell (doesn't work in Terminal.app)
 if [[ "$TERM" =~ "256" ]]; then
   BASE16_SHELL="$HOME/.config/base16-shell/"
-  [ -n "$PS1" ] && [ -s "$BASE16_SHELL/profile_helper.sh" ] && eval "$($BASE16_SHELL/profile_helper.sh)"
+  [ -n "$PS1" ] && [ -s "$BASE16_SHELL/profile_helper.sh" ] && eval "$("$BASE16_SHELL"/profile_helper.sh)"
 fi
 
 # Anybar
@@ -50,11 +51,11 @@ fi
 #}
 
 # Bash Sensible
-[[ -f "$dotfiles"bash/bash-sensible.bash ]] && . "$dotfiles"/bash/bash-sensible.bash
+[[ -f "$dotfiles/bash/bash-sensible.bash" ]] && . "$dotfiles/bash/bash-sensible.bash"
 
 # Browser
 export BROWSER=open
-alias chrome="/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome"
+alias chrome="/Applications/Google\\ Chrome.app/Contents/MacOS/Google\\ Chrome"
 
 # Colors
 RED="$(tput setaf 1)"
@@ -87,9 +88,9 @@ export NOCOLOR
 [ -f /etc/bash_completion ] && . /etc/bash_completion
 
 # Editor
-if [[ -f "$(which nvim)" ]]; then
+if [[ -f "$(command -v nvim)" ]]; then
   export EDITOR='nvim'
-elif [[ -f "$(which vim)" ]]; then
+elif [[ -f "$(command -v vim)" ]]; then
   export EDITOR='vim'
 else
   export EDITOR='vi'
@@ -101,10 +102,10 @@ export FZF_DEFAULT_COMMAND='ag -g "" --hidden'
 [[ -f "$HOME/.fzf.bash" ]] && . "$HOME/.fzf.bash"
 
 # Git
-[[ -f "$(which hub)" ]] && alias git='hub'
+[[ -f "$(command -v hub)" ]] && alias git='hub'
 complete -o default -o nospace -F _git g
 
-if [[ -f "$(which hitch)" ]]; then
+if [[ -f "$(command -v hitch)" ]]; then
   alias unhitch='hitch --unhitch'
   hitch() {
     command hitch "$@"
@@ -152,7 +153,7 @@ export PATH="$PATH:/Users/adamyonk/.cargo/bin"
 # System
 colours() {
   for i in {0..255}; do
-    printf "%s" "\x1b[38;5;${i}m${i} "
+    printf "%s" "\\x1b[38;5;${i}m${i} "
   done
   unset i
 }
@@ -192,11 +193,13 @@ alias v='vagrant'
 # Yarn
 alias y='yarn'
 
-. "$dotfiles"bash/prompt.bash
-. "$dotfiles"bash/completions/*
+. "$dotfiles/bash/prompt.bash"
+for f in "$dotfiles/bash/completions/"*; do
+  . $f
+done
 
-[ -f ~/.fzf.bash ] && source ~/.fzf.bash
+[ -f ~/.fzf.bash ] && . ~/.fzf.bash
 
 export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && . "$NVM_DIR/bash_completion"  # This loads nvm bash_completion

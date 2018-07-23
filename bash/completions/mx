@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+
 _mx () {
   local word=${COMP_WORDS[COMP_CWORD]}
   COMPREPLY=( $(compgen -W "$(ls -l $projects | grep '^d' | awk '{printf $NF" "}')" -- $word) )
