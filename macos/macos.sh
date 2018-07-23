@@ -603,10 +603,10 @@ sudo mdutil -E / > /dev/null
 # defaults write com.googlecode.iterm2 PromptOnQuit -bool false
 
 /usr/libexec/PlistBuddy -c 'add :HideScrollbar integer 1' ~/Library/Preferences/com.googlecode.iterm2.plist
-/usr/libexec/PlistBuddy -c 'add :TabStyle integer 1' ~/Library/Preferences/com.googlecode.iterm2.plist
-/usr/libexec/PlistBuddy -c 'add :PromptOnQuit bool false' ~/Library/Preferences/com.googlecode.iterm2.plist
-/usr/libexec/PlistBuddy -c 'set :New\ Bookmarks:0:Normal\ Font "FiraCode-Retina 13"' ~/Library/Preferences/com.googlecode.iterm2.plist
 /usr/libexec/PlistBuddy -c 'add :New\ Bookmarks:0:ASCII\ Ligatures bool true' ~/Library/Preferences/com.googlecode.iterm2.plist
+/usr/libexec/PlistBuddy -c 'add :PromptOnQuit bool false' ~/Library/Preferences/com.googlecode.iterm2.plist
+/usr/libexec/PlistBuddy -c 'add :TabStyle integer 1' ~/Library/Preferences/com.googlecode.iterm2.plist
+/usr/libexec/PlistBuddy -c 'set :New\ Bookmarks:0:Normal\ Font "FiraCode-Retina 13"' ~/Library/Preferences/com.googlecode.iterm2.plist
 /usr/libexec/PlistBuddy -c 'set :New\ Bookmarks:0:Silence\ Bell bool true' ~/Library/Preferences/com.googlecode.iterm2.plist
 
 # Only use UTF-8 in Terminal.app
