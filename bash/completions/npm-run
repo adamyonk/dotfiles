@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+# inspired by https://gist.github.com/ysugimoto/0f5391314954cba2b45e2d68cbb982be
+
 _npm_run () {
   CURRENT="${COMP_WORDS[COMP_CWORD]}"
   SUBCOMMAND="${COMP_WORDS[COMP_CWORD-1]}"
@@ -13,7 +15,7 @@ _npm_run () {
     fi
     DIR=$(cd "$(dirname "$(readlink "$DIR" || echo "$DIR")")" || exit; pwd)
   done
-  SCRIPTS=$(jq --raw-output '.scripts | keys | .[]' < "package.json" | grep --invert-match "^=\\+" | tr "\\n" " ")
+  SCRIPTS=$(jq --raw-output '.scripts | keys | .[]' < "$DIR/package.json" | grep --invert-match "^=\\+" | tr "\\n" " ")
   COMPREPLY=( $(compgen -W "$SCRIPTS" "$CURRENT") )
 }
 
