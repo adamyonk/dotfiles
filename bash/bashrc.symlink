@@ -15,6 +15,13 @@ export PATH=".git/safe/../../script"
 export PATH=".git/safe/../../scripts"
 export PATH="$PATH:$HOME/bin"
 export PATH="$PATH:/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin"
+# Go
+export GOPATH=$HOME/Code/go
+export PATH=$PATH:$GOPATH/bin
+# Heroku
+export PATH="$PATH:/usr/local/heroku/bin"
+# Rust
+export PATH="$PATH:/Users/adamyonk/.cargo/bin"
 
 # Source ~/.localrc if it exists
 [[ -e "$HOME"/.localrc ]] && . "$HOME"/.localrc
@@ -102,16 +109,9 @@ export FZF_DEFAULT_COMMAND='ag -g "" --hidden'
 [[ -f "$HOME/.fzf.bash" ]] && . "$HOME/.fzf.bash"
 
 # Git
-[[ -f "$(command -v hub)" ]] && alias git='hub'
+alias g=git
+[[ -f "$(command -v hub)" ]] && eval "$(hub alias -s)" && alias g=hub
 complete -o default -o nospace -F _git g
-
-if [[ -f "$(command -v hitch)" ]]; then
-  alias unhitch='hitch --unhitch'
-  hitch() {
-    command hitch "$@"
-    [[ -s "$HOME/.hitch_export_authors" ]] && . "$HOME/.hitch_export_authors"
-  }
-fi
 
 # GnuPG
 GPG_TTY="$(tty)"
@@ -126,11 +126,8 @@ export GPG_TTY
 # fi
 
 # Go
-export GOPATH=$HOME/Code/go
-export PATH=$PATH:$GOPATH/bin
 
 # Heroku
-export PATH="$PATH:/usr/local/heroku/bin"
 alias h='heroku'
 
 # Homebrew
@@ -148,7 +145,6 @@ alias fs='foreman start'
 alias r='rake'
 
 # Rust
-export PATH="$PATH:/Users/adamyonk/.cargo/bin"
 
 # System
 colours() {

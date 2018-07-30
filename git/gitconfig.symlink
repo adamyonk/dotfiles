@@ -4,6 +4,7 @@
   c = commit
   ca = !git add --intent-to-add . && git commit -a
   co = checkout
+	create = create -p
   d = diff --color-words
   dlc = diff --cached HEAD^
   dw = diff --color-words --word-diff -w
@@ -11,9 +12,10 @@
   l = log --abbrev-commit --color --graph --pretty=format:"%Cred%h%Creset\\ -%C(yellow)%d%Creset\\ %s\\ %Cgreen(%cr)%C(bold\\ blue)\\ <%an>%Creset"
   m = merge
   mypulls = browse -- pulls/adamyonk
+  new = create -p
   pl = pull
   ps = push
-  s = status --short
+  s = status --branch --short
   safe = !mkdir -p .git/safe && echo "Repository marked safe!"
   shove = push --force-with-lease
   standup = log --author=\"Adam Jahnke\" --pretty=oneline --since yesterday
