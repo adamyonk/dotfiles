@@ -334,6 +334,7 @@ command! -nargs=+ CustomGrep :execute "silent grep! --nogroup --nocolor <args>" 
 nnoremap <leader>g :CustomGrep
 " sudo write
 command! W w !sudo tee % > /dev/null
+" command W :execute ':silent w !sudo tee % > /dev/null' | :edit!
 " wrap selection
 "vmap <leader>" c"<C-R>""<esc>
 "vmap <leader>' c'<C-R>"'<esc>

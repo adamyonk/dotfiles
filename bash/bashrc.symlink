@@ -24,6 +24,7 @@ export PATH="$PATH:/usr/local/heroku/bin"
 export PATH="$PATH:/Users/adamyonk/.cargo/bin"
 
 # Source ~/.localrc if it exists
+# shellcheck source=/dev/null
 [[ -e "$HOME"/.localrc ]] && . "$HOME"/.localrc
 
 # Base16 Shell (doesn't work in Terminal.app)
@@ -45,12 +46,15 @@ anybar() {
 # [[ -f "/usr/local/opt/asdf/asdf.sh" ]] && . /usr/local/opt/asdf/asdf.sh
 # [[ -f "/usr/local/etc/bash_completion.d/asdf.bash" ]] && . /usr/local/etc/bash_completion.d/asdf.bash
 # For manual install
+# shellcheck source=/dev/null
 [[ -f "$HOME/.asdf/asdf.sh" ]] && . "$HOME/.asdf/asdf.sh"
+# shellcheck source=/dev/null
 [[ -f "$HOME/.asdf/completions/asdf.bash" ]] && . "$HOME/.asdf/completions/asdf.bash"
 
 # AWS
 if [[ -s "$HOME"/.awsam/bash.rc ]]; then
   export AWS_DEFAULT_USER=ubuntu
+  # shellcheck source=/dev/null
   . "$HOME"/.awsam/bash.rc
 fi
 #ec2-find() {
@@ -58,6 +62,7 @@ fi
 #}
 
 # Bash Sensible
+# shellcheck source=./bash-sensible.bash
 [[ -f "$dotfiles/bash/bash-sensible.bash" ]] && . "$dotfiles/bash/bash-sensible.bash"
 
 # Browser
@@ -91,8 +96,14 @@ export INVERT
 export NOCOLOR
 
 # Completions
+# shellcheck source=/dev/null
 [ -f /usr/local/share/bash-completion/bash_completion ] && . /usr/local/share/bash-completion/bash_completion
+# shellcheck source=/dev/null
 [ -f /etc/bash_completion ] && . /etc/bash_completion
+
+# cowsay
+export COWPATH="$dotfiles/system/cows/:/usr/local/Cellar/cowsay/3.04/share/cows/"
+alias bunny="cowsay -W 15 -f signbunny"
 
 # Editor
 if [[ -f "$(command -v nvim)" ]]; then
@@ -106,6 +117,7 @@ alias e="\$EDITOR"
 
 # FZF
 export FZF_DEFAULT_COMMAND='ag -g "" --hidden'
+# shellcheck source=/dev/null
 [[ -f "$HOME/.fzf.bash" ]] && . "$HOME/.fzf.bash"
 
 # Git
@@ -153,11 +165,14 @@ colours() {
   done
   unset i
 }
-fixcamera() {
-  sudo killall VDCAssistant
-}
 fixaudio() {
   sudo killall coreaudiod
+}
+fixbluetooth() {
+  sudo killall bluetoothd
+}
+fixcamera() {
+  sudo killall VDCAssistant
 }
 publicip() {
   curl https://api.ipify.org
@@ -172,6 +187,10 @@ alias reload='. $HOME/.bashrc'
 alias sound='afplay /System/Library/Sounds/Glass.aiff'
 alias ssh_up='systemsetup -setremotelogin on'
 alias ssh_down='systemsetup -setremotelogin off'
+source_invision() {
+  # shellcheck source=/dev/null
+  . ~/Code/InVision_Docker/scripts-native/invision.sh
+}
 
 # Tmux
 alias tmux='tmux -2'
@@ -189,13 +208,18 @@ alias v='vagrant'
 # Yarn
 alias y='yarn'
 
+# shellcheck source=./prompt.bash
 . "$dotfiles/bash/prompt.bash"
 for f in "$dotfiles/bash/completions/"*; do
-  . $f
+  # shellcheck source=/dev/null
+  . "$f"
 done
 
+# shellcheck source=/dev/null
 [ -f ~/.fzf.bash ] && . ~/.fzf.bash
 
 export NVM_DIR="$HOME/.nvm"
+# shellcheck source=/dev/null
 [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
+# shellcheck source=/dev/null
 [ -s "$NVM_DIR/bash_completion" ] && . "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
