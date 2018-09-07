@@ -10,7 +10,8 @@ git clone https://github.com/chriskempson/base16-shell.git ~/.config/base16-shel
 # asdf
 git clone https://github.com/asdf-vm/asdf.git ~/.asdf
 
-source $HOME/.asdf/asdf.sh
+# shellcheck source=/dev/null
+source "$HOME"/.asdf/asdf.sh
 
 asdf plugin-add golang
 asdf plugin-add nodejs
@@ -21,12 +22,16 @@ asdf plugin-add rust
 expor GNUPGHOME="${ASDF_DIR:-$HOME/.asdf}/keyrings/nodejs" && mkdir -p "$GNUPGHOME" && chmod 0700 "$GNUPGHOME"
 bash ~/.asdf/plugins/nodejs/bin/import-release-team-keyring
 
-cd ~/
+cd "$HOME" || exit
 asdf install
-cd -
+cd - || exit
 
 echo "Installing hub"
-go get github.com/github/hub/...
+go get github.com/github/hub
+# shellcheck source=/dev/null
+cd "$GOPATH"/src/github.com/github/hub || exit
+make install prefix=/usr/local
+cd - || exit
 
 echo "Installing vim plugins"
 asdf reshim python
