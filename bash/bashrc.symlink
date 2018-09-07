@@ -17,7 +17,8 @@ export PATH="$PATH:$HOME/bin"
 export PATH="$PATH:/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin"
 # Go
 export GOPATH=$HOME/Code/go
-export PATH=$PATH:$GOPATH/bin
+export GOBIN=$GOPATH/bin
+export PATH=$PATH:$GOBIN
 # Heroku
 export PATH="$PATH:/usr/local/heroku/bin"
 # Rust
@@ -28,7 +29,7 @@ export PATH="$PATH:/Users/adamyonk/.cargo/bin"
 [[ -e "$HOME"/.localrc ]] && . "$HOME"/.localrc
 
 # Base16 Shell (doesn't work in Terminal.app)
-if [[ "$TERM" =~ "256" ]]; then
+if [[ "$TERM" =~ "256" ]] || [[ "$TERM" =~ "kitty" ]]; then
   BASE16_SHELL="$HOME/.config/base16-shell/"
   [ -n "$PS1" ] && [ -s "$BASE16_SHELL/profile_helper.sh" ] && eval "$("$BASE16_SHELL"/profile_helper.sh)"
 fi

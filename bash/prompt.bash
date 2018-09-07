@@ -58,7 +58,7 @@ function prompt_command() {
 
 	# Only show username if not default
 	local user_prompt=
-	[ "$USER" != "$local_username" ] && user_prompt="$user_color$USER$NOCOLOR"
+	[ "$USER" != "$local_username" ] && user_prompt="⤫ $user_color$USER$NOCOLOR"
 
 	# Show hostname inside SSH session
 	local host_prompt=
