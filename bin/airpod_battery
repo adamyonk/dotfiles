@@ -1,9 +1,33 @@
 #!/usr/bin/env bash
 
-address=$(system_profiler SPBluetoothDataType | grep -b2 'Minor Type: Headphones' | awk '/Address/{print $3}' | tr '[:upper:]' '[:lower:]')
-active=$(/usr/libexec/PlistBuddy -c "print DeviceCache:$address:InEar" /Library/Preferences/com.apple.Bluetooth.plist)
-levels=$(/usr/libexec/PlistBuddy -c "print DeviceCache:$address:BatteryPercentLeft" -c "print DeviceCache:$address:BatteryPercentRight" /Library/Preferences/com.apple.Bluetooth.plist 2>/dev/null | tr '\n' ' ')
+address=$(system_profiler SPBluetoothDataType \
+  | grep -b2 'Minor Type: Headphones' \
+  | awk '/Address/{print $3}' \
+  | tr '[:upper:]' '[:lower:]')
+
+active=$(/usr/libexec/PlistBuddy \
+  -c "print DeviceCache:$address:InEar" \
+  /Library/Preferences/com.apple.Bluetooth.plist)
+
+left=$(/usr/libexec/PlistBuddy \
+  -c "print DeviceCache:$address:BatteryPercentLeft" \
+  /Library/Preferences/com.apple.Bluetooth.plist 2>/dev/null \
+  | tr '\n' ' ')
+
+right=$(/usr/libexec/PlistBuddy \
+  -c "print DeviceCache:$address:BatteryPercentRight" \
+  /Library/Preferences/com.apple.Bluetooth.plist 2>/dev/null \
+  | tr '\n' ' ')
+
+case=$(/usr/libexec/PlistBuddy \
+  -c "print DeviceCache:$address:BatteryPercentCase" \
+  /Library/Preferences/com.apple.Bluetooth.plist 2>/dev/null \
+  | tr '\n' ' ')
 
 if [[ "$active" == "true" ]] && [[ $? ]]; then
-  printf "  🎧 %s" "$levels"
+  printf "  %s🎧 %s" "$left" "$right"
+
+  if [[ ! $case -eq 0 ]] && [[ ! -z "$case" ]]; then
+    printf "🔋 %s" "$case"
+  fi
 fi

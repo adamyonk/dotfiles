@@ -1,0 +1,32 @@
+#!/usr/bin/env bash
+
+OIFS="$IFS"
+IFS="º"
+CAL="adamjahnke@invisionapp.com"
+ZOOM_URL="invisionapp.zoom.us"
+
+escape_url() {
+  perl -pe 's/([@.\/])/\\\1/g' <<< "$1"
+}
+
+(
+  events=($(icalBuddy --bullet "$IFS" -iep 'title,notes' --includeCals "$CAL" eventsFrom:'today' to:'today' | perl -pe 'tr/\r\n//d'))
+  titles=($(for e in "${events[@]}"; do [[ -n "$e" ]] && printf "%s%s" "$IFS" "$e" | perl -pe "s/(.*?)\\($(escape_url $CAL)\\).*/\\1/"; done))
+  # titles=($(icalBuddy --bullet "$IFS" -iep 'title' --includeCals "$CAL" eventsFrom:'today' to:'today' | perl -pe "s/ \(adamjahnke\@invisionapp.com\)//g"))
+
+  for ((i = 0; i < ${#titles[@]}; ++i)); do
+    if [[ "$i" -eq 0 ]]; then continue; fi
+    printf '%s: %s\n' "$i" "${titles[$i]}"
+  done
+
+  printf '\n'
+  read -r -n 1 -p "Choose a meeting: " response
+  printf '\n\n'
+
+  id=$(perl -pe "s/.*$(escape_url $ZOOM_URL)\\/j\\/(\\w+).*/\\1/" <<< "${events[$response]}")
+
+  # printf "%s\n%s\n%s\n" "${titles[$response]}" "$id" "zoommtg://invisionapp.zoom.us/join?action=join&confno=$id"
+  open "zoommtg://invisionapp.zoom.us/join?action=join&confno=$id"
+)
+
+IFS="$OIFS"
