@@ -12,8 +12,11 @@ Plug 'AndrewRadev/switch.vim'
 " Plug 'Quramy/tsuquyomi'
 Plug 'chriskempson/base16-vim'
 Plug 'christoomey/vim-tmux-navigator'
+Plug 'connorholyday/vim-snazzy'
 Plug 'easymotion/vim-easymotion'
 Plug 'ervandew/supertab'
+Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
+Plug 'iamcco/markdown-preview.vim'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 Plug 'junegunn/goyo.vim'
@@ -30,6 +33,7 @@ Plug 'nelstrom/vim-visual-star-search'
 Plug 'sheerun/vim-polyglot'
 Plug 'Shougo/vimproc.vim', {'do' : 'make'}
 Plug 'sjl/vitality.vim'
+Plug 'suy/vim-context-commentstring'
 Plug 'tpope/vim-abolish'
 Plug 'tpope/vim-characterize'
 Plug 'tpope/vim-commentary'
@@ -47,7 +51,7 @@ Plug 'tpope/vim-vinegar'
 Plug 'vim-scripts/netrw.vim'
 Plug 'vim-scripts/vis'
 Plug 'vim-scripts/visualrepeat'
-Plug 'vimwiki/vimwiki'
+Plug 'vimwiki/vimwiki', { 'branch': 'dev' }
 Plug 'w0rp/ale'
 
 call plug#end()
@@ -59,7 +63,9 @@ let g:python_host_prog = '/Users/adam/.asdf/installs/python/2.7.14/bin/python'
 " =============================================================================
 
 set incsearch " show match for partly typed search command
-set inccommand=split
+if has('nvim')
+  set inccommand=split
+endif
 " set autochdir " cd to opened file's dir
 
 " =============================================================================
@@ -97,11 +103,11 @@ endif
 if filereadable(expand("~/.vimrc_background"))
   source ~/.vimrc_background
 else
-  colorscheme base16-solarized-dark
+  colorscheme base16-ocean
 endif
 " let base16colorspace=256
 " set background=light
-" colorscheme base16-solarized-light
+" colorscheme snazzy
 highlight Comment cterm=italic
 highlight Search ctermfg=black
 
@@ -117,9 +123,10 @@ augroup filetypes
   autocmd BufRead,BufNewFile,BufWrite .{babelrc,eslintrc,prettierrc} set filetype=json
   autocmd BufRead,BufNewFile,BufWrite {*bashrc*,*.bash} set filetype=sh
   " Ruby
-  autocmd BufRead,BufNewFile,BufWrite Brewfile set filetype=ruby
+  autocmd BufRead,BufNewFile,BufWrite Brewfile set syntax=ruby
   " Writing
-  autocmd Filetype mkd set wrap linebreak nolist spell textwidth=80
+  autocmd BufRead,BufNewFile,BufWrite *.md set syntax=markdown
+  autocmd Filetype md set wrap linebreak nolist spell textwidth=80
   autocmd Filetype txt set wrap linebreak nolist spell textwidth=80
   " Property lists
   autocmd BufRead,BufNewFile,BufWrite *.{plist,xml} set filetype=xml
@@ -354,15 +361,17 @@ augroup vimrc
   autocmd!
 augroup END
 
-if exists(':terminal')
-  tnoremap <expr> <C-\><C-R> '<C-\><C-N>"'.nr2char(getchar()).'pi'
+if exists('nvim')
+  if exists(':terminal')
+    tnoremap <expr> <C-\><C-R> '<C-\><C-N>"'.nr2char(getchar()).'pi'
 
-  autocmd vimrc TermOpen * nnoremap <buffer> I I<C-a>
-  autocmd vimrc TermOpen * nnoremap <buffer> A A<C-e>
-  autocmd vimrc TermOpen * nnoremap <buffer> C i<C-k>
-  autocmd vimrc TermOpen * nnoremap <buffer> D i<C-k><C-\><C-n>
-  autocmd vimrc TermOpen * nnoremap <buffer> cc i<C-e><C-u>
-  autocmd vimrc TermOpen * nnoremap <buffer> dd i<C-e><C-u><C-\><C-n>
+    autocmd vimrc TermOpen * nnoremap <buffer> I I<C-a>
+    autocmd vimrc TermOpen * nnoremap <buffer> A A<C-e>
+    autocmd vimrc TermOpen * nnoremap <buffer> C i<C-k>
+    autocmd vimrc TermOpen * nnoremap <buffer> D i<C-k><C-\><C-n>
+    autocmd vimrc TermOpen * nnoremap <buffer> cc i<C-e><C-u>
+    autocmd vimrc TermOpen * nnoremap <buffer> dd i<C-e><C-u><C-\><C-n>
+  endif
 endif
 
 " https://github.com/neovim/neovim/pull/2076#issuecomment-76998265

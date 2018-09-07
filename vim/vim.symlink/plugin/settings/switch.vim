@@ -3,7 +3,7 @@
 "   \   ['true', 'false']
 "   \ ]
 
-autocmd FileType javascript let b:switch_custom_definitions =
+autocmd FileType {javascript,typescript} let b:switch_custom_definitions =
   \ [
   \   ['log', 'warn', 'error']
   \ ]

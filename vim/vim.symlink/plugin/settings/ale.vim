@@ -1,4 +1,6 @@
-let g:ale_fix_on_save = 0
+let g:ale_fix_on_save = 1
+let g:ale_completion_enabled = 1
+let g:ale_set_balloons = 1
 
 let g:ale_fixers = {
       \ 'markdown': ['prettier'],
@@ -9,7 +11,7 @@ let g:ale_fixers = {
 \}
 let g:ale_linters = {
       \ 'jsx': ['stylelint', 'eslint'],
-      \ 'typescript': ['tslint']
+      \ 'typescript': ['tslint', 'tsserver']
 \}
 " \ 'typescript': ['eslint', 'tslint', 'tsserver', 'typecheck']
 let g:ale_linter_aliases = { 'jsx': 'css' }
