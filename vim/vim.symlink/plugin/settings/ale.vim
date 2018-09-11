@@ -7,7 +7,8 @@ let g:ale_fixers = {
       \ 'javascript': ['prettier'],
       \ 'json': ['prettier'],
       \ 'typescript': ['prettier'],
-      \ 'vimwiki': ['prettier']
+      \ 'vimwiki': ['prettier'],
+      \ 'yaml': ['prettier']
 \}
 let g:ale_linters = {
       \ 'jsx': ['stylelint', 'eslint'],
