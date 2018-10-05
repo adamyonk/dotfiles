@@ -1,8 +1,14 @@
-#!/usr/bin/env bash
+#!/usr/bin/env sh
 
 _mx () {
   local word=${COMP_WORDS[COMP_CWORD]}
-  COMPREPLY=( $(compgen -W "$(ls -l $projects | grep '^d' | awk '{printf $NF" "}')" -- $word) )
+
+  if [ "${COMP_WORDS[1]}" = "go" ]; then
+    # TODO regex the ipath bit so it can be OR'd
+    COMPREPLY=( $(compgen -W "$(find "$GOPATH/src/github.com" -type d -maxdepth 2 -mindepth 2 \( -ipath "*InVisionApp*" -o -ipath "*mattrmiller*" \) | perl -pe "s|$GOPATH/src/github.com/.*/||g")" -- "$word") )
+  else
+    COMPREPLY=( $(compgen -W "$(find "$projects" -not -ipath "*$GOPATH*" -type d -mindepth 1 -maxdepth 1 -exec sh -c 'echo $(basename $1)' _ {} \;)" -- "$word") )
+  fi
 }
 
 complete -F _mx mx
