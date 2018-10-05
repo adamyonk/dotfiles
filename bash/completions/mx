@@ -3,12 +3,8 @@
 _mx () {
   local word=${COMP_WORDS[COMP_CWORD]}
 
-  if [ "${COMP_WORDS[1]}" = "go" ]; then
-    # TODO regex the ipath bit so it can be OR'd
-    COMPREPLY=( $(compgen -W "$(find "$GOPATH/src/github.com" -type d -maxdepth 2 -mindepth 2 \( -ipath "*InVisionApp*" -o -ipath "*mattrmiller*" \) | perl -pe "s|$GOPATH/src/github.com/.*/||g")" -- "$word") )
-  else
-    COMPREPLY=( $(compgen -W "$(find "$projects" -not -ipath "*$GOPATH*" -type d -mindepth 1 -maxdepth 1 -exec sh -c 'echo $(basename $1)' _ {} \;)" -- "$word") )
-  fi
+  COMPREPLY=( $(compgen -W "$(find -E "$GOPATH/src/github.com" -type d -maxdepth 2 -mindepth 2 -iregex '.*(invisionapp|mattrmiller).*' | perl -pe "s|$GOPATH/src/github.com/.*/||g")" -- "$word") )
+  COMPREPLY+=( $(compgen -W "$(find "$projects" -not -ipath "*$GOPATH*" -type d -mindepth 1 -maxdepth 1 -exec sh -c 'echo $(basename $1)' _ {} \;)" -- "$word") )
 }
 
 complete -F _mx mx
