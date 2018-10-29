@@ -1,0 +1,401 @@
+" =============================================================================
+" 1 important
+" =============================================================================
+
+let mapleader=','
+set nocompatible " don't behave like Vi
+
+" Plug
+call plug#begin('~/.vim/plugged')
+
+Plug 'AndrewRadev/switch.vim'
+" Plug 'Quramy/tsuquyomi'
+Plug 'chriskempson/base16-vim'
+Plug 'christoomey/vim-tmux-navigator'
+Plug 'connorholyday/vim-snazzy'
+Plug 'easymotion/vim-easymotion'
+Plug 'ervandew/supertab'
+Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
+Plug 'iamcco/markdown-preview.vim'
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+Plug 'junegunn/fzf.vim'
+Plug 'junegunn/goyo.vim'
+Plug 'junegunn/gv.vim'
+Plug 'junegunn/vim-easy-align'
+Plug 'junegunn/vim-emoji'
+Plug 'junegunn/vim-github-dashboard'
+Plug 'leafgarland/typescript-vim'
+Plug 'luochen1990/rainbow'
+Plug 'mattn/gist-vim'
+Plug 'mattn/webapi-vim'
+Plug 'maxmellon/vim-jsx-pretty'
+Plug 'nelstrom/vim-visual-star-search'
+Plug 'sheerun/vim-polyglot'
+Plug 'Shougo/vimproc.vim', {'do' : 'make'}
+Plug 'sjl/vitality.vim'
+Plug 'suy/vim-context-commentstring'
+Plug 'tpope/vim-abolish'
+Plug 'tpope/vim-characterize'
+Plug 'tpope/vim-commentary'
+Plug 'tpope/vim-eunuch'
+Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-haml'
+Plug 'tpope/vim-projectionist'
+Plug 'tpope/vim-repeat'
+Plug 'tpope/vim-rhubarb'
+Plug 'tpope/vim-rsi'
+Plug 'tpope/vim-surround'
+Plug 'tpope/vim-unimpaired'
+Plug 'tpope/vim-vinegar'
+" Plug 'Valloric/YouCompleteMe', { 'do': './install.py --all' }
+Plug 'vim-scripts/netrw.vim'
+Plug 'vim-scripts/vis'
+Plug 'vim-scripts/visualrepeat'
+Plug 'vimwiki/vimwiki', { 'branch': 'dev' }
+Plug 'w0rp/ale'
+
+call plug#end()
+
+let g:python_host_prog = '/Users/adam/.asdf/installs/python/2.7.14/bin/python'
+
+" =============================================================================
+" 2 moving around, searching and patterns
+" =============================================================================
+
+set incsearch " show match for partly typed search command
+if has('nvim')
+  set inccommand=split
+endif
+" set autochdir " cd to opened file's dir
+
+" =============================================================================
+" 3 tags
+" =============================================================================
+
+" =============================================================================
+" 4 displaying text
+" =============================================================================
+
+set scrolloff=10 " number of screen lines to show around the cursor
+set nowrap " long lines don't wrap
+set linebreak " wrap long lines at a character in 'breakat'
+set sidescroll=1 " minimal number of columns to scroll horizontally
+set sidescrolloff=15 " minimal number of columns to keep left and right of the cursor
+set list " show <Tab> as ^I and end-of-line as $
+set listchars=tab:\ \ ,trail:· " list strings used for list mode
+set number " show the line number for each line
+" set relativenumber
+
+" =============================================================================
+" 5 syntax, highlighting and spelling
+" =============================================================================
+
+set hlsearch " highlight all matches for the last used search pattern
+"set cursorline " highlight the screen line of the cursor
+set colorcolumn=+1 " columns to highlight
+
+syntax enable " switch on syntax highlighting
+
+set termguicolors
+if $TERM =~ '256'
+  let base16colorspace=256
+endif
+if filereadable(expand("~/.vimrc_background"))
+  source ~/.vimrc_background
+else
+  colorscheme base16-ocean
+endif
+" let base16colorspace=256
+" set background=light
+" colorscheme snazzy
+highlight Comment cterm=italic
+highlight Search ctermfg=black
+
+set spellfile=~/.vim/spellfile.utf-8.add " file that "zg" adds good words to
+filetype plugin on " enable loading the plugin files for specific file types
+filetype indent on " enable loading the indent file for specific file types
+augroup filetypes
+  autocmd!
+  " Indent-based folding
+  autocmd BufRead,BufNewFile,BufWrite *.{coffee,json,py,yaml,yml} set foldmethod=indent
+  " JavaScript
+  autocmd BufRead,BufNewFile,BufWrite *.{js.asp,es6,jsx} set filetype=javascript
+  autocmd BufRead,BufNewFile,BufWrite .{babelrc,eslintrc,prettierrc} set filetype=json
+  autocmd BufRead,BufNewFile,BufWrite {*bashrc*,*.bash} set filetype=sh
+  " Ruby
+  autocmd BufRead,BufNewFile,BufWrite Brewfile set syntax=ruby
+  " Writing
+  autocmd BufRead,BufNewFile,BufWrite *.md set syntax=markdown
+  autocmd Filetype md set wrap linebreak nolist spell textwidth=80
+  autocmd Filetype txt set wrap linebreak nolist spell textwidth=80
+  " Property lists
+  autocmd BufRead,BufNewFile,BufWrite *.{plist,xml} set filetype=xml
+  " Ruby
+  autocmd BufRead,BufNewFile,BufWrite {Capfile,Gemfile,Guardfile,Procfile,Rakefile,Thorfile,Vagrantfile,.ru,.caprc,.irbrc,.jbuilder,.rake} set filetype=ruby
+augroup end
+
+" =============================================================================
+" 6 multiple windows
+" =============================================================================
+
+set laststatus=2 " 0, 1 or 2; when to use a status line for the last window
+set statusline= " alternate format to be used for a status line
+set statusline+=\ %f\ %m\ %r " show filename/path
+set statusline+=%= " set right-side status info after this line
+set statusline+=%l/%L:%v " set <line number>/<total lines>:<column>
+set statusline+=\  " set ending space
+set hidden " don't unload a buffer when no longer shown in a window
+set splitbelow " a new window is put below the current one
+set splitright " a new window is put right of the current one
+
+" =============================================================================
+" 7 multiple tab pages
+" =============================================================================
+
+" =============================================================================
+" 8 terminal
+" =============================================================================
+
+set lazyredraw
+set ttyfast " default in nvim
+
+" =============================================================================
+" 9 using the mouse
+" =============================================================================
+
+set mouse=a " default in nvim
+
+" =============================================================================
+" 10 GUI
+" =============================================================================
+
+" =============================================================================
+" 11 printing
+" =============================================================================
+
+" =============================================================================
+" 12 messages and info
+" =============================================================================
+
+set shortmess=aoOstTWAI " list of flags to make messages shorter
+set showcmd " show (partial) command keys in the status line
+set showmode " display the current mode in the status line
+
+" =============================================================================
+" 13 selecting text
+" =============================================================================
+
+set clipboard=unnamed " "unnamed" to use the * register like unamed register. "autoselect" to always put selected text on the clipboard
+
+" =============================================================================
+" 14 editing text
+" =============================================================================
+
+set backspace=indent,eol,start " specifies what <BS>, CTRL-W, etc. can do in Insert mode
+set dictionary=/usr/share/dict/words " list of dictionary files for keyword completion
+
+" =============================================================================
+" 15 tabs and indenting
+" =============================================================================
+
+set tabstop=2 " number of spaces a <Tab> in the text stands for
+set shiftwidth=2 " number of spaces used for each step of (auto)indent
+set smarttab " a <Tab> in an indent inserts 'shiftwidth' spaces
+set softtabstop=2 " if non-zero, number of spaces to insert for a <Tab>
+set expandtab " expand <Tab> to spaces in Insert mode
+set autoindent " automatically set the indent of a new line
+set smartindent " do clever autoindenting
+
+" =============================================================================
+" 16 folding
+" =============================================================================
+
+set nofoldenable " set to display all folds closed
+set foldmethod=indent " folding type: "manual", "indent", "expr", "marker" or "syntax"
+set foldnestmax=3 " maximum fold depth for when 'foldmethod is "indent" or "syntax"
+
+" =============================================================================
+" 17 diff mode
+" =============================================================================
+
+" =============================================================================
+" 18 mapping
+" =============================================================================
+
+" =============================================================================
+" 19 reading and writing files
+" =============================================================================
+
+set autoread " automatically read a file when it was modified outside of Vim
+autocmd FocusGained * :checktime
+"set cryptmethod=blowfish " Method used for encryption when the buffer is written to a file
+" Might want this for storing passwords in encrypted files
+" autocmd BufReadPost * if &key != "" | set noswapfile nowritebackup viminfo= nobackup noshelltemp history=0 secure | endif
+set nowritebackup " don't write a backup file before overwriting a file
+set nobackup " don't keep a backup after overwriting a file
+
+" =============================================================================
+" 20 the swap file
+" =============================================================================
+
+set noswapfile " don't use a swap file for this buffer
+
+" =============================================================================
+" 21 command line editing
+" =============================================================================
+
+set history=1000 " how many command lines are remembered
+set wildmode=list:longest " specifies how command line completion works
+set wildignore=*.o,*.obj,*~,.hg,.git,.svn,.vim-tags,*vim/backups*,*.swp,*.spl,*.DS_Store,*.jpg,*.bmp,*.gif,*.png,*.jpeg,*/tmp,*/log,*/vendor/bundle,*/vendor/cache,*/bin,*.zip " list of patterns to ignore files for file name completion
+set wildmenu " command-line completion shows a list of matches
+set undofile " automatically save and restore undo history
+if isdirectory($HOME . '/.vim_undo') == 0
+  :silent !mkdir -p ~/.vim_undo > /dev/null 2>&1
+endif
+set undodir=~/.vim_undo " list of directories for undo files
+
+" =============================================================================
+" 22 executing external commands
+" =============================================================================
+
+" set shell=/usr/local/bin/bash " name of the shell program used for external commands
+
+" =============================================================================
+" 23 running make and jumping to errors
+" =============================================================================
+
+" =============================================================================
+" 24 language specific
+" =============================================================================
+
+" set encoding=utf-8 " character encoding used in Vim: "latin1", "utf-8" "euc-jp", "big5", etc.
+
+" =============================================================================
+" 25 multi-byte characters
+" =============================================================================
+
+" =============================================================================
+" 26 various
+" =============================================================================
+
+set viminfo='100,f1 " list that specifies what to write in the viminfo file
+
+" =============================================================================
+" mappings
+" =============================================================================
+
+" Start interactive EasyAlign in visual mode (e.g. vipga)
+xmap ga <Plug>(EasyAlign)
+" Start interactive EasyAlign for a motion/text object (e.g. gaip)
+nmap ga <Plug>(EasyAlign)
+
+nnoremap <leader>w :w<cr>
+" nnoremap <leader>bl :set bg=light<cr>
+" nnoremap <leader>bd :set bg=dark<cr>
+nnoremap <leader>n :set invnumber<cr>
+
+" `gf` opens file under cursor in a new vertical split
+nnoremap gf :vertical wincmd f<cr>
+
+" reload tags
+"command! ReloadTags :!/usr/local/bin/ctags --tagfile .vim-tags --extra=+f --exclude=.git --exclude=doc --exclude=gems --recurse --tag-relative
+"command! GitTags :!.git/hooks/ctags
+" nnoremap <leader>t :silent !.git/hooks/ctags<cr>:redraw!<cr>
+" automatically reload vimrc when it's saved
+autocmd! BufWritePost vim/vimrc.symlink source ~/.vim/init.vim
+" run spec under current line
+" nnoremap <leader>s :!bundle exec rake spec SPEC=%:<cr>=line('.')<cr><cr>
+" run current spec file
+" nnoremap <leader>S :!bundle exec rake spec SPEC=%<cr>
+"
+nnoremap <leader>= :wincmd =<cr>
+" insert Mode
+" inoremap jk <esc>
+" toggle "keep current line centered" mode
+nnoremap <leader>C :let &scrolloff=999-&scrolloff<cr>
+" clean trailing whitespace
+"nnoremap <leader>w mz:%s/\s\+$//<cr>:let @/=''<cr>`z
+" keep cursor in place when joining lines
+nnoremap J mzJ`z
+" yank from cursor to end of line
+nnoremap Y y$
+" move across wrapped lines better
+"noremap j gj
+"noremap k gk
+"noremap gj j
+"noremap gk k
+" reselect visual block after indent/outdent
+vnoremap < <gv
+vnoremap > >gv
+" Space bar toggles folds.  This is life changing. [3]
+nnoremap <Space> za
+vnoremap <Space> za
+" redraw!
+nnoremap <leader>rr :redraw!<cr>
+" reload .vimrc
+nnoremap <leader>r :source ~/.vim/init.vim<cr>:echo 'Reloaded ~/.vim/init.vim'<cr>
+" custom grep
+if executable('ag')
+  set grepprg=ag\ --nogroup\ --nocolor
+endif
+command! -nargs=+ CustomGrep :execute "silent grep! --nogroup --nocolor <args>" | copen | redraw!
+nnoremap <leader>g :CustomGrep
+" sudo write
+command! W w !sudo tee % > /dev/null
+" command W :execute ':silent w !sudo tee % > /dev/null' | :edit!
+" wrap selection
+"vmap <leader>" c"<C-R>""<esc>
+"vmap <leader>' c'<C-R>"'<esc>
+"vmap <leader># c#{<C-R>"}<esc>
+"vmap <leader>( c(<C-R>")<esc>
+"vmap <leader>[ c[<C-R>"]<esc>
+
+autocmd BufNewFile,BufRead Dockerfile* set filetype=Dockerfile
+autocmd BufNewFile,BufRead *.json set filetype=json
+autocmd FileType * setlocal formatprg=
+autocmd FileType json setlocal formatprg=jq\ -sM\ .
+
+set exrc
+set secure
+
+augroup vimrc
+  autocmd!
+augroup END
+
+if exists('nvim')
+  if exists(':terminal')
+    tnoremap <expr> <C-\><C-R> '<C-\><C-N>"'.nr2char(getchar()).'pi'
+
+    autocmd vimrc TermOpen * nnoremap <buffer> I I<C-a>
+    autocmd vimrc TermOpen * nnoremap <buffer> A A<C-e>
+    autocmd vimrc TermOpen * nnoremap <buffer> C i<C-k>
+    autocmd vimrc TermOpen * nnoremap <buffer> D i<C-k><C-\><C-n>
+    autocmd vimrc TermOpen * nnoremap <buffer> cc i<C-e><C-u>
+    autocmd vimrc TermOpen * nnoremap <buffer> dd i<C-e><C-u><C-\><C-n>
+  endif
+endif
+
+" https://github.com/neovim/neovim/pull/2076#issuecomment-76998265
+" nnoremap <a-h> <c-w>h
+" nnoremap <a-j> <c-w>j
+" nnoremap <a-k> <c-w>k
+" nnoremap <a-l> <c-w>l
+" vnoremap <a-h> <c-\><c-n><c-w>h
+" vnoremap <a-j> <c-\><c-n><c-w>j
+" vnoremap <a-k> <c-\><c-n><c-w>k
+" vnoremap <a-l> <c-\><c-n><c-w>l
+" inoremap <a-h> <c-\><c-n><c-w>h
+" inoremap <a-j> <c-\><c-n><c-w>j
+" inoremap <a-k> <c-\><c-n><c-w>k
+" inoremap <a-l> <c-\><c-n><c-w>l
+" cnoremap <a-h> <c-\><c-n><c-w>h
+" cnoremap <a-j> <c-\><c-n><c-w>j
+" cnoremap <a-k> <c-\><c-n><c-w>k
+" cnoremap <a-l> <c-\><c-n><c-w>l
+" if has('nvim')
+"   tnoremap <a-h> <c-\><c-n><c-w>h
+"   tnoremap <a-j> <c-\><c-n><c-w>j
+"   tnoremap <a-k> <c-\><c-n><c-w>k
+"   tnoremap <a-l> <c-\><c-n><c-w>l
+"   tnoremap <Esc> <C-\><C-n>
+" endif

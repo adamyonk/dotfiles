@@ -1,0 +1,89 @@
+tap 'homebrew/cask'
+tap 'homebrew/cask-versions'
+tap 'homebrew/cask-fonts'
+tap 'neovim/neovim'
+tap 'netlify/netlifyctl'
+
+brew 'bash'
+brew 'bash-completion@2'
+brew 'bvi'
+brew 'cmake'
+brew 'coreutils'
+brew 'ctop'
+brew 'curl'
+brew 'fzf'
+brew 'gawk'
+brew 'git'
+brew 'gnupg'
+brew 'heroku'
+brew 'hub'
+brew 'ical-buddy'
+brew 'imagemagick'
+brew 'jq'
+brew 'mas'
+brew 'nethack'
+brew 'netlifyctl'
+brew 'neovim'
+brew 'openssl'
+brew 'pup'
+brew 'readline'
+brew 'reattach-to-user-namespace'
+brew 'ripgrep'
+brew 'shellcheck'
+brew 'tag'
+brew 'terminal-notifier'
+brew 'the_silver_searcher'
+brew 'tmux'
+brew 'tree'
+brew 'wget'
+brew 'xz'
+brew 'youtube-dl'
+
+cask '1password'
+cask '1password-cli'
+cask 'alfred'
+cask 'arq'
+cask 'calibre'
+cask 'docker'
+cask 'encryptme'
+cask 'font-fira-code'
+cask 'google-chrome'
+cask 'google-chrome-canary'
+cask 'gpg-suite'
+cask 'graphiql'
+cask 'grandperspective'
+cask 'hammerspoon'
+cask 'iterm2'
+cask 'kap'
+cask 'karabiner-elements'
+cask 'keybase'
+cask 'kindle'
+cask 'kitty'
+cask 'pritunl'
+cask 'rescuetime'
+cask 'sabaki'
+cask 'slack'
+cask 'tunnelblick'
+cask 'vanilla'
+cask 'virtualbox'
+cask 'vlc'
+cask 'zoomus'
+
+mas '1Blocker', id: 1107421413
+mas 'Black Out', id: 1319884285
+mas 'Day One', id: 1055511498
+mas 'Deliveries', id: 924726344
+mas 'Gifski', id: 1351639930
+mas 'GIPHY CAPTURE', id: 668208984
+mas 'iA Writer', id: 775737590
+mas 'Pixelmator', id: 407963104
+mas 'Reeder', id: 880001334
+mas 'Sip', id: 507257563
+mas 'Soulver', id: 413965349
+mas 'Tweetbot', id: 557168941
+
+# Make Kindle download a format compatible with calibre
+# https://www.mobileread.com/forums/showthread.php?t=283371
+system "chmod -x /Applications/Kindle.app/Contents/MacOS/renderer-test"
+
+system "sudo chsh -s /usr/local/bin/bash"

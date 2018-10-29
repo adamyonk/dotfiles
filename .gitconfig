@@ -1,0 +1,109 @@
+[alias]
+  aa = add --intent-to-add .
+  b = branch
+  c = commit
+  ca = !git add --intent-to-add . && git commit -a
+  co = checkout
+	create = create -p
+  d = diff --color-words
+  dlc = diff --cached HEAD^
+  dw = diff --color-words --word-diff -w
+  f = fetch
+  l = log --abbrev-commit --color --graph --pretty=format:"%Cred%h%Creset\\ -%C(yellow)%d%Creset\\ %s\\ %Cgreen(%cr)%C(bold\\ blue)\\ <%an>%Creset"
+  m = merge
+  mypulls = browse -- pulls/adamyonk
+  new = create -p
+  pl = pull
+  ps = push
+  s = status --branch --short
+  safe = !mkdir -p .git/safe && echo "Repository marked safe!"
+  shove = push --force-with-lease
+  standup = log --author=\"Adam Jahnke\" --pretty=oneline --since yesterday
+  sub = submodule
+  suba = submodule add
+  subf = submodule foreach
+  subu = submodule foreach git pull origin master
+  who = blame
+
+[branch]
+  autosetuprebase = always
+
+[credential]
+  helper = envvar
+
+[color]
+  branch = auto
+  diff = auto
+  status = auto
+  ui = 1
+
+[commit]
+	#gpgsign = true
+  template = ~/.gitmessage
+
+[core]
+  editor = nvim
+  excludesfile = ~/.gitignore
+  quotepath = false
+
+[diff]
+  colorMoved = zebra
+
+[fetch]
+  prune = true
+
+[gh]
+  protocol = https
+
+[ghi]
+	token = !security find-internet-password -a adamyonk -s github.com -l 'ghi token' -w
+
+[github]
+  user = adamyonk
+
+[gpg]
+  program = gpg
+
+[help]
+  autocorrect = 1
+
+[heroku]
+  account = me
+
+[hub]
+  protocol = https
+
+[include]
+  path = ~/.gitconfig.local
+
+[init]
+  #templatedir = ~/.git_template
+
+[merge]
+  ff = false
+
+[mergetool]
+  keepbackup = false
+
+[pull]
+  rebase = true
+
+[push]
+  default = tracking
+	followTags = true
+
+[rebase]
+  autosquash = true
+
+[rerere]
+  enabled = 1
+
+[user]
+	email = adamyonk@icloud.com
+  name = Adam Jahnke
+
+[url "https://github"]
+	insteadOf = git://github
+
+[url "https://github.com/"]
+	insteadOf = git@github.com:
