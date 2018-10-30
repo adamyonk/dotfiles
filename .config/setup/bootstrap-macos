@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+
+if ! (command -v brew)
+  then
+  echo "Installing homebrew"
+  /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+fi
+
+# Set up multi-user homebrew
+sudo chgrp -R admin /usr/local/*
+sudo chmod -R g+w /usr/local/*
+ls /opt && sudo chgrp -R admin /opt && sudo chmod -R g+w /opt
+
+echo "Installing brews"
+brew bundle --file="$HOME/.default-brews"
+
+# echo "Installing python"
+#env PYTHON_CONFIGURE_OPTS="--enable-framework" CFLAGS="-I$(xcrun --show-sdk-path)/usr/include" asdf install python $(cat ~/.tool-versions | grep python | cut -d ' ' -f 2)

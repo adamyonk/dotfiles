@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+echo "Bootstrapping"
+
+SCRIPT_DIR=$(dirname $BASH_SOURCE)
+$SCRIPT_DIR/platform
+$SCRIPT_DIR/generic
+
+echo "All done ⚡️"
