@@ -9,7 +9,6 @@ set nocompatible " don't behave like Vi
 call plug#begin('~/.vim/plugged')
 
 Plug 'AndrewRadev/switch.vim'
-" Plug 'Quramy/tsuquyomi'
 Plug 'chriskempson/base16-vim'
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'connorholyday/vim-snazzy'
@@ -25,11 +24,12 @@ Plug 'junegunn/vim-easy-align'
 Plug 'junegunn/vim-emoji'
 Plug 'junegunn/vim-github-dashboard'
 Plug 'leafgarland/typescript-vim'
-Plug 'luochen1990/rainbow'
+" Plug 'luochen1990/rainbow'
 Plug 'mattn/gist-vim'
 Plug 'mattn/webapi-vim'
 Plug 'maxmellon/vim-jsx-pretty'
 Plug 'nelstrom/vim-visual-star-search'
+" Plug 'Quramy/tsuquyomi'
 Plug 'sheerun/vim-polyglot'
 Plug 'Shougo/vimproc.vim', {'do' : 'make'}
 Plug 'sjl/vitality.vim'
@@ -92,7 +92,7 @@ set number " show the line number for each line
 
 set hlsearch " highlight all matches for the last used search pattern
 "set cursorline " highlight the screen line of the cursor
-set colorcolumn=+1 " columns to highlight
+set colorcolumn=+1,+2 " columns to highlight
 
 syntax enable " switch on syntax highlighting
 
@@ -244,7 +244,7 @@ set noswapfile " don't use a swap file for this buffer
 " 21 command line editing
 " =============================================================================
 
-set history=1000 " how many command lines are remembered
+set history=10000 " how many command lines are remembered
 set wildmode=list:longest " specifies how command line completion works
 set wildignore=*.o,*.obj,*~,.hg,.git,.svn,.vim-tags,*vim/backups*,*.swp,*.spl,*.DS_Store,*.jpg,*.bmp,*.gif,*.png,*.jpeg,*/tmp,*/log,*/vendor/bundle,*/vendor/cache,*/bin,*.zip " list of patterns to ignore files for file name completion
 set wildmenu " command-line completion shows a list of matches
@@ -349,6 +349,10 @@ command! W w !sudo tee % > /dev/null
 "vmap <leader># c#{<C-R>"}<esc>
 "vmap <leader>( c(<C-R>")<esc>
 "vmap <leader>[ c[<C-R>"]<esc>
+
+" emacs style ctrl-a and ctrl-e in insert mode for begin/end of line
+inoremap <c-a> <esc>I
+inoremap <c-e> <esc>A
 
 autocmd BufNewFile,BufRead Dockerfile* set filetype=Dockerfile
 autocmd BufNewFile,BufRead *.json set filetype=json
