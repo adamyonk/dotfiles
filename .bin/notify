@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+# Depends on terminal-notifier
+
+terminal-notifier -sound Tink -message $@

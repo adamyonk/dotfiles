@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+
+# This is to be used in an Alfred "Workflow"
+
+# If there is no arg, get the clipboard
+query="${1:-$(pbpaste)}"
+# Remove spaces
+query="${query// /}"
+# Remove query string
+query="${query%%\?*}"
+# Remove protocol
+query="${query##*:}"
+# Remove leading url
+query="${query##*/}"
+# Remove dashes
+query="${query//-/}"
+
+if [[ -z "$query" ]]; then
+	exit 1
+fi
+
+echo -n "$query"

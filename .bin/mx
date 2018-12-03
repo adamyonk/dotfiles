@@ -1,0 +1,88 @@
+#!/usr/bin/env sh
+
+# mx
+# version 0.4
+
+# Contributors:
+#   Wynn Netherland - http://github.com/pengwynn
+#   Adam Jahnke - http://github.com/adamyonk
+
+# Usage:
+#   mx [session]
+
+# To 'auto-launch' projects, you'll need a $projects directory where you keep
+# code sorted like so: $projects/<repo>.
+# So, a typical workflow would look like:
+#   $ hub clone pengwynn/octonaut $projects/octonaut-pengwynn
+#   $ mx octonaut-pengwynn
+
+# If `mx` is called with a <session> name, and there is no valid repo inside
+# $projects, a new tmux session will be initialized in the current working
+# directory with a name of <session>
+
+# If the target directory has a .tmux file, that file will be executed (and
+# sent $SESSION as the first argument, $SESSION_PATH as the second) instead of
+# the default window setup (explained below). An example .tmux file may
+# look like so:
+#   #!/usr/bin/env sh
+#   tmux new-session -d -c "$2" -s "$1" -n editor "$EDITOR"
+#   tmux new-window -n shell -t "$1"
+#   tmux new-window -c "$2" -n console -t "$1" "bin/console"
+#   tmux select-window -t "$1":1
+
+# If there is no .tmux file, the default window setup is as follows:
+# editor  - runs $EDITOR right away
+# shell   - empty shell
+# console - if bin/console is available
+# server  - if bin/server is available
+# watch   - if bin/watch is available
+
+set -e
+
+if [ -z "$1" ]; then
+  SESSION="${PWD##*/}"
+else
+  SESSION="$1"
+fi
+
+# tmux 1.9a+ doesn't like .'s in session names
+SESSION_NAME="${SESSION//./_}"
+
+_safe_window() {
+  if [ -x "$SESSION_PATH"/"$2" ]; then
+    tmux new-window -c "$SESSION_PATH" -n "$1" -t "$SESSION_NAME"
+    tmux send-keys -t "$SESSION_NAME" "$2" C-m
+  fi
+}
+
+if ! (tmux ls 2>/dev/null | grep --silent "^$SESSION_NAME:"); then
+
+  PROJECTS_PATH="$projects"/"$SESSION"
+  GO_PROJECTS_PATH="$(find "$GOPATH/src/github.com" -type d -maxdepth 2 -mindepth 2 -ipath "*$SESSION" | head -n 1)"
+
+  if [ -d "$PROJECTS_PATH" ]; then
+    SESSION_PATH="$PROJECTS_PATH"
+  elif [ -d "$GO_PROJECTS_PATH" ]; then
+    SESSION_PATH="$GO_PROJECTS_PATH"
+  else
+    SESSION_PATH="$PWD"
+  fi
+
+  if [ -f "$SESSION_PATH"/.tmux ]; then
+    bash "$SESSION_PATH"/.tmux "$SESSION_NAME" "$SESSION_PATH"
+  else
+    tmux new-session -d -c "$SESSION_PATH" -s "$SESSION_NAME" -n editor
+    tmux send-keys -t "$SESSION_NAME" "$EDITOR" C-m
+    tmux new-window -c "$SESSION_PATH" -n shell -t "$SESSION_NAME"
+    # _safe_window console bin/console
+    # _safe_window server bin/server
+    # _safe_window server bin/watch
+    tmux select-window -t "$SESSION_NAME":1
+  fi
+fi
+
+if [ -z "$TMUX" ]; then
+  tmux attach-session -t "$SESSION_NAME"
+else
+  tmux switch-client -t "$SESSION_NAME"
+fi

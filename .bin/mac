@@ -1,0 +1,3 @@
+#!/usr/bin/env sh
+ifconfig en1 | grep ether | awk '{print "Wireless: " $2}'
+ifconfig en0 | grep ether | awk '{print "Wired:    " $2}'

@@ -1,0 +1,46 @@
+#!/usr/bin/env bash
+
+# Depends on hub, git-branch-porcelain, git-delete-branch, git-lita-ship, git-merge-pr, git-new-tag, ok.sh
+
+branch=$(git branch-porcelain)
+
+echo -e "\n > hub ci-status"
+ci_status="$(hub ci-status)"
+if [[ "$ci_status" != "success" ]]; then
+  read -r -n 1 -p "CI status: $ci_status. Override? " response
+  if [[ "$response" != "y" ]]; then
+    exit 1
+  fi
+fi
+
+echo -e "\n > git merge-pr"
+status="$(git merge-pr)"
+base="$(echo "$status" | grep base | cut -d ' ' -f 2)"
+base=${base-master}
+echo "$status"
+if ! [[ "$status" =~ "success" ]]; then
+  exit 1
+fi
+
+echo -e "\n > git checkout $base"
+if ! git checkout "$base"; then
+  echo "Could not checkout $base"
+  exit 1
+fi
+
+echo -e "\n > git pull"
+if ! git pull; then
+  echo "Could not pull latest"
+  exit 1
+fi
+
+echo -e "\n > git delete-branch $branch"
+if ! git delete-branch "$branch"; then
+  echo "Could not delete branch $branch"
+fi
+
+# echo -e "\n > git new-tag"
+# if ! git new-tag; then
+#   echo "Unable to create new tag"
+#   exit 1
+# fi

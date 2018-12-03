@@ -1,0 +1,5 @@
+osascript -e 'tell application "Google Chrome"
+  set pageUrl to get URL of active tab of first window
+end tell
+tell application "Safari" to add reading list item pageUrl
+display notification pageUrl with title "Added to Reading List"'

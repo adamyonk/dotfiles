@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+branch=$(git branch-porcelain)
+if [ "$branch" == "$1" ]; then
+  echo "Run this from a different branch."
+  exit 1
+fi
+
+git push origin :"$1"
+git branch --delete "$1"

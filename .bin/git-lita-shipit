@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+
+# Depends on hub
+
+BRANCH=$(git branch --no-color | grep \* | sed 's/* //')
+if [ "$BRANCH" == 'master' ]; then
+  TAG=$(git describe | cut -d '-' -f 1)
+  COMMAND="lita shipit -a $(basename $(pwd)) -b $TAG -e production"
+else
+  COMMAND="lita shipit -a $(basename $(pwd)) -b $BRANCH -e staging"
+fi
+echo -n "$COMMAND" | pbcopy
+echo -e "\n\"$COMMAND\" copied to clipboard."
+
+status="$(hub ci-status)"
+if [ "$status" != 'success' ]; then
+  echo "CAUTION: CI status is \"$status\""
+fi

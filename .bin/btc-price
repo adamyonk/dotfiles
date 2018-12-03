@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+
+curl --silent https://api.coinbase.com/v2/prices/BTC-USD/buy | jq '.data.amount' --raw-output

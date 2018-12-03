@@ -1,0 +1,350 @@
+#!/bin/bash
+
+# pomodoro - Start and run a pomodoro timer for use in tmux status line and elsewhere
+
+# Copyright (C) 2015 Erik Stambaugh
+
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 3 of the License, or
+# (at your option) any later version.
+
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+
+# You should have received a copy of the GNU General Public License
+# along with this program (see the file LICENSE); if not, see
+# http://www.gnu.org/licenses/, or write to the
+# Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+# Boston, MA 02110-1301  USA
+
+# Set some defaults
+POMODORO_STATUS_FILE=/tmp/pom_$USER
+POMODORO_BANG="❗"
+POMODORO_SYMBOL="🍅"
+POMODORO_NBSP=" "
+POMODORO_MINUTES=25
+
+POMODORO_GRAPH_BLOCKS=( ▁ ▂ ▃ ▄ ▅ ▆ ▇ )
+POMODORO_DOT_BLOCKS=( ⠈ ⠨ ⠩ ⠭ )
+POMODORO_GRAPHICAL=0
+POMODORO_DATA_ONLY=0
+
+POMODORO_SSH=""
+POMODORO_REMOTE_CMD=""
+
+TMUX_REFRESH='tmux refresh-client -S'
+
+test -e "$HOME/.pomodororc" && . "$HOME/.pomodororc"
+
+if [ -z "$POMODORO_REMOTE_CMD" ] && [ ! -z "$POMODORO_SSH" ]; then
+    POMODORO_REMOTE_CMD=(ssh -q -o "ConnectTimeout 2" $POMODORO_SSH pomodoro)
+fi
+
+function show_help () {
+echo "Usage: $0 [options] start|status|clear|increment|decrement
+Options:
+    -h | --help         Display this message
+    -g | --graph        Use unicode graph instead of numerical
+    -m | --minutes NUM  Enter number of minutes to use (default 25)
+    -l | --local        Override remote settings and only work locally
+    -c | --showcount    Display count of completed timers
+    -D                  Output data only
+"
+}
+
+function number_as_blocks () {
+    NUM=$1
+    BLOCKSIZE=${#POMODORO_DOT_BLOCKS[@]}
+    REM=$(( NUM % BLOCKSIZE ))
+    if [ $REM -gt 0 ]; then
+        echo -n ${POMODORO_DOT_BLOCKS[$REM - 1]}
+    fi
+    COUNT=0
+    while [ $COUNT -lt $(( NUM / $BLOCKSIZE )) ]; do
+        COUNT=$(( COUNT + 1 ))
+        echo -n ${POMODORO_DOT_BLOCKS[$BLOCKSIZE - 1]}
+    done
+}
+
+function number_as_bargraph () {
+    NUM=$1
+    IDX=$(( $(( NUM * ${#POMODORO_GRAPH_BLOCKS[@]} )) / POMODORO_MINUTES ))
+    if [ $IDX -lt 0 ]; then
+        IDX=0
+    elif [ $IDX -ge ${#POMODORO_GRAPH_BLOCKS[@]} ]; then
+        IDX=$(( ${#POMODORO_GRAPH_BLOCKS[@]} - 1 ))
+    fi
+
+    echo -n ${POMODORO_GRAPH_BLOCKS[$IDX]}
+}
+
+P_RAW=""
+P_COUNT=""
+P_FIRST=""
+P_START=""
+P_DURATION=""
+
+P_SHOWCOUNT=0
+
+NONOPT_ARGS=()
+# I'm not in love with getopt or getopts right now, so we have this:
+while [ $# -gt 0 ]; do
+    ARG=$1
+    shift
+    case "$ARG" in
+        -h|--help)
+            show_help
+            exit 0
+            ;;
+        -g|--graph)
+            POMODORO_GRAPHICAL=1
+            ;;
+        -m|--minutes)
+            if echo "$1" | grep -q -E '^[0-9]+$'; then
+                POMODORO_MINUTES=$1
+                shift
+            else
+                echo "Invalid number: '$1'"
+                exit 1
+            fi
+            ;;
+        -D)
+            POMODORO_DATA_ONLY=1
+            ;;
+        -l|--local)
+            POMODORO_REMOTE_CMD=""
+            POMODORO_STATUS_URL=""
+            POMODORO_SSH=""
+            ;;
+        -c|showcount)
+            P_SHOWCOUNT=1
+            ;;
+        *)
+            NONOPT_ARGS+=("$ARG")
+            ;;
+    esac
+
+done
+
+NOW=$(date +%s)
+
+### regex trigger warning ###
+function parse_status () {
+    IN="$@"
+    if [ ! -z "$IN" ]; then
+        if echo "$IN" | grep -E -q '^[0-9]+$'; then # numeric only
+            P_START=$IN
+        elif echo "$IN" | grep -E -q '^\s*\{\s*([a-zA-Z]+=\s*[0-9]*;?\s*)+\s*\}\s*$'; then # formatted data
+            while read LINE; do
+                K=$(echo "$LINE" | cut -d= -f1 | tr A-Z a-z)
+                V=$(echo "$LINE" | cut -d= -f2)
+                case "$K" in
+                    count)
+                        P_COUNT=$V
+                        ;;
+                    first)
+                        P_FIRST=$V
+                        ;;
+                    start)
+                        P_START=$V
+                        ;;
+                    duration)
+                        P_DURATION=$V
+                        ;;
+                    remaining)
+                        P_REMAINING=$V
+                        ;;
+                    # XXX no handler for bad values yet
+                esac
+
+            done < <(echo "$IN" | sed -E -e 's/ //g' -e 's/^ *\{ *//' -e 's/ *\} *$//' | tr ';' '\n')
+
+        else
+            P_RAW="$IN" # upstream is old so just emit whatever it says
+        fi
+        if [ -z "$P_RAW" ] && [ ! -z "$P_DURATION" ] && [ ! -z "$P_START" ]; then
+            test -z "$P_DURATION" && P_DURATION=$POMODORO_MINUTES
+            P_REMAINING=$(( $P_DURATION - $(( $(( $NOW - $P_START )) / 60 )) ))
+        fi
+    fi
+}
+
+function read_status () {
+    P_COUNT=0
+    P_STATUS=""
+
+    # try the URL
+    if [ ! -z "$POMODORO_STATUS_URL" ]; then
+        UNPARSED=$(curl -s "$POMODORO_STATUS_URL" 2>/dev/null)
+        if echo "$UNPARSED" | grep -E -q '^\s*\{\s*([a-zA-Z]+=\s*[0-9]+;?)+\s*\}\s*$'; then # formatted data
+            parse_status "$UNPARSED"
+        else
+            UNPARSED=""
+        fi
+    fi
+
+    # try SSH
+    if [ -z "$P_REMAINING" ] && [ ! -z "$POMODORO_SSH" ] && [ $(hostname) != "$POMODORO_NOSYNC_NAME" ]; then
+        UNPARSED=$("${POMODORO_REMOTE_CMD[@]}" status -D 2>/dev/null)
+    fi
+
+    # try local
+    if [ -z "$P_REMAINING" ] && [ -z "$UNPARSED" ]; then
+        UNPARSED=$(cat $POMODORO_STATUS_FILE 2>/dev/null)
+    fi
+
+    if [ -z "$P_REMAINING" ] && [ ! -z "$UNPARSED" ]; then
+        parse_status "$UNPARSED"
+    fi
+
+    # reset the counter stats if the first was too old
+    if [ ! -z "${P_FIRST}" ]; then
+        # reset the counter if it's over 12 hours old
+        # FIXME: the counter should stay alive as long as there is recent activity
+        if [ ! -z "$P_FIRST" ] && [ $(( NOW - P_FIRST )) -gt 43200 ]; then
+            P_COUNT=0
+            P_REMAINING=""
+            P_FIRST=""
+        fi
+    fi
+
+}
+
+function emit_data () {
+    echo '{' \
+            "count=${P_COUNT};" \
+            "first=${P_FIRST};" \
+            "start=${P_START};" \
+            "duration=${P_DURATION}" \
+         '}'
+}
+
+function clear_counter () {
+    read_status
+
+    # handle the counter
+    if [ ! -z "${P_COUNT}${P_FIRST}" ]; then
+
+        if [ ! -z "$P_REMAINING" ]; then    # there was a timer active
+            if [ $P_REMAINING -le 0 ]; then # this timer was complete
+                P_COUNT=$(( P_COUNT + 1 ))
+            fi
+        fi
+    fi
+
+    if [ ! -z "$POMODORO_SSH" ] && [ $(hostname) != "$POMODORO_NOSYNC_NAME" ]; then
+        "${POMODORO_REMOTE_CMD[@]}" clear >/dev/null 2>&1
+    fi
+
+    P_START=""
+    P_DURATION=""
+    emit_data > $POMODORO_STATUS_FILE
+}
+
+ARG=${NONOPT_ARGS[0]}
+case "$ARG" in
+    status)
+        read_status
+
+        if [ -z "$P_RAW" ]; then
+            if [ "$POMODORO_DATA_ONLY" -ne 0 ]; then
+                emit_data
+            else
+                if [ $P_SHOWCOUNT -ne 0 ]; then
+                    number_as_blocks $P_COUNT
+                    if [ ! -z "$P_COUNT" ] && [ $P_COUNT -gt 0 ]; then
+                        echo -n "${POMODORO_NBSP}"
+                    fi
+                fi
+
+                if [ ! -z "$P_REMAINING" ]; then
+                    if [ $P_REMAINING -gt 0 ]; then
+                        if [ "$POMODORO_GRAPHICAL" -ne 0 ]; then
+                            number_as_bargraph $P_REMAINING
+                        else
+                            echo -n "${P_REMAINING}"
+                        fi
+                        echo -n "${POMODORO_NBSP} "
+                    else
+                        echo -n "${POMODORO_BANG}"
+                        echo -n "${POMODORO_NBSP} "
+                    fi
+                    echo -n "${POMODORO_SYMBOL}"
+                fi
+
+                if [ ! -z "$P_REMAINING" ] || [ $P_SHOWCOUNT -ne 0 ]; then
+                    echo
+                fi
+
+            fi
+        else
+            echo "$P_RAW"
+        fi
+
+        exit 0
+        ;;
+
+    start)
+        clear_counter
+
+        if  [ -z "$POMODORO_REMOTE_CMD" ] || \
+            [ $(hostname) == "$POMODORO_NOSYNC_NAME" ] || \
+            ! "${POMODORO_REMOTE_CMD[@]}" start -m ${POMODORO_MINUTES} >/dev/null 2>&1
+        then
+            read_status
+            P_START=$NOW
+            P_DURATION=$POMODORO_MINUTES
+            if [ -z "$P_FIRST" ]; then
+                P_FIRST=$P_START
+            fi
+        fi
+        emit_data > $POMODORO_STATUS_FILE
+
+        $TMUX_REFRESH >/dev/null 2>&1
+        exit 0
+        ;;
+
+    clear|reset|cancel)
+        clear_counter
+
+        $TMUX_REFRESH >/dev/null 2>&1
+        exit 0
+        ;;
+
+    inc|increment)
+        read_status
+        P_COUNT=$(( P_COUNT + 1 ))
+        if  [ -z "$POMODORO_REMOTE_CMD" ] || \
+            [ $(hostname) == "$POMODORO_NOSYNC_NAME" ] || \
+            ! "${POMODORO_REMOTE_CMD[@]}" inc >/dev/null 2>&1
+        then
+            emit_data > $POMODORO_STATUS_FILE
+        fi
+        $TMUX_REFRESH >/dev/null 2>&1
+        ;;
+
+    dec|decrement)
+        read_status
+        P_COUNT=$(( P_COUNT - 1 ))
+        if [ $P_COUNT -lt 0 ]; then
+            P_COUNT=0
+        fi
+        if  [ -z "$POMODORO_REMOTE_CMD" ] || \
+            [ $(hostname) == "$POMODORO_NOSYNC_NAME" ] || \
+            ! "${POMODORO_REMOTE_CMD[@]}" dec >/dev/null 2>&1
+        then
+            emit_data > $POMODORO_STATUS_FILE
+        fi
+        $TMUX_REFRESH >/dev/null 2>&1
+        ;;
+
+    *)
+        echo "Command not recognized: $ARG"
+        show_help
+        exit 1
+        ;;
+
+esac

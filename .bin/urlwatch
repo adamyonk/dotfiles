@@ -1,0 +1,392 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+#
+# urlwatch is a minimalistic URL watcher written in Python
+#
+# Copyright (c) 2008-2014 Thomas Perl <thp.io/about>
+# All rights reserved.
+# 
+# Redistribution and use in source and binary forms, with or without
+# modification, are permitted provided that the following conditions
+# are met:
+# 1. Redistributions of source code must retain the above copyright
+#    notice, this list of conditions and the following disclaimer.
+# 2. Redistributions in binary form must reproduce the above copyright
+#    notice, this list of conditions and the following disclaimer in the
+#    documentation and/or other materials provided with the distribution.
+# 3. The name of the author may not be used to endorse or promote products
+#    derived from this software without specific prior written permission.
+# 
+# THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR
+# IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
+# OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+# IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT,
+# INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT
+# NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+# DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+# THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+# (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
+# THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+#
+
+"""Watch web pages and arbitrary URLs for changes
+
+This script is intended to help you watch URLs and get notified (via email or
+in your terminal) of any changes. The change notification will include the URL
+that has changed and a unified diff of what has changed.
+"""
+
+pkgname = 'urlwatch'
+COPYRIGHT = 'Copyright 2008-2014 Thomas Perl'
+
+__author__ = 'Thomas Perl <m@thp.io>'
+__license__ = 'BSD'
+__url__ = 'http://thp.io/2008/urlwatch/'
+__version__ = '1.17'
+
+user_agent = '%s/%s (+http://thp.io/2008/urlwatch/info.html)' % (pkgname, __version__)
+
+# Configuration section
+display_errors = False
+line_length = 75
+
+
+# File and folder paths
+import sys
+import os.path
+
+urlwatch_dir = os.path.expanduser(os.path.join('~', '.'+pkgname))
+urls_txt = os.path.join(urlwatch_dir, 'urls.txt')
+cache_dir = os.path.join(urlwatch_dir, 'cache')
+scripts_dir = os.path.join(urlwatch_dir, 'lib')
+hooks_py = os.path.join(scripts_dir, 'hooks.py')
+
+# Check if we are installed in the system already
+(prefix, bindir) = os.path.split(os.path.dirname(os.path.abspath(sys.argv[0])))
+
+if bindir == 'bin':
+    # Installed system-wide
+    examples_dir = os.path.join(prefix, 'share', pkgname, 'examples')
+else:
+    # Assume we are not yet installed
+    sys.path.insert(0, os.path.join(prefix, bindir, 'lib'))
+    examples_dir = os.path.join(prefix, bindir, 'share', pkgname, 'examples')
+
+urls_txt_example = os.path.join(examples_dir, 'urls.txt.example')
+hooks_py_example = os.path.join(examples_dir, 'hooks.py.example')
+
+# Code section
+
+import shutil
+import os
+import stat
+import urllib2
+import httplib
+import email.utils
+import time
+import socket
+import difflib
+import datetime
+import optparse
+import logging
+import imp
+
+# Python 3.2 includes "concurrent.futures", for older versions,
+# use "pip install futures" or http://code.google.com/p/pythonfutures/
+import concurrent.futures
+
+from urlwatch import handler
+from urlwatch import mailer
+
+# One minute (=60 seconds) timeout for each request to avoid hanging
+socket.setdefaulttimeout(60)
+
+log = logging.getLogger(pkgname)
+log.setLevel(logging.DEBUG)
+
+class NullHandler(logging.Handler):
+    def emit(self, record):
+        pass
+
+log.addHandler(NullHandler())
+
+ERROR_MESSAGE_URLS_TXT = """
+Error: You need to create a urls.txt file first.'
+
+Place it in %s
+An example is available in %s
+"""
+
+ERROR_MESSAGE_HOOKS_PY = """
+You can also create %s
+An example is available in %s
+"""
+
+MAX_WORKERS = 10
+
+def foutput(type, url, content=None, summary=None, c='*', n=line_length):
+    """Format output messages
+    
+    Returns a snippet of a specific message type (i.e. 'changed') for
+    a specific URL and an optional (possibly multi-line) content.
+
+    The parameter "summary" (if specified) should be a list variable
+    that gets one item appended for the summary of the changes.
+
+    The return value is a list of strings (one item per line).
+    """
+    summary_txt = ': '.join((type.upper(), str(url)))
+
+    if summary is not None:
+        if content is None:
+            summary.append(summary_txt)
+        else:
+            summary.append('%s (%d bytes)' % (summary_txt, len(str(content))))
+
+    result = [c*n, summary_txt]
+    if content is not None:
+        result += [c*n, str(content)]
+    result += [c*n, '', '']
+
+    return result
+
+
+if __name__ == '__main__':
+    start = datetime.datetime.now()
+
+    # Option parser
+    parser = optparse.OptionParser(usage='%%prog [options]\n\n%s' % __doc__.strip(), version=pkgname+' '+__version__)
+    parser.add_option('-v', '--verbose', action='store_true', dest='verbose', help='Show debug/log output')
+    parser.add_option('', '--urls', dest='urls', metavar='FILE', help='Read URLs from the specified file')
+    parser.add_option('', '--hooks', dest='hooks', metavar='FILE', help='Use specified file as hooks.py module')
+    parser.add_option('-e', '--display-errors', action='store_true', dest='display_errors', help='Include HTTP errors (404, etc..) in the output')
+    parser.add_option('-t', '--mailto', dest='email', metavar='ADDRESS', help='Send results via e-mail to ADDRESS')
+    parser.add_option('-f', '--mailfrom', dest='email_from', metavar='ADDRESS', help='Alternate From: address for e-mail (--mailto)')
+    parser.add_option('-s', '--smtp', dest='email_smtp', metavar='SERVER', help='SMTP server for e-mail (--mailto)')
+
+    parser.set_defaults(verbose=False, display_errors=False)
+
+    (options, args) = parser.parse_args(sys.argv)
+
+    if options.verbose:
+        # Enable logging to the console
+        console = logging.StreamHandler()
+        console.setLevel(logging.DEBUG)
+        formatter = logging.Formatter('%(asctime)s %(levelname)s: %(message)s')
+        console.setFormatter(formatter)
+        log.addHandler(console)
+        log.info('turning on verbose logging mode')
+
+    if options.display_errors:
+        log.info('turning display of errors ON')
+        display_errors = True
+
+    if options.email:
+        log.info('Send emails enabled')
+        enable_emails = True
+        email_smtp_server = options.email_smtp or 'localhost'
+        email_sender_address = options.email_from or options.email
+        email_receiver_address = options.email
+    else:
+        if options.email_from:
+            log.error('--mailfrom without --mailto')
+            print 'Error: --mailfrom needs --mailto'
+            sys.exit(1)
+
+        if options.email_smtp:
+            log.error('--smtp without --mailto')
+            print 'Error: --smtp needs --mailto'
+            sys.exit(1)
+
+        enable_emails = False
+
+    if options.urls:
+        if os.path.isfile(options.urls):
+            urls_txt = options.urls
+            log.info('using %s as urls.txt' % options.urls)
+        else:
+            log.error('%s is not a file' % options.urls)
+            print 'Error: %s is not a file' % options.urls
+            sys.exit(1)
+
+    if options.hooks:
+        if os.path.isfile(options.hooks):
+            hooks_py = options.hooks
+            log.info('using %s as hooks.py' % options.hooks)
+        else:
+            log.error('%s is not a file' % options.hooks)
+            print 'Error: %s is not a file' % options.hooks
+            sys.exit(1)
+
+    # Created all needed folders
+    for needed_dir in (urlwatch_dir, cache_dir, scripts_dir):
+        if not os.path.isdir(needed_dir):
+            os.makedirs(needed_dir)
+
+    # Check for required files
+    if not os.path.isfile(urls_txt):
+        log.warning('not a file: %s' % urls_txt)
+        urls_txt_fn = os.path.join(os.path.dirname(urls_txt), os.path.basename(urls_txt_example))
+        hooks_py_fn = os.path.join(os.path.dirname(hooks_py), os.path.basename(hooks_py_example))
+        print ERROR_MESSAGE_URLS_TXT % (urls_txt, urls_txt_fn)
+        if not options.hooks:
+            print ERROR_MESSAGE_HOOKS_PY % (hooks_py, hooks_py_fn)
+        if os.path.exists(urls_txt_example) and not os.path.exists(urls_txt_fn):
+            shutil.copy(urls_txt_example, urls_txt_fn)
+        if not options.hooks and os.path.exists(hooks_py_example) and not os.path.exists(hooks_py_fn):
+            shutil.copy(hooks_py_example, hooks_py_fn)
+        sys.exit(1)
+
+    headers = {
+            'User-agent': user_agent,
+    }
+
+    summary = []
+    details = []
+    count = 0
+
+    filter_func = lambda x, y: y
+
+    if os.path.exists(hooks_py):
+        log.info('using hooks.py from %s' % hooks_py)
+        hooks = imp.load_source('hooks', hooks_py)
+        if hasattr(hooks, 'filter'):
+            log.info('found and enabled filter function from hooks.py')
+            filter_func = hooks.filter
+        else:
+            log.warning('hooks.py has no filter function - ignoring')
+    else:
+        log.info('not using hooks.py (file not found)')
+
+    def process_job(job):
+        log.info('now processing: %s', job.location)
+        filename = os.path.join(cache_dir, job.get_guid())
+        timestamp = None
+
+        if os.path.exists(filename):
+            timestamp = os.stat(filename)[stat.ST_MTIME]
+
+        data = job.retrieve(timestamp, filter_func, headers, log)
+        return filename, timestamp, data
+
+    jobs = handler.parse_urls_txt(urls_txt)
+    log.info('processing %d jobs', len(jobs))
+
+    executor = concurrent.futures.ThreadPoolExecutor(max_workers=MAX_WORKERS)
+
+    future_to_job = dict((executor.submit(process_job, job), job)
+            for job in jobs)
+
+    for future in concurrent.futures.as_completed(future_to_job):
+        job = future_to_job[future]
+
+        log.info('job finished: %s' % job.location)
+
+        try:
+            exception = future.exception()
+            if exception is not None:
+                raise exception
+
+            filename, timestamp, data = future.result()
+
+            if os.path.exists(filename):
+                log.info('%s exists - creating unified diff' % filename)
+                old_data = open(filename).read()
+
+                if (not isinstance(old_data, unicode) and
+                        isinstance(data, unicode)):
+                    # Fix for Python 2's unicode/str woes
+                    data = data.encode('utf-8')
+
+                timestamp_old = email.utils.formatdate(timestamp, localtime=1)
+                timestamp_new = email.utils.formatdate(time.time(), localtime=1)
+                diff = ''.join(difflib.unified_diff(\
+                        old_data.splitlines(1), \
+                        data.splitlines(1), \
+                        '@', \
+                        '@', \
+                        timestamp_old, \
+                        timestamp_new))
+                if len(diff) > 0:
+                    log.info('%s has changed - adding diff' % job)
+                    details += foutput('changed', job, diff, summary)
+                else:
+                    log.info('%s has not changed' % job)
+            else:
+                log.info('%s does not exist - is considered "new"' % filename)
+                details += foutput('new', job, None, summary)
+            log.info('writing current content of %s to %s' % (job, filename))
+            try:
+                open(filename, 'w').write(data)
+            except UnicodeEncodeError:
+                # Happens in Python 2 when data contains non-ascii characters
+                open(filename, 'w').write(data.encode('utf-8'))
+        except urllib2.HTTPError, error:
+            if error.code == 304:
+                log.info('%s has not changed (HTTP 304)' % job)
+            else:
+                log.error('got HTTPError while loading url: %s' % error)
+                if display_errors:
+                    details += foutput('error', job, error, summary)
+        except handler.ShellError, error:
+            log.error('Shell returned %d' % error.result)
+            if display_errors:
+                details += foutput('error', job, error, summary)
+        except urllib2.URLError, error:
+            log.error('got URLError while loading url: %s' % error)
+            if display_errors:
+                details += foutput('error', job, error, summary)
+        except IOError, error:
+            log.error('got IOError while loading url: %s' % error)
+            if display_errors:
+                details += foutput('error', job, error, summary)
+        except socket.timeout, error:
+            log.error('got timeout while loading url: %s' % error)
+            if display_errors:
+                details += foutput('error', job, error, summary)
+        except httplib.error, error:
+            # This is to workaround a bug in urllib2, see
+            # http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=529740
+            log.error('got httplib error while loading url: %s' % error)
+            if display_errors:
+                details += foutput('error', job, (repr(error) +
+                        '\n' + str(error)).strip(), summary)
+
+        count += 1
+
+    end = datetime.datetime.now()
+
+    short_summary = ''
+
+    # Output everything
+    if len(summary) > 1:
+        log.info('printing summary with %d items' % len(summary))
+        short_summary = '-'*line_length + '\n'
+        short_summary += 'summary: %d changes' % (len(summary),) + '\n\n'
+        for id, line in enumerate(summary):
+            short_summary += '%02d. %s' % (id+1, line) + '\n'
+        short_summary += '-'*line_length + '\n'
+        short_summary += '\n\n\n'
+        print short_summary
+    else:
+        log.info('summary is too short - not printing')
+    if len(details) > 1:
+        log.info('printing details with %d items' % len(details))
+        print '\n'.join(details)
+        print '-- '
+        print '%s %s, %s' % (pkgname, __version__, COPYRIGHT)
+        print 'Website: %s' % (__url__,)
+        print 'watched %d URLs in %d seconds\n' % (count, (end-start).seconds)
+
+        if enable_emails:
+            try:
+                subject = 'Changes detected (%d)' % len(summary)
+                mailer.send(email_smtp_server, email_sender_address,
+                        email_receiver_address, subject,
+                        short_summary + '\n' + '\n'.join(details))
+                log.info('E-Mail to %s sent.', email_receiver_address)
+            except Exception, e:
+                log.warning('E-Mail delivery error: %s', e)
+    else:
+        log.info('no details collected - not printing')
+

@@ -1,0 +1,88 @@
+#!/usr/bin/env bash
+
+# Borrowed from @ggerrietts, @pengwynn
+
+function dc_clean {
+  docker rm $(docker ps -a -q)
+  docker rmi $(docker images -q -f dangling=true)
+}
+
+function dc_console {
+  docker-compose exec "$1" /bin/bash
+}
+
+function dc_cp {
+  docker cp "$1" "$2":/app
+}
+
+function dc_cycle {
+  docker-compose stop "$@" && docker-compose up -d "$@"
+}
+
+function dc_du {
+  du -sh ~/Library/Containers/com.docker.docker/
+}
+
+function dc_nuke {
+  docker kill $(docker ps -q)
+  docker rm $(docker ps -a -q)
+  docker rmi $(docker images -q)
+}
+
+function dc_ports {
+  docker ps --filter name="$1" --format "{{.Names}}: {{.Ports}}"
+}
+
+function dc_rebuild {
+  docker-compose build "$@" && docker-compose stop "$@" && docker-compose up -d "$@"
+}
+
+function dc_restart {
+  sudo /etc/init.d/docker restart
+}
+
+function dc_status {
+  docker ps --all --format "table {{.Names}}\t{{.Status}}" | tail -n +2 | sort
+}
+
+if [[ $# -gt 0 ]]; then
+  case "$1" in
+    clean )
+      dc_clean
+      ;;
+    console )
+      shift
+      dc_console "$@"
+      ;;
+    cp )
+      shift
+      dc_cp "$@"
+      ;;
+    cycle )
+      shift
+      dc_cycle "$@"
+      ;;
+    du )
+      dc_du
+      ;;
+    nuke )
+      dc_nuke
+      ;;
+    ports )
+      shift
+      dc_ports "$@"
+      ;;
+    rebuild )
+      shift
+      dc_rebuild "$@"
+      ;;
+    restart )
+      dc_restart
+      ;;
+    *)
+      docker-compose "$@"
+      ;;
+  esac
+else
+  docker-compose
+fi
