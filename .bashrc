@@ -106,6 +106,9 @@ export NOCOLOR
 export COWPATH="$dotfiles/system/cows/:/usr/local/Cellar/cowsay/3.04/share/cows/"
 alias bunny="cowsay -W 15 -f signbunny"
 
+# ctop
+alias ctop="TERM=xterm256-color ctop"
+
 # Editor
 if [[ -f "$(command -v nvim)" ]]; then
   export EDITOR='nvim'

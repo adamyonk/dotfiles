@@ -5,6 +5,7 @@
   ca = !git add --intent-to-add . && git commit -a
   co = checkout
 	create = create -p
+  cs = !"git stash save --keep-index; git commit --verbose; git stash pop"
   d = diff --color-words
   dlc = diff --cached HEAD^
   dw = diff --color-words --word-diff -w
@@ -16,8 +17,11 @@
   pl = pull
   ps = push
   s = status --branch --short
+  sa = stash apply
   safe = !mkdir -p .git/safe && echo "Repository marked safe!"
   shove = push --force-with-lease
+  si = stash save --keep-index
+  sp = stash pop
   standup = log --author=\"Adam Jahnke\" --pretty=oneline --since yesterday
   sub = submodule
   suba = submodule add
