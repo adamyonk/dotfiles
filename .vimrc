@@ -52,7 +52,7 @@ Plug 'tpope/vim-vinegar'
 Plug 'vim-scripts/netrw.vim'
 Plug 'vim-scripts/vis'
 Plug 'vim-scripts/visualrepeat'
-" Plug 'vimwiki/vimwiki', { 'branch': 'dev' }
+Plug 'vimwiki/vimwiki'
 Plug 'w0rp/ale'
 Plug 'wfleming/vim-codeclimate'
 call plug#end()
