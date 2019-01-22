@@ -51,6 +51,7 @@
   quotepath = false
 
 [diff]
+  algorithm = patience
   colorMoved = zebra
 
 [fetch]
@@ -84,6 +85,7 @@
   #templatedir = ~/.git_template
 
 [merge]
+  conflictStyle = diff3
   ff = false
 
 [mergetool]
@@ -97,10 +99,11 @@
 	followTags = true
 
 [rebase]
+  autoStash = true
   autosquash = true
 
 [rerere]
-  enabled = 1
+  enabled = true
 
 [user]
 	email = adamyonk@icloud.com
