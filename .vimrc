@@ -16,7 +16,7 @@ Plug 'connorholyday/vim-snazzy'
 Plug 'easymotion/vim-easymotion'
 Plug 'ervandew/supertab'
 Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
-Plug 'iamcco/markdown-preview.vim'
+Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }}
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 Plug 'junegunn/goyo.vim'
@@ -189,7 +189,7 @@ if executable('ag')
   set grepprg=ag\ --nogroup\ --nocolor
 endif
 command! -nargs=+ CustomGrep :execute "silent grep! --nogroup --nocolor <args>" | copen | redraw!
-nnoremap <leader>g :CustomGrep
+" nnoremap <leader>g :CustomGrep
 " sudo write
 command! W w !sudo tee % > /dev/null
 " command W :execute ':silent w !sudo tee % > /dev/null' | :edit!
