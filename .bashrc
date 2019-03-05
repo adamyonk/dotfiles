@@ -149,6 +149,13 @@ alias h='heroku'
 
 # Homebrew
 export HOMEBREW_CASK_OPTS="--appdir=/Applications"
+if [ "$(uname -s)" == "Linux" ]; then
+  if test -d ~/.linuxbrew; then
+    eval $(~/.linuxbrew/bin/brew shellenv)
+  else
+    eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)
+  fi
+fi
 
 # Ruby
 alias b='bundle'
@@ -223,8 +230,8 @@ done
 # shellcheck source=/dev/null
 [ -f ~/.fzf.bash ] && . ~/.fzf.bash
 
-export NVM_DIR="$HOME/.nvm"
-# shellcheck source=/dev/null
-[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
-# shellcheck source=/dev/null
-[ -s "$NVM_DIR/bash_completion" ] && . "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+# export NVM_DIR="$HOME/.nvm"
+# # shellcheck source=/dev/null
+# [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
+# # shellcheck source=/dev/null
+# [ -s "$NVM_DIR/bash_completion" ] && . "$NVM_DIR/bash_completion"  # This loads nvm bash_completion

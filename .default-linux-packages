@@ -1,6 +1,7 @@
 autoconf
 build-essential
 curl
+file
 git
 git-core
 jq
