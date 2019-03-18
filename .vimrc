@@ -7,16 +7,50 @@ if has('nvim') == 0
   endif
 endif
 
+
+function! PostInstallCoc(info) abort
+  if a:info.status ==? 'installed' || a:info.force
+    !yarn install
+    call coc#util#install_extension(join([
+          \ 'coc-css',
+          \ 'coc-emoji',
+          \ 'coc-eslint',
+          \ 'coc-html',
+          \ 'coc-json',
+          \ 'coc-prettier',
+          \ 'coc-tsserver',
+          \ 'coc-tslint',
+          \ 'coc-yaml',
+          \ ]))
+
+    " -- disabled coc.nvim extensions:
+    " \ 'coc-omni',
+    " \ 'coc-dictionary',
+    " \ 'coc-java',
+    " \ 'coc-vetur',
+    " \ 'coc-wxml',
+    " \ 'coc-stylelint',
+    " \ 'coc-highlight',
+    " \ 'coc-word',
+    " \ 'coc-snippets',
+  elseif a:info.status ==? 'updated'
+    !yarn install
+    call coc#util#update()
+  endif
+endfunction
+
 " Plug
 call plug#begin('~/.vim/plugged')
 Plug 'AndrewRadev/switch.vim'
-Plug 'chriskempson/base16-vim'
+" Plug 'chriskempson/base16-vim'
+Plug 'danielwe/base16-vim'
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'connorholyday/vim-snazzy'
 Plug 'easymotion/vim-easymotion'
 Plug 'ervandew/supertab'
 Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }}
+Plug 'ianks/vim-tsx'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 Plug 'junegunn/goyo.vim'
@@ -30,6 +64,7 @@ Plug 'mattn/gist-vim'
 Plug 'mattn/webapi-vim'
 Plug 'maxmellon/vim-jsx-pretty'
 Plug 'nelstrom/vim-visual-star-search'
+Plug 'neoclide/coc.nvim', { 'do': function('PostInstallCoc') }
 " Plug 'Quramy/tsuquyomi'
 Plug 'sheerun/vim-polyglot'
 Plug 'Shougo/vimproc.vim', {'do' : 'make'}
@@ -73,7 +108,6 @@ set lazyredraw
 set linebreak " wrap long lines at a character in 'breakat'
 set list " show <Tab> as ^I and end-of-line as $
 set listchars=tab:\ \ ,trail:· " list strings used for list mode
-set mouse=a " default in nvim
 set nobackup " don't keep a backup after overwriting a file
 set nofoldenable " set to display all folds closed
 set noswapfile " don't use a swap file for this buffer

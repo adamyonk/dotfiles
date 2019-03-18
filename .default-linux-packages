@@ -1,4 +1,5 @@
 autoconf
+automake
 build-essential
 curl
 file
@@ -15,7 +16,9 @@ libsqlite3-dev
 libssl-dev
 libtool
 libxml2-dev
+libxslt-dev
 libxslt1-dev
+libyaml-dev
 libyaml-dev
 mosh
 neovim
@@ -27,6 +30,7 @@ sqlite3
 tmux
 tree
 unixODBC-devel
+unixodbc-dev
 vim
 yarn
 zlib1g-dev

@@ -98,9 +98,9 @@ export NOCOLOR
 
 # Completions
 # shellcheck source=/dev/null
-[ -f /usr/local/share/bash-completion/bash_completion ] && . /usr/local/share/bash-completion/bash_completion
+[[ -f /usr/local/share/bash-completion/bash_completion ]] && . /usr/local/share/bash-completion/bash_completion
 # shellcheck source=/dev/null
-[ -f /etc/bash_completion ] && . /etc/bash_completion
+[[ -f /etc/bash_completion ]] && . /etc/bash_completion
 
 # cowsay
 export COWPATH="$dotfiles/system/cows/:/usr/local/Cellar/cowsay/3.04/share/cows/"
@@ -144,15 +144,18 @@ export GPG_TTY
 
 # Go
 
+# gotop
+alias gotop="TERM=xterm256-color gotop"
+
 # Heroku
 alias h='heroku'
 
 # Homebrew
 export HOMEBREW_CASK_OPTS="--appdir=/Applications"
-if [ "$(uname -s)" == "Linux" ]; then
-  if test -d ~/.linuxbrew; then
+if [[ "$(uname -s)" == "Linux" ]]; then
+  if [[ -d ~/.linuxbrew ]]; then
     eval $(~/.linuxbrew/bin/brew shellenv)
-  else
+  elif [[ -d /home/linuxbrew/.linuxbrew ]]; then
     eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)
   fi
 fi
@@ -206,7 +209,7 @@ source_invision() {
 
 # Tmux
 alias tmux='tmux -2'
-if [ -n "$TMUX" ]; then
+if [[ -n "$TMUX" ]]; then
   refresh() {
     export "$(tmux show-environment | grep '^SSH_AUTH_SOCK')"
   }
@@ -228,10 +231,10 @@ for f in "$HOME/.config/bash/completions/"*; do
 done
 
 # shellcheck source=/dev/null
-[ -f ~/.fzf.bash ] && . ~/.fzf.bash
+[[ -f ~/.fzf.bash ]] && . ~/.fzf.bash
 
 # export NVM_DIR="$HOME/.nvm"
 # # shellcheck source=/dev/null
-# [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
+# [[ -s "$NVM_DIR/nvm.sh" ]] && . "$NVM_DIR/nvm.sh"  # This loads nvm
 # # shellcheck source=/dev/null
-# [ -s "$NVM_DIR/bash_completion" ] && . "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+# [[ -s "$NVM_DIR/bash_completion" ]] && . "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
