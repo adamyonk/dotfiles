@@ -113,7 +113,7 @@ set nofoldenable " set to display all folds closed
 set noswapfile " don't use a swap file for this buffer
 set nowrap " long lines don't wrap
 set nowritebackup " don't write a backup file before overwriting a file
-set number " show the line number for each line
+set number relativenumber " show the line number for each line
 set scrolloff=10 " number of screen lines to show around the cursor
 set secure
 set shiftwidth=2 " number of spaces used for each step of (auto)indent
@@ -174,7 +174,7 @@ augroup filetypes
   autocmd BufRead,BufNewFile,BufWrite Brewfile set syntax=ruby
   " Writing
   autocmd BufRead,BufNewFile,BufWrite *.md set syntax=markdown
-  autocmd Filetype md set wrap linebreak nolist spell textwidth=80
+  autocmd Filetype md set wrap linebreak nolist nonumber norelativenumber spell textwidth=80
   autocmd Filetype txt set wrap linebreak nolist spell textwidth=80
   " Property lists
   autocmd BufRead,BufNewFile,BufWrite *.{plist,xml} set filetype=xml
@@ -191,6 +191,7 @@ nnoremap <leader>w :w<cr>
 " nnoremap <leader>bl :set bg=light<cr>
 " nnoremap <leader>bd :set bg=dark<cr>
 nnoremap <leader>n :set invnumber<cr>
+nnoremap <leader>m :set invrelativenumber<cr>
 " `gf` opens file under cursor in a new vertical split
 nnoremap gf :vertical wincmd f<cr>
 " automatically reload vimrc when it's saved
