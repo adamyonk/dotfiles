@@ -17,5 +17,19 @@ brew bundle --file="$HOME/.default-brews"
 # echo "Installing python"
 env PYTHON_CONFIGURE_OPTS="--enable-framework" CFLAGS="-I$(xcrun --show-sdk-path)/usr/include" asdf install python $(cat ~/.tool-versions | grep python | cut -d ' ' -f 2,3)
 
+# Set new bash shell
+if [[ -x /usr/local/bin/bash ]]; then
+  echo '/usr/local/bin/bash' | sudo tee -a /etc/shells
+  chsh -s /usr/local/bin/bash adam
+fi
+
+# Make Kindle download a format compatible with calibre
+# https://www.mobileread.com/forums/showthread.php?t=283371
+chmod -x /Applications/Kindle.app/Contents/MacOS/renderer-test
+
 # Disable Spotlight shortcut
 /usr/libexec/PlistBuddy ~/Library/Preferences/com.apple.symbolichotkeys.plist -c "Set AppleSymbolicHotKeys:64:enabled false"
+
+# Key repeat rate
+defaults write NSGlobalDomain KeyRepeat -int 1
+defaults write NSGlobalDomain InitialKeyRepeat -int 10

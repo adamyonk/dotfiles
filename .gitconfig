@@ -60,9 +60,6 @@
 [gh]
   protocol = https
 
-[ghi]
-	token = !security find-internet-password -a adamyonk -s github.com -l 'ghi token' -w
-
 [github]
   user = adamyonk
 

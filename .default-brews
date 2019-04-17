@@ -16,7 +16,6 @@ brew 'fzf'
 brew 'gawk'
 brew 'git'
 brew 'gnupg'
-brew 'heroku'
 brew 'hub'
 brew 'ical-buddy'
 brew 'imagemagick'
@@ -83,15 +82,10 @@ mas 'Day One', id: 1055511498
 mas 'Deliveries', id: 924726344
 mas 'Gifski', id: 1351639930
 mas 'GIPHY CAPTURE', id: 668208984
+mas 'Microsoft Remote Destop', id: 1295203466
 mas 'iA Writer', id: 775737590
 mas 'Pixelmator', id: 407963104
 mas 'Reeder', id: 880001334
 mas 'Sip', id: 507257563
 mas 'Soulver', id: 413965349
-mas 'Tweetbot', id: 557168941
-
-# Make Kindle download a format compatible with calibre
-# https://www.mobileread.com/forums/showthread.php?t=283371
-system "chmod -x /Applications/Kindle.app/Contents/MacOS/renderer-test"
-
-system "sudo chsh -s /usr/local/bin/bash"
+mas 'Tweetbot', id: 1384080005
