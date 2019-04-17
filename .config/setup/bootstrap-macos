@@ -16,3 +16,6 @@ brew bundle --file="$HOME/.default-brews"
 
 # echo "Installing python"
 env PYTHON_CONFIGURE_OPTS="--enable-framework" CFLAGS="-I$(xcrun --show-sdk-path)/usr/include" asdf install python $(cat ~/.tool-versions | grep python | cut -d ' ' -f 2,3)
+
+# Disable Spotlight shortcut
+/usr/libexec/PlistBuddy ~/Library/Preferences/com.apple.symbolichotkeys.plist -c "Set AppleSymbolicHotKeys:64:enabled false"

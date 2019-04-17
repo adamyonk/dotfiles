@@ -37,7 +37,7 @@ fi
 # Anybar
 anybar() {
   if [[ "$1" = 'open' ]]; then
-    open /Applications/AnyBar.app; exit
+    open /Applications/AnyBar.app
   fi
   printf "%s" "${1:-white}" | nc -4u -w0 localhost "${2:-1738}"
 }
@@ -190,7 +190,20 @@ fixcamera() {
   sudo killall VDCAssistant
 }
 proxy() {
-  networksetup -setsocksfirewallproxystate Wi-Fi "$1"
+  if [[ "$1" ]]; then
+    # For socks5
+    # networksetup -setsocksfirewallproxystate Wi-Fi "$1"
+    networksetup -setsecurewebproxystate Wi-Fi "$1"
+    networksetup -setwebproxystate Wi-Fi "$1"
+  fi
+
+  local status="$(networksetup -getsecurewebproxy Wi-Fi | grep ^Enabled | cut -f 2 -d ' ')"
+  if [[ "$status" =~ 'no' ]]; then
+    anybar black
+  else
+    anybar white
+  fi
+  echo "$status"
 }
 publicip() {
   curl https://api.ipify.org
