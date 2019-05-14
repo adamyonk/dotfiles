@@ -1,6 +1,7 @@
 [alias]
   aa = add --intent-to-add .
   b = branch
+  bs = bisect start --term-new=new --term-old=old
   c = commit
   ca = !git add --intent-to-add . && git commit -a
   co = checkout

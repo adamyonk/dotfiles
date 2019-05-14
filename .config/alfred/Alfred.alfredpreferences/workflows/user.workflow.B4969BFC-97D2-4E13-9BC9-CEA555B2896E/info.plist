@@ -124,7 +124,7 @@
 				<key>hotkey</key>
 				<integer>6</integer>
 				<key>hotmod</key>
-				<integer>262144</integer>
+				<integer>524288</integer>
 				<key>hotstring</key>
 				<string>Z</string>
 				<key>leftcursor</key>

@@ -11,17 +11,17 @@ endif
 function! PostInstallCoc(info) abort
   if a:info.status ==? 'installed' || a:info.force
     !yarn install
-    call coc#util#install_extension(join([
+    call coc#add_extension(
           \ 'coc-css',
           \ 'coc-emoji',
           \ 'coc-eslint',
           \ 'coc-html',
           \ 'coc-json',
           \ 'coc-prettier',
-          \ 'coc-tsserver',
           \ 'coc-tslint',
+          \ 'coc-tsserver',
           \ 'coc-yaml',
-          \ ]))
+          \ )
 
     " -- disabled coc.nvim extensions:
     " \ 'coc-omni',
@@ -34,7 +34,7 @@ function! PostInstallCoc(info) abort
     " \ 'coc-word',
     " \ 'coc-snippets',
   elseif a:info.status ==? 'updated'
-    !yarn install
+    !npm install
     call coc#util#update()
   endif
 endfunction
@@ -42,8 +42,8 @@ endfunction
 " Plug
 call plug#begin('~/.vim/plugged')
 Plug 'AndrewRadev/switch.vim'
-" Plug 'chriskempson/base16-vim'
-Plug 'danielwe/base16-vim'
+Plug 'chriskempson/base16-vim'
+" Plug 'danielwe/base16-vim'
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'connorholyday/vim-snazzy'
 Plug 'easymotion/vim-easymotion'
@@ -80,6 +80,7 @@ Plug 'tpope/vim-projectionist'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-rhubarb'
 Plug 'tpope/vim-rsi'
+Plug 'tpope/vim-scriptease'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-unimpaired'
 Plug 'tpope/vim-vinegar'
@@ -88,7 +89,7 @@ Plug 'vim-scripts/netrw.vim'
 Plug 'vim-scripts/vis'
 Plug 'vim-scripts/visualrepeat'
 Plug 'vimwiki/vimwiki'
-Plug 'w0rp/ale'
+" Plug 'w0rp/ale'
 Plug 'wfleming/vim-codeclimate'
 call plug#end()
 " let g:python_host_prog = '/Users/adam/.asdf/installs/python/2.7.14/bin/python'
@@ -148,7 +149,7 @@ endif
 if filereadable(expand("~/.vimrc_background"))
   source ~/.vimrc_background
 else
-  colorscheme base16-ocean
+  colorscheme base16-default-dark
 endif
 highlight Comment cterm=italic
 highlight Search ctermfg=black

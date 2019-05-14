@@ -29,7 +29,7 @@ export PATH="$PATH:/Users/adamyonk/.cargo/bin"
 [[ -e "$HOME"/.localrc ]] && . "$HOME"/.localrc
 
 # Base16 Shell (doesn't work in Terminal.app)
-if [[ "$TERM" =~ "256" ]] || [[ "$TERM" =~ "kitty" ]]; then
+if [[ "$TERM" =~ "256" ]] || [[ "$TERM" =~ "kitty" ]] || [[ "$TERM" =~ "screen" ]]; then
   BASE16_SHELL="$HOME/.config/base16-shell/"
   [ -n "$PS1" ] && [ -s "$BASE16_SHELL/profile_helper.sh" ] && eval "$("$BASE16_SHELL"/profile_helper.sh)"
 fi
@@ -242,6 +242,10 @@ alias y='yarn'
 # shellcheck source=./prompt.bash
 . "$HOME/.config/bash/prompt.bash"
 for f in "$HOME/.config/bash/completions/"*; do
+  # shellcheck source=/dev/null
+  . "$f"
+done
+for f in "/usr/local/etc/bash_completion.d/"*; do
   # shellcheck source=/dev/null
   . "$f"
 done
