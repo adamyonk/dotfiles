@@ -7,7 +7,7 @@
   co = checkout
 	create = create -p
   cs = !"git stash save --keep-index; git commit --verbose; git stash pop"
-  d = diff --color-words
+  d = diff --color-words --ignore-all-space
   dlc = diff --cached HEAD^
   dw = diff --color-words --word-diff -w
   f = fetch

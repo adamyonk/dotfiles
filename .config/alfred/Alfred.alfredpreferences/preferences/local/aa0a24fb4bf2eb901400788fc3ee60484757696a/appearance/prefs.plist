@@ -4,5 +4,7 @@
 <dict>
 	<key>currentthemeuid</key>
 	<string>theme.bundled.osxdark</string>
+	<key>darkthemeuid</key>
+	<string>theme.bundled.osxdark</string>
 </dict>
 </plist>

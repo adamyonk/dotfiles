@@ -1,14 +1,28 @@
-#!/usr/bin/env bash
-export PROMPT_COMMAND="history -a;history -c;history -r;$PROMPT_COMMAND"
+#!/usr/bin/env zsh
 
-SOURCE="${BASH_SOURCE[0]}"
-while [[ -h "$SOURCE" ]]; do # resolve $SOURCE until the file is no longer a symlink
-  DIR="$( cd -P "$( dirname "$SOURCE" )" && pwd )"
-  SOURCE="$(readlink "$SOURCE")"
-  [[ "$SOURCE" != /* ]] && SOURCE="$DIR/$SOURCE" # if $SOURCE was a relative symlink, we need to resolve it relative to the path where the symlink file was located
-done
-DIR="$( cd -P "$( dirname "$SOURCE" )" && pwd )"
-export dotfiles="${DIR%/bash*}"
+HISTFILE=~/.zsh_history
+HISTSIZE=10000
+SAVEHIST=10000
+bindkey "^[[A" history-beginning-search-backward
+bindkey "^[[B" history-beginning-search-forward
+
+setopt NO_BG_NICE # don't nice background tasks
+setopt NO_HUP
+setopt NO_LIST_BEEP
+setopt LOCAL_OPTIONS # allow functions to have local options
+setopt LOCAL_TRAPS # allow functions to have local traps
+setopt HIST_VERIFY
+setopt SHARE_HISTORY # share history between sessions ???
+setopt EXTENDED_HISTORY # add timestamps to history
+setopt PROMPT_SUBST
+setopt CORRECT
+setopt COMPLETE_IN_WORD
+setopt IGNORE_EOF
+
+setopt APPEND_HISTORY # adds history
+setopt INC_APPEND_HISTORY SHARE_HISTORY  # adds history incrementally and share it across sessions
+setopt HIST_IGNORE_ALL_DUPS  # don't record dupes in history
+setopt HIST_REDUCE_BLANKS
 
 export PATH=".git/safe/../../bin"
 export PATH=".git/safe/../../script"
@@ -25,7 +39,6 @@ export PATH="$PATH:/usr/local/heroku/bin"
 export PATH="$PATH:/Users/adamyonk/.cargo/bin"
 
 # Source ~/.localrc if it exists
-# shellcheck source=/dev/null
 [[ -e "$HOME"/.localrc ]] && . "$HOME"/.localrc
 
 # Base16 Shell (doesn't work in Terminal.app)
@@ -33,6 +46,20 @@ if [[ "$TERM" =~ "256" ]] || [[ "$TERM" =~ "kitty" ]] || [[ "$TERM" =~ "screen" 
   BASE16_SHELL="$HOME/.config/base16-shell/"
   [ -n "$PS1" ] && [ -s "$BASE16_SHELL/profile_helper.sh" ] && eval "$("$BASE16_SHELL"/profile_helper.sh)"
 fi
+
+# Autocomplete
+autoload -U compinit; compinit
+
+# Prompt
+autoload -U promptinit; promptinit
+zmodload zsh/nearcolor
+prompt pure
+zstyle :prompt:pure:prompt:error color red #'#dc322f'
+zstyle :prompt:pure:prompt:success color green #'#859900'
+
+export ZSH_HIGHLIGHT_HIGHLIGHTERS_DIR=/usr/local/share/zsh-syntax-highlighting/highlighters
+ZSH_SYNTAX_HIGHLIGHT_PATH=/usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+[ -f $ZSH_SYNTAX_HIGHLIGHT_PATH ] && . $ZSH_SYNTAX_HIGHLIGHT_PATH
 
 # Anybar
 anybar() {
@@ -47,24 +74,17 @@ anybar() {
 # [[ -f "/usr/local/opt/asdf/asdf.sh" ]] && . /usr/local/opt/asdf/asdf.sh
 # [[ -f "/usr/local/etc/bash_completion.d/asdf.bash" ]] && . /usr/local/etc/bash_completion.d/asdf.bash
 # For manual install
-# shellcheck source=/dev/null
 [[ -f "$HOME/.asdf/asdf.sh" ]] && . "$HOME/.asdf/asdf.sh"
-# shellcheck source=/dev/null
 [[ -f "$HOME/.asdf/completions/asdf.bash" ]] && . "$HOME/.asdf/completions/asdf.bash"
 
 # AWS
 if [[ -s "$HOME"/.awsam/bash.rc ]]; then
   export AWS_DEFAULT_USER=ubuntu
-  # shellcheck source=/dev/null
   . "$HOME"/.awsam/bash.rc
 fi
 #ec2-find() {
 #  aws ec2 describe-instances --filters Name=tag-value,Values=*$1* | grep "$1\|InstanceId" | uniq | sed -e 's/^[ \t\]*//' -e 's/,//g' | paste - -
 #}
-
-# Bash Sensible
-# shellcheck source=./bash-sensible.bash
-[[ -f "$HOME/.config/bash/bash-sensible.bash" ]] && . "$HOME/.config/bash/bash-sensible.bash"
 
 # Browser
 export BROWSER=open
@@ -96,12 +116,6 @@ export UNDERLINE
 export INVERT
 export NOCOLOR
 
-# Completions
-# shellcheck source=/dev/null
-[[ -f /usr/local/share/bash-completion/bash_completion ]] && . /usr/local/share/bash-completion/bash_completion
-# shellcheck source=/dev/null
-[[ -f /etc/bash_completion ]] && . /etc/bash_completion
-
 # cowsay
 export COWPATH="$dotfiles/system/cows/:/usr/local/Cellar/cowsay/3.04/share/cows/"
 alias bunny="cowsay -W 15 -f signbunny"
@@ -121,8 +135,7 @@ alias e="\$EDITOR"
 
 # FZF
 export FZF_DEFAULT_COMMAND='ag -g "" --hidden'
-# shellcheck source=/dev/null
-[[ -f "$HOME/.fzf.bash" ]] && . "$HOME/.fzf.bash"
+[ -f ~/.fzf.zsh ] && . ~/.fzf.zsh
 
 # Git
 alias g=git
@@ -159,19 +172,6 @@ if [[ "$(uname -s)" == "Linux" ]]; then
     eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)
   fi
 fi
-
-# Ruby
-alias b='bundle'
-alias be='bundle exec'
-alias bi='bundle install'
-alias bu='bundle update'
-alias f='foreman'
-alias fb='foreman run bundle exec'
-alias fr='foreman run'
-alias fs='foreman start'
-alias r='rake'
-
-# Rust
 
 # System
 colours() {
@@ -214,12 +214,11 @@ alias fliptable='echo （╯°□°）╯︵ ┻━┻'
 alias lc='launchctl'
 alias ll='ls -al'
 alias lock='/System/Library/CoreServices/Menu\ Extras/User.menu/Contents/Resources/CGSession -suspend'
-alias reload='. $HOME/.bashrc'
+alias reload='. $HOME/.zshrc'
 alias sound='afplay /System/Library/Sounds/Glass.aiff'
 alias ssh_up='systemsetup -setremotelogin on'
 alias ssh_down='systemsetup -setremotelogin off'
 source_invision() {
-  # shellcheck source=/dev/null
   . ~/Code/InVision_Docker/scripts-native/invision.sh
 }
 
@@ -232,31 +231,3 @@ if [[ -n "$TMUX" ]]; then
 else
   refresh() { exit 1; }
 fi
-
-# Vagrant
-alias v='vagrant'
-
-# Yarn
-alias y='yarn'
-
-# shellcheck source=./prompt.bash
-. "$HOME/.config/bash/prompt.bash"
-for f in "$HOME/.config/bash/completions/"*; do
-  # shellcheck source=/dev/null
-  . "$f"
-done
-for f in "/usr/local/etc/bash_completion.d/"*; do
-  # shellcheck source=/dev/null
-  . "$f"
-done
-
-# export NVM_DIR="$HOME/.nvm"
-# # shellcheck source=/dev/null
-# [[ -s "$NVM_DIR/nvm.sh" ]] && . "$NVM_DIR/nvm.sh"  # This loads nvm
-# # shellcheck source=/dev/null
-# [[ -s "$NVM_DIR/bash_completion" ]] && . "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-
-# added by travis gem
-[ -f /Users/adam/.travis/travis.sh ] && source /Users/adam/.travis/travis.sh
-
-[ -f ~/.fzf.bash ] && source ~/.fzf.bash

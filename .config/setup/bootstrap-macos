@@ -33,3 +33,6 @@ chmod -x /Applications/Kindle.app/Contents/MacOS/renderer-test
 # Key repeat rate
 defaults write NSGlobalDomain KeyRepeat -int 1
 defaults write NSGlobalDomain InitialKeyRepeat -int 10
+
+# Remove dock delay
+defaults write com.apple.Dock autohide-delay -float 0

@@ -152,7 +152,8 @@ else
   colorscheme base16-default-dark
 endif
 highlight Comment cterm=italic
-highlight Search ctermfg=black
+highlight Search ctermfg=black ctermbg=lightgrey
+highlight Visual ctermfg=bg ctermbg=fg
 
 autocmd FocusGained * :checktime
 filetype plugin on " enable loading the plugin files for specific file types
