@@ -142,6 +142,7 @@ alias g=git
 [[ -f "$(command -v hub)" ]] && eval "$(hub alias -s)" && alias g=hub
 complete -o default -o nospace -F _git g
 alias d='git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
+alias daa="d add $(d s | awk '{print $2}' | grep -v master)"
 
 # GnuPG
 GPG_TTY="$(tty)"
