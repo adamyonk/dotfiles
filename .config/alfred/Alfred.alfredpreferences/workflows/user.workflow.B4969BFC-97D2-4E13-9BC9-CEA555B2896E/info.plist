@@ -8,11 +8,11 @@
 	<string>Productivity</string>
 	<key>connections</key>
 	<dict>
-		<key>35D0DA58-CC94-497D-BEE7-9A84A8B5F331</key>
+		<key>3512B605-87B8-4CB3-8D04-AC738B9D4E7A</key>
 		<array>
 			<dict>
 				<key>destinationuid</key>
-				<string>8C865BDD-F57F-404C-8BC5-E6BC36FCD2EC</string>
+				<string>7632E814-76A3-4E4C-A531-910B829B9367</string>
 				<key>modifiers</key>
 				<integer>0</integer>
 				<key>modifiersubtext</key>
@@ -25,16 +25,6 @@
 		<array>
 			<dict>
 				<key>destinationuid</key>
-				<string>7632E814-76A3-4E4C-A531-910B829B9367</string>
-				<key>modifiers</key>
-				<integer>0</integer>
-				<key>modifiersubtext</key>
-				<string></string>
-				<key>vitoclose</key>
-				<false/>
-			</dict>
-			<dict>
-				<key>destinationuid</key>
 				<string>CA9D6CB4-725A-4FA4-9F72-1F88165960CA</string>
 				<key>modifiers</key>
 				<integer>0</integer>
@@ -43,12 +33,9 @@
 				<key>vitoclose</key>
 				<false/>
 			</dict>
-		</array>
-		<key>8C865BDD-F57F-404C-8BC5-E6BC36FCD2EC</key>
-		<array>
 			<dict>
 				<key>destinationuid</key>
-				<string>FA845F90-03B4-411E-8ACF-99A5B4C429A4</string>
+				<string>9BDA34AF-1A3A-4183-B730-4039EF6ABE65</string>
 				<key>modifiers</key>
 				<integer>0</integer>
 				<key>modifiersubtext</key>
@@ -56,9 +43,12 @@
 				<key>vitoclose</key>
 				<false/>
 			</dict>
+		</array>
+		<key>9BDA34AF-1A3A-4183-B730-4039EF6ABE65</key>
+		<array>
 			<dict>
 				<key>destinationuid</key>
-				<string>D681C96B-7F4B-403E-9845-94E114350764</string>
+				<string>D634BC8E-30F5-438C-BC31-084B9CDA6AD7</string>
 				<key>modifiers</key>
 				<integer>0</integer>
 				<key>modifiersubtext</key>
@@ -80,36 +70,42 @@
 				<false/>
 			</dict>
 		</array>
+		<key>D634BC8E-30F5-438C-BC31-084B9CDA6AD7</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>3512B605-87B8-4CB3-8D04-AC738B9D4E7A</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>sourceoutputuid</key>
+				<string>2CC65093-5B32-4668-B52B-476611671A1F</string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+			<dict>
+				<key>destinationuid</key>
+				<string>7632E814-76A3-4E4C-A531-910B829B9367</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
 	</dict>
 	<key>createdby</key>
 	<string>Adam Jahnke</string>
 	<key>description</key>
-	<string></string>
+	<string>Open Zoom meeting from selected text or clipboard</string>
 	<key>disabled</key>
 	<false/>
 	<key>name</key>
 	<string>Zoom.us</string>
 	<key>objects</key>
 	<array>
-		<dict>
-			<key>config</key>
-			<dict>
-				<key>browser</key>
-				<string></string>
-				<key>spaces</key>
-				<string></string>
-				<key>url</key>
-				<string>zoommtg://invisionapp.zoom.us/join?action=join&amp;confno={query}</string>
-				<key>utf8</key>
-				<true/>
-			</dict>
-			<key>type</key>
-			<string>alfred.workflow.action.openurl</string>
-			<key>uid</key>
-			<string>7632E814-76A3-4E4C-A531-910B829B9367</string>
-			<key>version</key>
-			<integer>1</integer>
-		</dict>
 		<dict>
 			<key>config</key>
 			<dict>
@@ -199,62 +195,68 @@ echo -n "$query"</string>
 		<dict>
 			<key>config</key>
 			<dict>
-				<key>concurrently</key>
-				<true/>
-				<key>escaping</key>
-				<integer>102</integer>
-				<key>script</key>
-				<string>/usr/local/bin/icalBuddy -iep 'title,notes' --includeCals adamjahnke@invisionapp.com eventsFrom:'now' to:'today' | \
-/Users/adam/.nvm/versions/node/v8.11.3/bin/node -e '\
-	const event = fs.readFileSync(0).toString().split("•").filter(s =&gt; s.includes("invisionapp.zoom.us"))[0]; \
-	const title = event.match(/^(.*)(?:\(.*\))/)[1].trim(); \
-	const id = event.match(/(?:invisionapp\.zoom\.us\/j\/)(\w*)/)[1].trim(); \
-	console.log(id); \
-'</string>
-				<key>scriptargtype</key>
-				<integer>1</integer>
-				<key>scriptfile</key>
-				<string>/usr/bin/env bash</string>
-				<key>type</key>
-				<integer>0</integer>
+				<key>conditions</key>
+				<array>
+					<dict>
+						<key>inputstring</key>
+						<string>{var:organization}</string>
+						<key>matchcasesensitive</key>
+						<false/>
+						<key>matchmode</key>
+						<integer>1</integer>
+						<key>matchstring</key>
+						<string></string>
+						<key>outputlabel</key>
+						<string>has org var</string>
+						<key>uid</key>
+						<string>2CC65093-5B32-4668-B52B-476611671A1F</string>
+					</dict>
+				</array>
+				<key>elselabel</key>
+				<string>else</string>
 			</dict>
 			<key>type</key>
-			<string>alfred.workflow.action.script</string>
+			<string>alfred.workflow.utility.conditional</string>
 			<key>uid</key>
-			<string>8C865BDD-F57F-404C-8BC5-E6BC36FCD2EC</string>
+			<string>D634BC8E-30F5-438C-BC31-084B9CDA6AD7</string>
 			<key>version</key>
-			<integer>2</integer>
+			<integer>1</integer>
 		</dict>
 		<dict>
 			<key>config</key>
 			<dict>
-				<key>action</key>
-				<integer>0</integer>
 				<key>argument</key>
-				<integer>0</integer>
-				<key>focusedappvariable</key>
-				<false/>
-				<key>focusedappvariablename</key>
-				<string></string>
-				<key>hotkey</key>
-				<integer>6</integer>
-				<key>hotmod</key>
-				<integer>786432</integer>
-				<key>hotstring</key>
-				<string>Z</string>
-				<key>leftcursor</key>
-				<false/>
-				<key>modsmode</key>
-				<integer>0</integer>
-				<key>relatedAppsMode</key>
-				<integer>0</integer>
+				<string>{var:organization}</string>
+				<key>variables</key>
+				<dict>
+					<key>organization</key>
+					<string>{var:organization}.</string>
+				</dict>
 			</dict>
 			<key>type</key>
-			<string>alfred.workflow.trigger.hotkey</string>
+			<string>alfred.workflow.utility.argument</string>
 			<key>uid</key>
-			<string>35D0DA58-CC94-497D-BEE7-9A84A8B5F331</string>
+			<string>3512B605-87B8-4CB3-8D04-AC738B9D4E7A</string>
 			<key>version</key>
-			<integer>2</integer>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>argument</key>
+				<string>{query}</string>
+				<key>variables</key>
+				<dict>
+					<key>id</key>
+					<string>{query}</string>
+				</dict>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.utility.argument</string>
+			<key>uid</key>
+			<string>9BDA34AF-1A3A-4183-B730-4039EF6ABE65</string>
+			<key>version</key>
+			<integer>1</integer>
 		</dict>
 		<dict>
 			<key>config</key>
@@ -264,70 +266,51 @@ echo -n "$query"</string>
 				<key>spaces</key>
 				<string></string>
 				<key>url</key>
-				<string>zoommtg://invisionapp.zoom.us/join?action=join&amp;confno={query}</string>
+				<string>zoommtg://{var:organization}zoom.us/join?action=join&amp;confno={query}</string>
 				<key>utf8</key>
 				<true/>
 			</dict>
 			<key>type</key>
 			<string>alfred.workflow.action.openurl</string>
 			<key>uid</key>
-			<string>FA845F90-03B4-411E-8ACF-99A5B4C429A4</string>
-			<key>version</key>
-			<integer>1</integer>
-		</dict>
-		<dict>
-			<key>config</key>
-			<dict>
-				<key>lastpathcomponent</key>
-				<false/>
-				<key>onlyshowifquerypopulated</key>
-				<false/>
-				<key>removeextension</key>
-				<false/>
-				<key>text</key>
-				<string>ID: "{query}"</string>
-				<key>title</key>
-				<string>Joining Meeting</string>
-			</dict>
-			<key>type</key>
-			<string>alfred.workflow.output.notification</string>
-			<key>uid</key>
-			<string>D681C96B-7F4B-403E-9845-94E114350764</string>
+			<string>7632E814-76A3-4E4C-A531-910B829B9367</string>
 			<key>version</key>
 			<integer>1</integer>
 		</dict>
 	</array>
 	<key>readme</key>
-	<string></string>
+	<string>To open a Zoom meeting either:
+1) Select a meeting URL or ID and hit ⌥+Z
+2) Copy a meeting URL or ID to the clipboard and hit ⌥+Z</string>
 	<key>uidata</key>
 	<dict>
-		<key>35D0DA58-CC94-497D-BEE7-9A84A8B5F331</key>
+		<key>3512B605-87B8-4CB3-8D04-AC738B9D4E7A</key>
 		<dict>
 			<key>xpos</key>
-			<integer>20</integer>
+			<integer>570</integer>
 			<key>ypos</key>
-			<integer>290</integer>
+			<integer>130</integer>
 		</dict>
 		<key>7632E814-76A3-4E4C-A531-910B829B9367</key>
 		<dict>
 			<key>xpos</key>
 			<integer>620</integer>
 			<key>ypos</key>
-			<integer>20</integer>
+			<integer>240</integer>
 		</dict>
 		<key>887CCA02-318B-4BE2-A3B0-36D07195A971</key>
 		<dict>
 			<key>xpos</key>
-			<integer>310</integer>
+			<integer>210</integer>
 			<key>ypos</key>
 			<integer>20</integer>
 		</dict>
-		<key>8C865BDD-F57F-404C-8BC5-E6BC36FCD2EC</key>
+		<key>9BDA34AF-1A3A-4183-B730-4039EF6ABE65</key>
 		<dict>
 			<key>xpos</key>
-			<integer>310</integer>
+			<integer>380</integer>
 			<key>ypos</key>
-			<integer>290</integer>
+			<integer>140</integer>
 		</dict>
 		<key>A6015DEC-91EC-4D4A-9AEC-79E57936F5EB</key>
 		<dict>
@@ -339,25 +322,29 @@ echo -n "$query"</string>
 		<key>CA9D6CB4-725A-4FA4-9F72-1F88165960CA</key>
 		<dict>
 			<key>xpos</key>
-			<integer>620</integer>
+			<integer>615</integer>
+			<key>ypos</key>
+			<integer>20</integer>
+		</dict>
+		<key>D634BC8E-30F5-438C-BC31-084B9CDA6AD7</key>
+		<dict>
+			<key>xpos</key>
+			<integer>450</integer>
 			<key>ypos</key>
 			<integer>130</integer>
 		</dict>
-		<key>D681C96B-7F4B-403E-9845-94E114350764</key>
-		<dict>
-			<key>xpos</key>
-			<integer>620</integer>
-			<key>ypos</key>
-			<integer>400</integer>
-		</dict>
-		<key>FA845F90-03B4-411E-8ACF-99A5B4C429A4</key>
-		<dict>
-			<key>xpos</key>
-			<integer>620</integer>
-			<key>ypos</key>
-			<integer>290</integer>
-		</dict>
 	</dict>
+	<key>variables</key>
+	<dict>
+		<key>oranization</key>
+		<string>invisionapp</string>
+	</dict>
+	<key>variablesdontexport</key>
+	<array>
+		<string>oranization</string>
+	</array>
+	<key>version</key>
+	<string>1.0.0</string>
 	<key>webaddress</key>
 	<string>https://adamyonk.com</string>
 </dict>

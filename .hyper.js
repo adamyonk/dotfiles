@@ -104,7 +104,7 @@ module.exports = {
 
     // font family with optional fallbacks
     fontFamily:
-      '"Fira Code Retina", Menlo, "DejaVu Sans Mono", Consolas, "Lucida Console", monospace',
+      '"Fira Code", Menlo, "DejaVu Sans Mono", Consolas, "Lucida Console", monospace',
 
     // default font weight: 'normal' or 'bold'
     fontWeight: "normal",

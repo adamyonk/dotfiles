@@ -1,4 +1,4 @@
-#!/usr/bin/env sh
+#!/usr/bin/env bash
 
 _mx () {
   local word=${COMP_WORDS[COMP_CWORD]}

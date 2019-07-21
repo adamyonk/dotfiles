@@ -17,6 +17,19 @@
 			<key>utf8</key>
 			<true/>
 		</dict>
+		<key>6C413149-C782-47B8-9B89-770BCF8A9C14</key>
+		<dict>
+			<key>enabled</key>
+			<true/>
+			<key>keyword</key>
+			<string>jira</string>
+			<key>text</key>
+			<string>Search Jira for '{query}'</string>
+			<key>url</key>
+			<string>https://invisionapp.atlassian.net/secure/RapidBoard.jspa?rapidView=457&amp;projectKey=AUTH&amp;view=planning.nodetail&amp;search={query}</string>
+			<key>utf8</key>
+			<true/>
+		</dict>
 	</dict>
 </dict>
 </plist>

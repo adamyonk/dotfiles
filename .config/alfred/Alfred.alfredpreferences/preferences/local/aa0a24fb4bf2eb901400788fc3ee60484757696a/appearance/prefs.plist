@@ -6,5 +6,7 @@
 	<string>theme.bundled.osxdark</string>
 	<key>darkthemeuid</key>
 	<string>theme.bundled.osxdark</string>
+	<key>lightthemeuid</key>
+	<string>theme.bundled.osx</string>
 </dict>
 </plist>

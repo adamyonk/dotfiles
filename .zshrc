@@ -1,28 +1,84 @@
 #!/usr/bin/env zsh
 
-HISTFILE=~/.zsh_history
-HISTSIZE=10000
+# History
+[ -z "$HISTFILE" ] && HISTFILE="$HOME/.zsh_history"
+HISTSIZE=50000
 SAVEHIST=10000
+setopt extended_history
+setopt hist_expire_dups_first
+setopt hist_ignore_all_dups
+setopt hist_ignore_dups
+setopt hist_ignore_space
+setopt hist_reduce_blanks
+setopt hist_verify
+setopt inc_append_history
+setopt share_history
+
+# Directories
+setopt auto_cd
+setopt auto_pushd
+setopt pushdminus
+unsetopt pushd_ignore_dups
+
+# Completion
+setopt always_to_end
+setopt auto_menu
+setopt complete_in_word
+unsetopt flow_control
+unsetopt menu_complete
+zstyle ':completion:*:*:*:*:*' menu select
+zstyle ':completion:*' matcher-list 'm:{a-zA-Z-_}={A-Za-z_-}' 'r:|=*' 'l:|=* r:|=*'
+zstyle ':completion::complete:*' use-cache 1
+zstyle ':completion::complete:*' cache-path $ZSH_CACHE_DIR
+zstyle ':completion:*' list-colors ''
+zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([0-9]#) ([0-9a-z-]#)*=01;34=0=01'
+
 bindkey "^[[A" history-beginning-search-backward
 bindkey "^[[B" history-beginning-search-forward
 
-setopt NO_BG_NICE # don't nice background tasks
-setopt NO_HUP
-setopt NO_LIST_BEEP
-setopt LOCAL_OPTIONS # allow functions to have local options
-setopt LOCAL_TRAPS # allow functions to have local traps
-setopt HIST_VERIFY
-setopt SHARE_HISTORY # share history between sessions ???
-setopt EXTENDED_HISTORY # add timestamps to history
-setopt PROMPT_SUBST
-setopt CORRECT
-setopt COMPLETE_IN_WORD
-setopt IGNORE_EOF
+setopt correct
+setopt ignore_eof
+setopt local_options
+setopt local_traps
+setopt no_bg_nice
+setopt no_hup
+setopt no_list_beep
+setopt prompt_subst
 
-setopt APPEND_HISTORY # adds history
-setopt INC_APPEND_HISTORY SHARE_HISTORY  # adds history incrementally and share it across sessions
-setopt HIST_IGNORE_ALL_DUPS  # don't record dupes in history
-setopt HIST_REDUCE_BLANKS
+autoload -U bashcompinit; bashcompinit
+autoload -U compinit; compinit
+autoload -U promptinit; promptinit
+zmodload zsh/nearcolor
+
+# zplug
+export ZPLUG_HOME=/usr/local/opt/zplug # Homebrew-installed zplug
+source $ZPLUG_HOME/init.zsh
+# Plugins
+zplug 'zplug/zplug', hook-build:'zplug --self-manage'
+zplug "zsh-users/zsh-autosuggestions"
+zplug "zsh-users/zsh-completions"
+zplug "zsh-users/zsh-syntax-highlighting", defer:2
+zplug "zsh-users/zsh-history-substring-search", defer:3
+zplug "mafredri/zsh-async", use:"async.zsh", hook-build:"ln -sf $ZPLUG_HOME/repos/mafredri/async.zsh /usr/local/share/zsh/site-functions/async"
+zplug "denysdovhan/spaceship-prompt", use:"spaceship.zsh", from:github, as:theme, , hook-build:"ln -sf $ZPLUG_HOME/repos/denysdovhan/spaceship-prompt/spaceship.zsh /usr/local/share/zsh/site-functions/prompt_spaceship_setup"
+# Install plugins if there are plugins that have not been installed
+if ! zplug check --verbose; then
+  printf "Install? [y/N]: "
+  if read -q; then
+    echo; zplug install
+  fi
+fi
+zplug load
+
+# Prompt
+prompt spaceship
+# Spaceship
+SPACESHIP_PACKAGE_SYMBOL=""
+SPACESHIP_PROMPT_PREFIXES_SHOW=false
+# SPACESHIP_PROMPT_SUFFIXES_SHOW=false
+SPACESHIP_VI_MODE_INSERT=""
+SPACESHIP_VI_MODE_NORMAL=""
+
 
 export PATH=".git/safe/../../bin"
 export PATH=".git/safe/../../script"
@@ -47,19 +103,14 @@ if [[ "$TERM" =~ "256" ]] || [[ "$TERM" =~ "kitty" ]] || [[ "$TERM" =~ "screen" 
   [ -n "$PS1" ] && [ -s "$BASE16_SHELL/profile_helper.sh" ] && eval "$("$BASE16_SHELL"/profile_helper.sh)"
 fi
 
-# Autocomplete
-autoload -U compinit; compinit
+# Completions
+for f in "$HOME/.config/bash/completions/"*; do
+  . "$f"
+done
 
-# Prompt
-autoload -U promptinit; promptinit
-zmodload zsh/nearcolor
-prompt pure
-zstyle :prompt:pure:prompt:error color red #'#dc322f'
-zstyle :prompt:pure:prompt:success color green #'#859900'
-
-export ZSH_HIGHLIGHT_HIGHLIGHTERS_DIR=/usr/local/share/zsh-syntax-highlighting/highlighters
-ZSH_SYNTAX_HIGHLIGHT_PATH=/usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-[ -f $ZSH_SYNTAX_HIGHLIGHT_PATH ] && . $ZSH_SYNTAX_HIGHLIGHT_PATH
+# export ZSH_HIGHLIGHT_HIGHLIGHTERS_DIR=/usr/local/share/zsh-syntax-highlighting/highlighters
+# ZSH_SYNTAX_HIGHLIGHT_PATH=/usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+# [ -f $ZSH_SYNTAX_HIGHLIGHT_PATH ] && . $ZSH_SYNTAX_HIGHLIGHT_PATH
 
 # Anybar
 anybar() {
@@ -142,7 +193,9 @@ alias g=git
 [[ -f "$(command -v hub)" ]] && eval "$(hub alias -s)" && alias g=hub
 complete -o default -o nospace -F _git g
 alias d='git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
-alias daa="d add $(d s | awk '{print $2}' | grep -v master)"
+daa() {
+  d add $(d s | grep -v master | awk '{printf "%s ", $2}')
+}
 
 # GnuPG
 GPG_TTY="$(tty)"

@@ -45,7 +45,7 @@ brew 'wget'
 brew 'xz'
 brew 'youtube-dl'
 brew 'zsh'
-brew 'zsh-syntax-highlighting'
+brew 'zplug'
 
 cask '1password-cli'
 cask 'alfred'
