@@ -16,7 +16,7 @@ command! -bang -nargs=* Ag call fzf#vim#ag(<q-args>, '--hidden', <bang>0)
 nnoremap <leader>b :Buffers<cr>
 nnoremap <leader>f :Files<cr>
 nnoremap <leader>l :Lines<cr>
-nnoremap <leader>a :Ag<cr>
+nnoremap <leader>a :Rg<cr>
 
 " Customize fzf colors to match your color scheme
 let g:fzf_colors =
