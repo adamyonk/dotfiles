@@ -1,0 +1,10 @@
+{
+  "diagnostic.errorSign": "•",
+  "diagnostic.infoSign": "•",
+  "diagnostic.warningSign": "•",
+  "html.format.enable": true,
+  "eslint.filetypes": ["javascript", "javascriptreact"],
+  "tsserver.enableJavascript": false,
+  "suggest.echodocSupport": true,
+  "suggest.maxCompleteItemCount": 20
+}

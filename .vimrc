@@ -42,13 +42,14 @@ endfunction
 " Plug
 call plug#begin('~/.vim/plugged')
 Plug 'AndrewRadev/switch.vim'
+Plug 'APZelos/blamer.nvim'
 Plug 'chriskempson/base16-vim'
 " Plug 'danielwe/base16-vim'
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'connorholyday/vim-snazzy'
 Plug 'easymotion/vim-easymotion'
 Plug 'ervandew/supertab'
-Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
+Plug 'fatih/vim-go', { 'do': ':silent :GoUpdateBinaries' }
 Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }}
 Plug 'ianks/vim-tsx'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
@@ -60,6 +61,7 @@ Plug 'junegunn/vim-emoji'
 Plug 'junegunn/vim-github-dashboard'
 Plug 'leafgarland/typescript-vim'
 " Plug 'luochen1990/rainbow'
+Plug 'mattn/emmet-vim'
 Plug 'mattn/gist-vim'
 Plug 'mattn/webapi-vim'
 Plug 'maxmellon/vim-jsx-pretty'

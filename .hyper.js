@@ -65,7 +65,8 @@ const themes = {
     lightWhite: "#1d1f21",
   },
   "base16_tomorrow-night": {
-    black: "#1d1f21",
+    black: "#1c1c1c",
+    // black: "#1d1f21",
     red: "#cc6666",
     green: "#b5bd68",
     yellow: "#f0c674",
@@ -78,7 +79,8 @@ const themes = {
   },
 };
 
-let colors = themes["base16_tomorrow"];
+const activeTheme = "base16_tomorrow-night";
+let colors = themes[activeTheme];
 const backupColor = (colors, check, backup) => {
   if (!colors[check]) {
     colors[check] = colors[backup]
@@ -104,7 +106,7 @@ module.exports = {
 
     // font family with optional fallbacks
     fontFamily:
-      '"Fira Code", Menlo, "DejaVu Sans Mono", Consolas, "Lucida Console", monospace',
+      '"Fira Code", Consolas, monospace',
 
     // default font weight: 'normal' or 'bold'
     fontWeight: "normal",

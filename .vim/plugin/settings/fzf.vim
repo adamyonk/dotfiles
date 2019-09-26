@@ -6,12 +6,12 @@ let g:fzf_layout = { 'down': '~15%' }
 command! -bang -nargs=* Ag call fzf#vim#ag(<q-args>, '--hidden', <bang>0)
 
 " ripgrep
-" command! -bang -nargs=* Rg
-"   \ call fzf#vim#grep(
-"   \   'rg --column --line-number --no-heading --color=always '.shellescape(<q-args>), 1,
-"   \   <bang>0 ? fzf#vim#with_preview('up:60%')
-"   \           : fzf#vim#with_preview('right:50%:hidden', '?'),
-"   \   <bang>0)
+" Don't search filenames:
+command! -nargs=* Rg
+  \ call fzf#vim#grep(
+  \   'rg --column --line-number --no-heading --color=always --smart-case '.shellescape(<q-args>),
+  \   1,
+  \   {'options': '--delimiter : --nth 2..'})
 
 nnoremap <leader>b :Buffers<cr>
 nnoremap <leader>f :Files<cr>

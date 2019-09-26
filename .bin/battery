@@ -1,8 +1,9 @@
 #!/bin/sh
-OUTPUT=$(pmset -g batt | grep Internal)
+OUTPUT=$(pmset -g batt | grep Internal | awk '{print $3}' | sed 's/;//')
 
 # Output while unplugged
 # Now drawing from 'Battery Power'
 #  -InternalBattery-0     55%; discharging; 3:41 remaining present: true
 
-echo $OUTPUT | awk '{print $3}' | sed 's/;//'
+printf "%s" "$OUTPUT"
+printf "\n"

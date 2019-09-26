@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-address=$(system_profiler SPBluetoothDataType \
+address=$(system_profiler SPBluetoothDataType 2>/dev/null \
   | grep -b2 'Minor Type: Headphones' \
   | awk '/Address/{print $3}' \
   | tr '[:upper:]' '[:lower:]')
@@ -12,22 +12,23 @@ active=$(/usr/libexec/PlistBuddy \
 left=$(/usr/libexec/PlistBuddy \
   -c "print DeviceCache:$address:BatteryPercentLeft" \
   /Library/Preferences/com.apple.Bluetooth.plist 2>/dev/null \
-  | tr '\n' ' ')
+  | tr -d '\n')
 
 right=$(/usr/libexec/PlistBuddy \
   -c "print DeviceCache:$address:BatteryPercentRight" \
   /Library/Preferences/com.apple.Bluetooth.plist 2>/dev/null \
-  | tr '\n' ' ')
+  | tr -d '\n')
 
 case=$(/usr/libexec/PlistBuddy \
   -c "print DeviceCache:$address:BatteryPercentCase" \
   /Library/Preferences/com.apple.Bluetooth.plist 2>/dev/null \
-  | tr '\n' ' ')
+  | tr -d '\n')
 
 if [[ "$active" == "true" ]] && [[ $? ]]; then
-  printf "  %s🎧 %s" "$left" "$right"
+  printf "%s%%L %s%%R" "$left" "$right"
 
   if [[ ! $case -eq 0 ]] && [[ ! -z "$case" ]]; then
-    printf "🔋 %s" "$case"
+    printf "%s%%C" "$case"
   fi
+  printf "\n"
 fi
