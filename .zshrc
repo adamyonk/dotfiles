@@ -51,10 +51,10 @@ autoload -U promptinit; promptinit
 zmodload zsh/nearcolor
 
 # zplug
-if [[ -d /home/linuxbrew/.linuxbrew ]]; then
-  export ZPLUG_HOME=/home/linuxbrew/.linuxbrew/opt/zplug # linuxbrew-installed zplug
+if (command -v brew); then
+  export ZPLUG_HOME=$(brew --prefix)/opt/zplug # homebrew-installed zplug
 else
-  export ZPLUG_HOME=/usr/local/opt/zplug # homebrew-installed zplug
+  export ZPLUG_HOME=/usr/local/opt/zplug
 fi
 source $ZPLUG_HOME/init.zsh
 # Plugins
@@ -63,8 +63,8 @@ zplug "zsh-users/zsh-autosuggestions"
 zplug "zsh-users/zsh-completions"
 zplug "zsh-users/zsh-syntax-highlighting", defer:2
 zplug "zsh-users/zsh-history-substring-search", defer:3
-zplug "mafredri/zsh-async", use:"async.zsh", hook-build:"ln -sf $ZPLUG_HOME/repos/mafredri/async.zsh /usr/local/share/zsh/site-functions/async"
-zplug "denysdovhan/spaceship-prompt", use:"spaceship.zsh", from:github, as:theme, , hook-build:"ln -sf $ZPLUG_HOME/repos/denysdovhan/spaceship-prompt/spaceship.zsh /usr/local/share/zsh/site-functions/prompt_spaceship_setup"
+zplug "mafredri/zsh-async", use:"async.zsh", hook-build:"ln -sf $ZPLUG_HOME/repos/mafredri/zsh-async/async.zsh $(brew --prefix)/share/zsh/site-functions/async"
+zplug "denysdovhan/spaceship-prompt", use:"spaceship.zsh", from:github, as:theme, , hook-build:"ln -sf $ZPLUG_HOME/repos/denysdovhan/spaceship-prompt/spaceship.zsh $(brew --prefix)/share/zsh/site-functions/prompt_spaceship_setup"
 # Install plugins if there are plugins that have not been installed
 if ! zplug check --verbose; then
   printf "Install? [y/N]: "
