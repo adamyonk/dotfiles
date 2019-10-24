@@ -21,6 +21,8 @@ libxslt1-dev
 libyaml-dev
 libyaml-dev
 mosh
+net-tools
+openssh-server
 python-neovim
 python-software-properties
 screenfetch

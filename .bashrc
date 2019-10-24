@@ -245,10 +245,12 @@ for f in "$HOME/.config/bash/completions/"*; do
   # shellcheck source=/dev/null
   . "$f"
 done
-for f in "/usr/local/etc/bash_completion.d/"*; do
-  # shellcheck source=/dev/null
-  . "$f"
-done
+if [ -d /usr/local/etc/bash_completion.d ]; then
+  for f in "/usr/local/etc/bash_completion.d/"*; do
+    # shellcheck source=/dev/null
+    . "$f"
+  done
+fi
 
 # export NVM_DIR="$HOME/.nvm"
 # # shellcheck source=/dev/null
