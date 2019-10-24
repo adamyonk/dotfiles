@@ -19,4 +19,4 @@ sudo chmod +x /usr/local/bin/ctop
 
 echo "Installing linuxbrew"
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/Linuxbrew/install/master/install.sh)"
-brew bundle --file="$HOME/.default-brews"
+/home/linuxbrew/.linuxbrew/bin/brew bundle --file="$HOME/.default-brews"
