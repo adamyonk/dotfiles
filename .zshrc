@@ -51,7 +51,11 @@ autoload -U promptinit; promptinit
 zmodload zsh/nearcolor
 
 # zplug
-export ZPLUG_HOME=/usr/local/opt/zplug # Homebrew-installed zplug
+if [[ -d /home/linuxbrew/.linuxbrew ]]; then
+  export ZPLUG_HOME=/home/linuxbrew/.linuxbrew/opt/zplug # linuxbrew-installed zplug
+else
+  export ZPLUG_HOME=/usr/local/opt/zplug # homebrew-installed zplug
+fi
 source $ZPLUG_HOME/init.zsh
 # Plugins
 zplug 'zplug/zplug', hook-build:'zplug --self-manage'
