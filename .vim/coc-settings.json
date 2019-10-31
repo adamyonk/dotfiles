@@ -3,7 +3,12 @@
   "diagnostic.infoSign": "•",
   "diagnostic.warningSign": "•",
   "html.format.enable": true,
-  "eslint.filetypes": ["javascript", "javascriptreact"],
+  "eslint.filetypes": [
+    "javascript",
+    "javascriptreact",
+    "typescript",
+    "typescriptreact"
+  ],
   "tsserver.enableJavascript": false,
   "suggest.echodocSupport": true,
   "suggest.maxCompleteItemCount": 20
