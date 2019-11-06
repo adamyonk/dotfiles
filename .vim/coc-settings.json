@@ -2,14 +2,15 @@
   "diagnostic.errorSign": "•",
   "diagnostic.infoSign": "•",
   "diagnostic.warningSign": "•",
-  "html.format.enable": true,
   "eslint.filetypes": [
     "javascript",
     "javascriptreact",
     "typescript",
     "typescriptreact"
   ],
-  "tsserver.enableJavascript": false,
+  "html.format.enable": true,
+  "prettier.onlyUseLocalVersion": true,
   "suggest.echodocSupport": true,
-  "suggest.maxCompleteItemCount": 20
+  "suggest.maxCompleteItemCount": 20,
+  "tsserver.enableJavascript": false
 }
