@@ -2037,7 +2037,7 @@
                         "product_id": 24866,
                         "vendor_id": 7504
                     },
-                    "ignore": true,
+                    "ignore": false,
                     "manipulate_caps_lock_led": false,
                     "simple_modifications": []
                 },
@@ -2050,7 +2050,7 @@
                         "product_id": 24866,
                         "vendor_id": 7504
                     },
-                    "ignore": true,
+                    "ignore": false,
                     "manipulate_caps_lock_led": false,
                     "simple_modifications": []
                 },

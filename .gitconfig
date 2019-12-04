@@ -83,7 +83,7 @@
   #templatedir = ~/.git_template
 
 [merge]
-  conflictStyle = diff3
+  #conflictStyle = diff3
   ff = false
 
 [mergetool]

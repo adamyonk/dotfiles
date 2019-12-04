@@ -73,6 +73,7 @@ Plug 'sheerun/vim-polyglot'
 Plug 'Shougo/vimproc.vim', {'do' : 'make'}
 Plug 'sjl/vitality.vim'
 Plug 'suy/vim-context-commentstring'
+Plug 'takac/vim-hardtime'
 Plug 'tpope/vim-abolish'
 Plug 'tpope/vim-characterize'
 Plug 'tpope/vim-commentary'
@@ -211,6 +212,9 @@ nnoremap <leader>W mz:%s/\s\+$//<cr>:let @/=''<cr>`z
 nnoremap J mzJ`z
 " yank from cursor to end of line
 nnoremap Y y$
+" Go to matching symbol with tab
+nnoremap <tab> %
+vnoremap <tab> %
 " move across wrapped lines better
 " noremap j gj
 " noremap k gk
