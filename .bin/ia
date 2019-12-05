@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+
+# IA_WRITER_DOCUMENTS_PATH="~/Library/Mobile\ Documents/27N4MQEA55~pro~writer/Documents/"
+# SHORTCUTS_DOCUMENTS_PATH="~/Library/Mobile Documents/iCloud\~is\~workflow\~my\~workflows/Documents/"
+
+if [[ "log" == "$1" ]]; then
+  dir="/Work/Log"
+else
+  dir="/Personal/Journal"
+fi
+path="$dir/$(gdate --iso-8601).md"
+
+open "iawriter://x-callback-url/write?auth-token=$IA_WRITER_TOKEN&mode=append&path=$path"
+open "iawriter://x-callback-url/open?auth-token=$IA_WRITER_TOKEN&edit=true&path=$path"

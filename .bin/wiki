@@ -1,0 +1,17 @@
+#!/usr/bin/env sh
+
+SESSION_NAME="_wiki"
+SESSION_PATH="$HOME"
+
+if ! (tmux ls 2>/dev/null | grep --silent "^$SESSION_NAME:"); then
+  tmux new-session -d -c "$SESSION_PATH" -s "$SESSION_NAME" -n editor
+  tmux send-keys -t "$SESSION_NAME" "$EDITOR" C-m :VimwikiIndex C-m
+  tmux new-window -c "$SESSION_PATH" -n shell -t "$SESSION_NAME"
+  tmux select-window -t "$SESSION_NAME":1
+fi
+
+if [ -z "$TMUX" ]; then
+  tmux attach-session -t "$SESSION_NAME"
+else
+  tmux switch-client -t "$SESSION_NAME"
+fi
