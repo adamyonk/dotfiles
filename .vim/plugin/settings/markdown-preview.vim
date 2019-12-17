@@ -1,3 +1,4 @@
+nnoremap <leader>P :MarkdownPreview<cr>
 " set to 1, the nvim will open the preview window once enter the markdown buffer
 " default: 0
 let g:mkdp_auto_start = 0

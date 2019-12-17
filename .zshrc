@@ -86,6 +86,14 @@ SPACESHIP_VI_MODE_NORMAL=""
 # Source ~/.localrc if it exists
 [[ -e "$HOME"/.localrc ]] && . "$HOME"/.localrc
 
+# asdf
+# For brew version:
+# [[ -f "/usr/local/opt/asdf/asdf.sh" ]] && . /usr/local/opt/asdf/asdf.sh
+# [[ -f "/usr/local/etc/bash_completion.d/asdf.bash" ]] && . /usr/local/etc/bash_completion.d/asdf.bash
+# For manual install
+[[ -f "$HOME/.asdf/asdf.sh" ]] && . "$HOME/.asdf/asdf.sh"
+[[ -f "$HOME/.asdf/completions/asdf.bash" ]] && . "$HOME/.asdf/completions/asdf.bash"
+
 # Base16 Shell (doesn't work in Terminal.app)
 if [[ "$TERM" =~ "256" ]] || [[ "$TERM" =~ "kitty" ]] || [[ "$TERM" =~ "screen" ]]; then
   BASE16_SHELL="$HOME/.config/base16-shell/"
@@ -108,18 +116,6 @@ anybar() {
   fi
   printf "%s" "${1:-white}" | nc -4u -w0 localhost "${2:-1738}"
 }
-
-# asdf
-# For brew version:
-# [[ -f "/usr/local/opt/asdf/asdf.sh" ]] && . /usr/local/opt/asdf/asdf.sh
-# [[ -f "/usr/local/etc/bash_completion.d/asdf.bash" ]] && . /usr/local/etc/bash_completion.d/asdf.bash
-# For manual install
-[[ -f "$HOME/.asdf/asdf.sh" ]] && . "$HOME/.asdf/asdf.sh"
-[[ -f "$HOME/.asdf/completions/asdf.bash" ]] && . "$HOME/.asdf/completions/asdf.bash"
-# Node path
-if [[ -f "$(command -v npm)" ]]; then
-  export NODE_PATH=$(npm root --quiet -g)
-fi
 
 # AWS
 if [[ -s "$HOME"/.awsam/bash.rc ]]; then

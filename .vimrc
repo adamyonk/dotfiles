@@ -67,7 +67,7 @@ Plug 'mattn/gist-vim'
 Plug 'mattn/webapi-vim'
 Plug 'maxmellon/vim-jsx-pretty'
 Plug 'nelstrom/vim-visual-star-search'
-Plug 'neoclide/coc.nvim', { 'do': function('PostInstallCoc') }
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
 " Plug 'Quramy/tsuquyomi'
 Plug 'sheerun/vim-polyglot'
 Plug 'Shougo/vimproc.vim', {'do' : 'make'}
@@ -92,6 +92,7 @@ Plug 'tpope/vim-vinegar'
 Plug 'vim-scripts/netrw.vim'
 Plug 'vim-scripts/vis'
 Plug 'vim-scripts/visualrepeat'
+Plug 'vim-scripts/zoomwin'
 Plug 'vimwiki/vimwiki'
 " Plug 'w0rp/ale'
 Plug 'wfleming/vim-codeclimate'

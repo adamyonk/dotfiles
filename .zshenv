@@ -1,3 +1,6 @@
+#!/usr/bin/env zsh
+
+# PATH
 export PATH=".git/safe/../../bin"
 export PATH=".git/safe/../../script"
 export PATH=".git/safe/../../scripts"
@@ -11,3 +14,9 @@ export PATH=$PATH:$GOBIN
 export PATH="$PATH:/usr/local/heroku/bin"
 # Rust
 export PATH="$PATH:/Users/adamyonk/.cargo/bin"
+
+# Node
+[[ -f "$HOME/.asdf/asdf.sh" ]] && . "$HOME/.asdf/asdf.sh"
+if [[ -f "$(command -v npm)" ]]; then
+  export NODE_PATH=$(npm root --quiet -g)
+fi

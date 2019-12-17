@@ -5,7 +5,7 @@ SESSION_PATH="$HOME"
 
 if ! (tmux ls 2>/dev/null | grep --silent "^$SESSION_NAME:"); then
   tmux new-session -d -c "$SESSION_PATH" -s "$SESSION_NAME" -n editor
-  tmux send-keys -t "$SESSION_NAME" "$EDITOR" C-m :VimwikiIndex C-m
+  tmux send-keys -t "$SESSION_NAME" "$EDITOR" C-m 2,w,w
   tmux new-window -c "$SESSION_PATH" -n shell -t "$SESSION_NAME"
   tmux select-window -t "$SESSION_NAME":1
 fi
