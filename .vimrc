@@ -50,7 +50,7 @@ Plug 'connorholyday/vim-snazzy'
 Plug 'easymotion/vim-easymotion'
 Plug 'ervandew/supertab'
 Plug 'fatih/vim-go', { 'do': ':silent :GoUpdateBinaries' }
-Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }}
+" Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }}
 Plug 'ianks/vim-tsx'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
@@ -59,6 +59,8 @@ Plug 'junegunn/gv.vim'
 Plug 'junegunn/vim-easy-align'
 Plug 'junegunn/vim-emoji'
 Plug 'junegunn/vim-github-dashboard'
+Plug 'junegunn/vim-peekaboo'
+Plug 'junegunn/vim-xmark', { 'do': 'make' }
 Plug 'leafgarland/typescript-vim'
 " Plug 'luochen1990/rainbow'
 Plug 'majutsushi/tagbar'
@@ -166,6 +168,7 @@ filetype indent on " enable loading the indent file for specific file types
 augroup filetypes
   autocmd!
   autocmd FileType * setlocal formatprg=
+  autocmd BufReadPost * silent! lcd .
   " Docker
   autocmd BufNewFile,BufRead Dockerfile* set filetype=Dockerfile
   " Indent-based folding
