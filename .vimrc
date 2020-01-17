@@ -42,7 +42,7 @@ endfunction
 " Plug
 call plug#begin('~/.vim/plugged')
 Plug 'AndrewRadev/switch.vim'
-Plug 'APZelos/blamer.nvim'
+" Plug 'APZelos/blamer.nvim'
 Plug 'chriskempson/base16-vim'
 " Plug 'danielwe/base16-vim'
 Plug 'christoomey/vim-tmux-navigator'
@@ -60,7 +60,7 @@ Plug 'junegunn/vim-easy-align'
 Plug 'junegunn/vim-emoji'
 Plug 'junegunn/vim-github-dashboard'
 Plug 'junegunn/vim-peekaboo'
-Plug 'junegunn/vim-xmark', { 'do': 'make' }
+" Plug 'junegunn/vim-xmark', { 'do': 'make' }
 Plug 'leafgarland/typescript-vim'
 " Plug 'luochen1990/rainbow'
 Plug 'majutsushi/tagbar'
@@ -68,10 +68,11 @@ Plug 'mattn/emmet-vim'
 Plug 'mattn/gist-vim'
 Plug 'mattn/webapi-vim'
 Plug 'maxmellon/vim-jsx-pretty'
+" Plug 'michal-h21/vim-zettel'
 Plug 'nelstrom/vim-visual-star-search'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 " Plug 'Quramy/tsuquyomi'
-Plug 'sheerun/vim-polyglot'
+" Plug 'sheerun/vim-polyglot'
 Plug 'Shougo/vimproc.vim', {'do' : 'make'}
 Plug 'sjl/vitality.vim'
 Plug 'suy/vim-context-commentstring'
@@ -183,7 +184,7 @@ augroup filetypes
   " Ruby
   autocmd BufRead,BufNewFile,BufWrite Brewfile set syntax=ruby
   " Writing
-  autocmd BufRead,BufNewFile,BufWrite *.md set syntax=markdown
+  " autocmd BufRead,BufNewFile,BufWrite *.md set syntax=markdown
   autocmd Filetype md set wrap linebreak nolist nonumber norelativenumber spell textwidth=80
   autocmd Filetype txt set wrap linebreak nolist spell textwidth=80
   " Property lists

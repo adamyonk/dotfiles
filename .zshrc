@@ -274,3 +274,6 @@ if [[ -n "$TMUX" ]]; then
 else
   refresh() { exit 1; }
 fi
+
+test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
+

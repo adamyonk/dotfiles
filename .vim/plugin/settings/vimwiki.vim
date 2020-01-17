@@ -16,4 +16,9 @@ let g:vimwiki_list = [personal, work]
 
 let g:vimwiki_conceallevel = 0
 nmap #- <Plug>VimwikiRemoveHeaderLevel
+nmap <leader>wf <Plug>VimwikiFollowLink
+nmap <cr> <Plug>VimwikiFollowLink
+nmap <s-cr> <Plug>VimwikiSplitLink
+nmap <c-cr> <Plug>VimwikiVSplitLink
+nmap <c-s-cr> <Plug>VimwikiTabnewLink
 " map <C-Space> <Plug>VimwikiToggleListItem
