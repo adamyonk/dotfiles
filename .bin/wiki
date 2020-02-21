@@ -1,9 +1,9 @@
 #!/usr/bin/env sh
 
 SESSION_NAME="_wiki"
-SESSION_PATH="$HOME/Library/Mobile\ Documents/27N4MQEA55\~pro\~writer/Documents"
+SESSION_PATH="$HOME/Library/Mobile Documents/27N4MQEA55~pro~writer/Documents"
 
-cd $HOME/Library/Mobile\ Documents/27N4MQEA55\~pro\~writer/Documents
+cd "$SESSION_PATH"
 
 if ! (tmux ls 2>/dev/null | grep --silent "^$SESSION_NAME:"); then
   tmux new-session -d -c "$SESSION_PATH" -s "$SESSION_NAME" -n editor

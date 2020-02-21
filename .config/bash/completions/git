@@ -1,21 +1,21 @@
 #!/usr/bin/env sh
 
-_fzf_complete_git() {
-  CURRENT="${COMP_WORDS[COMP_CWORD]}"
-  SUBCOMMAND="${COMP_WORDS[COMP_CWORD-1]}"
-  if [ "${SUBCOMMAND}" != "co" ]; then
-    return
-  fi
+# _fzf_complete_git() {
+#   CURRENT="${COMP_WORDS[COMP_CWORD]}"
+#   SUBCOMMAND="${COMP_WORDS[COMP_CWORD-1]}"
+#   if [ "${SUBCOMMAND}" != "co" ]; then
+#     return
+#   fi
 
-  local branches="$(git branch -vv --all)"
+#   local branches="$(git branch -vv --all)"
 
-  _fzf_complete "--reverse --multi" "$@" < <(
-    echo "$branches"
-  )
-}
+#   _fzf_complete "--reverse --multi" "$@" < <(
+#     echo "${branches}"
+#   )
+# }
 
 # _git_delete_branch(){
 #   __gitcomp "$(__git_heads)"
 # }
 
-complete -F _fzf_complete_git git
+# complete -F _fzf_complete_git git

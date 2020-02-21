@@ -179,7 +179,7 @@ export FZF_DEFAULT_COMMAND='ag -g "" --hidden'
 
 # Git
 alias g=git
-[[ -f "$(command -v hub)" ]] && eval "$(hub alias -s)" && alias g=hub
+# [[ -f "$(command -v hub)" ]] && eval "$(hub alias -s)" && alias g=hub
 complete -o default -o nospace -F _git g
 alias d='git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
 daa() {
@@ -214,6 +214,12 @@ if [[ "$(uname -s)" == "Linux" ]]; then
   elif [[ -d /home/linuxbrew/.linuxbrew ]]; then
     eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)
   fi
+fi
+
+# Node
+[[ -f "$HOME/.asdf/asdf.sh" ]] && . "$HOME/.asdf/asdf.sh"
+if [[ -f "$(command -v npm)" ]]; then
+  export NODE_PATH=$(npm root --quiet -g)
 fi
 
 # System

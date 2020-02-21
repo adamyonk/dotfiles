@@ -16,7 +16,7 @@ _npm_run () {
     DIR=$(cd "$(dirname "$(readlink "$DIR" || echo "$DIR")")" || exit; pwd)
   done
   SCRIPTS=$(jq --raw-output '.scripts | keys | .[]' < "$DIR/package.json" | grep --invert-match "^=\\+" | tr "\\n" " ")
-  COMPREPLY=( $(compgen -W "$SCRIPTS" "$CURRENT") )
+  COMPREPLY=( $(compgen -W "${SCRIPTS}" "${CURRENT}") )
 }
 
 complete -F _npm_run npm

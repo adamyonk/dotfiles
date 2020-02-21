@@ -46,10 +46,9 @@ Plug 'AndrewRadev/switch.vim'
 Plug 'chriskempson/base16-vim'
 " Plug 'danielwe/base16-vim'
 Plug 'christoomey/vim-tmux-navigator'
-Plug 'connorholyday/vim-snazzy'
 Plug 'easymotion/vim-easymotion'
 Plug 'ervandew/supertab'
-Plug 'fatih/vim-go', { 'do': ':silent :GoUpdateBinaries' }
+" Plug 'fatih/vim-go', { 'do': ':silent :GoUpdateBinaries' }
 " Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }}
 Plug 'ianks/vim-tsx'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
@@ -73,7 +72,7 @@ Plug 'nelstrom/vim-visual-star-search'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 " Plug 'Quramy/tsuquyomi'
 " Plug 'sheerun/vim-polyglot'
-Plug 'Shougo/vimproc.vim', {'do' : 'make'}
+" Plug 'Shougo/vimproc.vim', {'do' : 'make'}
 Plug 'sjl/vitality.vim'
 Plug 'suy/vim-context-commentstring'
 Plug 'takac/vim-hardtime'
@@ -92,6 +91,7 @@ Plug 'tpope/vim-surround'
 Plug 'tpope/vim-unimpaired'
 Plug 'tpope/vim-vinegar'
 " Plug 'Valloric/YouCompleteMe', { 'do': './install.py --all' }
+Plug 'vim-scripts/calendar.vim--Matsumoto'
 Plug 'vim-scripts/netrw.vim'
 Plug 'vim-scripts/vis'
 Plug 'vim-scripts/visualrepeat'
@@ -184,7 +184,7 @@ augroup filetypes
   " Ruby
   autocmd BufRead,BufNewFile,BufWrite Brewfile set syntax=ruby
   " Writing
-  " autocmd BufRead,BufNewFile,BufWrite *.md set syntax=markdown
+  autocmd BufRead,BufNewFile,BufWrite *.md set syntax=markdown.vimwiki
   autocmd Filetype md set wrap linebreak nolist nonumber norelativenumber spell textwidth=80
   autocmd Filetype txt set wrap linebreak nolist spell textwidth=80
   " Property lists
@@ -192,6 +192,9 @@ augroup filetypes
   " Ruby
   autocmd BufRead,BufNewFile,BufWrite {Capfile,Gemfile,Guardfile,Procfile,Rakefile,Thorfile,Vagrantfile,.ru,.caprc,.irbrc,.jbuilder,.rake} set filetype=ruby
 augroup end
+
+" Insert timestamp
+nmap <leader>ts :.! date -R<CR>
 
 " Start interactive EasyAlign in visual mode (e.g. vipga)
 xmap ga <Plug>(EasyAlign)

@@ -9,8 +9,16 @@
     "typescriptreact"
   ],
   "html.format.enable": true,
+  "languageserver": {
+    "bash": {
+      "command": "bash-language-server",
+      "args": ["start"],
+      "filetypes": ["sh"],
+      "ignoredRootPaths": ["~"]
+    }
+  },
   "prettier.onlyUseLocalVersion": true,
   "suggest.echodocSupport": true,
   "suggest.maxCompleteItemCount": 20,
-  "tsserver.enableJavascript": false
+  "tsserver.enableJavascript": true
 }
