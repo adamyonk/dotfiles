@@ -75,7 +75,7 @@ Plug 'neoclide/coc.nvim', {'branch': 'release'}
 " Plug 'Shougo/vimproc.vim', {'do' : 'make'}
 Plug 'sjl/vitality.vim'
 Plug 'suy/vim-context-commentstring'
-Plug 'takac/vim-hardtime'
+" Plug 'takac/vim-hardtime'
 Plug 'tpope/vim-abolish'
 Plug 'tpope/vim-characterize'
 Plug 'tpope/vim-commentary'
@@ -122,7 +122,7 @@ set nofoldenable " set to display all folds closed
 set noswapfile " don't use a swap file for this buffer
 set nowrap " long lines don't wrap
 set nowritebackup " don't write a backup file before overwriting a file
-set number relativenumber " show the line number for each line
+set number " relativenumber " show the line number for each line
 set scrolloff=10 " number of screen lines to show around the cursor
 set secure
 set shiftwidth=2 " number of spaces used for each step of (auto)indent
@@ -209,7 +209,7 @@ nnoremap <leader>m :set invrelativenumber<cr>
 " `gf` opens file under cursor in a new vertical split
 nnoremap gf :vertical wincmd f<cr>
 " automatically reload vimrc when it's saved
-autocmd! BufWritePost ~/.vimrc source ~/.vimrc
+autocmd! BufWritePost {~/.vimrc,~/.vim/init.vim} source ~/.vim/init.vim
 " equalize windows
 nnoremap <leader>= :wincmd =<cr>
 " toggle "keep current line centered" mode
