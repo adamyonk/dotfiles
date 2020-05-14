@@ -42,14 +42,15 @@
                         ]
                     },
                     {
-                        "description": "left_option layer: h,j,k,l, and r and 1,9,0",
+                        "description": "Hyper layer: h,j,k,l, and r and 1,9,0",
                         "manipulators": [
                             {
                                 "from": {
                                     "key_code": "h",
                                     "modifiers": {
                                         "mandatory": [
-                                            "left_option"
+                                            "left_command",
+                                            "left_control"
                                         ],
                                         "optional": []
                                     }
@@ -66,7 +67,8 @@
                                     "key_code": "j",
                                     "modifiers": {
                                         "mandatory": [
-                                            "left_option"
+                                            "left_command",
+                                            "left_control"
                                         ],
                                         "optional": []
                                     }
@@ -83,7 +85,8 @@
                                     "key_code": "k",
                                     "modifiers": {
                                         "mandatory": [
-                                            "left_option"
+                                            "left_command",
+                                            "left_control"
                                         ],
                                         "optional": []
                                     }
@@ -100,7 +103,8 @@
                                     "key_code": "l",
                                     "modifiers": {
                                         "mandatory": [
-                                            "left_option"
+                                            "left_command",
+                                            "left_control"
                                         ],
                                         "optional": []
                                     }
@@ -114,10 +118,28 @@
                             },
                             {
                                 "from": {
-                                    "key_code": "1",
+                                    "key_code": "delete_or_backspace",
                                     "modifiers": {
                                         "mandatory": [
-                                            "left_option"
+                                            "left_command",
+                                            "left_control"
+                                        ]
+                                    }
+                                },
+                                "to": [
+                                    {
+                                        "key_code": "delete_forward"
+                                    }
+                                ],
+                                "type": "basic"
+                            },
+                            {
+                                "from": {
+                                    "key_code": "equal_sign",
+                                    "modifiers": {
+                                        "mandatory": [
+                                            "left_command",
+                                            "left_control"
                                         ],
                                         "optional": [
                                             "shift",
@@ -137,7 +159,8 @@
                                     "key_code": "9",
                                     "modifiers": {
                                         "mandatory": [
-                                            "left_option"
+                                            "left_command",
+                                            "left_control"
                                         ],
                                         "optional": [
                                             "shift",
@@ -157,7 +180,8 @@
                                     "key_code": "0",
                                     "modifiers": {
                                         "mandatory": [
-                                            "left_option"
+                                            "left_command",
+                                            "left_control"
                                         ],
                                         "optional": [
                                             "shift",
@@ -196,9 +220,9 @@
                     {
                         "manipulators": [
                             {
-                                "description": "Change right option to Hyper (i.e., command+control+option+shift)",
+                                "description": "Change left option to Hyper (i.e., command+control)",
                                 "from": {
-                                    "key_code": "right_option",
+                                    "key_code": "left_option",
                                     "modifiers": {
                                         "optional": [
                                             "any"
@@ -207,10 +231,8 @@
                                 },
                                 "to": [
                                     {
-                                        "key_code": "left_shift",
+                                        "key_code": "left_control",
                                         "modifiers": [
-                                            "left_control",
-                                            "left_option",
                                             "left_command"
                                         ]
                                     }
@@ -327,7 +349,7 @@
                     "simple_modifications": []
                 },
                 {
-                    "disable_built_in_keyboard_if_exists": true,
+                    "disable_built_in_keyboard_if_exists": false,
                     "fn_function_keys": [],
                     "identifiers": {
                         "is_keyboard": true,
@@ -340,7 +362,7 @@
                     "simple_modifications": []
                 },
                 {
-                    "disable_built_in_keyboard_if_exists": true,
+                    "disable_built_in_keyboard_if_exists": false,
                     "fn_function_keys": [],
                     "identifiers": {
                         "is_keyboard": true,
