@@ -4,3 +4,4 @@ nodejs 12.18.0
 python 3.8.1 2.7.15
 ruby 2.6.3
 rust 1.25.0
+java adopt-openjdk-13.0.2+8
