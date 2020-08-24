@@ -50,6 +50,7 @@ Plug 'AndrewRadev/switch.vim'
 " Plug 'APZelos/blamer.nvim'
 Plug 'chriskempson/base16-vim'
 " Plug 'danielwe/base16-vim'
+Plug 'christoomey/vim-titlecase'
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'easymotion/vim-easymotion'
 Plug 'ervandew/supertab'
@@ -159,11 +160,17 @@ syntax enable " switch on syntax highlighting
 if $TERM =~ '256'
   let base16colorspace=256
 endif
-if filereadable(expand("~/.vimrc_background"))
-  source ~/.vimrc_background
-else
-  colorscheme base16-default-dark
-endif
+function LoadColorscheme()
+  if filereadable(expand("~/.vimrc_background"))
+    source ~/.vimrc_background
+  else
+    colorscheme base16-default-dark
+  endif
+endfunction
+exec LoadColorscheme()
+augroup colorscheme
+  autocmd FocusGained * exec LoadColorscheme()
+augroup end
 highlight Comment cterm=italic
 highlight Search ctermfg=black ctermbg=lightgrey
 highlight Visual ctermfg=bg ctermbg=fg
