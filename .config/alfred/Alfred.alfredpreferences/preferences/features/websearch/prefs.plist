@@ -9,11 +9,24 @@
 			<key>enabled</key>
 			<true/>
 			<key>keyword</key>
-			<string>gif</string>
+			<string>giphy</string>
 			<key>text</key>
 			<string>Giphy</string>
 			<key>url</key>
 			<string>https://giphy.com/search/{query}</string>
+			<key>utf8</key>
+			<true/>
+		</dict>
+		<key>52EF565E-A518-4CAA-8FB3-85B9936BBEDA</key>
+		<dict>
+			<key>enabled</key>
+			<true/>
+			<key>keyword</key>
+			<string>gif</string>
+			<key>text</key>
+			<string>Gif</string>
+			<key>url</key>
+			<string>https://gfycat.com/gifs/search/{search}</string>
 			<key>utf8</key>
 			<true/>
 		</dict>

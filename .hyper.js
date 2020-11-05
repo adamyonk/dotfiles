@@ -106,7 +106,7 @@ module.exports = {
 
     // font family with optional fallbacks
     fontFamily:
-      '"Fira Code", Consolas, monospace',
+      '"JetBrains Mono", "Fira Code", Consolas, monospace',
 
     // default font weight: 'normal' or 'bold'
     fontWeight: "normal",

@@ -10,9 +10,7 @@ endif
 
 function! PostInstallCoc(info) abort
   if a:info.status ==? 'installed' || a:info.force
-    !yarn install
-    call coc#add_extension(
-          \ 'coc-css',
+    !yarn install call coc#add_extension( \ 'coc-css',
           \ 'coc-emoji',
           \ 'coc-emmet',
           \ 'coc-eslint',
@@ -46,16 +44,13 @@ endfunction
 
 " Plug
 call plug#begin('~/.vim/plugged')
+Plug 'alampros/vim-styled-jsx'
 Plug 'AndrewRadev/switch.vim'
-" Plug 'APZelos/blamer.nvim'
 Plug 'chriskempson/base16-vim'
-" Plug 'danielwe/base16-vim'
 Plug 'christoomey/vim-titlecase'
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'easymotion/vim-easymotion'
 Plug 'ervandew/supertab'
-" Plug 'fatih/vim-go', { 'do': ':silent :GoUpdateBinaries' }
-" Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }}
 Plug 'ianks/vim-tsx'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
@@ -66,22 +61,21 @@ Plug 'junegunn/vim-emoji'
 Plug 'junegunn/vim-github-dashboard'
 Plug 'junegunn/vim-peekaboo'
 " Plug 'junegunn/vim-xmark', { 'do': 'make' }
+Plug 'kana/vim-textobj-diff'
+Plug 'kana/vim-textobj-user'
 Plug 'leafgarland/typescript-vim'
-" Plug 'luochen1990/rainbow'
 Plug 'majutsushi/tagbar'
-Plug 'mattn/emmet-vim'
 Plug 'mattn/gist-vim'
 Plug 'mattn/webapi-vim'
 Plug 'maxmellon/vim-jsx-pretty'
-" Plug 'michal-h21/vim-zettel'
 Plug 'nelstrom/vim-visual-star-search'
+" Plug 'neovim/nvim-lsp'
+" Plug 'nvim-lua/completion-nvim'
+" Plug 'nvim-lua/diagnostic-nvim'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
-" Plug 'Quramy/tsuquyomi'
-" Plug 'sheerun/vim-polyglot'
-" Plug 'Shougo/vimproc.vim', {'do' : 'make'}
+Plug 'sbdchd/neoformat'
 Plug 'sjl/vitality.vim'
 Plug 'suy/vim-context-commentstring'
-" Plug 'takac/vim-hardtime'
 Plug 'tpope/vim-abolish'
 Plug 'tpope/vim-characterize'
 Plug 'tpope/vim-commentary'
@@ -96,19 +90,77 @@ Plug 'tpope/vim-scriptease'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-unimpaired'
 Plug 'tpope/vim-vinegar'
-" Plug 'Valloric/YouCompleteMe', { 'do': './install.py --all' }
 Plug 'vim-scripts/calendar.vim--Matsumoto'
 Plug 'vim-scripts/netrw.vim'
 Plug 'vim-scripts/vis'
 Plug 'vim-scripts/visualrepeat'
 Plug 'vim-scripts/zoomwin'
 Plug 'vimwiki/vimwiki'
-" Plug 'w0rp/ale'
 Plug 'wfleming/vim-codeclimate'
 call plug#end()
-" let g:python_host_prog = '/Users/adam/.asdf/installs/python/2.7.14/bin/python'
 
-set clipboard=unnamed " "unnamed" to use the * register like unamed register. "autoselect" to always put selected text on the clipboard
+" :lua <<EOF
+"   local nvim_lsp = require('nvim_lsp')
+
+"   local on_attach = function(_, bufnr)
+"     vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
+"     require'diagnostic'.on_attach()
+"     require'completion'.on_attach()
+
+"     -- Mappings.
+"     local opts = { noremap=true, silent=true }
+"     vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gD', '<cmd>lua vim.lsp.buf.declaration()<CR>', opts)
+"     vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gd', '<cmd>lua vim.lsp.buf.definition()<CR>', opts)
+"     vim.api.nvim_buf_set_keymap(bufnr, 'n', 'K', '<cmd>lua vim.lsp.buf.hover()<CR>', opts)
+"     vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
+"     vim.api.nvim_buf_set_keymap(bufnr, 'n', '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
+"     vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>D', '<cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
+"     vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
+"     vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
+"     vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>e', '<cmd>lua vim.lsp.util.show_line_diagnostics()<CR>', opts)
+"     vim.api.nvim_buf_set_keymap(bufnr, 'n', '[r', '<cmd>PrevDiagnosticCycle<CR>', opts)
+"     vim.api.nvim_buf_set_keymap(bufnr, 'n', ']r', '<cmd>NextDiagnosticCycle<CR>', opts)
+
+"     vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>F', '<cmd>Neoformat<CR>', opts)
+"     vim.api.nvim_buf_set_keymap(bufnr, 'v', '<leader>F', '<cmd>Neoformat!<CR>', opts)
+"   end
+
+"   local servers = {'tsserver'}
+"   for _, lsp in ipairs(servers) do
+"     nvim_lsp[lsp].setup {
+"       on_attach = on_attach,
+"     }
+"   end
+" EOF
+
+" let g:diagnostic_enable_virtual_text = 1
+" " call sign_define("LspDiagnosticsErrorSign", {"text" : "E", "texthl" : "LspDiagnosticsError"})
+" " call sign_define("LspDiagnosticsWarningSign", {"text" : "W", "texthl" : "LspDiagnosticsWarning"})
+" " call sign_define("LspDiagnosticsInformationSign", {"text" : "I", "texthl" : "LspDiagnosticsInformation"})
+" " call sign_define("LspDiagnosticsHintSign", {"text" : "H", "texthl" : "LspDiagnosticsHint"})
+
+" let g:neoformat_enabled_javascript = ['prettier']
+" let g:neoformat_enabled_typescript = ['prettier']
+" let g:neoformat_javascript_prettier = {
+"       \ 'exe': './node_modules/.bin/prettier',
+"       \ 'args': ['--write'],
+"       \ 'replace': 1
+"       \ }
+
+" " Use <Tab> and <S-Tab> to navigate through popup menu
+" inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
+" inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+
+" " Set completeopt to have a better completion experience
+" set completeopt=menuone,noinsert,noselect
+
+" " Avoid showing message extra message when using completion
+" set shortmess+=c
+
+
+
+" let g:python_host_prog = '/Users/adam/.asdf/installs/python/2.7.14/bin/python'
+set autoread
 set colorcolumn=+1,+2 " columns to highlight
 set dictionary=/usr/share/dict/words " list of dictionary files for keyword completion
 set expandtab " expand <Tab> to spaces in Insert mode
@@ -116,8 +168,10 @@ set exrc
 set foldmethod=indent " folding type: "manual", "indent", "expr", "marker" or "syntax"
 set foldnestmax=3 " maximum fold depth for when 'foldmethod is "indent" or "syntax"
 set hidden " don't unload a buffer when no longer shown in a window
+set clipboard=unnamed " "unnamed" to use the * register like unamed register. "autoselect" to always put selected text on the clipboard
 if has('nvim')
   set inccommand=split
+else
 endif
 set lazyredraw
 set linebreak " wrap long lines at a character in 'breakat'
@@ -169,13 +223,13 @@ function LoadColorscheme()
 endfunction
 exec LoadColorscheme()
 augroup colorscheme
-  autocmd FocusGained * exec LoadColorscheme()
+  " autocmd FocusGained * exec LoadColorscheme()
 augroup end
 highlight Comment cterm=italic
 highlight Search ctermfg=black ctermbg=lightgrey
 highlight Visual ctermfg=bg ctermbg=fg
 
-autocmd FocusGained * :checktime
+" autocmd FocusGained * :checktime
 filetype plugin on " enable loading the plugin files for specific file types
 filetype indent on " enable loading the indent file for specific file types
 augroup filetypes
@@ -221,7 +275,7 @@ nnoremap <leader>m :set invrelativenumber<cr>
 " `gf` opens file under cursor in a new vertical split
 nnoremap gf :vertical wincmd f<cr>
 " automatically reload vimrc when it's saved
-autocmd! BufWritePost {~/.vimrc,~/.vim/init.vim} source ~/.vim/init.vim
+autocmd! BufWritePost {.vimrc,.vim/init.vim} source ~/.vim/init.vim
 " equalize windows
 nnoremap <leader>= :wincmd =<cr>
 " toggle "keep current line centered" mode

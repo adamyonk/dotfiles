@@ -139,49 +139,6 @@
 		<dict>
 			<key>config</key>
 			<dict>
-				<key>concurrently</key>
-				<false/>
-				<key>escaping</key>
-				<integer>0</integer>
-				<key>script</key>
-				<string>function run(argv) {
-  const input = argv[0];
-  const output = []
-
-  if (!input) {
-    throw new Error('No input.')
-  }
-
-  const id = input.match(/(?&lt;id&gt;\d{3,4}-\d{3,4}-\d{3,4})/);
-  if (!id) {
-    throw new Error('Could not parse a meeting ID.');
-  }
-  output.push(id[1].replace(/-/g, ''));
-
-  const password = input.match(/password: (?&lt;password&gt;.{10})/)
-  if (password) {
-    output.push(encodeURI(password[1]));
-  }
-
-  return output.join();
-}</string>
-				<key>scriptargtype</key>
-				<integer>1</integer>
-				<key>scriptfile</key>
-				<string>/usr/bin/env bash</string>
-				<key>type</key>
-				<integer>7</integer>
-			</dict>
-			<key>type</key>
-			<string>alfred.workflow.action.script</string>
-			<key>uid</key>
-			<string>582A8182-9D58-4F8B-ACD9-B7E75D527F5E</string>
-			<key>version</key>
-			<integer>2</integer>
-		</dict>
-		<dict>
-			<key>config</key>
-			<dict>
 				<key>action</key>
 				<integer>0</integer>
 				<key>argument</key>
@@ -193,7 +150,7 @@
 				<key>hotkey</key>
 				<integer>6</integer>
 				<key>hotmod</key>
-				<integer>524288</integer>
+				<integer>655360</integer>
 				<key>hotstring</key>
 				<string>Z</string>
 				<key>leftcursor</key>
@@ -220,7 +177,8 @@
 				<key>removeextension</key>
 				<false/>
 				<key>text</key>
-				<string>ID: "{var:id}"</string>
+				<string>ID: "{var:id}"
+PW: "{var:password}"</string>
 				<key>title</key>
 				<string>Joining Meeting</string>
 			</dict>
@@ -234,22 +192,45 @@
 		<dict>
 			<key>config</key>
 			<dict>
-				<key>argument</key>
-				<string>{query}</string>
-				<key>variables</key>
-				<dict>
-					<key>id</key>
-					<string>{var:split1}</string>
-					<key>password</key>
-					<string>{var:split2}</string>
-				</dict>
+				<key>concurrently</key>
+				<false/>
+				<key>escaping</key>
+				<integer>0</integer>
+				<key>script</key>
+				<string>function run(argv) {
+  const input = argv[0];
+  const output = []
+
+  if (!input) {
+    throw new Error('No input.')
+  }
+
+  const id = input.match(/(?&lt;id&gt;\d{3,4}-\d{3,4}-\d{3,4})/);
+  if (!id) {
+    throw new Error('Could not parse a meeting ID.');
+  }
+  output.push(id[1].replace(/-/g, ''));
+
+  const password = input.match(/passcode: (?&lt;passcode&gt;.+)\./)
+  if (password) {
+    output.push(encodeURI(password[1]));
+  }
+
+  return output.join();
+}</string>
+				<key>scriptargtype</key>
+				<integer>1</integer>
+				<key>scriptfile</key>
+				<string>/usr/bin/env bash</string>
+				<key>type</key>
+				<integer>7</integer>
 			</dict>
 			<key>type</key>
-			<string>alfred.workflow.utility.argument</string>
+			<string>alfred.workflow.action.script</string>
 			<key>uid</key>
-			<string>9BDA34AF-1A3A-4183-B730-4039EF6ABE65</string>
+			<string>582A8182-9D58-4F8B-ACD9-B7E75D527F5E</string>
 			<key>version</key>
-			<integer>1</integer>
+			<integer>2</integer>
 		</dict>
 		<dict>
 			<key>config</key>
@@ -265,6 +246,28 @@
 			<string>alfred.workflow.utility.split</string>
 			<key>uid</key>
 			<string>53CDCA13-EC24-4862-B52B-0601B55D82A0</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>argument</key>
+				<string>{query}</string>
+				<key>passthroughargument</key>
+				<false/>
+				<key>variables</key>
+				<dict>
+					<key>id</key>
+					<string>{var:split1}</string>
+					<key>password</key>
+					<string>{var:split2}</string>
+				</dict>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.utility.argument</string>
+			<key>uid</key>
+			<string>9BDA34AF-1A3A-4183-B730-4039EF6ABE65</string>
 			<key>version</key>
 			<integer>1</integer>
 		</dict>
@@ -303,6 +306,8 @@
 			<dict>
 				<key>argument</key>
 				<string>{var:organization}</string>
+				<key>passthroughargument</key>
+				<false/>
 				<key>variables</key>
 				<dict>
 					<key>organization</key>

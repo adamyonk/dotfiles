@@ -1,3 +1,5 @@
+nnoremap ]s :Switch<cr>
+nnoremap [s :SwitchReverse<cr>
 " let g:switch_custom_definitions =
 "   \ [
 "   \   ['true', 'false']
