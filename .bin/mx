@@ -39,6 +39,8 @@
 
 set -e
 
+TERM=screen-256color-bce-s
+
 if [ -z "$1" ]; then
   SESSION="${PWD##*/}"
 else
