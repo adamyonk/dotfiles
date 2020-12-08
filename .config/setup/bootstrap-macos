@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+xcode-select --install
+
 if ! (command -v brew); then
   echo "Installing homebrew"
   bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
@@ -17,21 +19,60 @@ brew bundle --file="$HOME/.default-brews"
 env PYTHON_CONFIGURE_OPTS="--enable-framework" CFLAGS="-I$(xcrun --show-sdk-path)/usr/include" asdf install python $(cat ~/.tool-versions | grep python | cut -d ' ' -f 2,3)
 
 # Set new bash shell
-if [[ -x /usr/local/bin/bash ]]; then
-  echo '/usr/local/bin/bash' | sudo tee -a /etc/shells
-  chsh -s /usr/local/bin/bash adam
+if [[ -x /usr/local/bin/zsh ]]; then
+  echo '/usr/local/bin/zsh' | sudo tee -a /etc/shells
+  chsh -s /usr/local/bin/zsh adam
 fi
+# This may need to be run if there are errors about "zsh compinit: insecure directories"
+# https://stackoverflow.com/questions/13762280/zsh-compinit-insecure-directories
+# compaudit | xargs chmod g-w
 
 # Make Kindle download a format compatible with calibre
 # https://www.mobileread.com/forums/showthread.php?t=283371
 chmod -x /Applications/Kindle.app/Contents/MacOS/renderer-test
 
 # Disable Spotlight shortcut
-/usr/libexec/PlistBuddy ~/Library/Preferences/com.apple.symbolichotkeys.plist -c "Set AppleSymbolicHotKeys:64:enabled false"
+# /usr/libexec/PlistBuddy ~/Library/Preferences/com.apple.symbolichotkeys.plist -c "Set AppleSymbolicHotKeys:64:enabled false"
 
 # Key repeat rate
 defaults write NSGlobalDomain KeyRepeat -int 1
 defaults write NSGlobalDomain InitialKeyRepeat -int 10
+# Enable full keyboard access for all controls
+# (e.g. enable Tab in modal dialogs)
+defaults write NSGlobalDomain AppleKeyboardUIMode -int 3
 
-# Remove dock delay
-defaults write com.apple.Dock autohide-delay -float 0
+# TODO: three-finger swipe
+
+# Enable touchpad tap-to-click
+defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad Clicking -bool true
+defaults -currentHost write NSGlobalDomain com.apple.mouse.tapBehavior -int 1
+defaults write NSGlobalDomain com.apple.mouse.tapBehavior -int 1
+# Enable two-finger right-click
+defaults write com.apple.AppleMultitouchTrackpad TrackpadRightClick -bool true
+defaults -currentHost write NSGlobalDomain com.apple.trackpad.enableSecondaryClick -bool true
+defaults -currentHost write -g com.apple.trackpad.enableSecondaryClick -bool YES
+
+# Remove the auto-hiding Dock delay
+defaults write com.apple.dock autohide-delay -float 0
+# Remove the animation when hiding/showing the Dock
+defaults write com.apple.dock autohide-time-modifier -float 0
+# Automatically hide and show the Dock
+defaults write com.apple.dock autohide -bool true
+# Wipe all (default) app icons from the Dock
+# This is only really useful when setting up a new Mac, or if you don’t use
+# the Dock to launch apps.
+#defaults write com.apple.dock persistent-apps -array
+
+# Finder: show status bar
+defaults write com.apple.finder ShowStatusBar -bool true
+# Finder: show path bar
+defaults write com.apple.finder ShowPathbar -bool true
+
+# Enable Safari’s debug menu
+defaults write com.apple.Safari IncludeInternalDebugMenu -bool true
+# Enable the Develop menu and the Web Inspector in Safari
+defaults write com.apple.Safari IncludeDevelopMenu -bool true
+defaults write com.apple.Safari WebKitDeveloperExtrasEnabledPreferenceKey -bool true
+defaults write com.apple.Safari com.apple.Safari.ContentPageGroupIdentifier.WebKit2DeveloperExtrasEnabled -bool true
+# Add a context menu item for showing the Web Inspector in web views
+defaults write NSGlobalDomain WebKitDeveloperExtras -bool true

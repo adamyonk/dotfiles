@@ -45,6 +45,7 @@ endfunction
 " Plug
 call plug#begin('~/.vim/plugged')
 Plug 'alampros/vim-styled-jsx'
+Plug 'AndrewRadev/splitjoin.vim'
 Plug 'AndrewRadev/switch.vim'
 Plug 'chriskempson/base16-vim'
 Plug 'christoomey/vim-titlecase'
