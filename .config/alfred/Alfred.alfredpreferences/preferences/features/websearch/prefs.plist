@@ -9,9 +9,9 @@
 			<key>enabled</key>
 			<true/>
 			<key>keyword</key>
-			<string>giphy</string>
+			<string>gif</string>
 			<key>text</key>
-			<string>Giphy</string>
+			<string>Search giphy for "{query}"</string>
 			<key>url</key>
 			<string>https://giphy.com/search/{query}</string>
 			<key>utf8</key>
@@ -22,11 +22,11 @@
 			<key>enabled</key>
 			<true/>
 			<key>keyword</key>
-			<string>gif</string>
+			<string>gifycat</string>
 			<key>text</key>
 			<string>Gif</string>
 			<key>url</key>
-			<string>https://gfycat.com/gifs/search/{search}</string>
+			<string>https://gfycat.com/gifs/search/{query}</string>
 			<key>utf8</key>
 			<true/>
 		</dict>
@@ -40,6 +40,19 @@
 			<string>Search Jira for '{query}'</string>
 			<key>url</key>
 			<string>https://invisionapp.atlassian.net/secure/RapidBoard.jspa?rapidView=457&amp;projectKey=AUTH&amp;view=planning.nodetail&amp;search={query}</string>
+			<key>utf8</key>
+			<true/>
+		</dict>
+		<key>9DBF9C7F-9999-4160-8C5A-1692406585BA</key>
+		<dict>
+			<key>enabled</key>
+			<true/>
+			<key>keyword</key>
+			<string>mdn</string>
+			<key>text</key>
+			<string>Search MDN web docs for "{query}"</string>
+			<key>url</key>
+			<string>https://developer.mozilla.org/en-US/search?q={query}</string>
 			<key>utf8</key>
 			<true/>
 		</dict>

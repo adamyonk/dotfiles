@@ -28,6 +28,7 @@ fi
 # https://stackoverflow.com/questions/13762280/zsh-compinit-insecure-directories
 # compaudit | xargs chmod g-w
 
+echo "Setting defaults"
 # Make Kindle download a format compatible with calibre
 # https://www.mobileread.com/forums/showthread.php?t=283371
 chmod -x /Applications/Kindle.app/Contents/MacOS/renderer-test
@@ -52,6 +53,10 @@ defaults write NSGlobalDomain com.apple.mouse.tapBehavior -int 1
 defaults write com.apple.AppleMultitouchTrackpad TrackpadRightClick -bool true
 defaults -currentHost write NSGlobalDomain com.apple.trackpad.enableSecondaryClick -bool true
 defaults -currentHost write -g com.apple.trackpad.enableSecondaryClick -bool YES
+# Enable three-finger swipe
+defaults write com.apple.AppleMultitouchTrackpad TrackpadThreeFingerHorizSwipeGesture -bool true
+defaults -currentHost write NSGlobalDomain com.apple.trackpad.threeFingerHorizSwipeGesture -bool true
+defaults -currentHost write -g com.apple.trackpad.threeFingerHorizSwipeGesture -bool YES
 
 # Remove the auto-hiding Dock delay
 defaults write com.apple.dock autohide-delay -float 0
@@ -71,9 +76,24 @@ defaults write com.apple.finder ShowPathbar -bool true
 
 # Enable Safari’s debug menu
 defaults write com.apple.Safari IncludeInternalDebugMenu -bool true
+# Show the full URL in the address bar (note: this still hides the scheme)
+defaults write com.apple.Safari ShowFullURLInSmartSearchField -bool true
 # Enable the Develop menu and the Web Inspector in Safari
 defaults write com.apple.Safari IncludeDevelopMenu -bool true
 defaults write com.apple.Safari WebKitDeveloperExtrasEnabledPreferenceKey -bool true
 defaults write com.apple.Safari com.apple.Safari.ContentPageGroupIdentifier.WebKit2DeveloperExtrasEnabled -bool true
 # Add a context menu item for showing the Web Inspector in web views
 defaults write NSGlobalDomain WebKitDeveloperExtras -bool true
+# Set default search to Duck Duck Go
+defaults write com.apple.Safari SearchProviderIdentifier -string "com.duckduckgo"
+
+
+# Zoom
+defaults write ZoomChat ZoomShowIconInMenuBar -bool false
+defaults write com.zoom.xos s_skinToneNum -int 1
+
+# Alfred
+defaults write com.runningwithcrayons.Alfred-Preferences syncfolder -string "~/.config/alfred"
+
+# iTerm2
+defaults write com.googlecode.iterm2 PrefsCustomFolder -string "~/.config"

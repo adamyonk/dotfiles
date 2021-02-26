@@ -44,6 +44,7 @@ endfunction
 
 " Plug
 call plug#begin('~/.vim/plugged')
+Plug 'airblade/vim-gitgutter'
 Plug 'alampros/vim-styled-jsx'
 Plug 'AndrewRadev/splitjoin.vim'
 Plug 'AndrewRadev/switch.vim'
@@ -53,6 +54,7 @@ Plug 'christoomey/vim-tmux-navigator'
 Plug 'easymotion/vim-easymotion'
 Plug 'ervandew/supertab'
 Plug 'ianks/vim-tsx'
+Plug 'jparise/vim-graphql'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 Plug 'junegunn/goyo.vim'
@@ -91,6 +93,7 @@ Plug 'tpope/vim-scriptease'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-unimpaired'
 Plug 'tpope/vim-vinegar'
+Plug 'tweekmonster/startuptime.vim'
 Plug 'vim-scripts/calendar.vim--Matsumoto'
 Plug 'vim-scripts/netrw.vim'
 Plug 'vim-scripts/vis'
@@ -100,13 +103,66 @@ Plug 'vimwiki/vimwiki'
 Plug 'wfleming/vim-codeclimate'
 call plug#end()
 
+" " Plug
+" call plug#begin('~/.vim/plugged')
+" Plug 'airblade/vim-gitgutter'
+" Plug 'AndrewRadev/splitjoin.vim'
+" Plug 'AndrewRadev/switch.vim'
+" Plug 'chriskempson/base16-vim'
+" Plug 'christoomey/vim-titlecase'
+" Plug 'christoomey/vim-tmux-navigator'
+" Plug 'easymotion/vim-easymotion'
+" " Plug 'ervandew/supertab'
+" Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+" Plug 'junegunn/fzf.vim'
+" Plug 'junegunn/goyo.vim'
+" Plug 'junegunn/gv.vim'
+" Plug 'junegunn/vim-easy-align'
+" Plug 'junegunn/vim-emoji'
+" Plug 'junegunn/vim-github-dashboard'
+" Plug 'junegunn/vim-peekaboo'
+" " Plug 'junegunn/vim-xmark', { 'do': 'make' }
+" Plug 'kana/vim-textobj-diff'
+" Plug 'kana/vim-textobj-user'
+" Plug 'majutsushi/tagbar'
+" Plug 'mattn/gist-vim'
+" Plug 'mattn/webapi-vim'
+" Plug 'nelstrom/vim-visual-star-search'
+" Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+" Plug 'nvim-treesitter/completion-treesitter'
+" Plug 'neovim/nvim-lspconfig'
+" Plug 'nvim-lua/lsp-status.nvim'
+" " Plug 'neoclide/coc.nvim', {'branch': 'release'}
+" Plug 'sbdchd/neoformat'
+" Plug 'sjl/vitality.vim'
+" Plug 'suy/vim-context-commentstring'
+" Plug 'tpope/vim-abolish'
+" Plug 'tpope/vim-characterize'
+" Plug 'tpope/vim-commentary'
+" Plug 'tpope/vim-eunuch'
+" Plug 'tpope/vim-fugitive'
+" Plug 'tpope/vim-projectionist'
+" Plug 'tpope/vim-repeat'
+" Plug 'tpope/vim-rhubarb'
+" Plug 'tpope/vim-rsi'
+" Plug 'tpope/vim-scriptease'
+" Plug 'tpope/vim-surround'
+" Plug 'tpope/vim-unimpaired'
+" Plug 'tpope/vim-vinegar'
+" Plug 'tweekmonster/startuptime.vim'
+" Plug 'vim-scripts/calendar.vim--Matsumoto'
+" Plug 'vim-scripts/netrw.vim'
+" Plug 'vim-scripts/vis'
+" Plug 'vim-scripts/visualrepeat'
+" Plug 'vim-scripts/zoomwin'
+" Plug 'vimwiki/vimwiki'
+" call plug#end()
+
 " :lua <<EOF
-"   local nvim_lsp = require('nvim_lsp')
+"   local lspconfig = require('lspconfig')
 
 "   local on_attach = function(_, bufnr)
 "     vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
-"     require'diagnostic'.on_attach()
-"     require'completion'.on_attach()
 
 "     -- Mappings.
 "     local opts = { noremap=true, silent=true }
@@ -119,8 +175,9 @@ call plug#end()
 "     vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
 "     vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
 "     vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>e', '<cmd>lua vim.lsp.util.show_line_diagnostics()<CR>', opts)
-"     vim.api.nvim_buf_set_keymap(bufnr, 'n', '[r', '<cmd>PrevDiagnosticCycle<CR>', opts)
-"     vim.api.nvim_buf_set_keymap(bufnr, 'n', ']r', '<cmd>NextDiagnosticCycle<CR>', opts)
+"     vim.api.nvim_buf_set_keymap(bufnr, 'n', '[r', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>', opts)
+"     vim.api.nvim_buf_set_keymap(bufnr, 'n', ']r', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>', opts)
+"     -- vim.lsp.diagnostic.set_loclist()
 
 "     vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>F', '<cmd>Neoformat<CR>', opts)
 "     vim.api.nvim_buf_set_keymap(bufnr, 'v', '<leader>F', '<cmd>Neoformat!<CR>', opts)
@@ -128,7 +185,7 @@ call plug#end()
 
 "   local servers = {'tsserver'}
 "   for _, lsp in ipairs(servers) do
-"     nvim_lsp[lsp].setup {
+"     lspconfig[lsp].setup {
 "       on_attach = on_attach,
 "     }
 "   end
@@ -195,11 +252,12 @@ set softtabstop=2 " if non-zero, number of spaces to insert for a <Tab>
 set spellfile=~/.vim/spellfile.utf-8.add " file that "zg" adds good words to
 set splitbelow " a new window is put below the current one
 set splitright " a new window is put right of the current one
-set statusline+=%= " set right-side status info after this line
-set statusline+=%l/%L:%v " set <line number>/<total lines>:<column>
-set statusline+=\  " set ending space
-set statusline+=\ %f\ %m\ %r " show filename/path
 set statusline= " alternate format to be used for a status line
+set statusline+=%= " set right-side status info after this line
+set statusline+=%f:%l:%v " filename:line:column
+set statusline+=\ %L
+set statusline+=\ %m\ %r " show filename/path
+set statusline+=\  " set ending space
 set tabstop=2 " number of spaces a <Tab> in the text stands for
 if isdirectory($HOME . '/.vim_undo') == 0
   :silent !mkdir -p ~/.vim_undo > /dev/null 2>&1
@@ -229,6 +287,9 @@ augroup end
 highlight Comment cterm=italic
 highlight Search ctermfg=black ctermbg=lightgrey
 highlight Visual ctermfg=bg ctermbg=fg
+highlight CocUnderline cterm=underline gui=underline
+" highlight Underlined cterm=underline ctermfg=1 gui=underline guifg=#d88568
+
 
 " autocmd FocusGained * :checktime
 filetype plugin on " enable loading the plugin files for specific file types
