@@ -383,6 +383,19 @@
                         "product_id": 88,
                         "vendor_id": 64593
                     },
+                    "ignore": false,
+                    "manipulate_caps_lock_led": false,
+                    "simple_modifications": []
+                },
+                {
+                    "disable_built_in_keyboard_if_exists": true,
+                    "fn_function_keys": [],
+                    "identifiers": {
+                        "is_keyboard": true,
+                        "is_pointing_device": false,
+                        "product_id": 0,
+                        "vendor_id": 0
+                    },
                     "ignore": true,
                     "manipulate_caps_lock_led": false,
                     "simple_modifications": []
@@ -393,97 +406,121 @@
                     "from": {
                         "key_code": "f1"
                     },
-                    "to": {
-                        "key_code": "apple_display_brightness_decrement"
-                    }
+                    "to": [
+                        {
+                            "key_code": "apple_display_brightness_decrement"
+                        }
+                    ]
                 },
                 {
                     "from": {
                         "key_code": "f2"
                     },
-                    "to": {
-                        "key_code": "apple_display_brightness_increment"
-                    }
+                    "to": [
+                        {
+                            "key_code": "apple_display_brightness_increment"
+                        }
+                    ]
                 },
                 {
                     "from": {
                         "key_code": "f3"
                     },
-                    "to": {
-                        "key_code": "vk_mission_control"
-                    }
+                    "to": [
+                        {
+                            "key_code": "vk_mission_control"
+                        }
+                    ]
                 },
                 {
                     "from": {
                         "key_code": "f4"
                     },
-                    "to": {
-                        "key_code": "vk_launchpad"
-                    }
+                    "to": [
+                        {
+                            "key_code": "vk_launchpad"
+                        }
+                    ]
                 },
                 {
                     "from": {
                         "key_code": "f5"
                     },
-                    "to": {
-                        "key_code": "vk_consumer_illumination_down"
-                    }
+                    "to": [
+                        {
+                            "key_code": "vk_consumer_illumination_down"
+                        }
+                    ]
                 },
                 {
                     "from": {
                         "key_code": "f6"
                     },
-                    "to": {
-                        "key_code": "vk_consumer_illumination_up"
-                    }
+                    "to": [
+                        {
+                            "key_code": "vk_consumer_illumination_up"
+                        }
+                    ]
                 },
                 {
                     "from": {
                         "key_code": "f7"
                     },
-                    "to": {
-                        "key_code": "vk_consumer_previous"
-                    }
+                    "to": [
+                        {
+                            "key_code": "vk_consumer_previous"
+                        }
+                    ]
                 },
                 {
                     "from": {
                         "key_code": "f8"
                     },
-                    "to": {
-                        "key_code": "vk_consumer_play"
-                    }
+                    "to": [
+                        {
+                            "key_code": "vk_consumer_play"
+                        }
+                    ]
                 },
                 {
                     "from": {
                         "key_code": "f9"
                     },
-                    "to": {
-                        "key_code": "vk_consumer_next"
-                    }
+                    "to": [
+                        {
+                            "key_code": "vk_consumer_next"
+                        }
+                    ]
                 },
                 {
                     "from": {
                         "key_code": "f10"
                     },
-                    "to": {
-                        "key_code": "mute"
-                    }
+                    "to": [
+                        {
+                            "key_code": "mute"
+                        }
+                    ]
                 },
                 {
                     "from": {
                         "key_code": "f11"
                     },
-                    "to": {
-                        "key_code": "volume_down"
-                    }
+                    "to": [
+                        {
+                            "key_code": "volume_down"
+                        }
+                    ]
                 },
                 {
                     "from": {
                         "key_code": "f12"
                     },
-                    "to": {
-                        "key_code": "volume_up"
-                    }
+                    "to": [
+                        {
+                            "key_code": "volume_up"
+                        }
+                    ]
                 }
             ],
             "name": "Default profile",
@@ -495,6 +532,7 @@
             "virtual_hid_keyboard": {
                 "caps_lock_delay_milliseconds": 0,
                 "country_code": 0,
+                "indicate_sticky_modifier_keys_state": true,
                 "keyboard_type": "ansi",
                 "mouse_key_xy_scale": 100
             }
