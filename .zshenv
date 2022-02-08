@@ -14,3 +14,6 @@ export PATH=$PATH:$GOBIN
 export PATH="$PATH:/usr/local/heroku/bin"
 # Rust
 export PATH="$PATH:/Users/adamyonk/.cargo/bin"
+
+# ASDF
+[[ -f "$HOME/.asdf/asdf.sh" ]] && . "$HOME/.asdf/asdf.sh"

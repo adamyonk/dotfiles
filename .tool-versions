@@ -1,6 +1,6 @@
-deno 1.0.0
-golang 1.15
-nodejs 15.5.1
+deno 1.18.1
+golang 1.16
+nodejs 16.13.1
 python 3.8.1 2.7.15
 ruby 2.6.3
 rust 1.25.0

@@ -50,6 +50,9 @@ autoload -U compinit; compinit
 autoload -U promptinit; promptinit
 zmodload zsh/nearcolor
 
+autoload edit-command-line; zle -N edit-command-line
+bindkey "^X^E" edit-command-line
+
 # zplug
 if [[ -f "$(command -v brew)" ]]; then
   export ZPLUG_HOME=$(brew --prefix)/opt/zplug # homebrew-installed zplug
@@ -76,6 +79,45 @@ zplug load
 
 # Prompt
 prompt spaceship
+SPACESHIP_PROMPT_ORDER=(
+  time          # Time stamps section
+  user          # Username section
+  dir           # Current directory section
+  host          # Hostname section
+  # git           # Git section (git_branch + git_status)
+  # hg            # Mercurial section (hg_branch  + hg_status)
+  # package       # Package version
+  # gradle        # Gradle section
+  # maven         # Maven section
+  # node          # Node.js section
+  # ruby          # Ruby section
+  # elixir        # Elixir section
+  # xcode         # Xcode section
+  # swift         # Swift section
+  # golang        # Go section
+  # php           # PHP section
+  # rust          # Rust section
+  # haskell       # Haskell Stack section
+  # julia         # Julia section
+  # docker        # Docker section
+  # aws           # Amazon Web Services section
+  # gcloud        # Google Cloud Platform section
+  # venv          # virtualenv section
+  # conda         # conda virtualenv section
+  # pyenv         # Pyenv section
+  # dotnet        # .NET section
+  # ember         # Ember.js section
+  # kubectl       # Kubectl context section
+  # terraform     # Terraform workspace section
+  # ibmcloud      # IBM Cloud section
+  exec_time     # Execution time
+  line_sep      # Line break
+  # battery       # Battery level and status
+  vi_mode       # Vi-mode indicator
+  jobs          # Background jobs indicator
+  exit_code     # Exit code section
+  char          # Prompt character
+)
 # Spaceship
 SPACESHIP_PACKAGE_SYMBOL=""
 SPACESHIP_PROMPT_PREFIXES_SHOW=false
@@ -91,7 +133,8 @@ SPACESHIP_VI_MODE_NORMAL=""
 # [[ -f "/usr/local/opt/asdf/asdf.sh" ]] && . /usr/local/opt/asdf/asdf.sh
 # [[ -f "/usr/local/etc/bash_completion.d/asdf.bash" ]] && . /usr/local/etc/bash_completion.d/asdf.bash
 # For manual install
-[[ -f "$HOME/.asdf/asdf.sh" ]] && . "$HOME/.asdf/asdf.sh"
+# The next line is living in .zshenv
+# [[ -f "$HOME/.asdf/asdf.sh" ]] && . "$HOME/.asdf/asdf.sh"
 [[ -f "$HOME/.asdf/completions/asdf.bash" ]] && . "$HOME/.asdf/completions/asdf.bash"
 [[ -f "$HOME/.asdf/plugins/java/set-java-home.zsh" ]] && . "$HOME/.asdf/plugins/java/set-java-home.zsh"
 
@@ -187,7 +230,7 @@ alias g=git
 complete -o default -o nospace -F _git g
 alias d='git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
 daa() {
-  d add $(d s | grep -v master | awk '{printf "%s ", $2}')
+  d add $(d s | grep -v main | awk '{printf "%s ", $2}')
 }
 
 # GIT heart FZF
@@ -198,48 +241,54 @@ is_in_git_repo() {
 }
 
 fzf-down() {
-  fzf --height 50% "$@" --border
+  fzf --height 50% --min-height 20 --border --bind ctrl-/:toggle-preview "$@"
 }
 
-gf() {
+_gf() {
   is_in_git_repo || return
   git -c color.status=always status --short |
   fzf-down -m --ansi --nth 2..,.. \
-    --preview '(git diff --color=always -- {-1} | sed 1,4d; cat {-1}) | head -500' |
+    --preview '(git diff --color=always -- {-1} | sed 1,4d; cat {-1})' |
   cut -c4- | sed 's/.* -> //'
 }
 
-gb() {
+_gb() {
   is_in_git_repo || return
   git branch -a --color=always | grep -v '/HEAD\s' | sort |
   fzf-down --ansi --multi --tac --preview-window right:70% \
-    --preview 'git log --oneline --graph --date=short --color=always --pretty="format:%C(auto)%cd %h%d %s" $(sed s/^..// <<< {} | cut -d" " -f1) | head -'$LINES |
+    --preview 'git log --oneline --graph --date=short --color=always --pretty="format:%C(auto)%cd %h%d %s" $(sed s/^..// <<< {} | cut -d" " -f1)' |
   sed 's/^..//' | cut -d' ' -f1 |
   sed 's#^remotes/##'
 }
 
-gt() {
+_gt() {
   is_in_git_repo || return
   git tag --sort -version:refname |
   fzf-down --multi --preview-window right:70% \
-    --preview 'git show --color=always {} | head -'$LINES
+    --preview 'git show --color=always {}'
 }
 
-ghh() {
+_gh() {
   is_in_git_repo || return
   git log --date=short --format="%C(green)%C(bold)%cd %C(auto)%h%d %s (%an)" --graph --color=always |
   fzf-down --ansi --no-sort --reverse --multi --bind 'ctrl-s:toggle-sort' \
     --header 'Press CTRL-S to toggle sort' \
-    --preview 'grep -o "[a-f0-9]\{7,\}" <<< {} | xargs git show --color=always | head -'$LINES |
+    --preview 'grep -o "[a-f0-9]\{7,\}" <<< {} | xargs git show --color=always' |
   grep -o "[a-f0-9]\{7,\}"
 }
 
-gr() {
+_gr() {
   is_in_git_repo || return
   git remote -v | awk '{print $1 "\t" $2}' | uniq |
   fzf-down --tac \
-    --preview 'git log --oneline --graph --date=short --pretty="format:%C(auto)%cd %h%d %s" {1} | head -200' |
+    --preview 'git log --oneline --graph --date=short --pretty="format:%C(auto)%cd %h%d %s" {1}' |
   cut -d$'\t' -f1
+}
+
+_gs() {
+  is_in_git_repo || return
+  git stash list | fzf-down --reverse -d: --preview 'git show --color=always {1}' |
+  cut -d: -f1
 }
 
 join-lines() {
@@ -252,12 +301,13 @@ join-lines() {
 bind-git-helper() {
   local c
   for c in $@; do
-    eval "fzf-g$c-widget() { local result=\$(g$c | join-lines); zle reset-prompt; LBUFFER+=\$result }"
+    eval "fzf-g$c-widget() { local result=\$(_g$c | join-lines); zle reset-prompt; LBUFFER+=\$result }"
     eval "zle -N fzf-g$c-widget"
-    eval "bindkey 'g^$c' fzf-g$c-widget"
+    eval "bindkey '^g^$c' fzf-g$c-widget"
   done
 }
-bind-git-helper f b t r hh
+bindkey -r "^G"
+bind-git-helper f b t r h s
 unset -f bind-git-helper
 
 # GnuPG

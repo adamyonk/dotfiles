@@ -1,11 +1,12 @@
 [alias]
   aa = add --intent-to-add .
-  b = branch
+  b = branch --sort=-committerdate --format='%(HEAD)%(color:yellow)%(refname:short) | %(color:bold green)%(committerdate:relative) | %(color:blue)%(subject)%(color:reset)' --color=always
   bs = bisect start --term-new=new --term-old=old
   c = commit
   ca = !git add --intent-to-add . && git commit -a
   co = checkout
-	create = create -p
+  cp = cherry-pick
+  create = create -p
   cs = !"git stash save --keep-index; git commit --verbose; git stash pop"
   d = diff --color-words --ignore-all-space
   dlc = diff --cached HEAD^
@@ -44,13 +45,24 @@
   ui = 1
 
 [commit]
-	#gpgsign = true
+  #gpgsign = true
   template = ~/.gitmessage
 
 [core]
   editor = nvim
   excludesfile = ~/.gitignore
+  ; pager = delta
   quotepath = false
+
+[delta]
+  features = line-numbers decorations
+  syntax-theme = base16
+  whitespace-error-style = 22 reverse
+
+[delta "decorations"]
+  commit-decoration-style = bold yellow box ul
+  file-style = bold yellow ul
+  file-decoration-style = none
 
 [diff]
   algorithm = patience
@@ -81,7 +93,11 @@
   path = ~/.gitconfig.local
 
 [init]
+	defaultBranch = main
   #templatedir = ~/.git_template
+
+[interactive]
+  diffFilter = delta --color-only
 
 [merge]
   #conflictStyle = diff3
@@ -95,26 +111,26 @@
 
 [push]
   default = tracking
-	followTags = true
+  followTags = true
 
 [rebase]
   autoStash = true
   autosquash = true
 
 [rerere]
-	enabled = false
+  enabled = false
 
 [user]
-	email = adamyonk@icloud.com
+  email = adamyonk@icloud.com
   name = Adam Jahnke
 
 [url "https://github"]
-	insteadOf = git://github
+  insteadOf = git://github
 
 [url "https://github.com/"]
-	insteadOf = git@github.com:
+  insteadOf = git@github.com:
 [filter "lfs"]
-	process = git-lfs filter-process
-	required = true
-	clean = git-lfs clean -- %f
-	smudge = git-lfs smudge -- %f
+  process = git-lfs filter-process
+  required = true
+  clean = git-lfs clean -- %f
+  smudge = git-lfs smudge -- %f
