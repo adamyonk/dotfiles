@@ -13,10 +13,12 @@ git clone https://github.com/asdf-vm/asdf.git $HOME/.asdf
 # shellcheck source=/dev/null
 source "$HOME"/.asdf/asdf.sh
 
+asdf plugin-add deno
 asdf plugin-add golang
 asdf plugin-add nodejs
 asdf plugin-add python
 asdf plugin-add ruby
+asdf plugin-add rust
 
 export GNUPGHOME="${ASDF_DIR:-$HOME/.asdf}/keyrings/nodejs" && mkdir -p "$GNUPGHOME" && chmod 0700 "$GNUPGHOME"
 bash $HOME/.asdf/plugins/nodejs/bin/import-release-team-keyring
