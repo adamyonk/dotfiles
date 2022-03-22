@@ -46,7 +46,6 @@ brew 'unixodbc'
 brew 'wget'
 brew 'xz'
 brew 'youtube-dl'
-brew 'zoom'
 brew 'zplug'
 brew 'zsh'
 
@@ -55,42 +54,34 @@ cask 'alfred'
 cask 'anybar'
 cask 'arq'
 cask 'calibre'
-cask 'camo-studio'
 cask 'chromium'
 cask 'discord'
 cask 'docker'
+cask 'firefox'
 cask 'font-fira-code'
 cask 'font-hack-nerd-font'
 cask 'font-jetbrains-mono'
 cask 'gpg-suite'
 cask 'grandperspective'
-cask 'graphiql'
 cask 'hammerspoon'
-cask 'iina'
 cask 'iterm2'
 cask 'kap'
 cask 'karabiner-elements'
 cask 'kindle'
 cask 'kitty'
 cask 'monodraw'
-cask 'rescuetime'
 cask 'sabaki'
 cask 'slack'
 cask 'transmission'
 cask 'vanilla'
 cask 'virtualbox'
 cask 'vlc'
+cask 'zoom'
 
 mas '1Blocker', id: 1107421413
 mas '1Password', id: 1333542190
-mas 'Black Out', id: 1319884285
 mas 'Deliveries', id: 924726344
-mas 'Drafts', id: 1435957248
-mas 'GIPHY CAPTURE', id: 668208984
-mas 'Gifski', id: 1351639930
-mas 'Microsoft Remote Destop', id: 1295203466
 mas 'Pixelmator', id: 407963104
 mas 'Reeder', id: 1529448980
 mas 'Sip', id: 507257563
-mas 'Tweetbot', id: 1384080005
-mas 'iA Writer', id: 775737590
+mas 'Tailscale', id: 1475387142
