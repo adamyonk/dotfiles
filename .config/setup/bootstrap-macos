@@ -1,33 +1,5 @@
 #!/usr/bin/env bash
 
-xcode-select --install
-
-if ! (command -v brew); then
-  echo "Installing homebrew"
-  bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
-fi
-
-# Set up multi-user homebrew
-# sudo chgrp -R admin /usr/local/*
-# sudo chmod -R g+w /usr/local/*
-# ls /opt && sudo chgrp -R admin /opt && sudo chmod -R g+w /opt
-
-echo "Installing brews"
-brew bundle --file="$HOME/.default-brews"
-
-# echo "Installing python"
-source "$HOME"/.asdf/asdf.sh
-env PYTHON_CONFIGURE_OPTS="--enable-framework" CFLAGS="-I$(xcrun --show-sdk-path)/usr/include" asdf install python $(cat ~/.tool-versions | grep python | cut -d ' ' -f 2,3)
-
-# Set new bash shell
-if [[ -x /usr/local/bin/zsh ]]; then
-  echo '/usr/local/bin/zsh' | sudo tee -a /etc/shells
-  chsh -s /usr/local/bin/zsh adam
-fi
-# This may need to be run if there are errors about "zsh compinit: insecure directories"
-# https://stackoverflow.com/questions/13762280/zsh-compinit-insecure-directories
-# compaudit | xargs chmod g-w
-
 echo "Setting defaults"
 # Make Kindle download a format compatible with calibre
 # https://www.mobileread.com/forums/showthread.php?t=283371
@@ -97,3 +69,33 @@ defaults write com.runningwithcrayons.Alfred-Preferences syncfolder -string "~/.
 
 # iTerm2
 defaults write com.googlecode.iterm2 PrefsCustomFolder -string "~/.config"
+
+
+# Developer Tools
+xcode-select --install
+
+if ! (command -v brew); then
+  echo "Installing homebrew"
+  bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
+fi
+
+# Set up multi-user homebrew
+# sudo chgrp -R admin /usr/local/*
+# sudo chmod -R g+w /usr/local/*
+# ls /opt && sudo chgrp -R admin /opt && sudo chmod -R g+w /opt
+
+echo "Installing brews"
+brew bundle --file="$HOME/.default-brews"
+
+# echo "Installing python"
+source "$HOME"/.asdf/asdf.sh
+env PYTHON_CONFIGURE_OPTS="--enable-framework" CFLAGS="-I$(xcrun --show-sdk-path)/usr/include" asdf install python $(cat ~/.tool-versions | grep python | cut -d ' ' -f 2,3)
+
+# Set new bash shell
+if [[ -x /usr/local/bin/zsh ]]; then
+  echo '/usr/local/bin/zsh' | sudo tee -a /etc/shells
+  chsh -s /usr/local/bin/zsh adam
+fi
+# This may need to be run if there are errors about "zsh compinit: insecure directories"
+# https://stackoverflow.com/questions/13762280/zsh-compinit-insecure-directories
+# compaudit | xargs chmod g-w
