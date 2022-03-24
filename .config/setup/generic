@@ -26,4 +26,4 @@ asdf install
 cd - || exit
 
 echo "Installing vim plugins"
-nvim -E +PlugUpgrade +PlugUpdate +PlugClean! +qa
+nvim -E +PackerUpdate +PackerInstall +PackerClean +qa
