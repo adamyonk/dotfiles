@@ -60,12 +60,12 @@ _safe_window() {
 if ! (tmux ls 2>/dev/null | grep --silent "^$SESSION_NAME:"); then
 
   PROJECTS_PATH="$projects"/"$SESSION"
-  GO_PROJECTS_PATH="$(find "$GOPATH/src/github.com" -type d -maxdepth 2 -mindepth 2 -ipath "*$SESSION" | head -n 1)"
+  # GO_PROJECTS_PATH="$(find "$GOPATH/src/github.com" -type d -maxdepth 2 -mindepth 2 -ipath "*$SESSION" | head -n 1)"
 
   if [ -d "$PROJECTS_PATH" ]; then
     SESSION_PATH="$PROJECTS_PATH"
-  elif [ -d "$GO_PROJECTS_PATH" ]; then
-    SESSION_PATH="$GO_PROJECTS_PATH"
+  # elif [ -d "$GO_PROJECTS_PATH" ]; then
+  #   SESSION_PATH="$GO_PROJECTS_PATH"
   else
     SESSION_PATH="$PWD"
   fi

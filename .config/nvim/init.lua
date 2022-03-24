@@ -10,93 +10,94 @@ vim.o.splitright = true
 
 
 -- PLUGINS
--- Using paq.nvim
-local fn = vim.fn
-
-local install_path = fn.stdpath('data') .. '/site/pack/paqs/start/paq-nvim'
-
-if fn.empty(fn.glob(install_path)) > 0 then
-  fn.system({'git', 'clone', '--depth=1', 'https://github.com/savq/paq-nvim.git', install_path})
-end
-
--- UI
-require("paq"):setup({verbose=true}) {
-  'savq/paq-nvim';
-  'arthurxavierx/vim-caser';
-  'chriskempson/base16-vim';
-  'christoomey/vim-tmux-navigator';
-  'easymotion/vim-easymotion';
-  'editorconfig/editorconfig-vim'; -- editorconfig for being polite
-  'nvim-lualine/lualine.nvim';
-  'JoosepAlviste/nvim-ts-context-commentstring'; -- more complex commentstring
-  'junegunn/fzf';
-  'junegunn/fzf.vim';
-  'junegunn/vim-easy-align';
-  'junegunn/vim-peekaboo';
-  'kopischke/vim-fetch';           -- be able to open from stack traces
-  'machakann/vim-sandwich';
-  'SmiteshP/nvim-gps';             -- nvim-gps is a simple status line component that shows context of the current cursor position in file
-  'tpope/vim-abolish';             -- rename... could be LSP'd away someday
-  'tpope/vim-commentary';          -- easy comments
-  'tpope/vim-eunuch';              -- handle missing files and unix-y stuff
-  'tpope/vim-projectionist';       -- create and rename files by convention
-  'tpope/vim-ragtag';              -- handle html tags
-  'tpope/vim-repeat';              -- repeat actions
-  'tpope/vim-speeddating';         -- work with dates
-  'tpope/vim-unimpaired';          -- bindings to toggle common settings
-  'tpope/vim-vinegar';             -- use netrw with style
-  'wellle/targets.vim';            -- expand the target objects
+vim.cmd [[packadd packer.nvim]]
+require('packer').startup(function()
+  use 'wbthomason/packer.nvim'
+  -- UI
+  use 'arthurxavierx/vim-caser';
+  use 'chriskempson/base16-vim';
+  use 'christoomey/vim-tmux-navigator';
+  use 'easymotion/vim-easymotion';
+  use 'editorconfig/editorconfig-vim'; -- editorconfig for being polite
+  use 'itchyny/vim-cursorword';
+  use 'junegunn/fzf';
+  use 'junegunn/fzf.vim';
+  use 'junegunn/vim-easy-align';
+  use 'junegunn/vim-peekaboo';
+  use 'JoosepAlviste/nvim-ts-context-commentstring'; -- more complex commentstring
+  use 'kopischke/vim-fetch';           -- be able to open from stack traces
+  use 'machakann/vim-sandwich';
+  use 'norcalli/nvim-colorizer.lua';
+  use 'nvim-lualine/lualine.nvim';
+  use 'savq/paq-nvim';
+  use {'SmiteshP/nvim-gps', requires = "nvim-treesitter/nvim-treesitter"};             -- nvim-gps is a simple status line component that shows context of the current cursor position in file
+  use 'tpope/vim-abolish';             -- rename... could be LSP'd away someday
+  use 'tpope/vim-commentary';          -- easy comments
+  use 'tpope/vim-eunuch';              -- handle missing files and unix-y stuff
+  use 'tpope/vim-projectionist';       -- create and rename files by convention
+  use 'tpope/vim-ragtag';              -- handle html tags
+  use 'tpope/vim-repeat';              -- repeat actions
+  use 'tpope/vim-speeddating';         -- work with dates
+  use 'tpope/vim-unimpaired';          -- bindings to toggle common settings
+  use 'tpope/vim-vinegar';             -- use netrw with style
+  use 'wellle/targets.vim';            -- expand the target objects
   -- Syntax
   -- 'elixir-lang/vim-elixir'
   -- git/gist/github
-  'lewis6991/gitsigns.nvim';       -- gitsigns
-  'mattn/gist-vim';
-  'mattn/webapi-vim';
-  'rhysd/git-messenger.vim';
-  'sbdchd/neoformat';
-  'tpope/vim-fugitive';
-  'tpope/vim-git';
-  'tpope/vim-rhubarb';
+  use 'lewis6991/gitsigns.nvim';       -- gitsigns
+  use 'mattn/gist-vim';
+  use 'mattn/webapi-vim';
+  use 'rhysd/git-messenger.vim';
+  use 'sbdchd/neoformat';
+  use 'tpope/vim-fugitive';
+  use 'tpope/vim-git';
+  use 'tpope/vim-rhubarb';
   -- LSP
-  'tami5/lspsaga.nvim';
-  'hrsh7th/nvim-compe';
-  'mattn/efm-langserver';
-  'mattn/emmet-vim';
+  use 'tami5/lspsaga.nvim';
+  use 'hrsh7th/nvim-compe';
+  use 'mattn/efm-langserver';
+  use 'mattn/emmet-vim';
   -- 'hrsh7th/vim-vsnip';
-  'neovim/nvim-lspconfig';
-  'nvim-lua/lsp_extensions.nvim';
-  'nvim-lua/plenary.nvim';
-  'nvim-lua/popup.nvim';
-  'nvim-telescope/telescope.nvim';
-  'cwebster2/github-coauthors.nvim';
-  {'nvim-treesitter/nvim-treesitter', hook = ':TSUpdate'};
+  use 'neovim/nvim-lspconfig';
+  use 'nvim-lua/lsp_extensions.nvim';
+  use 'nvim-lua/plenary.nvim';
+  use 'nvim-lua/popup.nvim';
+  use 'nvim-telescope/telescope.nvim';
+  use 'cwebster2/github-coauthors.nvim';
+  use {'nvim-treesitter/nvim-treesitter', run = ':TSUpdate'};
   -- Prose
-  {'junegunn/goyo.vim', opt = true};
-  {'junegunn/limelight.vim', opt = true};
-  {'reedes/vim-pencil', opt = true};
-  {'vimwiki/vimwiki', branch = 'dev'};
-}
-
+  use {'junegunn/goyo.vim', opt = true};
+  use {'junegunn/limelight.vim', opt = true};
+  use {'reedes/vim-pencil', opt = true};
+  use {'vimwiki/vimwiki', branch = 'dev'};
+end)
 
 -- THEME
 vim.cmd [[colorscheme base16-default-dark]]
+if vim.fn.filereadable(vim.fn.expand("~/.vimrc_background")) then
+  vim.api.nvim_exec("source ~/.vimrc_background", false)
+end
+
 
 -- statusline
 -- local function treesitterStatus()
 --   return [[nvim_treesitter#statusline(90)]]
 -- end
--- local gps = require("nvim-gps")
+local gps = require("nvim-gps")
+gps.setup();
+
 require('lualine').setup {
   options = {
     theme = 'auto'
   },
   sections = {
-    -- lualine_a = {"require'nvim-treesitter'#statusline(90)"},
-    -- lualine_b = { gps.get_location, condition = gps.is_available },
     lualine_a = {'mode'},
-    lualine_b = {'branch', 'diff', {'diagnostics', sources={'nvim_lsp', 'coc'}}},
-    lualine_c = {{'filename', file_status = true, path = 1}},
-    lualine_x = {'encoding', 'fileformat', 'filetype'},
+    -- lualine_b = {'branch', 'diff', {'diagnostics', sources={'nvim_lsp', 'coc'}}},
+    -- lualine_a = {"require'nvim-treesitter'#statusline(90)"},
+    lualine_b = {{ gps.get_location, condition = gps.is_available }},
+    lualine_c = {'branch', 'diff', {'filename', file_status = true, path = 1}},
+    -- lualine_x = {'encoding', 'fileformat', 'filetype'},
+    lualine_x = {{'diagnostics', sources={'nvim_lsp'}}},
     lualine_y = {'progress'},
     lualine_z = {'location'}
   },
@@ -157,12 +158,12 @@ local t = function(str)
 end
 
 local check_back_space = function()
-    local col = vim.fn.col('.') - 1
-    if col == 0 or vim.fn.getline('.'):sub(col, col):match('%s') then
-        return true
-    else
-        return false
-    end
+  local col = vim.fn.col('.') - 1
+  if col == 0 or vim.fn.getline('.'):sub(col, col):match('%s') then
+    return true
+  else
+    return false
+  end
 end
 
 -- Use (s-)tab to:
@@ -311,12 +312,12 @@ local on_attach = function(client, bufnr)
   buf_set_keymap('n', 'gD', '<cmd>lua vim.lsp.buf.declaration()<cr>', opts)
   buf_set_keymap('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<cr>', opts)
   buf_set_keymap('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<cr>', opts)
+  buf_set_keymap('n', 'gr', '<cmd>lua vim.lsp.buf.references()<cr>', opts)
+  buf_set_keymap('n', '<space>q', '<cmd>lua vim.lsp.diagnostic.set_loclist()<cr>', opts)
   buf_set_keymap('n', '<space>wa', '<cmd>lua vim.lsp.buf.add_workspace_folder()<cr>', opts)
   buf_set_keymap('n', '<space>wr', '<cmd>lua vim.lsp.buf.remove_workspace_folder()<cr>', opts)
   buf_set_keymap('n', '<space>wl', '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<cr>', opts)
   buf_set_keymap('n', '<space>D', '<cmd>lua vim.lsp.buf.type_definition()<cr>', opts)
-  buf_set_keymap('n', 'gr', '<cmd>lua vim.lsp.buf.references()<cr>', opts)
-  buf_set_keymap('n', '<space>q', '<cmd>lua vim.lsp.diagnostic.set_loclist()<cr>', opts)
 
   -- Set some keybinds conditional on server capabilities
   if client.resolved_capabilities.document_formatting then
@@ -476,13 +477,17 @@ vim.api.nvim_set_keymap('n',
   {noremap = true, silent = true})
 -- rename
 vim.api.nvim_set_keymap('n',
-  '<space>rn',
+  '<space>n',
   "<cmd>lua require('lspsaga.rename').rename()<CR>",
   {noremap = true, silent = true})
 -- preview definition
 vim.api.nvim_set_keymap('n',
   '<space>gd',
   "<cmd>lua require'lspsaga.provider'.preview_definition()<CR>",
+  {noremap = true, silent = true})
+vim.api.nvim_set_keymap('n',
+  '<space>gd',
+  "<cmd>lua require'lspsaga.provider'.preview_declaration()<CR>",
   {noremap = true, silent = true})
 -- diagnostics
 vim.api.nvim_set_keymap('n',
@@ -508,46 +513,6 @@ vim.api.nvim_set_keymap('n',
   {noremap = true, silent = true})
 -- EFM
 
-
-
--- PROSE
-function _G.toggleProse()
-  if (vim.g.proseMode == true) then
-    vim.cmd 'PencilOff'
-    vim.cmd 'Limelight!'
-    vim.cmd 'Goyo!'
-    vim.cmd [[set wrap!]]
-    vim.cmd [[silent !tmux set status on]]
-    gitsigns.attach()
-    vim.o.showmode = true
-    vim.o.showcmd = true
-    vim.g.proseMode = false
-  else
-    vim.cmd 'packadd vim-pencil'
-    vim.cmd 'packadd goyo.vim'
-    vim.cmd 'packadd limelight.vim'
-    vim.cmd [[silent !tmux set status off]]
-    gitsigns.detach()
-    vim.o.showmode = false
-    vim.o.showcmd = false
-    vim.wo.foldlevel = 4
-    vim.cmd 'PencilSoft'
-    vim.cmd 'Limelight'
-    vim.cmd 'Goyo'
-    vim.g.proseMode = true
-  end
-end
-
-vim.g.goyo_width = 60
-
-vim.g['pencil#conceallevel'] = 0
-vim.g['pencil#wrapModeDefault'] = 'soft'
-vim.api.nvim_set_keymap(
-  'n',
-  '<localleader>m',
-  ':lua _G.toggleProse()<cr>',
-  {noremap = true, silent = true}
-)
 
 vim.g.vimwiki_global_ext = 0
 vim.g.vimwiki_list = {

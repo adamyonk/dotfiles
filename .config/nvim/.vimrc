@@ -21,7 +21,8 @@ set ruler
 set number
 set nowrap
 set fillchars=vert:\│
-set colorcolumn=80
+set colorcolumn=120
+set textwidth=120
 set hidden
 set listchars=tab:»·,trail:·
 set list

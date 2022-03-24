@@ -1,75 +1,8 @@
 #!/usr/bin/env bash
 
-echo "Setting defaults"
-# Make Kindle download a format compatible with calibre
-# https://www.mobileread.com/forums/showthread.php?t=283371
-chmod -x /Applications/Kindle.app/Contents/MacOS/renderer-test
+SCRIPT_DIR=$(dirname $BASH_SOURCE)
 
-# Disable Spotlight shortcut
-# /usr/libexec/PlistBuddy ~/Library/Preferences/com.apple.symbolichotkeys.plist -c "Set AppleSymbolicHotKeys:64:enabled false"
-
-# Key repeat rate
-defaults write NSGlobalDomain KeyRepeat -int 1
-defaults write NSGlobalDomain InitialKeyRepeat -int 10
-# Enable full keyboard access for all controls
-# (e.g. enable Tab in modal dialogs)
-defaults write NSGlobalDomain AppleKeyboardUIMode -int 3
-
-# TODO: three-finger swipe
-
-# Enable touchpad tap-to-click
-defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad Clicking -bool true
-defaults -currentHost write NSGlobalDomain com.apple.mouse.tapBehavior -int 1
-defaults write NSGlobalDomain com.apple.mouse.tapBehavior -int 1
-# Enable two-finger right-click
-defaults write com.apple.AppleMultitouchTrackpad TrackpadRightClick -bool true
-defaults -currentHost write NSGlobalDomain com.apple.trackpad.enableSecondaryClick -bool true
-defaults -currentHost write -g com.apple.trackpad.enableSecondaryClick -bool YES
-# Enable three-finger swipe
-defaults write com.apple.AppleMultitouchTrackpad TrackpadThreeFingerHorizSwipeGesture -bool true
-defaults -currentHost write NSGlobalDomain com.apple.trackpad.threeFingerHorizSwipeGesture -bool true
-defaults -currentHost write -g com.apple.trackpad.threeFingerHorizSwipeGesture -bool YES
-
-# Remove the auto-hiding Dock delay
-defaults write com.apple.dock autohide-delay -float 0
-# Remove the animation when hiding/showing the Dock
-defaults write com.apple.dock autohide-time-modifier -float 0
-# Automatically hide and show the Dock
-defaults write com.apple.dock autohide -bool true
-# Wipe all (default) app icons from the Dock
-# This is only really useful when setting up a new Mac, or if you don’t use
-# the Dock to launch apps.
-#defaults write com.apple.dock persistent-apps -array
-
-# Finder: show status bar
-defaults write com.apple.finder ShowStatusBar -bool true
-# Finder: show path bar
-defaults write com.apple.finder ShowPathbar -bool true
-
-# Enable Safari’s debug menu
-defaults write com.apple.Safari IncludeInternalDebugMenu -bool true
-# Show the full URL in the address bar (note: this still hides the scheme)
-defaults write com.apple.Safari ShowFullURLInSmartSearchField -bool true
-# Enable the Develop menu and the Web Inspector in Safari
-defaults write com.apple.Safari IncludeDevelopMenu -bool true
-defaults write com.apple.Safari WebKitDeveloperExtrasEnabledPreferenceKey -bool true
-defaults write com.apple.Safari com.apple.Safari.ContentPageGroupIdentifier.WebKit2DeveloperExtrasEnabled -bool true
-# Add a context menu item for showing the Web Inspector in web views
-defaults write NSGlobalDomain WebKitDeveloperExtras -bool true
-# Set default search to Duck Duck Go
-defaults write com.apple.Safari SearchProviderIdentifier -string "com.duckduckgo"
-
-
-# Zoom
-defaults write ZoomChat ZoomShowIconInMenuBar -bool false
-defaults write com.zoom.xos s_skinToneNum -int 1
-
-# Alfred
-defaults write com.runningwithcrayons.Alfred-Preferences syncfolder -string "~/.config/alfred"
-
-# iTerm2
-defaults write com.googlecode.iterm2 PrefsCustomFolder -string "~/.config"
-
+$SCRIPT_DIR/bootstrap-macos-defaults
 
 # Developer Tools
 xcode-select --install
@@ -99,3 +32,5 @@ fi
 # This may need to be run if there are errors about "zsh compinit: insecure directories"
 # https://stackoverflow.com/questions/13762280/zsh-compinit-insecure-directories
 # compaudit | xargs chmod g-w
+
+$SCRIPT_DIR/bootstrap-macos-dock

@@ -5,6 +5,7 @@ tap 'neovim/neovim'
 tap 'netlify/netlifyctl'
 
 brew 'automake'
+brew 'awscli'
 brew 'bash'
 brew 'bash-completion@2'
 brew 'bat'
@@ -13,6 +14,7 @@ brew 'cmake'
 brew 'coreutils'
 brew 'ctop'
 brew 'curl'
+brew 'efm-langserver'
 brew 'entr'
 brew 'fd'
 brew 'fzf'
@@ -52,6 +54,7 @@ brew 'zsh'
 cask '1password-cli'
 cask 'alfred'
 cask 'anybar'
+cask 'around'
 cask 'arq'
 cask 'calibre'
 cask 'chromium'
@@ -78,9 +81,9 @@ cask 'virtualbox'
 cask 'vlc'
 cask 'zoom'
 
-mas '1Blocker', id: 1107421413
-mas '1Password', id: 1333542190
+mas '1Blocker', id: 1365531024
 mas 'Deliveries', id: 924726344
+mas 'Fantastical', id: 975937182
 mas 'Pixelmator', id: 407963104
 mas 'Reeder', id: 1529448980
 mas 'Sip', id: 507257563

@@ -1,2 +1,5 @@
 eslint
 prettier
+@fsouza/prettierd
+typescript-language-server
+vercel
