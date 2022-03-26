@@ -82,6 +82,7 @@ cask 'vlc'
 cask 'zoom'
 
 mas '1Blocker', id: 1365531024
+mas 'Cardhop', id: 1290358394
 mas 'Deliveries', id: 924726344
 mas 'Fantastical', id: 975937182
 mas 'Pixelmator', id: 407963104
