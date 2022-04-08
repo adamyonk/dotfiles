@@ -3,7 +3,8 @@
 _mx () {
   local word=${COMP_WORDS[COMP_CWORD]}
 
-  COMPREPLY=( $(compgen -W "$(find -E "$GOPATH/src/github.com" -type d -maxdepth 2 -mindepth 2 -iregex ".*($(printf "%s|" "${GOPATH_PROJECT_FILTER[@]}" | perl -pe 's/\|$//')).*" | perl -pe "s|$GOPATH/src/github.com/.*/||g")" -- "$word") )
+  COMPREPLY=()
+  # COMPREPLY+=( $(compgen -W "$(find -E "$GOPATH/src/github.com" -type d -maxdepth 2 -mindepth 2 -iregex ".*($(printf "%s|" "${GOPATH_PROJECT_FILTER[@]}" | perl -pe 's/\|$//')).*" | perl -pe "s|$GOPATH/src/github.com/.*/||g")" -- "$word") )
   COMPREPLY+=( $(compgen -W "$(find "$projects" -not -ipath "*$GOPATH*" -type d -mindepth 1 -maxdepth 1 -exec sh -c 'echo $(basename $1)' _ {} \;)" -- "$word") )
 }
 

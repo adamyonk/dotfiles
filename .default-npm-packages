@@ -1,5 +1,7 @@
-eslint
-prettier
 @fsouza/prettierd
+eslint
+eslint_d
+prettier
 typescript-language-server
 vercel
+yarn

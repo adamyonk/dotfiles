@@ -1,3 +1,4 @@
+-- https://vonheikemen.github.io/devlog/tools/configuring-neovim-using-lua/
 -- Load .vimrc
 vim.cmd([[runtime .vimrc]])
 
@@ -32,10 +33,7 @@ require("packer").startup(
         -- use 'mattn/emmet-vim'
         use "norcalli/nvim-colorizer.lua" -- color hex/rgb strings
         use "nvim-lualine/lualine.nvim"
-        use {
-            "SmiteshP/nvim-gps", -- nvim-gps is a simple status line component that shows context of the current cursor position in file
-            requires = "nvim-treesitter/nvim-treesitter"
-        }
+        use {"SmiteshP/nvim-gps", requires = "nvim-treesitter/nvim-treesitter"} -- nvim-gps is a simple status line component that shows context of the current cursor position in file
         use "tpope/vim-abolish" -- rename... could be LSP'd away someday
         use "tpope/vim-commentary" -- easy comments
         use "tpope/vim-eunuch" -- handle missing files and unix-y stuff
@@ -48,6 +46,14 @@ require("packer").startup(
         use "wellle/targets.vim" -- expand the target objects
         -- Syntax
         -- git/gist/github
+        use {
+            "pwntester/octo.nvim",
+            requires = {
+                "nvim-lua/plenary.nvim",
+                "nvim-telescope/telescope.nvim",
+                "kyazdani42/nvim-web-devicons"
+            }
+        }
         use "lewis6991/gitsigns.nvim" -- gitsigns
         use "mattn/gist-vim"
         use "mattn/webapi-vim"
@@ -72,18 +78,15 @@ require("packer").startup(
         use "nvim-lua/popup.nvim"
         use "nvim-telescope/telescope.nvim"
         use "cwebster2/github-coauthors.nvim"
-        use {
-            "nvim-treesitter/nvim-treesitter",
-            run = ":TSUpdate"
-        }
+        use {"nvim-treesitter/nvim-treesitter", run = ":TSUpdate"}
         use "nvim-treesitter/nvim-treesitter-textobjects"
         -- Prose
-        use {
-            "vimwiki/vimwiki",
-            branch = "dev"
-        }
+        use {'iamcco/markdown-preview.nvim', run = 'cd app && yarn install'}
+        use {"vimwiki/vimwiki", branch = "dev"}
     end
 )
+
+require "octo".setup()
 
 -- THEME
 vim.cmd [[colorscheme base16-default-dark]]
@@ -151,31 +154,11 @@ function _G.searchWiki()
     }
 end
 
-vim.api.nvim_set_keymap(
-    "n",
-    "<localleader>tf",
-    ":lua require('telescope.builtin').find_files()<cr>",
-    {noremap = true, silent = true}
-)
-vim.api.nvim_set_keymap(
-    "n",
-    "<localleader>tb",
-    ":lua require('telescope.builtin').buffers()<cr>",
-    {noremap = true, silent = true}
-)
-vim.api.nvim_set_keymap(
-    "n",
-    "<localleader>tg",
-    ":lua require('telescope.builtin').live_grep()<cr>",
-    {noremap = true, silent = true}
-)
+vim.api.nvim_set_keymap("n", "<localleader>tf", ":lua require('telescope.builtin').find_files()<cr>", {noremap = true, silent = true})
+vim.api.nvim_set_keymap("n", "<localleader>tb", ":lua require('telescope.builtin').buffers()<cr>", {noremap = true, silent = true})
+vim.api.nvim_set_keymap("n", "<localleader>tg", ":lua require('telescope.builtin').live_grep()<cr>", {noremap = true, silent = true})
 vim.api.nvim_set_keymap("n", "<localleader>tw", ":lua _G.searchWiki()<cr>", {noremap = true, silent = true})
-vim.api.nvim_set_keymap(
-    "n",
-    "<localleader>ta",
-    ":lua require('telescope').extensions.githubcoauthors.coauthors()<cr>",
-    {noremap = true, silent = true}
-)
+vim.api.nvim_set_keymap("n", "<localleader>ta", ":lua require('telescope').extensions.githubcoauthors.coauthors()<cr>", {noremap = true, silent = true})
 
 -- compe
 local has_words_before = function()
@@ -229,7 +212,7 @@ cmp.setup(
         sources = cmp.config.sources(
             {
                 {name = "nvim_lsp"},
-                {name = "vsnip"} -- For vsnip users.
+                -- {name = "vsnip"} -- For vsnip users.
             },
             {
                 {name = "buffer"}
@@ -239,44 +222,13 @@ cmp.setup(
 )
 
 -- Set configuration for specific filetype.
-cmp.setup.filetype(
-    "gitcommit",
-    {
-        sources = cmp.config.sources(
-            {
-                {name = "cmp_git"} -- You can specify the `cmp_git` source if you were installed it.
-            },
-            {
-                {name = "buffer"}
-            }
-        )
-    }
-)
+cmp.setup.filetype( "gitcommit", { sources = cmp.config.sources( { {name = "cmp_git"} }, { {name = "buffer"} }) })
 
 -- Use buffer source for `/` (if you enabled `native_menu`, this won't work anymore).
-cmp.setup.cmdline(
-    "/",
-    {
-        sources = {
-            {name = "buffer"}
-        }
-    }
-)
+cmp.setup.cmdline( "/", { sources = { {name = "buffer"} } })
 
 -- Use cmdline & path source for ':' (if you enabled `native_menu`, this won't work anymore).
-cmp.setup.cmdline(
-    ":",
-    {
-        sources = cmp.config.sources(
-            {
-                {name = "path"}
-            },
-            {
-                {name = "cmdline"}
-            }
-        )
-    }
-)
+cmp.setup.cmdline( ":", { sources = cmp.config.sources( { {name = "path"} }, { {name = "cmdline"} }) })
 
 -- Setup lspconfig.
 local capabilities = require("cmp_nvim_lsp").update_capabilities(vim.lsp.protocol.make_client_capabilities())
@@ -596,101 +548,61 @@ require "nvim-treesitter.configs".setup {
         }
     }
 }
+local parser_config = require("nvim-treesitter.parsers").get_parser_configs()
+parser_config.markdown.filetype_to_parsername = "octo"
+require "octo".setup(
+    {
+        mappings = {
+            submit_win = {
+                approve_review = "<C-p>", -- approve review
+                comment_review = "<C-m>", -- comment review
+                request_changes = "<C-r>", -- request changes review
+                close_review_tab = "<C-c>" -- close review tab
+            }
+        }
+    }
+)
 
 -- floating windows
 local saga = require("lspsaga")
 saga.init_lsp_saga()
 -- code finder
-vim.api.nvim_set_keymap(
-    "n",
-    "gh",
-    "<cmd>lua require'lspsaga.provider'.lsp_finder()<CR>",
-    {noremap = true, silent = true}
-)
+vim.api.nvim_set_keymap( "n", "gh", "<cmd>lua require'lspsaga.provider'.lsp_finder()<CR>", {noremap = true, silent = true})
 -- docs
-vim.api.nvim_set_keymap(
-    "n",
-    "K",
-    "<cmd>lua require('lspsaga.hover').render_hover_doc()<CR>",
-    {noremap = true, silent = true}
-)
-vim.api.nvim_set_keymap(
-    "n",
-    "<C-f>",
-    "<cmd>lua require('lspsaga.hover').smart_scroll_hover(1)<CR>",
-    {noremap = true, silent = true}
-)
-vim.api.nvim_set_keymap(
-    "n",
-    "<C-b>",
-    "<cmd>lua require('lspsaga.hover').smart_scroll_hover(-1)<CR>",
-    {noremap = true, silent = true}
-)
+vim.api.nvim_set_keymap( "n", "K", "<cmd>lua require('lspsaga.hover').render_hover_doc()<CR>", {noremap = true, silent = true})
+vim.api.nvim_set_keymap( "n", "<C-f>", "<cmd>lua require('lspsaga.hover').smart_scroll_hover(1)<CR>", {noremap = true, silent = true})
+vim.api.nvim_set_keymap( "n", "<C-b>", "<cmd>lua require('lspsaga.hover').smart_scroll_hover(-1)<CR>", {noremap = true, silent = true})
 -- code actions
-vim.api.nvim_set_keymap(
-    "n",
-    "<space>ca",
-    "<cmd>lua require('lspsaga.codeaction').code_action()<CR>",
-    {noremap = true, silent = true}
-)
-vim.api.nvim_set_keymap(
-    "v",
-    "<space>ca",
-    "<cmd>'<,'>lua require('lspsaga.codeaction').range_code_action()<CR>",
-    {noremap = true, silent = true}
-)
+vim.api.nvim_set_keymap( "n", "<space>ca", "<cmd>lua require('lspsaga.codeaction').code_action()<CR>", {noremap = true, silent = true})
+vim.api.nvim_set_keymap( "v", "<space>ca", "<cmd>'<,'>lua require('lspsaga.codeaction').range_code_action()<CR>", {noremap = true, silent = true})
 -- signature help
-vim.api.nvim_set_keymap(
-    "n",
-    "<space>k",
-    "<cmd>lua require('lspsaga.signaturehelp').signature_help()<CR>",
-    {noremap = true, silent = true}
-)
+vim.api.nvim_set_keymap( "n", "<space>k", "<cmd>lua require('lspsaga.signaturehelp').signature_help()<CR>", {noremap = true, silent = true})
 -- rename
-vim.api.nvim_set_keymap(
-    "n",
-    "<space>n",
-    "<cmd>lua require('lspsaga.rename').rename()<CR>",
-    {noremap = true, silent = true}
-)
+vim.api.nvim_set_keymap( "n", "<space>n", "<cmd>lua require('lspsaga.rename').rename()<CR>", {noremap = true, silent = true})
 -- preview definition
-vim.api.nvim_set_keymap(
-    "n",
-    "<space>gd",
-    "<cmd>lua require'lspsaga.provider'.preview_definition()<CR>",
-    {noremap = true, silent = true}
-)
-vim.api.nvim_set_keymap(
-    "n",
-    "<space>gd",
-    "<cmd>lua require'lspsaga.provider'.preview_declaration()<CR>",
-    {noremap = true, silent = true}
-)
+vim.api.nvim_set_keymap( "n", "<space>gd", "<cmd>lua require'lspsaga.provider'.preview_definition()<CR>", {noremap = true, silent = true})
+vim.api.nvim_set_keymap( "n", "<space>gd", "<cmd>lua require'lspsaga.provider'.preview_declaration()<CR>", {noremap = true, silent = true})
 -- diagnostics
-vim.api.nvim_set_keymap(
-    "n",
-    "<space>d",
-    "<cmd>lua require'lspsaga.diagnostic'.show_line_diagnostics()<CR>",
-    {noremap = true, silent = true}
-)
-vim.api.nvim_set_keymap(
-    "n",
-    "[d",
-    '<cmd>lua require\'lspsaga.diagnostic\'.navigate("prev")()<CR>',
-    {noremap = true, silent = true}
-)
-vim.api.nvim_set_keymap(
-    "n",
-    "]d",
-    '<cmd>lua require\'lspsaga.diagnostic\'.navigate("next")()<CR>',
-    {noremap = true, silent = true}
-)
+vim.api.nvim_set_keymap( "n", "<space>d", "<cmd>lua require'lspsaga.diagnostic'.show_line_diagnostics()<CR>", {noremap = true, silent = true})
+vim.api.nvim_set_keymap( "n", "[d", '<cmd>lua require\'lspsaga.diagnostic\'.navigate("prev")()<CR>', {noremap = true, silent = true})
+vim.api.nvim_set_keymap( "n", "]d", '<cmd>lua require\'lspsaga.diagnostic\'.navigate("next")()<CR>', {noremap = true, silent = true})
 -- git
 vim.api.nvim_set_keymap("n", "]g", "<cmd>Gitsigns next_hunk<CR>", {noremap = true, silent = true})
-vim.api.nvim_set_keymap("n", "]g", "<cmd>Gitsigns prev_hunk<CR>", {noremap = true, silent = true})
+vim.api.nvim_set_keymap("n", "[g", "<cmd>Gitsigns prev_hunk<CR>", {noremap = true, silent = true})
 -- EFM
 
-vim.g.vimwiki_key_mappings = { all_maps= 1, global= 1, headers= 1, text_objs= 1, table_format= 1, table_mappings= 1, lists= 1, links= 0, html= 1, mouse= 0, }
+vim.g.vimwiki_key_mappings = {
+    all_maps = 1,
+    global = 1,
+    headers = 1,
+    text_objs = 1,
+    table_format = 1,
+    table_mappings = 1,
+    lists = 1,
+    links = 0,
+    html = 1,
+    mouse = 0
+}
 vim.g.vimwiki_global_ext = 0
 vim.g.vimwiki_list = {
     {
@@ -708,3 +620,4 @@ vim.g.vimwiki_list = {
 }
 
 vim.api.nvim_set_keymap("n", "#-", "<Plug>VimwikiRemoveHeaderLevel", {noremap = true, silent = true})
+vim.cmd([[autocmd FileType vimwiki nnoremap <buffer> <leader>F :Neoformat! markdown prettierd<cr>]])
