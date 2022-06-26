@@ -244,6 +244,7 @@ fzf-down() {
   fzf --height 50% --min-height 20 --border --bind ctrl-/:toggle-preview "$@"
 }
 
+# File
 _gf() {
   is_in_git_repo || return
   git -c color.status=always status --short |
@@ -252,6 +253,7 @@ _gf() {
   cut -c4- | sed 's/.* -> //'
 }
 
+# Branch
 _gb() {
   is_in_git_repo || return
   git branch -a --color=always | grep -v '/HEAD\s' | sort |
@@ -261,6 +263,7 @@ _gb() {
   sed 's#^remotes/##'
 }
 
+# Tag
 _gt() {
   is_in_git_repo || return
   git tag --sort -version:refname |
@@ -268,7 +271,8 @@ _gt() {
     --preview 'git show --color=always {}'
 }
 
-_gh() {
+# Commit
+_go() {
   is_in_git_repo || return
   git log --date=short --format="%C(green)%C(bold)%cd %C(auto)%h%d %s (%an)" --graph --color=always |
   fzf-down --ansi --no-sort --reverse --multi --bind 'ctrl-s:toggle-sort' \
@@ -277,6 +281,7 @@ _gh() {
   grep -o "[a-f0-9]\{7,\}"
 }
 
+# Remote
 _gr() {
   is_in_git_repo || return
   git remote -v | awk '{print $1 "\t" $2}' | uniq |
@@ -285,6 +290,7 @@ _gr() {
   cut -d$'\t' -f1
 }
 
+# Stash
 _gs() {
   is_in_git_repo || return
   git stash list | fzf-down --reverse -d: --preview 'git show --color=always {1}' |
@@ -307,7 +313,7 @@ bind-git-helper() {
   done
 }
 bindkey -r "^G"
-bind-git-helper f b t r h s
+bind-git-helper f b t r o s
 unset -f bind-git-helper
 
 # GnuPG
@@ -407,3 +413,13 @@ fi
 
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
 
+
+# Created by `pipx` on 2022-04-12 03:45:44
+export PATH="$PATH:/Users/adam/.local/bin"
+
+# bun completions
+[ -s "/Users/adam/.bun/_bun" ] && source "/Users/adam/.bun/_bun"
+
+# Bun
+export BUN_INSTALL="/Users/adam/.bun"
+export PATH="$BUN_INSTALL/bin:$PATH"

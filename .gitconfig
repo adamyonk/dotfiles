@@ -67,6 +67,7 @@
 [diff]
   algorithm = patience
   colorMoved = zebra
+  ; external = difft
 
 [fetch]
   prune = true
@@ -93,11 +94,11 @@
   path = ~/.gitconfig.local
 
 [init]
-	defaultBranch = main
+  defaultBranch = main
   #templatedir = ~/.git_template
 
 [interactive]
-  diffFilter = delta --color-only
+    diffFilter = delta --color-only --features=interactive
 
 [merge]
   #conflictStyle = diff3
@@ -129,8 +130,3 @@
 
 [url "https://github.com/"]
   insteadOf = git@github.com:
-[filter "lfs"]
-  process = git-lfs filter-process
-  required = true
-  clean = git-lfs clean -- %f
-  smudge = git-lfs smudge -- %f

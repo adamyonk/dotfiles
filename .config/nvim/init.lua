@@ -46,6 +46,7 @@ require("packer").startup(
         use "wellle/targets.vim" -- expand the target objects
         -- Syntax
         -- git/gist/github
+        use "github/copilot.vim" -- copilot
         use {
             "pwntester/octo.nvim",
             requires = {
@@ -72,6 +73,8 @@ require("packer").startup(
         use "hrsh7th/cmp-path"
         use "hrsh7th/cmp-cmdline"
         use "hrsh7th/nvim-cmp"
+        use "hrsh7th/cmp-vsnip"
+        use "hrsh7th/vim-vsnip"
 
         use "nvim-lua/lsp_extensions.nvim"
         use "nvim-lua/plenary.nvim"
@@ -133,10 +136,10 @@ gitsigns = require("gitsigns")
 gitsigns.setup()
 
 -- fzf
-vim.api.nvim_set_keymap("n", "<localleader>fb", ":Buffers<cr>", {noremap = true, silent = true})
-vim.api.nvim_set_keymap("n", "<localleader>ff", ":Files<cr>", {noremap = true, silent = true})
-vim.api.nvim_set_keymap("n", "<localleader>fl", ":Lines<cr>", {noremap = true, silent = true})
-vim.api.nvim_set_keymap("n", "<localleader>fg", ":Rg<cr>", {noremap = true, silent = true})
+vim.api.nvim_set_keymap("n", "<localleader>tb", ":Buffers<cr>", {noremap = true, silent = true})
+vim.api.nvim_set_keymap("n", "<localleader>tf", ":Files<cr>", {noremap = true, silent = true})
+vim.api.nvim_set_keymap("n", "<localleader>tl", ":Lines<cr>", {noremap = true, silent = true})
+vim.api.nvim_set_keymap("n", "<localleader>tg", ":Rg<cr>", {noremap = true, silent = true})
 vim.api.nvim_set_keymap(
     "n",
     "<localleader>fw",
@@ -154,11 +157,11 @@ function _G.searchWiki()
     }
 end
 
-vim.api.nvim_set_keymap("n", "<localleader>tf", ":lua require('telescope.builtin').find_files()<cr>", {noremap = true, silent = true})
-vim.api.nvim_set_keymap("n", "<localleader>tb", ":lua require('telescope.builtin').buffers()<cr>", {noremap = true, silent = true})
-vim.api.nvim_set_keymap("n", "<localleader>tg", ":lua require('telescope.builtin').live_grep()<cr>", {noremap = true, silent = true})
-vim.api.nvim_set_keymap("n", "<localleader>tw", ":lua _G.searchWiki()<cr>", {noremap = true, silent = true})
-vim.api.nvim_set_keymap("n", "<localleader>ta", ":lua require('telescope').extensions.githubcoauthors.coauthors()<cr>", {noremap = true, silent = true})
+vim.api.nvim_set_keymap("n", "<localleader>ff", ":lua require('telescope.builtin').find_files()<cr>", {noremap = true, silent = true})
+vim.api.nvim_set_keymap("n", "<localleader>fb", ":lua require('telescope.builtin').buffers()<cr>", {noremap = true, silent = true})
+vim.api.nvim_set_keymap("n", "<localleader>fg", ":lua require('telescope.builtin').live_grep()<cr>", {noremap = true, silent = true})
+vim.api.nvim_set_keymap("n", "<localleader>fw", ":lua _G.searchWiki()<cr>", {noremap = true, silent = true})
+vim.api.nvim_set_keymap("n", "<localleader>fa", ":lua require('telescope').extensions.githubcoauthors.coauthors()<cr>", {noremap = true, silent = true})
 
 -- compe
 local has_words_before = function()
@@ -170,6 +173,11 @@ local cmp = require "cmp"
 
 cmp.setup(
     {
+        snippet = {
+            expand = function(args)
+                vim.fn["vsnip#anonymous"](args.body)
+            end
+        },
         mapping = {
             ["<C-Space>"] = cmp.mapping(cmp.mapping.complete(), {"i", "c"}),
             ["<CR>"] = cmp.mapping.confirm({select = true}), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
@@ -212,7 +220,7 @@ cmp.setup(
         sources = cmp.config.sources(
             {
                 {name = "nvim_lsp"},
-                -- {name = "vsnip"} -- For vsnip users.
+                {name = "vsnip"}
             },
             {
                 {name = "buffer"}
@@ -459,10 +467,13 @@ local function root_pattern(...)
     end
 end
 
-lspconfig.tsserver.setup {
+local servers = { 'pyright', 'tsserver' }
+for _, lsp in ipairs(servers) do
+  lspconfig[lsp].setup {
+    on_attach = on_attach,
     capabilities = capabilities,
-    on_attach = on_attach
-}
+  }
+end
 
 local eslint = {
     lintCommand = "eslint_d -f unix --stdin --stdin-filename ${INPUT}",
