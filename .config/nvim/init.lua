@@ -9,6 +9,8 @@ vim.o.splitbelow = true
 vim.o.splitright = true
 vim.o.completeopt = "menu,menuone,noselect"
 
+local keymap = vim.keymap.set
+
 -- TSInstall bash comment css dockerfile go graphql html javascript jsdoc json lua make markdown prisma php python ruby rust scss svelte toml tsx typescript vim vue yaml
 -- PLUGINS
 vim.cmd [[packadd packer.nvim]]
@@ -46,7 +48,7 @@ require("packer").startup(
         use "wellle/targets.vim" -- expand the target objects
         -- Syntax
         -- git/gist/github
-        use "github/copilot.vim" -- copilot
+        -- use "github/copilot.vim" -- copilot
         use {
             "pwntester/octo.nvim",
             requires = {
@@ -66,7 +68,8 @@ require("packer").startup(
         -- LSP
         use "neovim/nvim-lspconfig"
         use "mattn/efm-langserver"
-        use "tami5/lspsaga.nvim"
+        use "glepnir/lspsaga.nvim"
+        -- use "tami5/lspsaga.nvim"
 
         use "hrsh7th/cmp-nvim-lsp"
         use "hrsh7th/cmp-buffer"
@@ -84,7 +87,10 @@ require("packer").startup(
         use {"nvim-treesitter/nvim-treesitter", run = ":TSUpdate"}
         use "nvim-treesitter/nvim-treesitter-textobjects"
         -- Prose
-        use {'iamcco/markdown-preview.nvim', run = 'cd app && yarn install'}
+        use({
+            "iamcco/markdown-preview.nvim",
+            run = function() vim.fn["mkdp#util#install"]() end,
+        })
         use {"vimwiki/vimwiki", branch = "dev"}
     end
 )
@@ -179,6 +185,8 @@ cmp.setup(
             end
         },
         mapping = {
+            ["<C-b>"] = cmp.mapping.scroll_docs(-4),
+            ["<C-f>"] = cmp.mapping.scroll_docs(4),
             ["<C-Space>"] = cmp.mapping(cmp.mapping.complete(), {"i", "c"}),
             ["<CR>"] = cmp.mapping.confirm({select = true}), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
             ["<Tab>"] = cmp.mapping(
@@ -239,7 +247,7 @@ cmp.setup.cmdline( "/", { sources = { {name = "buffer"} } })
 cmp.setup.cmdline( ":", { sources = cmp.config.sources( { {name = "path"} }, { {name = "cmdline"} }) })
 
 -- Setup lspconfig.
-local capabilities = require("cmp_nvim_lsp").update_capabilities(vim.lsp.protocol.make_client_capabilities())
+local capabilities = require("cmp_nvim_lsp").default_capabilities(vim.lsp.protocol.make_client_capabilities())
 -- Replace <YOUR_LSP_SERVER> with each lsp server you've enabled.
 -- require("lspconfig")["<YOUR_LSP_SERVER>"].setup {
 --     capabilities = capabilities
@@ -333,6 +341,12 @@ end
 local sandwich_recipes = vim.api.nvim_eval("sandwich#default_recipes")
 local custom_recipes = {
     {
+        buns = {"${", "}"},
+        filetype = {"javascript", "javascriptreact", "typescript", "typescriptreact"},
+        input = {"$"},
+        nesting = 1
+    },
+    {
         buns = {"%{", "}"},
         filetype = {"elixir"},
         input = {"m"},
@@ -419,14 +433,14 @@ local on_attach = function(client, bufnr)
     buf_set_keymap("n", "<space>D", "<cmd>lua vim.lsp.buf.type_definition()<cr>", opts)
 
     -- Set some keybinds conditional on server capabilities
-    if client.resolved_capabilities.document_formatting then
+    if client.server_capabilities.document_formatting then
         buf_set_keymap("n", "<space>f", "<cmd>lua vim.lsp.buf.formatting()<cr>", opts)
-    elseif client.resolved_capabilities.document_range_formatting then
+    elseif client.server_capabilities.document_range_formatting then
         buf_set_keymap("n", "<space>f", "<cmd>lua vim.lsp.buf.formatting()<cr>", opts)
     end
 
     -- Set autocommands conditional on server_capabilities
-    if client.resolved_capabilities.document_highlight then
+    if client.server_capabilities.document_highlight then
         vim.api.nvim_exec(
             [[
     hi LspReferenceRead cterm=bold ctermbg=red guibg=LightYellow
@@ -444,7 +458,7 @@ local on_attach = function(client, bufnr)
     if client.config.flags then
         client.config.flags.allow_incremental_sync = true
     end
-    client.resolved_capabilities.document_formatting = false
+    client.server_capabilities.document_formatting = false
     -- require'completion'.on_attach()
 end
 
@@ -501,8 +515,8 @@ end
 lspconfig.efm.setup {
     capabilities = capabilities,
     on_attach = function(client, bufnr)
-        client.resolved_capabilities.document_formatting = true
-        client.resolved_capabilities.goto_definition = false
+        client.server_capabilities.document_formatting = true
+        client.server_capabilities.goto_definition = false
         on_attach(client, bufnr)
     end,
     root_dir = function()
@@ -578,28 +592,35 @@ require "octo".setup(
 local saga = require("lspsaga")
 saga.init_lsp_saga()
 -- code finder
-vim.api.nvim_set_keymap( "n", "gh", "<cmd>lua require'lspsaga.provider'.lsp_finder()<CR>", {noremap = true, silent = true})
+keymap("n", "gh", "<cmd>lua require'lspsaga.provider'.lsp_finder()<CR>", { silent = true })
 -- docs
-vim.api.nvim_set_keymap( "n", "K", "<cmd>lua require('lspsaga.hover').render_hover_doc()<CR>", {noremap = true, silent = true})
-vim.api.nvim_set_keymap( "n", "<C-f>", "<cmd>lua require('lspsaga.hover').smart_scroll_hover(1)<CR>", {noremap = true, silent = true})
-vim.api.nvim_set_keymap( "n", "<C-b>", "<cmd>lua require('lspsaga.hover').smart_scroll_hover(-1)<CR>", {noremap = true, silent = true})
+keymap("n", "K", "<cmd>Lspsaga hover_doc<CR>", { silent = true })
+keymap("n", "<C-f>", "<cmd>lua require('lspsaga.hover').smart_scroll_with_saga(1)<CR>", { silent = true })
+keymap("n", "<C-b>", "<cmd>lua require('lspsaga.hover').smart_scroll_with_saga(-1)<CR>", { silent = true })
 -- code actions
-vim.api.nvim_set_keymap( "n", "<space>ca", "<cmd>lua require('lspsaga.codeaction').code_action()<CR>", {noremap = true, silent = true})
-vim.api.nvim_set_keymap( "v", "<space>ca", "<cmd>'<,'>lua require('lspsaga.codeaction').range_code_action()<CR>", {noremap = true, silent = true})
+keymap({"n","v"}, "<leader>ca", "<cmd>Lspsaga code_action<CR>", { silent = true })
 -- signature help
-vim.api.nvim_set_keymap( "n", "<space>k", "<cmd>lua require('lspsaga.signaturehelp').signature_help()<CR>", {noremap = true, silent = true})
+-- vim.api.nvim_set_keymap( "n", "<space>k", "<cmd>lua require('lspsaga.signaturehelp').signature_help()<CR>", {noremap = true, silent = true})
 -- rename
-vim.api.nvim_set_keymap( "n", "<space>n", "<cmd>lua require('lspsaga.rename').rename()<CR>", {noremap = true, silent = true})
+keymap("n", "gr", "<cmd>Lspsaga rename<CR>", { silent = true })
 -- preview definition
-vim.api.nvim_set_keymap( "n", "<space>gd", "<cmd>lua require'lspsaga.provider'.preview_definition()<CR>", {noremap = true, silent = true})
-vim.api.nvim_set_keymap( "n", "<space>gd", "<cmd>lua require'lspsaga.provider'.preview_declaration()<CR>", {noremap = true, silent = true})
+keymap("n", "gd", "<cmd>Lspsaga peek_definition<CR>", { silent = true })
 -- diagnostics
-vim.api.nvim_set_keymap( "n", "<space>d", "<cmd>lua require'lspsaga.diagnostic'.show_line_diagnostics()<CR>", {noremap = true, silent = true})
-vim.api.nvim_set_keymap( "n", "[d", '<cmd>lua require\'lspsaga.diagnostic\'.navigate("prev")()<CR>', {noremap = true, silent = true})
-vim.api.nvim_set_keymap( "n", "]d", '<cmd>lua require\'lspsaga.diagnostic\'.navigate("next")()<CR>', {noremap = true, silent = true})
+keymap("n", "<space>d", "<cmd>Lspsaga show_line_diagnostics<CR>", { silent = true })
+keymap("n", "[d", "<cmd>Lspsaga diagnostic_jump_prev<CR>", { silent = true })
+keymap("n", "]d", "<cmd>Lspsaga diagnostic_jump_next<CR>", { silent = true })
+keymap("n", "[E", function()
+  require("lspsaga.diagnostic").goto_prev({ severity = vim.diagnostic.severity.ERROR })
+end, { silent = true })
+keymap("n", "]E", function()
+  require("lspsaga.diagnostic").goto_next({ severity = vim.diagnostic.severity.ERROR })
+end, { silent = true })
+-- outline
+keymap("n","<leader>o", "<cmd>LSoutlineToggle<CR>",{ silent = true })
+
 -- git
-vim.api.nvim_set_keymap("n", "]g", "<cmd>Gitsigns next_hunk<CR>", {noremap = true, silent = true})
-vim.api.nvim_set_keymap("n", "[g", "<cmd>Gitsigns prev_hunk<CR>", {noremap = true, silent = true})
+keymap("n","]g", "<cmd>Gitsigns next_hunk<CR>",{ silent = true })
+keymap("n","[g", "<cmd>Gitsigns prev_hunk<CR>",{ silent = true })
 -- EFM
 
 vim.g.vimwiki_key_mappings = {

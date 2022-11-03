@@ -42,6 +42,8 @@ endif
 let mapleader=','
 let maplocalleader=','
 
+set updatetime=2500
+
 " Jump key
 nnoremap ` '
 nnoremap ' `
@@ -68,6 +70,10 @@ vnoremap Q :norm @q<cr>
 " Share OS clipboard
 set clipboard=unnamed " "unnamed" to use the * register like unamed register. "autoselect" to always put selected text on the clipboard
 
+" Copilot
+" let g:copilot_no_tab_map = v:true
+" let g:copilot_assume_mapped = v:true
+" imap <silent><script><expr> <M-l> copilot#Accept("\<CR>")
 
 " Use <Tab> and <S-Tab> to navigate through popup menu
 " inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"

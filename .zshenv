@@ -1,5 +1,7 @@
 #!/usr/bin/env zsh
 
+[[ -f "$HOME/.localrc" ]] && . "$HOME/.localrc"
+
 # PATH
 export PATH=".git/safe/../../bin"
 export PATH=".git/safe/../../script"
@@ -17,9 +19,10 @@ export PATH="$PATH:/Users/adamyonk/.cargo/bin"
 # Rust cargo bin
 source ~/.asdf/installs/rust/1.60.0/env
 # Python
-export PATH="$PATH:/usr/local/lib/python3.9/site-packages"
-export PATH="$PATH:/Users/adam/Library/Python/3.9/bin"
-
+# export PATH="$PATH:/usr/local/lib/python3.9/site-packages"
+# export PATH="$PATH:/Users/adam/Library/Python/3.9/bin"
 
 # ASDF
 [[ -f "$HOME/.asdf/asdf.sh" ]] && . "$HOME/.asdf/asdf.sh"
+
+. ~/.asdf/plugins/java/set-java-home.zsh

@@ -349,7 +349,7 @@ fi
 # Node
 [[ -f "$HOME/.asdf/asdf.sh" ]] && . "$HOME/.asdf/asdf.sh"
 if [[ -f "$(command -v npm)" ]]; then
-  export NODE_PATH=$(npm root --quiet -g)
+  export NODE_PATH=$(npm root --quiet --location=global)
 fi
 
 # System
@@ -423,3 +423,4 @@ export PATH="$PATH:/Users/adam/.local/bin"
 # Bun
 export BUN_INSTALL="/Users/adam/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
+

@@ -113,6 +113,7 @@
 [push]
   default = tracking
   followTags = true
+	autoSetupRemote = true
 
 [rebase]
   autoStash = true

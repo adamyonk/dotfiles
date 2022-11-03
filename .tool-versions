@@ -1,4 +1,6 @@
 deno 1.20.5
-nodejs 16.13.1
+nodejs 16.15.1
 python 3.10.4 2.7.18
 rust 1.60.0
+golang 1.15.15
+java adoptopenjdk-jre-8.0.345+1
