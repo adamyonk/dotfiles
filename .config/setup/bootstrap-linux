@@ -5,11 +5,6 @@
 # sudo chmod 755 $helper
 # sudo ln -s $helper /usr/local/bin/git-credential-netrc
 
-# curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
-# echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
-
-sudo add-apt-repository ppa:neovim-ppa/stable -y
-
 sudo apt-get update > /dev/null
 cat $HOME/.default-linux-packages | xargs sudo apt-get install -y
 
