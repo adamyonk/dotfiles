@@ -14,15 +14,14 @@ export GOBIN=$GOPATH/bin
 export PATH=$PATH:$GOBIN
 # Heroku
 export PATH="$PATH:/usr/local/heroku/bin"
+# Java
+[[ -f "$HOME/.asdf/plugins/java/set-java-home" ]] && . "$HOME/.asdf/plugins/java/set-java-home"
 # Rust
-export PATH="$PATH:/Users/adamyonk/.cargo/bin"
-# Rust cargo bin
-source ~/.asdf/installs/rust/1.60.0/env
+export PATH="$PATH:$HOME/.cargo/bin"
+[[ -f "$HOME/.asdf/installs/rust/1.60.0/env" ]] && . "$HOME/.asdf/installs/rust/1.60.0/env"
 # Python
 # export PATH="$PATH:/usr/local/lib/python3.9/site-packages"
 # export PATH="$PATH:/Users/adam/Library/Python/3.9/bin"
 
 # ASDF
 [[ -f "$HOME/.asdf/asdf.sh" ]] && . "$HOME/.asdf/asdf.sh"
-
-. ~/.asdf/plugins/java/set-java-home.zsh

@@ -53,6 +53,15 @@ zmodload zsh/nearcolor
 autoload edit-command-line; zle -N edit-command-line
 bindkey "^X^E" edit-command-line
 
+# Kick homebrew off on linux
+if [[ "$(uname -s)" == "Linux" ]]; then
+  if [[ -d ~/.linuxbrew ]]; then
+    eval $(~/.linuxbrew/bin/brew shellenv)
+  elif [[ -d /home/linuxbrew/.linuxbrew ]]; then
+    eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)
+  fi
+fi
+
 # zplug
 if [[ -f "$(command -v brew)" ]]; then
   export ZPLUG_HOME=$(brew --prefix)/opt/zplug # homebrew-installed zplug
@@ -66,8 +75,9 @@ zplug "zsh-users/zsh-autosuggestions"
 zplug "zsh-users/zsh-completions"
 zplug "zsh-users/zsh-syntax-highlighting", defer:2
 zplug "zsh-users/zsh-history-substring-search", defer:3
-zplug "mafredri/zsh-async", use:"async.zsh", hook-build:"ln -sf $ZPLUG_HOME/repos/mafredri/zsh-async/async.zsh $(brew --prefix)/share/zsh/site-functions/async"
-zplug "denysdovhan/spaceship-prompt", use:"spaceship.zsh", from:github, as:theme, , hook-build:"ln -sf $ZPLUG_HOME/repos/denysdovhan/spaceship-prompt/spaceship.zsh $(brew --prefix)/share/zsh/site-functions/prompt_spaceship_setup"
+zplug "spaceship-prompt/spaceship-prompt", use:spaceship.zsh, from:github, as:theme
+zplug "spaceship-prompt/spaceship-vi-mode"
+# zplug "mafredri/zsh-async", use:"async.zsh", hook-build:"ln -sf $ZPLUG_HOME/repos/mafredri/zsh-async/async.zsh $(brew --prefix)/share/zsh/site-functions/async"
 # Install plugins if there are plugins that have not been installed
 if ! zplug check --verbose; then
   printf "Install? [y/N]: "
@@ -78,7 +88,6 @@ fi
 zplug load
 
 # Prompt
-prompt spaceship
 SPACESHIP_PROMPT_ORDER=(
   time          # Time stamps section
   user          # Username section
@@ -338,13 +347,6 @@ alias h='heroku'
 
 # Homebrew
 export HOMEBREW_CASK_OPTS="--appdir=/Applications"
-if [[ "$(uname -s)" == "Linux" ]]; then
-  if [[ -d ~/.linuxbrew ]]; then
-    eval $(~/.linuxbrew/bin/brew shellenv)
-  elif [[ -d /home/linuxbrew/.linuxbrew ]]; then
-    eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)
-  fi
-fi
 
 # Node
 [[ -f "$HOME/.asdf/asdf.sh" ]] && . "$HOME/.asdf/asdf.sh"
