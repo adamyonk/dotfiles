@@ -150,7 +150,7 @@ SPACESHIP_VI_MODE_NORMAL=""
 # Base16 Shell (doesn't work in Terminal.app)
 if [[ "$TERM" =~ "256" ]] || [[ "$TERM" =~ "kitty" ]] || [[ "$TERM" =~ "screen" ]]; then
   BASE16_SHELL="$HOME/.config/base16-shell/"
-  [ -n "$PS1" ] && [ -s "$BASE16_SHELL/profile_helper.sh" ] && eval "$("$BASE16_SHELL"/profile_helper.sh)"
+  [ -n "$PS1" ] && [ -s "$BASE16_SHELL/profile_helper.sh" ] && source "$BASE16_SHELL/profile_helper.sh"
 fi
 # TODO: auto-switch base16 theme
 # if [[ defaults read -g AppleInterfaceStyle =~ "Dark" ]] && [[ ]]

@@ -95,7 +95,7 @@ require("packer").startup(
     end
 )
 
-require "octo".setup()
+-- require "octo".setup()
 
 -- THEME
 vim.cmd [[colorscheme base16-default-dark]]
