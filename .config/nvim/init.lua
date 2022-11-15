@@ -154,7 +154,20 @@ vim.api.nvim_set_keymap(
 )
 
 -- telescope for finding stuff
-require("telescope").load_extension("githubcoauthors")
+local telescope = require 'telescope'
+local actions = require 'telescope.actions'
+telescope.setup{
+  defaults = {
+    mappings = {
+      i = {
+        ["<C-q>"] = actions.send_selected_to_qflist + actions.open_qflist,
+        ["<C-j>"] = actions.move_selection_next,
+        ["<C-k>"] = actions.move_selection_previous,
+      }
+    }
+  },
+}
+telescope.load_extension("githubcoauthors")
 function _G.searchWiki()
     require("telescope.builtin").find_files {
         prompt_title = "Search ZK",
@@ -166,6 +179,7 @@ end
 vim.api.nvim_set_keymap("n", "<localleader>ff", ":lua require('telescope.builtin').find_files()<cr>", {noremap = true, silent = true})
 vim.api.nvim_set_keymap("n", "<localleader>fb", ":lua require('telescope.builtin').buffers()<cr>", {noremap = true, silent = true})
 vim.api.nvim_set_keymap("n", "<localleader>fg", ":lua require('telescope.builtin').live_grep()<cr>", {noremap = true, silent = true})
+vim.api.nvim_set_keymap("n", "<localleader>fq", ":lua require('telescope.builtin').quickfix()<cr>", {noremap = true, silent = true})
 vim.api.nvim_set_keymap("n", "<localleader>fw", ":lua _G.searchWiki()<cr>", {noremap = true, silent = true})
 vim.api.nvim_set_keymap("n", "<localleader>fa", ":lua require('telescope').extensions.githubcoauthors.coauthors()<cr>", {noremap = true, silent = true})
 
