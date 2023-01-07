@@ -25,3 +25,4 @@ export PATH="$PATH:$HOME/.cargo/bin"
 
 # ASDF
 [[ -f "$HOME/.asdf/asdf.sh" ]] && . "$HOME/.asdf/asdf.sh"
+eval "$(/opt/homebrew/bin/brew shellenv)"

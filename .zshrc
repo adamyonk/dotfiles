@@ -426,3 +426,6 @@ export PATH="$PATH:/Users/adam/.local/bin"
 export BUN_INSTALL="/Users/adam/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
 
+
+# bun completions
+[ -s "/opt/homebrew/share/zsh/site-functions/_bun" ] && source "/opt/homebrew/share/zsh/site-functions/_bun"

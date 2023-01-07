@@ -602,6 +602,11 @@ require "octo".setup(
     }
 )
 
+keymap("n", "g.", 'i<cr><ESC>:.-1read !date -Iseconds<CR>I<BS><ESC>j0i<BS><ESC>l', { silent = true })
+keymap("i", "<c-s>", '<cr><ESC>:.-1read !date -Iseconds<CR>I<BS><ESC>j0i<BS><ESC>l', { silent = true })
+
+-- keymap("n", "g.", 'i<c-r>=strftime("%FT%T")<cr><esc>', { silent = true })
+-- keymap("i", "<c-.>", '<c-r>=strftime("%FT%T")<cr>', { silent = true })
 -- floating windows
 local saga = require("lspsaga")
 saga.init_lsp_saga()
@@ -616,7 +621,7 @@ keymap({"n","v"}, "<leader>ca", "<cmd>Lspsaga code_action<CR>", { silent = true 
 -- signature help
 -- vim.api.nvim_set_keymap( "n", "<space>k", "<cmd>lua require('lspsaga.signaturehelp').signature_help()<CR>", {noremap = true, silent = true})
 -- rename
-keymap("n", "gr", "<cmd>Lspsaga rename<CR>", { silent = true })
+keymap("n", "<leader>r", "<cmd>Lspsaga rename<CR>", { silent = true })
 -- preview definition
 keymap("n", "gd", "<cmd>Lspsaga peek_definition<CR>", { silent = true })
 -- diagnostics
@@ -667,3 +672,9 @@ vim.g.vimwiki_list = {
 
 vim.api.nvim_set_keymap("n", "#-", "<Plug>VimwikiRemoveHeaderLevel", {noremap = true, silent = true})
 vim.cmd([[autocmd FileType vimwiki nnoremap <buffer> <leader>F :Neoformat! markdown prettierd<cr>]])
+
+-- vim.api.nvim_create_autocmd("FileType", {
+--     group = "javascript.jsx",
+--     command = "setlocal commentstring={/*\ %s\ */}",
+-- })
+-- autocmd FileType javascript.jsx setlocal commentstring={/*\ %s\ */}
