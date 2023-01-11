@@ -50,12 +50,15 @@ require("packer").startup(
         -- git/gist/github
         -- use "github/copilot.vim" -- copilot
         use {
-            "pwntester/octo.nvim",
-            requires = {
-                "nvim-lua/plenary.nvim",
-                "nvim-telescope/telescope.nvim",
-                "kyazdani42/nvim-web-devicons"
-            }
+          'pwntester/octo.nvim',
+          requires = {
+            'nvim-lua/plenary.nvim',
+            'nvim-telescope/telescope.nvim',
+            'kyazdani42/nvim-web-devicons',
+          },
+          config = function ()
+            require"octo".setup()
+          end
         }
         use "lewis6991/gitsigns.nvim" -- gitsigns
         use "mattn/gist-vim"
@@ -95,8 +98,6 @@ require("packer").startup(
     end
 )
 
--- require "octo".setup()
-
 -- THEME
 vim.cmd [[colorscheme base16-default-dark]]
 if vim.fn.filereadable(vim.fn.expand("~/.vimrc_background")) then
@@ -132,21 +133,21 @@ if os.getenv("termTheme") == "light" then
     vim.o.background = "light"
 end
 
-vim.api.nvim_set_keymap("n", "<tab>", "%", {noremap = true, silent = true})
-vim.api.nvim_set_keymap("n", "<leader>ts", "<cmd>.! date -R<cr>", {noremap = true, silent = true})
-vim.api.nvim_set_keymap("v", "<", "<gv", {noremap = true, silent = true})
-vim.api.nvim_set_keymap("v", ">", ">gv", {noremap = true, silent = true})
+keymap("n", "<tab>", "%", {noremap = true, silent = true})
+keymap("n", "<leader>ts", "<cmd>.! date -R<cr>", {noremap = true, silent = true})
+keymap("v", "<", "<gv", {noremap = true, silent = true})
+keymap("v", ">", ">gv", {noremap = true, silent = true})
 
 -- UI
 gitsigns = require("gitsigns")
 gitsigns.setup()
 
 -- fzf
-vim.api.nvim_set_keymap("n", "<localleader>tb", ":Buffers<cr>", {noremap = true, silent = true})
-vim.api.nvim_set_keymap("n", "<localleader>tf", ":Files<cr>", {noremap = true, silent = true})
-vim.api.nvim_set_keymap("n", "<localleader>tl", ":Lines<cr>", {noremap = true, silent = true})
-vim.api.nvim_set_keymap("n", "<localleader>tg", ":Rg<cr>", {noremap = true, silent = true})
-vim.api.nvim_set_keymap(
+keymap("n", "<localleader>tb", ":Buffers<cr>", {noremap = true, silent = true})
+keymap("n", "<localleader>tf", ":Files<cr>", {noremap = true, silent = true})
+keymap("n", "<localleader>tl", ":Lines<cr>", {noremap = true, silent = true})
+keymap("n", "<localleader>tg", ":Rg<cr>", {noremap = true, silent = true})
+keymap(
     "n",
     "<localleader>fw",
     ":Files ~/Library/Mobile Documents/iCloud~md~obsidian/Documents/Zettle<cr>",
@@ -176,12 +177,12 @@ function _G.searchWiki()
     }
 end
 
-vim.api.nvim_set_keymap("n", "<localleader>ff", ":lua require('telescope.builtin').find_files()<cr>", {noremap = true, silent = true})
-vim.api.nvim_set_keymap("n", "<localleader>fb", ":lua require('telescope.builtin').buffers()<cr>", {noremap = true, silent = true})
-vim.api.nvim_set_keymap("n", "<localleader>fg", ":lua require('telescope.builtin').live_grep()<cr>", {noremap = true, silent = true})
-vim.api.nvim_set_keymap("n", "<localleader>fq", ":lua require('telescope.builtin').quickfix()<cr>", {noremap = true, silent = true})
-vim.api.nvim_set_keymap("n", "<localleader>fw", ":lua _G.searchWiki()<cr>", {noremap = true, silent = true})
-vim.api.nvim_set_keymap("n", "<localleader>fa", ":lua require('telescope').extensions.githubcoauthors.coauthors()<cr>", {noremap = true, silent = true})
+keymap("n", "<localleader>ff", ":lua require('telescope.builtin').find_files()<cr>", {noremap = true, silent = true})
+keymap("n", "<localleader>fb", ":lua require('telescope.builtin').buffers()<cr>", {noremap = true, silent = true})
+keymap("n", "<localleader>fg", ":lua require('telescope.builtin').live_grep()<cr>", {noremap = true, silent = true})
+keymap("n", "<localleader>fq", ":lua require('telescope.builtin').quickfix()<cr>", {noremap = true, silent = true})
+keymap("n", "<localleader>fw", ":lua _G.searchWiki()<cr>", {noremap = true, silent = true})
+keymap("n", "<localleader>fa", ":lua require('telescope').extensions.githubcoauthors.coauthors()<cr>", {noremap = true, silent = true})
 
 -- compe
 local has_words_before = function()
@@ -252,7 +253,14 @@ cmp.setup(
 )
 
 -- Set configuration for specific filetype.
-cmp.setup.filetype( "gitcommit", { sources = cmp.config.sources( { {name = "cmp_git"} }, { {name = "buffer"} }) })
+cmp.setup.filetype("gitcommit", {
+  sources = cmp.config.sources( { {name = "cmp_git"} }, { {name = "buffer"} })
+})
+-- cmp.setup.filetype("octo", {
+--   keymap(0, "i", "@", "@<C-x><C-o>", { silent = true, noremap = true })
+--   keymap(0, "i", "#", "#<C-x><C-o>", { silent = true, noremap = true })
+-- })
+
 
 -- Use buffer source for `/` (if you enabled `native_menu`, this won't work anymore).
 cmp.setup.cmdline( "/", { sources = { {name = "buffer"} } })
@@ -333,12 +341,12 @@ local capabilities = require("cmp_nvim_lsp").default_capabilities(vim.lsp.protoc
 -- vim.api.nvim_set_keymap("s", "<S-Tab>", "v:lua.s_tab_complete()", {expr = true})
 
 -- neoformat
-vim.api.nvim_set_keymap("n", "<leader>F", ":Neoformat<cr>", {})
+keymap("n", "<leader>F", ":Neoformat<cr>", {})
 
 -- easyalign
-vim.api.nvim_set_keymap("v", "ga", "<Plug>(EasyAlign)", {})
-vim.api.nvim_set_keymap("n", "ga", "<Plug>(EasyAlign)", {})
-vim.api.nvim_set_keymap("n", "gA", ":ascii", {})
+keymap("v", "ga", "<Plug>(EasyAlign)", {})
+keymap("n", "ga", "<Plug>(EasyAlign)", {})
+keymap("n", "gA", ":ascii", {})
 
 -- vim-sandwich
 function _G.structInput()
@@ -593,11 +601,11 @@ require "octo".setup(
     {
         mappings = {
             submit_win = {
-                approve_review = "<C-p>", -- approve review
-                comment_review = "<C-m>", -- comment review
-                request_changes = "<C-r>", -- request changes review
-                close_review_tab = "<C-c>" -- close review tab
-            }
+              approve_review = { lhs = "<C-p>", desc = "approve review" },
+              comment_review = { lhs = "<C-m>", desc = "comment review" },
+              request_changes = { lhs = "<C-r>", desc = "request changes review" },
+              close_review_tab = { lhs = "<C-c>", desc = "close review tab" },
+            },
         }
     }
 )
@@ -670,7 +678,7 @@ vim.g.vimwiki_list = {
     }
 }
 
-vim.api.nvim_set_keymap("n", "#-", "<Plug>VimwikiRemoveHeaderLevel", {noremap = true, silent = true})
+keymap("n", "#-", "<Plug>VimwikiRemoveHeaderLevel", {noremap = true, silent = true})
 vim.cmd([[autocmd FileType vimwiki nnoremap <buffer> <leader>F :Neoformat! markdown prettierd<cr>]])
 
 -- vim.api.nvim_create_autocmd("FileType", {
