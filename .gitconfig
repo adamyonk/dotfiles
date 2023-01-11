@@ -87,9 +87,6 @@
 [heroku]
   account = me
 
-[hub]
-  protocol = https
-
 [include]
   path = ~/.gitconfig.local
 
@@ -125,9 +122,3 @@
 [user]
   email = adamyonk@icloud.com
   name = Adam Jahnke
-
-[url "https://github"]
-  insteadOf = git://github
-
-[url "https://github.com/"]
-  insteadOf = git@github.com:

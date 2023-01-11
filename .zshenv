@@ -18,7 +18,7 @@ export PATH="$PATH:/usr/local/heroku/bin"
 [[ -f "$HOME/.asdf/plugins/java/set-java-home" ]] && . "$HOME/.asdf/plugins/java/set-java-home"
 # Rust
 export PATH="$PATH:$HOME/.cargo/bin"
-[[ -f "$HOME/.asdf/installs/rust/1.60.0/env" ]] && . "$HOME/.asdf/installs/rust/1.60.0/env"
+[[ -f "$HOME/.asdf/installs/rust/1.65.0/env" ]] && . "$HOME/.asdf/installs/rust/1.65.0/env"
 # Python
 # export PATH="$PATH:/usr/local/lib/python3.9/site-packages"
 # export PATH="$PATH:/Users/adam/Library/Python/3.9/bin"

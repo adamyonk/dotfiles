@@ -22,7 +22,7 @@ export PATH=$PATH:$GOBIN
 # Heroku
 export PATH="$PATH:/usr/local/heroku/bin"
 # Rust
-export PATH="$PATH:/Users/adamyonk/.cargo/bin"
+export PATH="$PATH:$HOME/.cargo/bin"
 
 # Source ~/.localrc if it exists
 # shellcheck source=/dev/null
@@ -261,8 +261,5 @@ fi
 # [[ -s "$NVM_DIR/nvm.sh" ]] && . "$NVM_DIR/nvm.sh"  # This loads nvm
 # # shellcheck source=/dev/null
 # [[ -s "$NVM_DIR/bash_completion" ]] && . "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-
-# added by travis gem
-[ -f /Users/adam/.travis/travis.sh ] && source /Users/adam/.travis/travis.sh
 
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
