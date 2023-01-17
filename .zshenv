@@ -15,7 +15,7 @@ export PATH=$PATH:$GOBIN
 # Heroku
 export PATH="$PATH:/usr/local/heroku/bin"
 # Java
-[[ -f "$HOME/.asdf/plugins/java/set-java-home" ]] && . "$HOME/.asdf/plugins/java/set-java-home"
+# [[ -f "$HOME/.asdf/plugins/java/set-java-home" ]] && . "$HOME/.asdf/plugins/java/set-java-home"
 # Rust
 export PATH="$PATH:$HOME/.cargo/bin"
 [[ -f "$HOME/.asdf/installs/rust/1.65.0/env" ]] && . "$HOME/.asdf/installs/rust/1.65.0/env"
@@ -25,4 +25,4 @@ export PATH="$PATH:$HOME/.cargo/bin"
 
 # ASDF
 [[ -f "$HOME/.asdf/asdf.sh" ]] && . "$HOME/.asdf/asdf.sh"
-eval "$(/opt/homebrew/bin/brew shellenv)"
+# eval "$(/opt/homebrew/bin/brew shellenv)"
