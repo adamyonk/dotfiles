@@ -7,9 +7,6 @@ vim.o.inccommand = "split"
 
 vim.o.splitbelow = true
 vim.o.splitright = true
--- vim.o.completeopt = "menu,menuone,noselect"
--- vim.o.wildmode = "longest,list,full"
--- vim.o.wildmenu = true
 
 local keymap = vim.keymap.set
 
@@ -23,17 +20,12 @@ require("packer").startup(
         use "arthurxavierx/vim-caser"
 
         -- Themes
-        -- use "chriskempson/base16-vim"
-        -- use "RRethy/nvim-base16"
         use "EdenEast/nightfox.nvim"
-        -- use "projekt0n/github-nvim-theme"
         use { "catppuccin/nvim", as = "catppuccin" }
 
         use "christoomey/vim-tmux-navigator" -- navigate across tmux splits
         use "easymotion/vim-easymotion"
         use "editorconfig/editorconfig-vim" -- editorconfig for being polite
-        -- 'hrsh7th/vim-vsnip'
-        -- use 'itchyny/vim-cursorword'
         use "junegunn/fzf"
         use "junegunn/fzf.vim"
         use "junegunn/vim-easy-align"
@@ -41,7 +33,6 @@ require("packer").startup(
         use "JoosepAlviste/nvim-ts-context-commentstring" -- more complex commentstring
         use "kopischke/vim-fetch" -- be able to open from stack traces
         use "machakann/vim-sandwich"
-        -- use 'mattn/emmet-vim'
         use "norcalli/nvim-colorizer.lua" -- color hex/rgb strings
         use "nvim-lualine/lualine.nvim"
         use {"SmiteshP/nvim-gps", requires = "nvim-treesitter/nvim-treesitter"} -- nvim-gps is a simple status line component that shows context of the current cursor position in file
@@ -57,7 +48,6 @@ require("packer").startup(
         use "wellle/targets.vim" -- expand the target objects
         -- Syntax
         -- git/gist/github
-        -- use "github/copilot.vim" -- copilot
         use {
           'pwntester/octo.nvim',
           requires = {
@@ -69,7 +59,7 @@ require("packer").startup(
             require"octo".setup()
           end
         }
-        use "lewis6991/gitsigns.nvim" -- gitsigns
+        use "lewis6991/gitsigns.nvim"
         use "mattn/gist-vim"
         use "mattn/webapi-vim"
         use "rhysd/git-messenger.vim"
@@ -80,8 +70,14 @@ require("packer").startup(
         -- LSP
         use "neovim/nvim-lspconfig"
         use "mattn/efm-langserver"
-        use "glepnir/lspsaga.nvim"
-        -- use "tami5/lspsaga.nvim"
+        use({
+            "glepnir/lspsaga.nvim",
+            branch = "main",
+            config = function()
+                require("lspsaga").setup({})
+            end,
+            requires = { {"nvim-tree/nvim-web-devicons"} }
+        })
 
         use "hrsh7th/nvim-cmp"
         use "hrsh7th/cmp-nvim-lsp"
@@ -156,15 +152,6 @@ require('nightfox').setup({
   }
 })
 vim.cmd('colorscheme carbonfox')
--- vim.cmd [[colorscheme base16-default-dark]]
--- if vim.fn.filereadable(vim.fn.expand("~/.vimrc_background")) then
---     vim.api.nvim_exec("source ~/.vimrc_background", false)
--- end
-
--- statusline
--- local function treesitterStatus()
---   return [[nvim_treesitter#statusline(90)]]
--- end
 local gps = require("nvim-gps")
 gps.setup()
 
@@ -409,19 +396,6 @@ cmp.setup(
                 {"i", "s"}
             )
         },
-        -- mapping = {
-        --     ["<C-b>"] = cmp.mapping(cmp.mapping.scroll_docs(-4), {"i", "c"}),
-        --     ["<C-f>"] = cmp.mapping(cmp.mapping.scroll_docs(4), {"i", "c"}),
-        --     ["<C-Space>"] = cmp.mapping(cmp.mapping.complete(), {"i", "c"}),
-        --     ["<C-y>"] = cmp.config.disable, -- Specify `cmp.config.disable` if you want to remove the default `<C-y>` mapping.
-        --     ["<C-e>"] = cmp.mapping(
-        --         {
-        --             i = cmp.mapping.abort(),
-        --             c = cmp.mapping.close()
-        --         }
-        --     ),
-        --     ["<CR>"] = cmp.mapping.confirm({select = true}) -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
-        -- },
         sources = cmp.config.sources(
             {
                 {name = "nvim_lsp"},
@@ -739,9 +713,6 @@ keymap("i", "<c-s>", '<cr><ESC>:.-1read !date -Iseconds<CR>I<BS><ESC>j0i<BS><ESC
 
 -- keymap("n", "g.", 'i<c-r>=strftime("%FT%T")<cr><esc>', { silent = true })
 -- keymap("i", "<c-.>", '<c-r>=strftime("%FT%T")<cr>', { silent = true })
--- floating windows
-local saga = require("lspsaga")
-saga.setup({})
 -- code finder
 keymap("n", "gh", "<cmd>lua require'lspsaga.provider'.lsp_finder()<CR>", { silent = true })
 -- docs
@@ -771,12 +742,10 @@ keymap("n", "]E", function()
 end, { silent = true })
 -- outline
 keymap("n","<leader>o", "<cmd>LSoutlineToggle<CR>",{ silent = true })
-
 -- git
 keymap("n","]g", "<cmd>Gitsigns next_hunk<CR>",{ silent = true })
 keymap("n","[g", "<cmd>Gitsigns prev_hunk<CR>",{ silent = true })
--- EFM
-
+-- vimwiki
 vim.g.vimwiki_key_mappings = {
     all_maps = 1,
     global = 1,
