@@ -25,7 +25,7 @@ require("packer").startup(
         -- Themes
         -- use "chriskempson/base16-vim"
         -- use "RRethy/nvim-base16"
-        -- use "EdenEast/nightfox.nvim"
+        use "EdenEast/nightfox.nvim"
         -- use "projekt0n/github-nvim-theme"
         use { "catppuccin/nvim", as = "catppuccin" }
 
@@ -150,7 +150,12 @@ require("catppuccin").setup({
         -- For more plugins integrations please scroll down (https://github.com/catppuccin/nvim#integrations)
     },
 })
-vim.cmd('colorscheme catppuccin-mocha')
+require('nightfox').setup({
+  options = {
+    transparent = true,
+  }
+})
+vim.cmd('colorscheme carbonfox')
 -- vim.cmd [[colorscheme base16-default-dark]]
 -- if vim.fn.filereadable(vim.fn.expand("~/.vimrc_background")) then
 --     vim.api.nvim_exec("source ~/.vimrc_background", false)
