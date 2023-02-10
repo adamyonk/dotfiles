@@ -7,7 +7,9 @@ vim.o.inccommand = "split"
 
 vim.o.splitbelow = true
 vim.o.splitright = true
-vim.o.completeopt = "menu,menuone,noselect"
+-- vim.o.completeopt = "menu,menuone,noselect"
+-- vim.o.wildmode = "longest,list,full"
+-- vim.o.wildmenu = true
 
 local keymap = vim.keymap.set
 
@@ -19,7 +21,14 @@ require("packer").startup(
         use "wbthomason/packer.nvim"
         -- UI
         use "arthurxavierx/vim-caser"
-        use "chriskempson/base16-vim"
+
+        -- Themes
+        -- use "chriskempson/base16-vim"
+        -- use "RRethy/nvim-base16"
+        -- use "EdenEast/nightfox.nvim"
+        -- use "projekt0n/github-nvim-theme"
+        use { "catppuccin/nvim", as = "catppuccin" }
+
         use "christoomey/vim-tmux-navigator" -- navigate across tmux splits
         use "easymotion/vim-easymotion"
         use "editorconfig/editorconfig-vim" -- editorconfig for being polite
@@ -74,11 +83,11 @@ require("packer").startup(
         use "glepnir/lspsaga.nvim"
         -- use "tami5/lspsaga.nvim"
 
+        use "hrsh7th/nvim-cmp"
         use "hrsh7th/cmp-nvim-lsp"
         use "hrsh7th/cmp-buffer"
         use "hrsh7th/cmp-path"
         use "hrsh7th/cmp-cmdline"
-        use "hrsh7th/nvim-cmp"
         use "hrsh7th/cmp-vsnip"
         use "hrsh7th/vim-vsnip"
 
@@ -99,10 +108,53 @@ require("packer").startup(
 )
 
 -- THEME
-vim.cmd [[colorscheme base16-default-dark]]
-if vim.fn.filereadable(vim.fn.expand("~/.vimrc_background")) then
-    vim.api.nvim_exec("source ~/.vimrc_background", false)
-end
+require("catppuccin").setup({
+    flavour = "mocha", -- latte, frappe, macchiato, mocha
+    background = { -- :h background
+        light = "latte",
+        dark = "mocha",
+    },
+    transparent_background = true,
+    show_end_of_buffer = false, -- show the '~' characters after the end of buffers
+    term_colors = true,
+    dim_inactive = {
+        enabled = false,
+        shade = "dark",
+        percentage = 0.15,
+    },
+    no_italic = false, -- Force no italic
+    no_bold = false, -- Force no bold
+    styles = {
+        comments = { "italic" },
+        conditionals = { "italic" },
+        loops = {},
+        functions = {},
+        keywords = {},
+        strings = {},
+        variables = {},
+        numbers = {},
+        booleans = {},
+        properties = {},
+        types = {},
+        operators = {},
+    },
+    color_overrides = {},
+    custom_highlights = {},
+    integrations = {
+        cmp = true,
+        gitsigns = true,
+        nvimtree = true,
+        telescope = true,
+        notify = false,
+        mini = false,
+        -- For more plugins integrations please scroll down (https://github.com/catppuccin/nvim#integrations)
+    },
+})
+vim.cmd('colorscheme catppuccin-mocha')
+-- vim.cmd [[colorscheme base16-default-dark]]
+-- if vim.fn.filereadable(vim.fn.expand("~/.vimrc_background")) then
+--     vim.api.nvim_exec("source ~/.vimrc_background", false)
+-- end
 
 -- statusline
 -- local function treesitterStatus()
@@ -111,21 +163,146 @@ end
 local gps = require("nvim-gps")
 gps.setup()
 
-require("lualine").setup {
-    options = {
-        theme = "auto"
+-- require("lualine").setup {
+--     options = {
+--         theme = "auto"
+--     },
+--     sections = {
+--         lualine_a = {"mode"},
+--         -- lualine_b = {'branch', 'diff', {'diagnostics', sources={'nvim_lsp', 'coc'}}},
+--         -- lualine_a = {"require'nvim-treesitter'#statusline(90)"},
+--         lualine_b = {{gps.get_location, condition = gps.is_available}},
+--         lualine_c = {"branch", "diff", {"filename", file_status = true, path = 1}},
+--         -- lualine_x = {'encoding', 'fileformat', 'filetype'},
+--         lualine_x = {{"diagnostics", sources = {"nvim_lsp"}}},
+--         lualine_y = {"progress"},
+--         lualine_z = {"location"}
+--     }
+-- }
+
+local colors = {
+  red = '#ca1243',
+  grey = '#a0a1a7',
+  black = '#0d1117',
+  white = '#f3f3f3',
+  light_green = '#83a598',
+  orange = '#fe8019',
+  green = '#8ec07c',
+}
+
+local theme = {
+  normal = {
+    a = { fg = colors.white, bg = colors.black },
+    b = { fg = colors.white, bg = colors.grey },
+    c = { fg = colors.black, bg = colors.white },
+    z = { fg = colors.white, bg = colors.black },
+  },
+  insert = { a = { fg = colors.black, bg = colors.light_green } },
+  visual = { a = { fg = colors.black, bg = colors.orange } },
+  replace = { a = { fg = colors.black, bg = colors.green } },
+}
+
+local empty = require('lualine.component'):extend()
+function empty:draw(default_highlight)
+  self.status = ''
+  self.applied_separator = ''
+  self:apply_highlights(default_highlight)
+  self:apply_section_separators()
+  return self.status
+end
+
+-- Put proper separators and gaps between components in sections
+local function process_sections(sections)
+  for name, section in pairs(sections) do
+    local left = name:sub(9, 10) < 'x'
+    for pos = 1, name ~= 'lualine_z' and #section or #section - 1 do
+      table.insert(section, pos * 2, { empty, color = { fg = colors.white, bg = colors.white } })
+    end
+    for id, comp in ipairs(section) do
+      if type(comp) ~= 'table' then
+        comp = { comp }
+        section[id] = comp
+      end
+      comp.separator = left and { right = '' } or { left = '' }
+    end
+  end
+  return sections
+end
+
+local function search_result()
+  if vim.v.hlsearch == 0 then
+    return ''
+  end
+  local last_search = vim.fn.getreg('/')
+  if not last_search or last_search == '' then
+    return ''
+  end
+  local searchcount = vim.fn.searchcount { maxcount = 9999 }
+  return last_search .. '(' .. searchcount.current .. '/' .. searchcount.total .. ')'
+end
+
+local function modified()
+  if vim.bo.modified then
+    return '+'
+  elseif vim.bo.modifiable == false or vim.bo.readonly == true then
+    return '-'
+  end
+  return ''
+end
+
+require('lualine').setup {
+  options = {
+    theme = 'auto', -- theme,
+    component_separators = '',
+    section_separators = { left = '', right = '' },
+  },
+  sections = process_sections {
+    lualine_a = { 'mode' },
+    lualine_b = {
+      'branch',
+      'diff',
+      {
+        'diagnostics',
+        source = { 'nvim' },
+        sections = { 'error' },
+        diagnostics_color = { error = { bg = colors.red, fg = colors.white } },
+      },
+      {
+        'diagnostics',
+        source = { 'nvim' },
+        sections = { 'warn' },
+        diagnostics_color = { warn = { bg = colors.orange, fg = colors.white } },
+      },
+      { 'filename', file_status = false, path = 1 },
+      { modified, color = { bg = colors.red } },
+      {
+        '%w',
+        cond = function()
+          return vim.wo.previewwindow
+        end,
+      },
+      {
+        '%r',
+        cond = function()
+          return vim.bo.readonly
+        end,
+      },
+      {
+        '%q',
+        cond = function()
+          return vim.bo.buftype == 'quickfix'
+        end,
+      },
     },
-    sections = {
-        lualine_a = {"mode"},
-        -- lualine_b = {'branch', 'diff', {'diagnostics', sources={'nvim_lsp', 'coc'}}},
-        -- lualine_a = {"require'nvim-treesitter'#statusline(90)"},
-        lualine_b = {{gps.get_location, condition = gps.is_available}},
-        lualine_c = {"branch", "diff", {"filename", file_status = true, path = 1}},
-        -- lualine_x = {'encoding', 'fileformat', 'filetype'},
-        lualine_x = {{"diagnostics", sources = {"nvim_lsp"}}},
-        lualine_y = {"progress"},
-        lualine_z = {"location"}
-    }
+    lualine_c = {},
+    lualine_x = {},
+    lualine_y = { search_result, 'filetype' },
+    lualine_z = { '%l:%c', '%p%%/%L' },
+  },
+  inactive_sections = {
+    lualine_c = { '%f %y %m' },
+    lualine_x = {},
+  },
 }
 
 vim.o.showmode = false
@@ -184,7 +361,7 @@ keymap("n", "<localleader>fq", ":lua require('telescope.builtin').quickfix()<cr>
 keymap("n", "<localleader>fw", ":lua _G.searchWiki()<cr>", {noremap = true, silent = true})
 keymap("n", "<localleader>fa", ":lua require('telescope').extensions.githubcoauthors.coauthors()<cr>", {noremap = true, silent = true})
 
--- compe
+-- cmp
 local has_words_before = function()
     local line, col = unpack(vim.api.nvim_win_get_cursor(0))
     return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
@@ -253,92 +430,34 @@ cmp.setup(
 )
 
 -- Set configuration for specific filetype.
-cmp.setup.filetype("gitcommit", {
-  sources = cmp.config.sources( { {name = "cmp_git"} }, { {name = "buffer"} })
+cmp.setup.filetype('gitcommit', {
+  sources = cmp.config.sources({
+    { name = 'cmp_git' }, -- You can specify the `cmp_git` source if you were installed it.
+  }, {
+    { name = 'buffer' },
+  })
 })
--- cmp.setup.filetype("octo", {
---   keymap(0, "i", "@", "@<C-x><C-o>", { silent = true, noremap = true })
---   keymap(0, "i", "#", "#<C-x><C-o>", { silent = true, noremap = true })
--- })
 
-
--- Use buffer source for `/` (if you enabled `native_menu`, this won't work anymore).
-cmp.setup.cmdline( "/", { sources = { {name = "buffer"} } })
+-- Use buffer source for `/` and `?` (if you enabled `native_menu`, this won't work anymore).
+cmp.setup.cmdline({ '/', '?' }, {
+  mapping = cmp.mapping.preset.cmdline(),
+  sources = {
+    { name = 'buffer' }
+  }
+})
 
 -- Use cmdline & path source for ':' (if you enabled `native_menu`, this won't work anymore).
-cmp.setup.cmdline( ":", { sources = cmp.config.sources( { {name = "path"} }, { {name = "cmdline"} }) })
+cmp.setup.cmdline(':', {
+  mapping = cmp.mapping.preset.cmdline(),
+  sources = cmp.config.sources({
+    { name = 'path' }
+  }, {
+    { name = 'cmdline' }
+  })
+})
 
 -- Setup lspconfig.
 local capabilities = require("cmp_nvim_lsp").default_capabilities(vim.lsp.protocol.make_client_capabilities())
--- Replace <YOUR_LSP_SERVER> with each lsp server you've enabled.
--- require("lspconfig")["<YOUR_LSP_SERVER>"].setup {
---     capabilities = capabilities
--- }
--- require "compe".setup {
---     enabled = true,
---     autocomplete = true,
---     debug = false,
---     min_length = 1,
---     preselect = "enable",
---     throttle_time = 80,
---     source_timeout = 200,
---     incomplete_delay = 400,
---     max_abbr_width = 100,
---     max_kind_width = 100,
---     max_menu_width = 100,
---     documentation = true,
---     source = {
---         nvim_lsp = {menu = "[LSP]", priority = 10, sort = false},
---         -- vsnip = {menu = "[VS]", priority = 10},
---         nvim_lua = {menu = "[LUA]", priority = 9},
---         path = {menu = "[PATH]", priority = 9},
---         treesitter = {menu = "[TS]", priority = 9},
---         buffer = {menu = "[BUF]", priority = 8},
---         spell = {menu = "[SPL]"}
---     }
--- }
-
--- local t = function(str)
---     return vim.api.nvim_replace_termcodes(str, true, true, true)
--- end
-
--- local check_back_space = function()
---     local col = vim.fn.col(".") - 1
---     if col == 0 or vim.fn.getline("."):sub(col, col):match("%s") then
---         return true
---     else
---         return false
---     end
--- end
-
--- -- Use (s-)tab to:
--- --- move to prev/next item in completion menuone
--- --- jump to prev/next snippet's placeholder
--- _G.tab_complete = function()
---     if vim.fn.pumvisible() == 1 then
---         -- elseif vim.fn.call("vsnip#available", {1}) == 1 then
---         --   return t "<Plug>(vsnip-expand-or-jump)"
---         return t "<C-n>"
---     elseif check_back_space() then
---         return t "<Tab>"
---     else
---         return vim.fn["compe#complete"]()
---     end
--- end
--- _G.s_tab_complete = function()
---     if vim.fn.pumvisible() == 1 then
---         -- elseif vim.fn.call("vsnip#jumpable", {-1}) == 1 then
---         --   return t "<Plug>(vsnip-jump-prev)"
---         return t "<C-p>"
---     else
---         return t "<S-Tab>"
---     end
--- end
-
--- vim.api.nvim_set_keymap("i", "<Tab>", "v:lua.tab_complete()", {expr = true})
--- vim.api.nvim_set_keymap("s", "<Tab>", "v:lua.tab_complete()", {expr = true})
--- vim.api.nvim_set_keymap("i", "<S-Tab>", "v:lua.s_tab_complete()", {expr = true})
--- vim.api.nvim_set_keymap("s", "<S-Tab>", "v:lua.s_tab_complete()", {expr = true})
 
 -- neoformat
 keymap("n", "<leader>F", ":Neoformat<cr>", {})
@@ -503,7 +622,7 @@ local function root_pattern(...)
     end
 end
 
-local servers = { 'pyright', 'tsserver' }
+local servers = { 'pylsp', 'tsserver' }
 for _, lsp in ipairs(servers) do
   lspconfig[lsp].setup {
     on_attach = on_attach,
@@ -617,7 +736,7 @@ keymap("i", "<c-s>", '<cr><ESC>:.-1read !date -Iseconds<CR>I<BS><ESC>j0i<BS><ESC
 -- keymap("i", "<c-.>", '<c-r>=strftime("%FT%T")<cr>', { silent = true })
 -- floating windows
 local saga = require("lspsaga")
-saga.init_lsp_saga()
+saga.setup({})
 -- code finder
 keymap("n", "gh", "<cmd>lua require'lspsaga.provider'.lsp_finder()<CR>", { silent = true })
 -- docs
@@ -626,6 +745,9 @@ keymap("n", "<C-f>", "<cmd>lua require('lspsaga.hover').smart_scroll_with_saga(1
 keymap("n", "<C-b>", "<cmd>lua require('lspsaga.hover').smart_scroll_with_saga(-1)<CR>", { silent = true })
 -- code actions
 keymap({"n","v"}, "<leader>ca", "<cmd>Lspsaga code_action<CR>", { silent = true })
+-- Call hierarchy
+keymap("n", "<Leader>ci", "<cmd>Lspsaga incoming_calls<CR>")
+keymap("n", "<Leader>co", "<cmd>Lspsaga outgoing_calls<CR>")
 -- signature help
 -- vim.api.nvim_set_keymap( "n", "<space>k", "<cmd>lua require('lspsaga.signaturehelp').signature_help()<CR>", {noremap = true, silent = true})
 -- rename

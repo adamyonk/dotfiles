@@ -148,10 +148,10 @@ SPACESHIP_VI_MODE_NORMAL=""
 # [[ -f "$HOME/.asdf/plugins/java/set-java-home.zsh" ]] && . "$HOME/.asdf/plugins/java/set-java-home.zsh"
 
 # Base16 Shell (doesn't work in Terminal.app)
-if [[ "$TERM" =~ "256" ]] || [[ "$TERM" =~ "kitty" ]] || [[ "$TERM" =~ "screen" ]]; then
-  BASE16_SHELL="$HOME/.config/base16-shell/"
-  [ -n "$PS1" ] && [ -s "$BASE16_SHELL/profile_helper.sh" ] && source "$BASE16_SHELL/profile_helper.sh"
-fi
+# if [[ "$TERM" =~ "256" ]] || [[ "$TERM" =~ "kitty" ]] || [[ "$TERM" =~ "screen" ]]; then
+#   BASE16_SHELL="$HOME/.config/base16-shell/"
+#   [ -n "$PS1" ] && [ -s "$BASE16_SHELL/profile_helper.sh" ] && source "$BASE16_SHELL/profile_helper.sh"
+# fi
 # TODO: auto-switch base16 theme
 # if [[ defaults read -g AppleInterfaceStyle =~ "Dark" ]] && [[ ]]
 
