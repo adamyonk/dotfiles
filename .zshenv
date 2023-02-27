@@ -22,7 +22,7 @@ export PATH="$PATH:$HOME/.cargo/bin"
 # Python
 # export PATH="$PATH:/usr/local/lib/python3.9/site-packages"
 # export PATH="$PATH:/Users/adam/Library/Python/3.9/bin"
-
 # ASDF
 [[ -f "$HOME/.asdf/asdf.sh" ]] && . "$HOME/.asdf/asdf.sh"
-# eval "$(/opt/homebrew/bin/brew shellenv)"
+# Homebrew
+[[ -f "/opt/homebrew/bin/brew" ]] && eval "$(/opt/homebrew/bin/brew shellenv)"

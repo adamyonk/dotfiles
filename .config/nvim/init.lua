@@ -22,6 +22,7 @@ require("packer").startup(
         -- Themes
         use "EdenEast/nightfox.nvim"
         use { "catppuccin/nvim", as = "catppuccin" }
+        use "rebelot/kanagawa.nvim"
 
         use "christoomey/vim-tmux-navigator" -- navigate across tmux splits
         use "easymotion/vim-easymotion"
@@ -104,6 +105,24 @@ require("packer").startup(
 )
 
 -- THEME
+require('kanagawa').setup({
+    undercurl = true,           -- enable undercurls
+    commentStyle = { italic = true },
+    functionStyle = {},
+    keywordStyle = { italic = true},
+    statementStyle = { bold = true },
+    typeStyle = {},
+    variablebuiltinStyle = { italic = true},
+    specialReturn = true,       -- special highlight for the return keyword
+    specialException = true,    -- special highlight for exception handling keywords
+    transparent = true,        -- do not set background color
+    dimInactive = false,        -- dim inactive window `:h hl-NormalNC`
+    globalStatus = false,       -- adjust window separators highlight for laststatus=3
+    terminalColors = true,      -- define vim.g.terminal_color_{0,17}
+    colors = {},
+    overrides = {},
+    theme = "default"           -- Load "default" theme or the experimental "light" theme
+})
 require("catppuccin").setup({
     flavour = "mocha", -- latte, frappe, macchiato, mocha
     background = { -- :h background
@@ -151,7 +170,8 @@ require('nightfox').setup({
     transparent = true,
   }
 })
-vim.cmd('colorscheme carbonfox')
+vim.cmd('colorscheme kanagawa')
+-- vim.cmd('colorscheme carbonfox')
 local gps = require("nvim-gps")
 gps.setup()
 
