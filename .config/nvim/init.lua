@@ -77,7 +77,11 @@ require("packer").startup(
             config = function()
                 require("lspsaga").setup({})
             end,
-            requires = { {"nvim-tree/nvim-web-devicons"} }
+            requires = {
+                {"nvim-tree/nvim-web-devicons"},
+                --Please make sure you install markdown and markdown_inline parser
+                {"nvim-treesitter/nvim-treesitter"}
+            }
         })
 
         use "hrsh7th/nvim-cmp"
@@ -372,6 +376,12 @@ keymap("n", "<localleader>fg", ":lua require('telescope.builtin').live_grep()<cr
 keymap("n", "<localleader>fq", ":lua require('telescope.builtin').quickfix()<cr>", {noremap = true, silent = true})
 keymap("n", "<localleader>fw", ":lua _G.searchWiki()<cr>", {noremap = true, silent = true})
 keymap("n", "<localleader>fa", ":lua require('telescope').extensions.githubcoauthors.coauthors()<cr>", {noremap = true, silent = true})
+-- terminal
+keymap("t", "<esc>", "<C-\\><C-n>", {noremap = true, silent = true})
+keymap("t", "<c-h>", "<C-\\><C-n><c-w>h", {noremap = true, silent = true})
+keymap("t", "<c-j>", "<C-\\><C-n><c-w>j", {noremap = true, silent = true})
+keymap("t", "<c-k>", "<C-\\><C-n><c-w>k", {noremap = true, silent = true})
+keymap("t", "<c-l>", "<C-\\><C-n><c-w>l", {noremap = true, silent = true})
 
 -- cmp
 local has_words_before = function()
@@ -562,15 +572,15 @@ local on_attach = function(client, bufnr)
 
     -- Mappings.
     local opts = {noremap = true, silent = true}
-    buf_set_keymap("n", "gD", "<cmd>lua vim.lsp.buf.declaration()<cr>", opts)
-    buf_set_keymap("n", "gd", "<cmd>lua vim.lsp.buf.definition()<cr>", opts)
-    buf_set_keymap("n", "gi", "<cmd>lua vim.lsp.buf.implementation()<cr>", opts)
-    buf_set_keymap("n", "gr", "<cmd>lua vim.lsp.buf.references()<cr>", opts)
-    buf_set_keymap("n", "<space>q", "<cmd>lua vim.lsp.diagnostic.set_loclist()<cr>", opts)
-    buf_set_keymap("n", "<space>wa", "<cmd>lua vim.lsp.buf.add_workspace_folder()<cr>", opts)
-    buf_set_keymap("n", "<space>wr", "<cmd>lua vim.lsp.buf.remove_workspace_folder()<cr>", opts)
-    buf_set_keymap("n", "<space>wl", "<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<cr>", opts)
-    buf_set_keymap("n", "<space>D", "<cmd>lua vim.lsp.buf.type_definition()<cr>", opts)
+    buf_set_keymap("n", "glD", "<cmd>lua vim.lsp.buf.declaration()<cr>", opts)
+    buf_set_keymap("n", "gld", "<cmd>lua vim.lsp.buf.definition()<cr>", opts)
+    buf_set_keymap("n", "gli", "<cmd>lua vim.lsp.buf.implementation()<cr>", opts)
+    buf_set_keymap("n", "glr", "<cmd>lua vim.lsp.buf.references()<cr>", opts)
+    buf_set_keymap("n", "glt", "<cmd>lua vim.lsp.buf.type_definition()<cr>", opts)
+    buf_set_keymap("n", "glq", "<cmd>lua vim.lsp.diagnostic.set_loclist()<cr>", opts)
+    -- buf_set_keymap("n", "<space>wa", "<cmd>lua vim.lsp.buf.add_workspace_folder()<cr>", opts)
+    -- buf_set_keymap("n", "<space>wr", "<cmd>lua vim.lsp.buf.remove_workspace_folder()<cr>", opts)
+    -- buf_set_keymap("n", "<space>wl", "<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<cr>", opts)
 
     -- Set some keybinds conditional on server capabilities
     if client.server_capabilities.document_formatting then
@@ -602,6 +612,26 @@ local on_attach = function(client, bufnr)
     -- require'completion'.on_attach()
 end
 
+
+vim.api.nvim_exec(
+  [[
+command -bar EslintProject call EslintProject()
+
+function EslintProject() abort
+  let cmd = 'npm run lint -- --format=compact'
+
+  let efm = &efm
+  let efm ..= ',%f: line %l\, col %c\, %trror %m'
+  let efm ..= ',%f: line %l\, col %c\, %tarning %m'
+  let efm ..= ',%-G%.%#'
+
+  sil let qfl = getqflist({'lines': systemlist(cmd), 'efm': efm})
+  call setqflist(get(qfl, 'items', []))
+  cw
+endfu
+  ]],
+false)
+
 local lspconfig = require("lspconfig")
 
 local function root_pattern(...)
@@ -630,9 +660,12 @@ for _, lsp in ipairs(servers) do
 end
 
 local eslint = {
-    lintCommand = "eslint_d -f unix --stdin --stdin-filename ${INPUT}",
+    lintCommand = "eslint_d -f visualstudio --stdin --stdin-filename=${INPUT}",
     lintStdin = true,
-    lintFormats = {"%f:%l:%c: %m"},
+    lintFormats = {
+      "%f(%l,%c): %trror %m",
+      "%f(%l,%c): %tarning %m"
+    },
     lintIgnoreExitCode = true,
     formatCommand = "eslint_d --fix-to-stdout --stdin --stdin-filename=${INPUT}",
     formatStdin = true
@@ -747,24 +780,26 @@ keymap("n", "<Leader>co", "<cmd>Lspsaga outgoing_calls<CR>")
 -- signature help
 -- vim.api.nvim_set_keymap( "n", "<space>k", "<cmd>lua require('lspsaga.signaturehelp').signature_help()<CR>", {noremap = true, silent = true})
 -- rename
-keymap("n", "<leader>r", "<cmd>Lspsaga rename<CR>", { silent = true })
+keymap("n", "<leader>r", "<cmd>Lspsaga rename<CR>")
 -- preview definition
-keymap("n", "gd", "<cmd>Lspsaga peek_definition<CR>", { silent = true })
+keymap("n", "gd", "<cmd>Lspsaga peek_definition<CR>")
+keymap("n", "gt", "<cmd>Lspsaga peek_type_definition<CR>")
 -- diagnostics
 keymap("n", "<space>d", "<cmd>Lspsaga show_line_diagnostics<CR>", { silent = true })
 keymap("n", "[d", "<cmd>Lspsaga diagnostic_jump_prev<CR>", { silent = true })
 keymap("n", "]d", "<cmd>Lspsaga diagnostic_jump_next<CR>", { silent = true })
 keymap("n", "[E", function()
-  require("lspsaga.diagnostic").goto_prev({ severity = vim.diagnostic.severity.ERROR })
+  require("lspsaga.diagnostic"):goto_prev({ severity = vim.diagnostic.severity.ERROR })
 end, { silent = true })
 keymap("n", "]E", function()
-  require("lspsaga.diagnostic").goto_next({ severity = vim.diagnostic.severity.ERROR })
+  require("lspsaga.diagnostic"):goto_next({ severity = vim.diagnostic.severity.ERROR })
 end, { silent = true })
 -- outline
-keymap("n","<leader>o", "<cmd>LSoutlineToggle<CR>",{ silent = true })
+keymap("n", "<leader>o", "<cmd>LSoutlineToggle<CR>", { silent = true })
 -- git
-keymap("n","]g", "<cmd>Gitsigns next_hunk<CR>",{ silent = true })
-keymap("n","[g", "<cmd>Gitsigns prev_hunk<CR>",{ silent = true })
+keymap("n", "]g", "<cmd>Gitsigns next_hunk<CR>", { silent = true })
+keymap("n", "[g", "<cmd>Gitsigns prev_hunk<CR>", { silent = true })
+keymap("n", "<leader>g", ":Git<cr>", { silent = true })
 -- vimwiki
 vim.g.vimwiki_key_mappings = {
     all_maps = 1,
