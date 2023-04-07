@@ -174,8 +174,8 @@ require('nightfox').setup({
     transparent = true,
   }
 })
-vim.cmd('colorscheme kanagawa')
--- vim.cmd('colorscheme carbonfox')
+-- vim.cmd('colorscheme kanagawa')
+vim.cmd('colorscheme carbonfox')
 local gps = require("nvim-gps")
 gps.setup()
 
