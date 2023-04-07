@@ -22,7 +22,6 @@ require("packer").startup(
         -- Themes
         use "EdenEast/nightfox.nvim"
         use { "catppuccin/nvim", as = "catppuccin" }
-        use "rebelot/kanagawa.nvim"
 
         use "christoomey/vim-tmux-navigator" -- navigate across tmux splits
         use "easymotion/vim-easymotion"
@@ -97,7 +96,10 @@ require("packer").startup(
         use "nvim-lua/popup.nvim"
         use "nvim-telescope/telescope.nvim"
         use "cwebster2/github-coauthors.nvim"
-        use {"nvim-treesitter/nvim-treesitter", run = ":TSUpdate"}
+        use {
+          "nvim-treesitter/nvim-treesitter",
+          run = ":TSUpdate",
+        };
         use "nvim-treesitter/nvim-treesitter-textobjects"
         -- Prose
         use({
@@ -105,28 +107,36 @@ require("packer").startup(
             run = function() vim.fn["mkdp#util#install"]() end,
         })
         use {"vimwiki/vimwiki", branch = "dev"}
+
+        -- osc52 clipboard
+        use "ojroques/nvim-osc52"
     end
 )
 
+-- clipboard
+local function copy(lines, _)
+  require('osc52').copy(table.concat(lines, '\n'))
+end
+
+local function paste()
+  return {vim.fn.split(vim.fn.getreg(''), '\n'), vim.fn.getregtype('')}
+end
+
+vim.g.clipboard = {
+  name = 'osc52',
+  copy = {['+'] = copy, ['*'] = copy},
+  paste = {['+'] = paste, ['*'] = paste},
+}
+
+-- -- Now the '+' register will copy to system clipboard using OSC52
+-- vim.keymap.set('n', '<leader>c', '"+y')
+-- vim.keymap.set('n', '<leader>cc', '"+yy')
+
+vim.keymap.set('n', '<leader>c', require('osc52').copy_operator, {expr = true})
+vim.keymap.set('n', '<leader>cc', '<leader>c_', {remap = true})
+vim.keymap.set('v', '<leader>c', require('osc52').copy_visual)
+
 -- THEME
-require('kanagawa').setup({
-    undercurl = true,           -- enable undercurls
-    commentStyle = { italic = true },
-    functionStyle = {},
-    keywordStyle = { italic = true},
-    statementStyle = { bold = true },
-    typeStyle = {},
-    variablebuiltinStyle = { italic = true},
-    specialReturn = true,       -- special highlight for the return keyword
-    specialException = true,    -- special highlight for exception handling keywords
-    transparent = true,        -- do not set background color
-    dimInactive = false,        -- dim inactive window `:h hl-NormalNC`
-    globalStatus = false,       -- adjust window separators highlight for laststatus=3
-    terminalColors = true,      -- define vim.g.terminal_color_{0,17}
-    colors = {},
-    overrides = {},
-    theme = "default"           -- Load "default" theme or the experimental "light" theme
-})
 require("catppuccin").setup({
     flavour = "mocha", -- latte, frappe, macchiato, mocha
     background = { -- :h background
@@ -174,7 +184,6 @@ require('nightfox').setup({
     transparent = true,
   }
 })
--- vim.cmd('colorscheme kanagawa')
 vim.cmd('colorscheme carbonfox')
 local gps = require("nvim-gps")
 gps.setup()
@@ -615,9 +624,9 @@ end
 
 vim.api.nvim_exec(
   [[
-command -bar EslintProject call EslintProject()
+command! -bar EslintProject call EslintProject()
 
-function EslintProject() abort
+function! EslintProject() abort
   let cmd = 'npm run lint -- --format=compact'
 
   let efm = &efm
@@ -721,6 +730,7 @@ lspconfig.efm.setup {
 vim.o.foldmethod = "expr"
 vim.o.foldexpr = "nvim_treesitter#foldexpr()"
 vim.wo.foldenable = false
+
 require "nvim-treesitter.configs".setup {
     context_commentstring = {
         enable = true
