@@ -425,3 +425,11 @@ export PATH="$PATH:$HOME/.local/bin"
 # Bun
 export BUN_INSTALL="$HOME/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
+
+start-dev() {
+  AWS_ACCESS_KEY_ID="$(op item get "Jeli AWS" --fields id)" AWS_SECRET_ACCESS_KEY="$(op item get "Jeli AWS" --fields secret)" aws ec2 start-instances --instance-ids "$(op item get "Jeli AWS" --fields instance)"
+}
+
+stop-dev() {
+  AWS_ACCESS_KEY_ID="$(op item get "Jeli AWS" --fields id)" AWS_SECRET_ACCESS_KEY="$(op item get "Jeli AWS" --fields secret)" aws ec2 stop-instances --instance-ids "$(op item get "Jeli AWS" --fields instance)"
+}

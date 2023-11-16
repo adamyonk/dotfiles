@@ -1,0 +1,64 @@
+# font-family = Cascadia Code PL
+font-family = Monaspace Argon Var
+font-family-bold = Monaspace Argon Var
+# font-family-italic = Monaspace Radon Var
+# font-family-bold-italic = Monaspace Radon Var
+
+font-variation = wght=400
+
+font-feature = ss01
+font-feature = ss02
+font-feature = ss03
+font-feature = ss04
+font-feature = ss05
+font-feature = ss06
+font-feature = ss07
+font-feature = ss08
+font-feature = liga
+font-feature = dlig
+font-feature = calt
+
+adjust-cell-width = 0
+adjust-cell-height = 0
+
+font-size = 12
+
+clipboard-read = true
+clipboard-write = true
+clipboard-trim-trailing-spaces = true
+
+window-decoration = false
+window-padding-x = 0
+window-padding-y = 0
+macos-non-native-fullscreen = visible-menu
+background-opacity = 0.95
+
+background = 161616
+foreground = f2f4f8
+
+cursor-color = f81894
+
+# black
+palette = 0=#282828
+palette = 8=#484848
+# red
+palette = 1=#ee5396
+palette = 9=#f16da6
+# green
+palette = 2=#25be6a
+palette = 10=#46c880
+# yellow
+palette = 3=#08bdba
+palette = 11=#2dc7c4
+# blue
+palette = 4=#78a9ff
+palette = 12=#8cb6ff
+# purple
+palette = 5=#be95ff
+palette = 13=#c8a5ff
+# aqua
+palette = 6=#33b1ff
+palette = 14=#52bdff
+# white
+palette = 7=#dfdfe0
+palette = 15=#e4e4e5
