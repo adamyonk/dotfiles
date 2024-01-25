@@ -70,19 +70,13 @@ require("packer").startup(
         -- LSP
         use "neovim/nvim-lspconfig"
         use "mattn/efm-langserver"
-        use({
-            "glepnir/lspsaga.nvim",
-            branch = "main",
+        use ({
+            'nvimdev/lspsaga.nvim',
+            after = 'nvim-lspconfig',
             config = function()
-                require("lspsaga").setup({})
+                require('lspsaga').setup({})
             end,
-            requires = {
-                {"nvim-tree/nvim-web-devicons"},
-                --Please make sure you install markdown and markdown_inline parser
-                {"nvim-treesitter/nvim-treesitter"}
-            }
         })
-
         use "hrsh7th/nvim-cmp"
         use "hrsh7th/cmp-nvim-lsp"
         use "hrsh7th/cmp-buffer"
@@ -776,6 +770,7 @@ keymap("i", "<c-s>", '<cr><ESC>:.-1read !date -Iseconds<CR>I<BS><ESC>j0i<BS><ESC
 
 -- keymap("n", "g.", 'i<c-r>=strftime("%FT%T")<cr><esc>', { silent = true })
 -- keymap("i", "<c-.>", '<c-r>=strftime("%FT%T")<cr>', { silent = true })
+--
 -- code finder
 keymap("n", "gh", "<cmd>lua require'lspsaga.provider'.lsp_finder()<CR>", { silent = true })
 -- docs
@@ -788,7 +783,7 @@ keymap({"n","v"}, "<leader>ca", "<cmd>Lspsaga code_action<CR>", { silent = true 
 keymap("n", "<Leader>ci", "<cmd>Lspsaga incoming_calls<CR>")
 keymap("n", "<Leader>co", "<cmd>Lspsaga outgoing_calls<CR>")
 -- signature help
--- vim.api.nvim_set_keymap( "n", "<space>k", "<cmd>lua require('lspsaga.signaturehelp').signature_help()<CR>", {noremap = true, silent = true})
+vim.api.nvim_set_keymap( "n", "<space>k", "<cmd>lua require('lspsaga.signaturehelp').signature_help()<CR>", {noremap = true, silent = true})
 -- rename
 keymap("n", "<leader>r", "<cmd>Lspsaga rename<CR>")
 -- preview definition

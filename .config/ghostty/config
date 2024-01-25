@@ -29,7 +29,7 @@ clipboard-trim-trailing-spaces = true
 
 window-decoration = false
 window-padding-x = 0
-window-padding-y = 0
+window-padding-y = 10
 macos-non-native-fullscreen = visible-menu
 background-opacity = 0.95
 
