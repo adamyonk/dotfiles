@@ -122,5 +122,3 @@
 [user]
   email = adamyonk@icloud.com
   name = Adam Jahnke
-[url "git@github.com:"]
-	insteadOf = https://github.com/

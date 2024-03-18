@@ -654,7 +654,7 @@ local function root_pattern(...)
     end
 end
 
-local servers = { 'pylsp', 'tsserver' }
+local servers = { 'pylsp', 'tsserver', 'sorbet' }
 for _, lsp in ipairs(servers) do
   lspconfig[lsp].setup {
     on_attach = on_attach,
@@ -726,9 +726,6 @@ vim.o.foldexpr = "nvim_treesitter#foldexpr()"
 vim.wo.foldenable = false
 
 require "nvim-treesitter.configs".setup {
-    context_commentstring = {
-        enable = true
-    },
     highlight = {
         enable = true
     },
