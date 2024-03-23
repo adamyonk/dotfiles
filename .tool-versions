@@ -1,6 +1,6 @@
 nodejs 20.5.1
 bun 0.2.2
-ruby 3.0.5
+ruby 3.3.0
 lua 5.4.4
 deno 1.28.3
 rust 1.65.0

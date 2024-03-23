@@ -63,20 +63,20 @@ require("packer").startup(
         use "mattn/gist-vim"
         use "mattn/webapi-vim"
         use "rhysd/git-messenger.vim"
-        use "sbdchd/neoformat"
+        -- use "sbdchd/neoformat"
         use "tpope/vim-fugitive"
         use "tpope/vim-git"
         use "tpope/vim-rhubarb"
         -- LSP
         use "neovim/nvim-lspconfig"
         use "mattn/efm-langserver"
-        use ({
-            'nvimdev/lspsaga.nvim',
-            after = 'nvim-lspconfig',
-            config = function()
-                require('lspsaga').setup({})
-            end,
-        })
+        -- use ({
+        --     'nvimdev/lspsaga.nvim',
+        --     after = 'nvim-lspconfig',
+        --     config = function()
+        --         require('lspsaga').setup()
+        --     end,
+        -- })
         use "hrsh7th/nvim-cmp"
         use "hrsh7th/cmp-nvim-lsp"
         use "hrsh7th/cmp-buffer"
@@ -123,12 +123,12 @@ vim.g.clipboard = {
 }
 
 -- -- Now the '+' register will copy to system clipboard using OSC52
--- vim.keymap.set('n', '<leader>c', '"+y')
--- vim.keymap.set('n', '<leader>cc', '"+yy')
+-- keymap('n', '<leader>c', '"+y')
+-- keymap('n', '<leader>cc', '"+yy')
 
-vim.keymap.set('n', '<leader>c', require('osc52').copy_operator, {expr = true})
-vim.keymap.set('n', '<leader>cc', '<leader>c_', {remap = true})
-vim.keymap.set('v', '<leader>c', require('osc52').copy_visual)
+keymap('n', '<leader>c', require('osc52').copy_operator, {expr = true})
+keymap('n', '<leader>cc', '<leader>c_', {remap = true})
+keymap('v', '<leader>c', require('osc52').copy_visual)
 
 -- THEME
 require("catppuccin").setup({
@@ -352,7 +352,9 @@ keymap(
 
 -- telescope for finding stuff
 local telescope = require 'telescope'
+local builtin = require'telescope.builtin'
 local actions = require 'telescope.actions'
+
 telescope.setup{
   defaults = {
     mappings = {
@@ -366,19 +368,19 @@ telescope.setup{
 }
 telescope.load_extension("githubcoauthors")
 function _G.searchWiki()
-    require("telescope.builtin").find_files {
+    builtin.find_files {
         prompt_title = "Search ZK",
         shorten_path = false,
         cwd = "~/Library/Mobile Documents/iCloud~md~obsidian/Documents/Zettle"
     }
 end
 
-keymap("n", "<localleader>ff", ":lua require('telescope.builtin').find_files()<cr>", {noremap = true, silent = true})
-keymap("n", "<localleader>fb", ":lua require('telescope.builtin').buffers()<cr>", {noremap = true, silent = true})
-keymap("n", "<localleader>fg", ":lua require('telescope.builtin').live_grep()<cr>", {noremap = true, silent = true})
-keymap("n", "<localleader>fq", ":lua require('telescope.builtin').quickfix()<cr>", {noremap = true, silent = true})
-keymap("n", "<localleader>fw", ":lua _G.searchWiki()<cr>", {noremap = true, silent = true})
-keymap("n", "<localleader>fa", ":lua require('telescope').extensions.githubcoauthors.coauthors()<cr>", {noremap = true, silent = true})
+keymap("n", "<localleader>ff", builtin.find_files, {noremap = true, silent = true})
+keymap("n", "<localleader>fb", builtin.buffers, {noremap = true, silent = true})
+keymap("n", "<localleader>fg", builtin.live_grep, {noremap = true, silent = true})
+keymap("n", "<localleader>fq", builtin.quickfix, {noremap = true, silent = true})
+keymap("n", "<localleader>fa", telescope.extensions.githubcoauthors.coauthors, {noremap = true, silent = true})
+keymap("n", "<localleader>fw", _G.searchWiki, {noremap = true, silent = true})
 -- terminal
 keymap("t", "<esc>", "<C-\\><C-n>", {noremap = true, silent = true})
 keymap("t", "<c-h>", "<C-\\><C-n><c-w>h", {noremap = true, silent = true})
@@ -472,7 +474,7 @@ cmp.setup.cmdline(':', {
 local capabilities = require("cmp_nvim_lsp").default_capabilities(vim.lsp.protocol.make_client_capabilities())
 
 -- neoformat
-keymap("n", "<leader>F", ":Neoformat<cr>", {})
+-- keymap("n", "<leader>F", ":Neoformat<cr>", {})
 
 -- easyalign
 keymap("v", "ga", "<Plug>(EasyAlign)", {})
@@ -563,59 +565,6 @@ vim.list_extend(sandwich_recipes, custom_recipes)
 vim.g["sandwich#recipes"] = sandwich_recipes
 
 -- LSP LANGUAGE SERVERS
-local on_attach = function(client, bufnr)
-    local function buf_set_keymap(...)
-        vim.api.nvim_buf_set_keymap(bufnr, ...)
-    end
-    local function buf_set_option(...)
-        vim.api.nvim_buf_set_option(bufnr, ...)
-    end
-
-    -- buf_set_option('omnifunc', 'v:lua.vim.lsp.omnifunc')
-
-    -- Mappings.
-    local opts = {noremap = true, silent = true}
-    buf_set_keymap("n", "glD", "<cmd>lua vim.lsp.buf.declaration()<cr>", opts)
-    buf_set_keymap("n", "gld", "<cmd>lua vim.lsp.buf.definition()<cr>", opts)
-    buf_set_keymap("n", "gli", "<cmd>lua vim.lsp.buf.implementation()<cr>", opts)
-    buf_set_keymap("n", "glr", "<cmd>lua vim.lsp.buf.references()<cr>", opts)
-    buf_set_keymap("n", "glt", "<cmd>lua vim.lsp.buf.type_definition()<cr>", opts)
-    buf_set_keymap("n", "glq", "<cmd>lua vim.lsp.diagnostic.set_loclist()<cr>", opts)
-    -- buf_set_keymap("n", "<space>wa", "<cmd>lua vim.lsp.buf.add_workspace_folder()<cr>", opts)
-    -- buf_set_keymap("n", "<space>wr", "<cmd>lua vim.lsp.buf.remove_workspace_folder()<cr>", opts)
-    -- buf_set_keymap("n", "<space>wl", "<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<cr>", opts)
-
-    -- Set some keybinds conditional on server capabilities
-    if client.server_capabilities.document_formatting then
-        buf_set_keymap("n", "<space>f", "<cmd>lua vim.lsp.buf.formatting()<cr>", opts)
-    elseif client.server_capabilities.document_range_formatting then
-        buf_set_keymap("n", "<space>f", "<cmd>lua vim.lsp.buf.formatting()<cr>", opts)
-    end
-
-    -- Set autocommands conditional on server_capabilities
-    if client.server_capabilities.document_highlight then
-        vim.api.nvim_exec(
-            [[
-    hi LspReferenceRead cterm=bold ctermbg=red guibg=LightYellow
-    hi LspReferenceText cterm=bold ctermbg=red guibg=LightYellow
-    hi LspReferenceWrite cterm=bold ctermbg=red guibg=LightYellow
-    augroup lsp_document_highlight autocmd!
-    autocmd CursorHold <buffer> lua vim.lsp.buf.document_highlight()
-    autocmd CursorMoved <buffer> lua vim.lsp.buf.clear_references()
-    augroup END
-    ]],
-            false
-        )
-    end
-
-    if client.config.flags then
-        client.config.flags.allow_incremental_sync = true
-    end
-    client.server_capabilities.document_formatting = false
-    -- require'completion'.on_attach()
-end
-
-
 vim.api.nvim_exec(
   [[
 command! -bar EslintProject call EslintProject()
@@ -637,6 +586,68 @@ false)
 
 local lspconfig = require("lspconfig")
 
+vim.api.nvim_create_autocmd("CursorHold", {
+  buffer = bufnr,
+  callback = function()
+    local opts = {
+      focusable = false,
+      close_events = { "BufLeave", "CursorMoved", "InsertEnter", "FocusLost" },
+      border = 'rounded',
+      source = 'always',
+      prefix = ' ',
+      scope = 'cursor',
+    }
+    vim.diagnostic.open_float(nil, opts)
+  end
+})
+
+vim.diagnostic.config({
+  virtual_text = true,
+  signs = true,
+  underline = true,
+  update_in_insert = true,
+  severity_sort = false,
+})
+keymap('n', '<leader>e', vim.diagnostic.open_float)
+keymap('n', '[d', vim.diagnostic.goto_prev)
+keymap('n', ']d', vim.diagnostic.goto_next)
+keymap('n', '<leader>q', vim.diagnostic.setloclist)
+-- Use LspAttach autocommand to only map the following keys
+-- after the language server attaches to the current buffer
+vim.api.nvim_create_autocmd('LspAttach', {
+  group = vim.api.nvim_create_augroup('UserLspConfig', {}),
+  callback = function(ev)
+    -- Enable completion triggered by <c-x><c-o>
+    vim.bo[ev.buf].omnifunc = 'v:lua.vim.lsp.omnifunc'
+
+    -- Buffer local mappings.
+    -- See `:help vim.lsp.*` for documentation on any of the below functions
+    local opts = { buffer = ev.buf }
+    keymap('n', 'gD', vim.lsp.buf.declaration, opts)
+    keymap('n', 'gd', vim.lsp.buf.definition, opts)
+    keymap('n', 'gt', vim.lsp.buf.type_definition, opts)
+    keymap('n', 'gi', vim.lsp.buf.implementation, opts)
+    keymap('n', 'gr', vim.lsp.buf.references, opts)
+    keymap('n', 'K', vim.lsp.buf.hover, opts)
+    keymap('n', '<C-k>', vim.lsp.buf.signature_help, opts)
+    -- keymap('n', '<space>wa', vim.lsp.buf.add_workspace_folder, opts)
+    -- keymap('n', '<space>wr', vim.lsp.buf.remove_workspace_folder, opts)
+    -- keymap('n', '<space>wl', function()
+    --   print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
+    -- end, opts)
+    keymap('n', '<leader>rn', vim.lsp.buf.rename, opts)
+    keymap({ 'n', 'v' }, '<leader>ca', vim.lsp.buf.code_action, opts)
+    keymap('n', '<leader>f', function()
+      vim.lsp.buf.format { async = true }
+    end, opts)
+  end,
+})
+local signs = { Error = "󰅚 ", Warn = "󰀪 ", Hint = "󰌶 ", Info = " " }
+for type, icon in pairs(signs) do
+  local hl = "DiagnosticSign" .. type
+  vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
+end
+
 local function root_pattern(...)
     local patterns = vim.tbl_flatten {...}
 
@@ -654,10 +665,9 @@ local function root_pattern(...)
     end
 end
 
-local servers = { 'pylsp', 'tsserver', 'sorbet' }
+local servers = { 'pylsp', 'tsserver', 'solargraph', 'sorbet', 'rubocop' }
 for _, lsp in ipairs(servers) do
   lspconfig[lsp].setup {
-    on_attach = on_attach,
     capabilities = capabilities,
   }
 end
@@ -769,33 +779,33 @@ keymap("i", "<c-s>", '<cr><ESC>:.-1read !date -Iseconds<CR>I<BS><ESC>j0i<BS><ESC
 -- keymap("i", "<c-.>", '<c-r>=strftime("%FT%T")<cr>', { silent = true })
 --
 -- code finder
-keymap("n", "gh", "<cmd>lua require'lspsaga.provider'.lsp_finder()<CR>", { silent = true })
--- docs
-keymap("n", "K", "<cmd>Lspsaga hover_doc<CR>", { silent = true })
-keymap("n", "<C-f>", "<cmd>lua require('lspsaga.hover').smart_scroll_with_saga(1)<CR>", { silent = true })
-keymap("n", "<C-b>", "<cmd>lua require('lspsaga.hover').smart_scroll_with_saga(-1)<CR>", { silent = true })
--- code actions
-keymap({"n","v"}, "<leader>ca", "<cmd>Lspsaga code_action<CR>", { silent = true })
--- Call hierarchy
-keymap("n", "<Leader>ci", "<cmd>Lspsaga incoming_calls<CR>")
-keymap("n", "<Leader>co", "<cmd>Lspsaga outgoing_calls<CR>")
--- signature help
-vim.api.nvim_set_keymap( "n", "<space>k", "<cmd>lua require('lspsaga.signaturehelp').signature_help()<CR>", {noremap = true, silent = true})
--- rename
-keymap("n", "<leader>r", "<cmd>Lspsaga rename<CR>")
--- preview definition
-keymap("n", "gd", "<cmd>Lspsaga peek_definition<CR>")
-keymap("n", "gt", "<cmd>Lspsaga peek_type_definition<CR>")
--- diagnostics
-keymap("n", "<space>d", "<cmd>Lspsaga show_line_diagnostics<CR>", { silent = true })
-keymap("n", "[d", "<cmd>Lspsaga diagnostic_jump_prev<CR>", { silent = true })
-keymap("n", "]d", "<cmd>Lspsaga diagnostic_jump_next<CR>", { silent = true })
-keymap("n", "[E", function()
-  require("lspsaga.diagnostic"):goto_prev({ severity = vim.diagnostic.severity.ERROR })
-end, { silent = true })
-keymap("n", "]E", function()
-  require("lspsaga.diagnostic"):goto_next({ severity = vim.diagnostic.severity.ERROR })
-end, { silent = true })
+-- keymap("n", "gh", "<cmd>lua require'lspsaga.provider'.lsp_finder()<CR>", { silent = true })
+-- -- docs
+-- keymap("n", "K", "<cmd>Lspsaga hover_doc<CR>", { silent = true })
+-- keymap("n", "<C-f>", "<cmd>lua require('lspsaga.hover').smart_scroll_with_saga(1)<CR>", { silent = true })
+-- keymap("n", "<C-b>", "<cmd>lua require('lspsaga.hover').smart_scroll_with_saga(-1)<CR>", { silent = true })
+-- -- code actions
+-- keymap({"n","v"}, "<leader>ca", "<cmd>Lspsaga code_action<CR>", { silent = true })
+-- -- Call hierarchy
+-- keymap("n", "<Leader>ci", "<cmd>Lspsaga incoming_calls<CR>")
+-- keymap("n", "<Leader>co", "<cmd>Lspsaga outgoing_calls<CR>")
+-- -- signature help
+-- vim.api.nvim_set_keymap( "n", "<space>k", "<cmd>lua require('lspsaga.signaturehelp').signature_help()<CR>", {noremap = true, silent = true})
+-- -- rename
+-- keymap("n", "<leader>r", "<cmd>Lspsaga rename<CR>")
+-- -- preview definition
+-- keymap("n", "gd", "<cmd>Lspsaga peek_definition<CR>")
+-- keymap("n", "gt", "<cmd>Lspsaga peek_type_definition<CR>")
+-- -- diagnostics
+-- keymap("n", "<space>d", "<cmd>Lspsaga show_line_diagnostics<CR>", { silent = true })
+-- keymap("n", "[d", "<cmd>Lspsaga diagnostic_jump_prev<CR>", { silent = true })
+-- keymap("n", "]d", "<cmd>Lspsaga diagnostic_jump_next<CR>", { silent = true })
+-- keymap("n", "[E", function()
+--   require("lspsaga.diagnostic"):goto_prev({ severity = vim.diagnostic.severity.ERROR })
+-- end, { silent = true })
+-- keymap("n", "]E", function()
+--   require("lspsaga.diagnostic"):goto_next({ severity = vim.diagnostic.severity.ERROR })
+-- end, { silent = true })
 -- outline
 keymap("n", "<leader>o", "<cmd>LSoutlineToggle<CR>", { silent = true })
 -- git
