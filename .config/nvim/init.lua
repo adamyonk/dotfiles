@@ -46,19 +46,20 @@ require("packer").startup(
         use "tpope/vim-unimpaired" -- bindings to toggle common settings
         use "tpope/vim-vinegar" -- use netrw with style
         use "wellle/targets.vim" -- expand the target objects
+        use "tpope/vim-rails" -- projectionist settings for rails
         -- Syntax
         -- git/gist/github
-        use {
-          'pwntester/octo.nvim',
-          requires = {
-            'nvim-lua/plenary.nvim',
-            'nvim-telescope/telescope.nvim',
-            'kyazdani42/nvim-web-devicons',
-          },
-          config = function ()
-            require"octo".setup()
-          end
-        }
+        -- use {
+        --   'pwntester/octo.nvim',
+        --   requires = {
+        --     'nvim-lua/plenary.nvim',
+        --     'nvim-telescope/telescope.nvim',
+        --     'kyazdani42/nvim-web-devicons',
+        --   },
+        --   config = function ()
+        --     require"octo".setup()
+        --   end
+        -- }
         use "lewis6991/gitsigns.nvim"
         use "mattn/gist-vim"
         use "mattn/webapi-vim"
@@ -103,32 +104,40 @@ require("packer").startup(
         use {"vimwiki/vimwiki", branch = "dev"}
 
         -- osc52 clipboard
-        use "ojroques/nvim-osc52"
+        -- use {
+        --   "ojroques/nvim-osc52",
+        --   config = function()
+        --     require"osc52".setup {
+        --       silent = true,
+        --       tmux_passthrough = true,
+        --     }
+        --   end
+        -- }
     end
 )
 
 -- clipboard
-local function copy(lines, _)
-  require('osc52').copy(table.concat(lines, '\n'))
-end
+-- local function copy(lines, _)
+--   require('osc52').copy(table.concat(lines, '\n'))
+-- end
 
-local function paste()
-  return {vim.fn.split(vim.fn.getreg(''), '\n'), vim.fn.getregtype('')}
-end
+-- local function paste()
+--   return {vim.fn.split(vim.fn.getreg(''), '\n'), vim.fn.getregtype('')}
+-- end
 
-vim.g.clipboard = {
-  name = 'osc52',
-  copy = {['+'] = copy, ['*'] = copy},
-  paste = {['+'] = paste, ['*'] = paste},
-}
+-- vim.g.clipboard = {
+--   name = 'osc52',
+--   copy = {['+'] = copy, ['*'] = copy},
+--   paste = {['+'] = paste, ['*'] = paste},
+-- }
 
--- -- Now the '+' register will copy to system clipboard using OSC52
--- keymap('n', '<leader>c', '"+y')
--- keymap('n', '<leader>cc', '"+yy')
+-- -- -- Now the '+' register will copy to system clipboard using OSC52
+-- -- keymap('n', '<leader>c', '"+y')
+-- -- keymap('n', '<leader>cc', '"+yy')
 
-keymap('n', '<leader>c', require('osc52').copy_operator, {expr = true})
-keymap('n', '<leader>cc', '<leader>c_', {remap = true})
-keymap('v', '<leader>c', require('osc52').copy_visual)
+-- keymap('n', '<leader>c', require('osc52').copy_operator, {expr = true})
+-- keymap('n', '<leader>cc', '<leader>c_', {remap = true})
+-- keymap('v', '<leader>c', require('osc52').copy_visual)
 
 -- THEME
 require("catppuccin").setup({
@@ -333,6 +342,8 @@ keymap("n", "<tab>", "%", {noremap = true, silent = true})
 keymap("n", "<leader>ts", "<cmd>.! date -R<cr>", {noremap = true, silent = true})
 keymap("v", "<", "<gv", {noremap = true, silent = true})
 keymap("v", ">", ">gv", {noremap = true, silent = true})
+keymap("n", "[t", ":tabprevious<cr>", {noremap = true, silent = true})
+keymap("n", "]t", ":tabnext<cr>", {noremap = true, silent = true})
 
 -- UI
 gitsigns = require("gitsigns")
@@ -354,6 +365,7 @@ keymap(
 local telescope = require 'telescope'
 local builtin = require'telescope.builtin'
 local actions = require 'telescope.actions'
+vim.api.nvim_set_keymap( 'n', '<leader>f/', '<cmd>lua require(\'telescope.builtin\').grep_string({search = vim.fn.expand("<cword>")})<cr>', {})
 
 telescope.setup{
   defaults = {
@@ -479,7 +491,7 @@ local capabilities = require("cmp_nvim_lsp").default_capabilities(vim.lsp.protoc
 -- easyalign
 keymap("v", "ga", "<Plug>(EasyAlign)", {})
 keymap("n", "ga", "<Plug>(EasyAlign)", {})
-keymap("n", "gA", ":ascii", {})
+keymap("n", "gA", ":ascii<cr>", {})
 
 -- vim-sandwich
 function _G.structInput()
@@ -565,24 +577,24 @@ vim.list_extend(sandwich_recipes, custom_recipes)
 vim.g["sandwich#recipes"] = sandwich_recipes
 
 -- LSP LANGUAGE SERVERS
-vim.api.nvim_exec(
-  [[
-command! -bar EslintProject call EslintProject()
+-- vim.api.nvim_exec(
+--   [[
+-- command! -bar EslintProject call EslintProject()
 
-function! EslintProject() abort
-  let cmd = 'npm run lint -- --format=compact'
+-- function! EslintProject() abort
+--   let cmd = 'npm run lint -- --format=compact'
 
-  let efm = &efm
-  let efm ..= ',%f: line %l\, col %c\, %trror %m'
-  let efm ..= ',%f: line %l\, col %c\, %tarning %m'
-  let efm ..= ',%-G%.%#'
+--   let efm = &efm
+--   let efm ..= ',%f: line %l\, col %c\, %trror %m'
+--   let efm ..= ',%f: line %l\, col %c\, %tarning %m'
+--   let efm ..= ',%-G%.%#'
 
-  sil let qfl = getqflist({'lines': systemlist(cmd), 'efm': efm})
-  call setqflist(get(qfl, 'items', []))
-  cw
-endfu
-  ]],
-false)
+--   sil let qfl = getqflist({'lines': systemlist(cmd), 'efm': efm})
+--   call setqflist(get(qfl, 'items', []))
+--   cw
+-- endfu
+--   ]],
+-- false)
 
 local lspconfig = require("lspconfig")
 
@@ -629,7 +641,7 @@ vim.api.nvim_create_autocmd('LspAttach', {
     keymap('n', 'gi', vim.lsp.buf.implementation, opts)
     keymap('n', 'gr', vim.lsp.buf.references, opts)
     keymap('n', 'K', vim.lsp.buf.hover, opts)
-    keymap('n', '<C-k>', vim.lsp.buf.signature_help, opts)
+    keymap('n', 'gk', vim.lsp.buf.signature_help, opts)
     -- keymap('n', '<space>wa', vim.lsp.buf.add_workspace_folder, opts)
     -- keymap('n', '<space>wr', vim.lsp.buf.remove_workspace_folder, opts)
     -- keymap('n', '<space>wl', function()
@@ -665,12 +677,20 @@ local function root_pattern(...)
     end
 end
 
-local servers = { 'pylsp', 'tsserver', 'solargraph', 'sorbet', 'rubocop' }
-for _, lsp in ipairs(servers) do
-  lspconfig[lsp].setup {
-    capabilities = capabilities,
-  }
-end
+-- local servers = { 'pylsp', 'tsserver', 'solargraph', 'sorbet', 'rubocop' }
+-- for _, lsp in ipairs(servers) do
+--   lspconfig[lsp].setup {
+--     capabilities = capabilities,
+--   }
+-- end
+lspconfig.pylsp.setup { capabilities = capabilities }
+lspconfig.tsserver.setup { capabilities = capabilities }
+lspconfig.solargraph.setup { capabilities = capabilities }
+lspconfig.sorbet.setup { capabilities = capabilities }
+lspconfig.rubocop.setup {
+  capabilities = capabilities,
+  filetypes = { "ruby" },
+}
 
 local eslint = {
     lintCommand = "eslint_d -f visualstudio --stdin --stdin-filename=${INPUT}",
@@ -682,6 +702,25 @@ local eslint = {
     lintIgnoreExitCode = true,
     formatCommand = "eslint_d --fix-to-stdout --stdin --stdin-filename=${INPUT}",
     formatStdin = true
+}
+-- local eruby = {
+--     lintDebounce: 2,
+--     lintCommand: 'erb -x -T - | ruby -c',
+--     lintStdin: true,
+--     lintOffset: 1,
+--     formatCommand: htmlbeautifier,
+--     formatStdin: true,
+-- }
+local erblint = {
+    lintCommand = "erblint --format compact --stdin ${INPUT}",
+    lintStdin = true,
+    lintFormats = {
+      "%f:%l:%c: %m",
+    },
+    lintIgnoreExitCode = true,
+    lintOffset = 1,
+    formatCommand = "erblint --autocorrect --stdin ${INPUT} | tail -n +5",
+    formatStdin = true,
 }
 local function eslint_config_exists()
     local eslintrc = vim.fn.glob(".eslintrc*", 0, 1)
@@ -700,25 +739,28 @@ local function eslint_config_exists()
 end
 lspconfig.efm.setup {
     capabilities = capabilities,
-    on_attach = function(client, bufnr)
-        client.server_capabilities.document_formatting = true
-        client.server_capabilities.goto_definition = false
-        on_attach(client, bufnr)
-    end,
-    root_dir = function()
-        if not eslint_config_exists() then
-            return nil
-        end
-        return vim.fn.getcwd()
-    end,
+    init_options = { documentFormatting = true },
+    -- on_attach = function(client, bufnr)
+    --     client.server_capabilities.document_formatting = true
+    --     client.server_capabilities.goto_definition = false
+    --     on_attach(client, bufnr)
+    -- end,
+    -- root_dir = function()
+    --     if not eslint_config_exists() then
+    --         return nil
+    --     end
+    --     return vim.fn.getcwd()
+    -- end,
     settings = {
+        rootMarkers = {".git/"},
         languages = {
             javascript = {eslint},
             javascriptreact = {eslint},
             ["javascript.jsx"] = {eslint},
             typescript = {eslint},
             ["typescript.tsx"] = {eslint},
-            typescriptreact = {eslint}
+            typescriptreact = {eslint},
+            eruby = {erblint},
         }
     },
     filetypes = {
@@ -727,7 +769,8 @@ lspconfig.efm.setup {
         "javascript.jsx",
         "typescript",
         "typescript.tsx",
-        "typescriptreact"
+        "typescriptreact",
+        "eruby",
     }
 }
 
@@ -757,20 +800,20 @@ require "nvim-treesitter.configs".setup {
         }
     }
 }
-local parser_config = require("nvim-treesitter.parsers").get_parser_configs()
-parser_config.markdown.filetype_to_parsername = "octo"
-require "octo".setup(
-    {
-        mappings = {
-            submit_win = {
-              approve_review = { lhs = "<C-p>", desc = "approve review" },
-              comment_review = { lhs = "<C-m>", desc = "comment review" },
-              request_changes = { lhs = "<C-r>", desc = "request changes review" },
-              close_review_tab = { lhs = "<C-c>", desc = "close review tab" },
-            },
-        }
-    }
-)
+-- local parser_config = require("nvim-treesitter.parsers").get_parser_configs()
+-- parser_config.markdown.filetype_to_parsername = "octo"
+-- require "octo".setup(
+--     {
+--         mappings = {
+--             submit_win = {
+--               approve_review = { lhs = "<C-p>", desc = "approve review" },
+--               comment_review = { lhs = "<C-m>", desc = "comment review" },
+--               request_changes = { lhs = "<C-r>", desc = "request changes review" },
+--               close_review_tab = { lhs = "<C-c>", desc = "close review tab" },
+--             },
+--         }
+--     }
+-- )
 
 keymap("n", "g.", 'i<cr><ESC>:.-1read !date -Iseconds<CR>I<BS><ESC>j0i<BS><ESC>l', { silent = true })
 keymap("i", "<c-s>", '<cr><ESC>:.-1read !date -Iseconds<CR>I<BS><ESC>j0i<BS><ESC>l', { silent = true })
@@ -842,7 +885,6 @@ vim.g.vimwiki_list = {
 }
 
 keymap("n", "#-", "<Plug>VimwikiRemoveHeaderLevel", {noremap = true, silent = true})
-vim.cmd([[autocmd FileType vimwiki nnoremap <buffer> <leader>F :Neoformat! markdown prettierd<cr>]])
 
 -- vim.api.nvim_create_autocmd("FileType", {
 --     group = "javascript.jsx",
