@@ -718,7 +718,6 @@ local erblint = {
       "%f:%l:%c: %m",
     },
     lintIgnoreExitCode = true,
-    lintOffset = 1,
     formatCommand = "erblint --autocorrect --stdin ${INPUT} | tail -n +5",
     formatStdin = true,
 }
