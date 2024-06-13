@@ -21,7 +21,7 @@ require("packer").startup(
 
         -- Themes
         use "EdenEast/nightfox.nvim"
-        use { "catppuccin/nvim", as = "catppuccin" }
+        use {"catppuccin/nvim", as = "catppuccin"}
 
         use "christoomey/vim-tmux-navigator" -- navigate across tmux splits
         use "easymotion/vim-easymotion"
@@ -49,17 +49,17 @@ require("packer").startup(
         use "tpope/vim-rails" -- projectionist settings for rails
         -- Syntax
         -- git/gist/github
-        -- use {
-        --   'pwntester/octo.nvim',
-        --   requires = {
-        --     'nvim-lua/plenary.nvim',
-        --     'nvim-telescope/telescope.nvim',
-        --     'kyazdani42/nvim-web-devicons',
-        --   },
-        --   config = function ()
-        --     require"octo".setup()
-        --   end
-        -- }
+        use {
+          'pwntester/octo.nvim',
+          requires = {
+            'nvim-lua/plenary.nvim',
+            'nvim-telescope/telescope.nvim',
+            'kyazdani42/nvim-web-devicons',
+          },
+          config = function ()
+            require"octo".setup()
+          end
+        }
         use "lewis6991/gitsigns.nvim"
         use "mattn/gist-vim"
         use "mattn/webapi-vim"
@@ -285,8 +285,9 @@ require('lualine').setup {
     section_separators = { left = '', right = '' },
   },
   sections = process_sections {
-    lualine_a = { 'mode' },
+    lualine_a = {},
     lualine_b = {
+      { 'filename', file_status = false, path = 1 },
       'branch',
       'diff',
       {
@@ -301,7 +302,6 @@ require('lualine').setup {
         sections = { 'warn' },
         diagnostics_color = { warn = { bg = colors.orange, fg = colors.white } },
       },
-      { 'filename', file_status = false, path = 1 },
       { modified, color = { bg = colors.red } },
       {
         '%w',
@@ -322,8 +322,11 @@ require('lualine').setup {
         end,
       },
     },
-    lualine_c = {},
-    lualine_x = {},
+    lualine_c = { 
+    },
+    lualine_x = {
+      { 'mode', fmt = function(str) return str:sub(1,1) end },
+    },
     lualine_y = { search_result, 'filetype' },
     lualine_z = { '%l:%c', '%p%%/%L' },
   },
@@ -368,6 +371,7 @@ local actions = require 'telescope.actions'
 vim.api.nvim_set_keymap( 'n', '<leader>f/', '<cmd>lua require(\'telescope.builtin\').grep_string({search = vim.fn.expand("<cword>")})<cr>', {})
 
 telescope.setup{
+  file_ignore_patterns = { "sorbet" },
   defaults = {
     mappings = {
       i = {
@@ -712,13 +716,14 @@ local eslint = {
 --     formatStdin: true,
 -- }
 local erblint = {
-    lintCommand = "erblint --format compact --stdin ${INPUT}",
+    lintCommand = "erblint --config ./.erb-lint.yml --format compact --stdin ${FILENAME}",
     lintStdin = true,
     lintFormats = {
       "%f:%l:%c: %m",
     },
     lintIgnoreExitCode = true,
-    formatCommand = "erblint --autocorrect --stdin ${INPUT} | tail -n +5",
+    lintSource = "erblint",
+    formatCommand = "erblint --autocorrect --stdin ${FILENAME} | tail -n +5",
     formatStdin = true,
 }
 local function eslint_config_exists()
@@ -799,20 +804,20 @@ require "nvim-treesitter.configs".setup {
         }
     }
 }
--- local parser_config = require("nvim-treesitter.parsers").get_parser_configs()
--- parser_config.markdown.filetype_to_parsername = "octo"
--- require "octo".setup(
---     {
---         mappings = {
---             submit_win = {
---               approve_review = { lhs = "<C-p>", desc = "approve review" },
---               comment_review = { lhs = "<C-m>", desc = "comment review" },
---               request_changes = { lhs = "<C-r>", desc = "request changes review" },
---               close_review_tab = { lhs = "<C-c>", desc = "close review tab" },
---             },
---         }
---     }
--- )
+local parser_config = require("nvim-treesitter.parsers").get_parser_configs()
+parser_config.markdown.filetype_to_parsername = "octo"
+require "octo".setup(
+    {
+        mappings = {
+            submit_win = {
+              approve_review = { lhs = "<C-p>", desc = "approve review" },
+              comment_review = { lhs = "<C-m>", desc = "comment review" },
+              request_changes = { lhs = "<C-r>", desc = "request changes review" },
+              close_review_tab = { lhs = "<C-c>", desc = "close review tab" },
+            },
+        }
+    }
+)
 
 keymap("n", "g.", 'i<cr><ESC>:.-1read !date -Iseconds<CR>I<BS><ESC>j0i<BS><ESC>l', { silent = true })
 keymap("i", "<c-s>", '<cr><ESC>:.-1read !date -Iseconds<CR>I<BS><ESC>j0i<BS><ESC>l', { silent = true })

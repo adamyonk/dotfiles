@@ -70,6 +70,7 @@ else
 fi
 source $ZPLUG_HOME/init.zsh
 # Plugins
+plugins=(git fzf)
 zplug 'zplug/zplug', hook-build:'zplug --self-manage'
 zplug "zsh-users/zsh-autosuggestions"
 zplug "zsh-users/zsh-completions"
@@ -98,8 +99,8 @@ SPACESHIP_PROMPT_ORDER=(
   # package       # Package version
   # gradle        # Gradle section
   # maven         # Maven section
-  # node          # Node.js section
-  # ruby          # Ruby section
+  node          # Node.js section
+  ruby          # Ruby section
   # elixir        # Elixir section
   # xcode         # Xcode section
   # swift         # Swift section
@@ -121,7 +122,7 @@ SPACESHIP_PROMPT_ORDER=(
   # ibmcloud      # IBM Cloud section
   exec_time     # Execution time
   line_sep      # Line break
-  # battery       # Battery level and status
+  battery       # Battery level and status
   vi_mode       # Vi-mode indicator
   jobs          # Background jobs indicator
   exit_code     # Exit code section
@@ -349,7 +350,6 @@ alias h='heroku'
 export HOMEBREW_CASK_OPTS="--appdir=/Applications"
 
 # Node
-[[ -f "$HOME/.asdf/asdf.sh" ]] && . "$HOME/.asdf/asdf.sh"
 if [[ -f "$(command -v npm)" ]]; then
   export NODE_PATH=$(npm root --quiet --location=global)
 fi
@@ -416,15 +416,11 @@ fi
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
 
 
-# Created by `pipx` on 2022-04-12 03:45:44
-export PATH="$PATH:$HOME/.local/bin"
-
 # bun completions
 [ -s "$HOME/.bun/_bun" ] && source "$HOME/.bun/_bun"
 
 # Bun
 export BUN_INSTALL="$HOME/.bun"
-export PATH="$BUN_INSTALL/bin:$PATH"
 
 start-dev() {
   AWS_ACCESS_KEY_ID="$(op item get "Jeli AWS" --fields id)" AWS_SECRET_ACCESS_KEY="$(op item get "Jeli AWS" --fields secret)" aws ec2 start-instances --instance-ids "$(op item get "Jeli AWS" --fields instance)"

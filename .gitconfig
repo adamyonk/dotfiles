@@ -73,7 +73,7 @@
   prune = true
 
 [gh]
-  protocol = https
+  ; protocol = https
 
 [github]
   user = adamyonk
