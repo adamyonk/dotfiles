@@ -28,6 +28,5 @@ export PATH="$PATH:$HOME/.cargo/bin"
 [[ -f "/opt/homebrew/bin/brew" ]] && eval "$(/opt/homebrew/bin/brew shellenv)"
 export PATH="/opt/homebrew/bin:$PATH"
 
-export PATH="$PATH:.git/safe/../../bin"
-export PATH="$PATH:.git/safe/../../script"
-export PATH="$PATH:.git/safe/../../scripts"
+# mkdir .git/safe for to add this to PATH
+export PATH=".git/safe/../../bin:$PATH"
