@@ -1,2 +1,5 @@
 bundler
 sorbet
+solargraph
+rubocop
+erb_lint

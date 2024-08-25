@@ -99,6 +99,9 @@ require("packer").startup(
       requires = {"neovim/nvim-lspconfig"},
     }
     use {"nvim-telescope/telescope.nvim"}
+    use {"fbuchlak/telescope-directory.nvim",
+      requires = {"nvim-telescope/telescope.nvim"}
+    }
 
     use {"arthurxavierx/vim-caser"}
     use {"easymotion/vim-easymotion"}
@@ -356,6 +359,9 @@ keymap('n', '<leader>w', '<cmd>lua require(\'telescope.builtin\').grep_string({s
 
 telescope.setup{
   file_ignore_patterns = { "sorbet" },
+  extensions = {
+    directory = {},
+  },
   defaults = {
     mappings = {
       i = {
@@ -366,28 +372,30 @@ telescope.setup{
     }
   },
 }
+telescope.load_extension("directory")
 telescope.load_extension("githubcoauthors")
 function _G.searchWiki()
-    builtin.find_files {
-        prompt_title = "Search ZK",
-        shorten_path = false,
-        cwd = "~/Library/Mobile Documents/iCloud~md~obsidian/Documents/Zettle"
-    }
+  builtin.find_files {
+    prompt_title = "Search ZK",
+    shorten_path = false,
+    cwd = "~/Library/Mobile Documents/iCloud~md~obsidian/Documents/Zettle"
+  }
 end
 
-keymap("n", "<localleader>ff", builtin.find_files, {noremap = true, silent = true})
-keymap("n", "<localleader>fb", builtin.buffers, {noremap = true, silent = true})
-keymap("n", "<localleader>fg", builtin.live_grep, {noremap = true, silent = true})
-keymap("n", "<localleader>fq", builtin.quickfix, {noremap = true, silent = true})
-keymap("n", "<localleader>fa", telescope.extensions.githubcoauthors.coauthors, {noremap = true, silent = true})
-keymap("n", "<localleader>fw", _G.searchWiki, {noremap = true, silent = true})
+keymap("n", "<localleader>ff", builtin.find_files)
+keymap("n", "<localleader>fb", builtin.buffers)
+keymap("n", "<localleader>fg", builtin.live_grep)
+keymap("n", "<localleader>fq", builtin.quickfix)
+keymap("n", "<localleader>fa", telescope.extensions.githubcoauthors.coauthors)
+keymap("n", "<localleader>fd", "<cmd>Telescope directory live_grep<cr>")
+keymap("n", "<localleader>fw", _G.searchWiki)
 
 -- terminal
-keymap("t", "<esc>", "<C-\\><C-n>", {noremap = true, silent = true})
-keymap("t", "<c-h>", "<C-\\><C-n><c-w>h", {noremap = true, silent = true})
-keymap("t", "<c-j>", "<C-\\><C-n><c-w>j", {noremap = true, silent = true})
-keymap("t", "<c-k>", "<C-\\><C-n><c-w>k", {noremap = true, silent = true})
-keymap("t", "<c-l>", "<C-\\><C-n><c-w>l", {noremap = true, silent = true})
+keymap("t", "<esc>", "<C-\\><C-n>")
+keymap("t", "<c-h>", "<C-\\><C-n><c-w>h")
+keymap("t", "<c-j>", "<C-\\><C-n><c-w>j")
+keymap("t", "<c-k>", "<C-\\><C-n><c-w>k")
+keymap("t", "<c-l>", "<C-\\><C-n><c-w>l")
 
 -- cmp
 local cmp = require "cmp"
@@ -644,12 +652,12 @@ local eslint = {
   formatStdin = true
 }
 -- local eruby = {
---   lintDebounce: 2,
---   lintCommand: 'erb -x -T - | ruby -c',
---   lintStdin: true,
---   lintOffset: 1,
---   formatCommand: htmlbeautifier,
---   formatStdin: true,
+--   lintDebounce = 2,
+--   lintCommand = "erb -x -T - | ruby -c",
+--   lintStdin = true,
+--   lintOffset = 1,
+--   formatCommand = htmlbeautifier,
+--   formatStdin = true,
 -- }
 local erblint = {
   lintCommand = "erblint --config ./.erb-lint.yml --format compact --stdin ${FILENAME}",

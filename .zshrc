@@ -45,21 +45,20 @@ setopt no_hup
 setopt no_list_beep
 setopt prompt_subst
 
-autoload -U bashcompinit; bashcompinit
-autoload -U compinit; compinit
-autoload -U promptinit; promptinit
+autoload -Uz bashcompinit; bashcompinit
+autoload -Uz promptinit; promptinit
+autoload edit-command-line; zle -N edit-command-line
 zmodload zsh/nearcolor
 
-autoload edit-command-line; zle -N edit-command-line
 bindkey "^X^E" edit-command-line
 
-# Kick homebrew off on linux
-if [[ "$(uname -s)" == "Linux" ]]; then
-  if [[ -d ~/.linuxbrew ]]; then
-    eval $(~/.linuxbrew/bin/brew shellenv)
-  elif [[ -d /home/linuxbrew/.linuxbrew ]]; then
-    eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)
-  fi
+# Kick homebrew off
+if [[ -d ~/.linuxbrew ]]; then
+  eval "$(~/.linuxbrew/bin/brew shellenv)"
+elif [[ -d /home/linuxbrew/.linuxbrew ]]; then
+  eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+elif [[ -f "/opt/homebrew/bin/brew" ]]; then
+  eval "$(/opt/homebrew/bin/brew shellenv)"
 fi
 
 # zplug
@@ -139,14 +138,9 @@ SPACESHIP_VI_MODE_NORMAL=""
 [[ -e "$HOME"/.localrc ]] && . "$HOME"/.localrc
 
 # asdf
-# For brew version:
-# [[ -f "/usr/local/opt/asdf/asdf.sh" ]] && . /usr/local/opt/asdf/asdf.sh
-# [[ -f "/usr/local/etc/bash_completion.d/asdf.bash" ]] && . /usr/local/etc/bash_completion.d/asdf.bash
-# For manual install
-# The next line is living in .zshenv
-# [[ -f "$HOME/.asdf/asdf.sh" ]] && . "$HOME/.asdf/asdf.sh"
-[[ -f "$HOME/.asdf/completions/asdf.bash" ]] && . "$HOME/.asdf/completions/asdf.bash"
-# [[ -f "$HOME/.asdf/plugins/java/set-java-home.zsh" ]] && . "$HOME/.asdf/plugins/java/set-java-home.zsh"
+. "$HOME/.asdf/asdf.sh"
+# append completions to fpath
+fpath=(${ASDF_DIR}/completions $fpath)
 
 # Base16 Shell (doesn't work in Terminal.app)
 # if [[ "$TERM" =~ "256" ]] || [[ "$TERM" =~ "kitty" ]] || [[ "$TERM" =~ "screen" ]]; then
@@ -429,3 +423,9 @@ start-dev() {
 stop-dev() {
   AWS_ACCESS_KEY_ID="$(op item get "Jeli AWS" --fields id)" AWS_SECRET_ACCESS_KEY="$(op item get "Jeli AWS" --fields secret)" aws ec2 stop-instances --instance-ids "$(op item get "Jeli AWS" --fields instance)"
 }
+
+show-path() {
+  echo $PATH | tr : '\n'
+}
+
+alias dev="nocorrect dev"
