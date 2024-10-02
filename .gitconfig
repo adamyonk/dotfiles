@@ -117,7 +117,7 @@
   autosquash = true
 
 [rerere]
-  enabled = false
+  enabled = true
 
 [user]
   email = adamyonk@icloud.com
