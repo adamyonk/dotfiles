@@ -24,6 +24,7 @@
   shove = push --force-with-lease
   show-files = diff-tree --no-commit-id --name-only -r
   si = stash save --keep-index
+  sign = "!f() { git rebase \"${1:-$((git branch | egrep 'main|master|development|latest|release' || echo 'master') | sed 's|* |origin/|' | awk '{print $1}')}\" --exec 'git commit --amend --no-edit -n -S'; }; f"
   sp = stash pop
   standup = log --author=\"Adam Jahnke\" --pretty=oneline --since yesterday
   sub = submodule
@@ -45,16 +46,17 @@
   ui = 1
 
 [commit]
-  #gpgsign = true
+  gpgsign = true
   template = ~/.gitmessage
 
 [core]
   editor = nvim
   excludesfile = ~/.gitignore
-  ; pager = delta
+  pager = delta
   quotepath = false
 
 [delta]
+  navigate = true
   features = line-numbers decorations
   syntax-theme = base16
   whitespace-error-style = 22 reverse
@@ -79,7 +81,7 @@
   user = adamyonk
 
 [gpg]
-  program = gpg
+  program = bpb
 
 [help]
   autocorrect = 1
@@ -95,10 +97,10 @@
   #templatedir = ~/.git_template
 
 [interactive]
-    diffFilter = delta --color-only --features=interactive
+  diffFilter = delta --color-only --features=interactive
 
 [merge]
-  #conflictStyle = diff3
+  conflictStyle = zdiff3
   ff = false
 
 [mergetool]
@@ -110,7 +112,7 @@
 [push]
   default = tracking
   followTags = true
-	autoSetupRemote = true
+  autoSetupRemote = true
 
 [rebase]
   autoStash = true
@@ -119,9 +121,13 @@
 [rerere]
   enabled = true
 
+[tag]
+  forceSignAnnotated = true
+
 [user]
   email = adamyonk@icloud.com
   name = Adam Jahnke
+
 [filter "lfs"]
 	required = true
 	clean = git-lfs clean -- %f

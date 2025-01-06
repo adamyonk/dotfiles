@@ -79,107 +79,113 @@ keymap("i", "<c-s>", '<cr><ESC>:.-1read !date -Iseconds<CR>I<BS><ESC>j0i<BS><ESC
 -- TSInstall bash comment css dockerfile go graphql html javascript jsdoc json lua make markdown prisma php python ruby rust scss svelte toml tsx typescript vim vue yaml
 -- PLUGINS
 vim.cmd [[packadd packer.nvim]]
-require("packer").startup(
-  function()
-    use {"wbthomason/packer.nvim"}
+require("packer").startup(function(use)
+  use {"wbthomason/packer.nvim"}
 
-    use {"editorconfig/editorconfig-vim"} -- editorconfig for being polite
-    use {"EdenEast/nightfox.nvim"}
+  use {"editorconfig/editorconfig-vim"} -- editorconfig for being polite
+  use {"EdenEast/nightfox.nvim",
+    config = function()
+    end,
+  }
 
-    use {"christoomey/vim-tmux-navigator"} -- navigate across tmux splits
-    use {"nvim-lua/popup.nvim"}
-    use {"norcalli/nvim-colorizer.lua"} -- color hex/rgb strings
-    -- use "junegunn/fzf"
-    -- use "junegunn/fzf.vim"
-    use {"nvim-lualine/lualine.nvim",
-      requires = {"nvim-tree/nvim-web-devicons"},
-    }
-    use {"tpope/vim-vinegar"} -- use netrw with style
-    use {"SmiteshP/nvim-navic",
-      requires = {"neovim/nvim-lspconfig"},
-    }
-    use {"nvim-telescope/telescope.nvim"}
-    use {"fbuchlak/telescope-directory.nvim",
-      requires = {"nvim-telescope/telescope.nvim"}
-    }
+  use {"christoomey/vim-tmux-navigator"} -- navigate across tmux splits
+  use {"nvim-lua/popup.nvim"}
+  use {"norcalli/nvim-colorizer.lua"} -- color hex/rgb strings
+  -- use "junegunn/fzf"
+  -- use "junegunn/fzf.vim"
+  use {"nvim-lualine/lualine.nvim",
+    requires = {"nvim-tree/nvim-web-devicons"},
+  }
+  use {"tpope/vim-vinegar"} -- use netrw with style
+  use {"SmiteshP/nvim-navic",
+    requires = {"neovim/nvim-lspconfig"},
+  }
+  use {"nvim-telescope/telescope.nvim"}
+  use {"fbuchlak/telescope-directory.nvim",
+    requires = {"nvim-telescope/telescope.nvim"}
+  }
 
-    use {"arthurxavierx/vim-caser"}
-    use {"easymotion/vim-easymotion"}
-    use {"junegunn/vim-easy-align"}
-    use {"machakann/vim-sandwich"}
-    -- This may not be needed after nvim 0.10:
-    -- use "tpope/vim-commentary" -- easy comments
-    use {"tpope/vim-eunuch"} -- handle missing files and unix-y stuff
-    use {"wellle/targets.vim"} -- expand the target objects
-    use {"junegunn/vim-peekaboo"} -- Peekaboo extends " and @ in normal mode and <CTRL-R> in insert mode so you can see the contents of the registers.
-    use {"kopischke/vim-fetch"} -- be able to open from stack traces (to line and column)
-    use {"tpope/vim-ragtag"} -- handle html tags
-    use {"tpope/vim-repeat"} -- repeat actions
-    use {"tpope/vim-speeddating"} -- work with dates
-    use {"tpope/vim-unimpaired"} -- bindings to toggle common settings
+  use {"arthurxavierx/vim-caser"}
+  use {"easymotion/vim-easymotion"}
+  use {"junegunn/vim-easy-align"}
+  use {"machakann/vim-sandwich"}
+  -- This may not be needed after nvim 0.10:
+  -- use "tpope/vim-commentary" -- easy comments
+  use {"tpope/vim-eunuch"} -- handle missing files and unix-y stuff
+  use {"wellle/targets.vim"} -- expand the target objects
+  use {"junegunn/vim-peekaboo"} -- Peekaboo extends " and @ in normal mode and <CTRL-R> in insert mode so you can see the contents of the registers.
+  use {"kopischke/vim-fetch"} -- be able to open from stack traces (to line and column)
+  use {"tpope/vim-ragtag"} -- handle html tags
+  use {"tpope/vim-repeat"} -- repeat actions
+  use {"tpope/vim-speeddating"} -- work with dates
+  use {"tpope/vim-unimpaired"} -- bindings to toggle common settings
 
-    use {"hrsh7th/nvim-cmp",
-      requires = {"neovim/nvim-lspconfig"},
-    }
-    use {"hrsh7th/cmp-nvim-lsp"}
-    use {"hrsh7th/cmp-buffer"}
-    use {"hrsh7th/cmp-path"}
-    use {"hrsh7th/cmp-cmdline"}
-    use {"hrsh7th/cmp-vsnip"}
-    use {"hrsh7th/vim-vsnip"}
-    use {"petertriho/cmp-git",
-      requires = {"nvim-lua/plenary.nvim"},
-    }
+  use {"hrsh7th/nvim-cmp",
+    requires = {"neovim/nvim-lspconfig"},
+  }
+  use {"hrsh7th/cmp-nvim-lsp"}
+  use {"hrsh7th/cmp-buffer"}
+  use {"hrsh7th/cmp-path"}
+  use {"hrsh7th/cmp-cmdline"}
+  use {"hrsh7th/cmp-vsnip"}
+  use {"hrsh7th/vim-vsnip"}
+  use {"petertriho/cmp-git",
+    requires = {"nvim-lua/plenary.nvim"},
+  }
 
-    use {"tpope/vim-projectionist"} -- create and rename files by convention
-    use {"tpope/vim-rails"} -- projectionist settings for rails
+  use {"tpope/vim-projectionist"} -- create and rename files by convention
+  use {"tpope/vim-rails"} -- projectionist settings for rails
 
-    -- git/gist/github
-    use {"pwntester/octo.nvim",
-      requires = {"nvim-lua/plenary.nvim", "nvim-telescope/telescope.nvim", "nvim-tree/nvim-web-devicons"},
-    }
-    use {"lewis6991/gitsigns.nvim"} -- Git integration for buffers (signs, status, etc)
-    use {"mattn/gist-vim",
-      requires = {"mattn/webapi-vim"},
-    }
-    use {"rhysd/git-messenger.vim", opt = true} -- display git commit info under cursor
-    use {"tpope/vim-fugitive"} -- Git stuff
-    use {"tpope/vim-git"} -- git file syntax
-    use {"tpope/vim-rhubarb"} -- GitHub stuff
-    use {"cwebster2/github-coauthors.nvim"}
+  -- git/gist/github
+  use {"pwntester/octo.nvim",
+    requires = {"nvim-lua/plenary.nvim", "nvim-telescope/telescope.nvim", "nvim-tree/nvim-web-devicons"},
+  }
+  use {"lewis6991/gitsigns.nvim"} -- Git integration for buffers (signs, status, etc)
+  use {"mattn/gist-vim",
+    requires = {"mattn/webapi-vim"},
+  }
+  use {"rhysd/git-messenger.vim", opt = true} -- display git commit info under cursor
+  use {"tpope/vim-fugitive"} -- Git stuff
+  use {"tpope/vim-git"} -- git file syntax
+  use {"tpope/vim-rhubarb"} -- GitHub stuff
+  use {"cwebster2/github-coauthors.nvim"}
 
-    -- LSP
-    use {"neovim/nvim-lspconfig"}
-    use {"mattn/efm-langserver"}
+  -- LSP
+  use {"neovim/nvim-lspconfig"}
+  use {"mattn/efm-langserver"}
 
-    use {"nvim-treesitter/nvim-treesitter",
-      run = ":TSUpdate",
-    };
-    use {"nvim-treesitter/nvim-treesitter-textobjects",
-      after = "nvim-treesitter",
-      requires = "nvim-treesitter/nvim-treesitter",
-    }
+  use {"nvim-treesitter/nvim-treesitter",
+    run = ":TSUpdate",
+  };
+  use {"nvim-treesitter/nvim-treesitter-textobjects",
+    after = "nvim-treesitter",
+    requires = "nvim-treesitter/nvim-treesitter",
+  }
 
-    -- Prose
-    use {"iamcco/markdown-preview.nvim",
-      run = function() vim.fn["mkdp#util#install"]() end,
-    }
-    use {"vimwiki/vimwiki",
-      branch = "dev"
-    }
+  use {"stevearc/aerial.nvim",
+    after = "nvim-treesitter",
+    config = function() require("aerial").setup() end,
+  }
 
-    -- osc52 clipboard
-    -- use {
-    --   "ojroques/nvim-osc52",
-    --   config = function()
-    --     require"osc52".setup {
-    --       silent = true,
-    --       tmux_passthrough = true,
-    --     }
-    --   end
-    -- }
-  end
-)
+  -- Prose
+  use {"iamcco/markdown-preview.nvim",
+    run = function() vim.fn["mkdp#util#install"]() end,
+  }
+  use {"vimwiki/vimwiki",
+    branch = "dev"
+  }
+
+  -- osc52 clipboard
+  -- use {
+  --   "ojroques/nvim-osc52",
+  --   config = function()
+  --     require"osc52".setup {
+  --       silent = true,
+  --       tmux_passthrough = true,
+  --     }
+  --   end
+  -- }
+end)
 
 -- clipboard
 -- local function copy(lines, _)
@@ -365,7 +371,7 @@ telescope.setup{
   defaults = {
     mappings = {
       i = {
-        ["<C-q>"] = actions.send_selected_to_qflist + actions.open_qflist,
+        -- ["<C-q>"] = actions.send_selected_to_qflist + actions.open_qflist,
         ["<C-j>"] = actions.move_selection_next,
         ["<C-k>"] = actions.move_selection_previous,
       }
@@ -632,7 +638,7 @@ for type, icon in pairs(signs) do
 end
 
 lspconfig.pylsp.setup { capabilities = capabilities }
-lspconfig.tsserver.setup { capabilities = capabilities }
+lspconfig.ts_ls.setup { capabilities = capabilities }
 lspconfig.solargraph.setup { capabilities = capabilities }
 lspconfig.sorbet.setup { capabilities = capabilities }
 lspconfig.rubocop.setup {
@@ -659,15 +665,16 @@ local eslint = {
 --   formatCommand = htmlbeautifier,
 --   formatStdin = true,
 -- }
-local erblint = {
-  lintCommand = "erblint --config ./.erb-lint.yml --format compact --stdin ${FILENAME}",
+local erb_lint = {
+  -- lintCommand = "erb_lint --config ./.erb_lint.yml --format compact --stdin ${INPUT}",
+  lintCommand = "erb_lint --format compact --stdin ${INPUT}",
   lintStdin = true,
   lintFormats = {
     "%f:%l:%c: %m",
   },
   lintIgnoreExitCode = true,
-  lintSource = "erblint",
-  formatCommand = "erblint --autocorrect --stdin ${FILENAME} | tail -n +5",
+  lintSource = "erb_lint",
+  formatCommand = "erb_lint --autocorrect --stdin ${INPUT} | tail -n +5",
   formatStdin = true,
 }
 local function eslint_config_exists()
@@ -708,7 +715,7 @@ lspconfig.efm.setup {
       typescript = {eslint},
       ["typescript.tsx"] = {eslint},
       typescriptreact = {eslint},
-      eruby = {erblint},
+      eruby = {erb_lint},
     }
   },
   filetypes = {
@@ -795,3 +802,14 @@ vim.g.vimwiki_list = {
     }
 }
 keymap("n", "#-", "<Plug>VimwikiRemoveHeaderLevel", {noremap = true, silent = true})
+
+-- Highlight when yanking (copying) text
+-- Try it with 'yap' in normal mode
+-- See ':help vim.highlight.on_yank()'
+vim.api.nvim_create_autocmd('TextYankPost', {
+  desc = 'Highlight when yanking (copying) text',
+  group = vim.api.nvim_create_augroup('kickstart-highlight-yank', { clear = true }),
+  callback = function ()
+    vim.highlight.on_yank ()
+  end,
+})

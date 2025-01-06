@@ -15,8 +15,10 @@ export PATH=$PATH:$GOBIN
 export PATH="$PATH:/usr/local/heroku/bin"
 # Java
 # [[ -f "$HOME/.asdf/plugins/java/set-java-home" ]] && . "$HOME/.asdf/plugins/java/set-java-home"
+# Ruby
+export ASDF_RUBY_BUILD_VERSION=master
 # Rust
 export PATH="$PATH:$HOME/.cargo/bin"
-[[ -f "$HOME/.asdf/installs/rust/1.65.0/env" ]] && . "$HOME/.asdf/installs/rust/1.65.0/env"
+[[ -f "$HOME/.asdf/installs/rust/1.82.0/env" ]] && . "$HOME/.asdf/installs/rust/1.82.0/env"
 # mkdir .git/safe for to add this to PATH
 export PATH=".git/safe/../../bin:$PATH"
