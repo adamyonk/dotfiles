@@ -374,7 +374,14 @@ telescope.setup{
         -- ["<C-q>"] = actions.send_selected_to_qflist + actions.open_qflist,
         ["<C-j>"] = actions.move_selection_next,
         ["<C-k>"] = actions.move_selection_previous,
-      }
+
+        ["<C-q>"] = actions.send_to_loclist + actions.open_loclist,
+        ["<M-q>"] = actions.send_selected_to_loclist + actions.open_loclist,
+      },
+      n = {
+        ["<C-q>"] = actions.send_to_loclist + actions.open_loclist,
+        ["<M-q>"] = actions.send_selected_to_loclist + actions.open_loclist,
+      },
     }
   },
 }
@@ -482,8 +489,6 @@ cmp.setup.cmdline(':', {
   })
 })
 
--- Setup lspconfig.
-local capabilities = require("cmp_nvim_lsp").default_capabilities(vim.lsp.protocol.make_client_capabilities())
 
 -- easyalign
 keymap("v", "ga", "<Plug>(EasyAlign)")
@@ -637,10 +642,14 @@ for type, icon in pairs(signs) do
   vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
 end
 
+-- Setup lspconfig.
+local capabilities = require("cmp_nvim_lsp").default_capabilities(vim.lsp.protocol.make_client_capabilities())
+
 lspconfig.pylsp.setup { capabilities = capabilities }
 lspconfig.ts_ls.setup { capabilities = capabilities }
 lspconfig.solargraph.setup { capabilities = capabilities }
 lspconfig.sorbet.setup { capabilities = capabilities }
+lspconfig.tailwindcss.setup{ capabilities = capabilities }
 lspconfig.rubocop.setup {
   capabilities = capabilities,
   filetypes = { "ruby" },
@@ -677,35 +686,11 @@ local erb_lint = {
   formatCommand = "erb_lint --autocorrect --stdin ${INPUT} | tail -n +5",
   formatStdin = true,
 }
-local function eslint_config_exists()
-  local eslintrc = vim.fn.glob(".eslintrc*", 0, 1)
 
-  if not vim.tbl_isempty(eslintrc) then
-    return true
-  end
-
-  if vim.fn.filereadable("package.json") then
-    if vim.fn.json_decode(vim.fn.readfile("package.json"))["eslintConfig"] then
-      return true
-    end
-  end
-
-  return false
-end
 lspconfig.efm.setup {
+  cmd = {"efm-langserver", "-logfile", "/tmp/efm.log", "-loglevel", "1" },
   capabilities = capabilities,
   init_options = { documentFormatting = true },
-  -- on_attach = function(client, bufnr)
-  --   client.server_capabilities.document_formatting = true
-  --   client.server_capabilities.goto_definition = false
-  --   on_attach(client, bufnr)
-  -- end,
-  -- root_dir = function()
-  --   if not eslint_config_exists() then
-  --       return nil
-  --   end
-  --   return vim.fn.getcwd()
-  -- end,
   settings = {
     rootMarkers = {".git/"},
     languages = {

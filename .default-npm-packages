@@ -1,4 +1,5 @@
 @fsouza/prettierd
+@tailwindcss/language-server
 eslint
 eslint_d
 prettier
