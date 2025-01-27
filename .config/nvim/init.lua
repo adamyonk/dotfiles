@@ -1,8 +1,177 @@
--- https://vonheikemen.github.io/devlog/tools/configuring-neovim-using-lua/
-vim.cmd("syntax on")
-vim.cmd("filetype plugin indent on")
+-- Bootstrap lazy.nvim
+local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+if not (vim.uv or vim.loop).fs_stat(lazypath) then
+  local lazyrepo = "https://github.com/folke/lazy.nvim.git"
+  local out = vim.fn.system({ "git", "clone", "--filter=blob:none", "--branch=stable", lazyrepo, lazypath })
+  if vim.v.shell_error ~= 0 then
+    vim.api.nvim_echo({
+      { "Failed to clone lazy.nvim:\n", "ErrorMsg" },
+      { out, "WarningMsg" },
+      { "\nPress any key to exit..." },
+    }, true, {})
+    vim.fn.getchar()
+    os.exit(1)
+  end
+end
+vim.opt.rtp:prepend(lazypath)
+
 vim.g.mapleader = ","
 vim.g.maplocalleader = ","
+
+-- Setup lazy.nvim
+require("lazy").setup({
+  spec = {
+    {"EdenEast/nightfox.nvim"},
+
+    {"christoomey/vim-tmux-navigator"}, -- navigate across tmux splits
+    {"nvim-lua/popup.nvim"},
+    {"norcalli/nvim-colorizer.lua"}, -- color hex/rgb strings
+
+    {"nvim-lualine/lualine.nvim",
+      dependencies = {"nvim-tree/nvim-web-devicons"},
+    },
+    {"tpope/vim-vinegar"}, -- use netrw with style
+    {"SmiteshP/nvim-navic",
+      dependencies = {"neovim/nvim-lspconfig"},
+    },
+    {"nvim-telescope/telescope-fzf-native.nvim",
+      build = "make",
+      dependencies = {"nvim-telescope/telescope.nvim"},
+    },
+    {"nvim-telescope/telescope.nvim",
+      config = function()
+        local keymap = vim.keymap.set
+        local telescope = require 'telescope'
+        local builtin = require'telescope.builtin'
+        local actions = require 'telescope.actions'
+        telescope.setup {
+          file_ignore_patterns = { "sorbet" },
+          extensions = {
+            fzf = {},
+            directory = {},
+          },
+          defaults = {
+            mappings = {
+              i = {
+                -- ["<C-q>"] = actions.send_selected_to_qflist + actions.open_qflist,
+                ["<C-j>"] = actions.move_selection_next,
+                ["<C-k>"] = actions.move_selection_previous,
+
+                ["<C-q>"] = actions.send_to_loclist + actions.open_loclist,
+                ["<M-q>"] = actions.send_selected_to_loclist + actions.open_loclist,
+              },
+              n = {
+                ["<C-q>"] = actions.send_to_loclist + actions.open_loclist,
+                ["<M-q>"] = actions.send_selected_to_loclist + actions.open_loclist,
+              },
+            }
+          },
+        }
+
+        telescope.load_extension("directory")
+        telescope.load_extension("fzf")
+        telescope.load_extension("githubcoauthors")
+
+        keymap("n", "<localleader>ff", builtin.find_files)
+        keymap("n", "<localleader>fb", builtin.buffers)
+        keymap("n", "<localleader>fg", builtin.live_grep)
+        keymap("n", "<localleader>fh", builtin.help_tags)
+        keymap("n", "<localleader>fq", builtin.quickfix)
+        keymap("n", "<localleader>fa", telescope.extensions.githubcoauthors.coauthors)
+        keymap("n", "<localleader>fd", "<cmd>Telescope directory live_grep<cr>")
+        keymap("n", "<localleader>w", function()
+          builtin.grep_string {
+            search = vim.fn.expand("<cword>")
+          }
+        end)
+        keymap("n", "<localleader>fw", function()
+          builtin.find_files {
+            prompt_title = "Search ZK",
+            shorten_path = false,
+            cwd = "~/Library/Mobile Documents/iCloud~md~obsidian/Documents/Zettle"
+          }
+        end)
+      end,
+    },
+    {"fbuchlak/telescope-directory.nvim",
+      dependencies = {"nvim-telescope/telescope.nvim"},
+    },
+
+    {"arthurxavierx/vim-caser"},
+    {"easymotion/vim-easymotion"},
+    {"junegunn/vim-easy-align"},
+    {"machakann/vim-sandwich"},
+    {"tpope/vim-eunuch"}, -- handle missing files and unix-y stuff
+    {"wellle/targets.vim"}, -- expand the target objects
+    {"junegunn/vim-peekaboo"}, -- Peekaboo extends " and @ in normal mode and <CTRL-R> in insert mode so you can see the contents of the registers.
+    {"kopischke/vim-fetch"}, -- be able to open from stack traces (to line and column)
+    {"tpope/vim-ragtag"}, -- handle html tags
+    {"tpope/vim-repeat"}, -- repeat actions
+    {"tpope/vim-speeddating"}, -- work with dates
+    {"tpope/vim-unimpaired"}, -- bindings to toggle common settings
+
+    {"hrsh7th/nvim-cmp",
+      dependencies = {"neovim/nvim-lspconfig"},
+    },
+    {"hrsh7th/cmp-nvim-lsp"},
+    {"hrsh7th/cmp-buffer"},
+    {"hrsh7th/cmp-path"},
+    {"hrsh7th/cmp-cmdline"},
+    {"hrsh7th/cmp-vsnip"},
+    {"hrsh7th/vim-vsnip"},
+    {"petertriho/cmp-git",
+      dependencies = {"nvim-lua/plenary.nvim"},
+    },
+
+    {"tpope/vim-projectionist"}, -- create and rename files by convention
+    {"tpope/vim-rails"}, -- projectionist settings for rails
+
+    -- git/gist/github
+    {"pwntester/octo.nvim",
+      dependencies = {"nvim-lua/plenary.nvim", "nvim-telescope/telescope.nvim", "nvim-tree/nvim-web-devicons"},
+    },
+    {"lewis6991/gitsigns.nvim"}, -- Git integration for buffers (signs, status, etc)
+    {"mattn/gist-vim",
+      dependencies = {"mattn/webapi-vim"},
+    },
+    {"rhysd/git-messenger.vim", 
+      lazy = true,
+    }, -- display git commit info under cursor
+    {"tpope/vim-fugitive"}, -- Git stuff
+    {"tpope/vim-git"}, -- git file syntax
+    {"tpope/vim-rhubarb"}, -- GitHub stuff
+    {"cwebster2/github-coauthors.nvim",
+      dependencies = {"nvim-telescope/telescope.nvim"},
+    },
+
+    -- LSP
+    {"neovim/nvim-lspconfig"},
+    {"mattn/efm-langserver"},
+
+    {"nvim-treesitter/nvim-treesitter",
+      build = ":TSUpdate",
+    },
+    {"nvim-treesitter/nvim-treesitter-textobjects",
+      dependencies = "nvim-treesitter/nvim-treesitter",
+    },
+
+    {"stevearc/aerial.nvim",
+      config = function() require("aerial").setup() end,
+    },
+
+    -- Prose
+    {"iamcco/markdown-preview.nvim",
+      build = function() vim.fn["mkdp#util#install"]() end,
+    },
+    {"vimwiki/vimwiki",
+      branch = "dev"
+    },
+  },
+  checker = { enabled = true },
+})
+
+vim.cmd("syntax on")
+vim.cmd("filetype plugin indent on")
 vim.go.clipboard = "unnamed"
 
 -- Search
@@ -75,140 +244,6 @@ keymap("n", "[t", ":tabprevious<cr>")
 keymap("n", "]t", ":tabnext<cr>")
 keymap("n", "g.", 'i<cr><ESC>:.-1read !date -Iseconds<CR>I<BS><ESC>j0i<BS><ESC>l')
 keymap("i", "<c-s>", '<cr><ESC>:.-1read !date -Iseconds<CR>I<BS><ESC>j0i<BS><ESC>l')
-
--- TSInstall bash comment css dockerfile go graphql html javascript jsdoc json lua make markdown prisma php python ruby rust scss svelte toml tsx typescript vim vue yaml
--- PLUGINS
-vim.cmd [[packadd packer.nvim]]
-require("packer").startup(function(use)
-  use {"wbthomason/packer.nvim"}
-
-  use {"editorconfig/editorconfig-vim"} -- editorconfig for being polite
-  use {"EdenEast/nightfox.nvim",
-    config = function()
-    end,
-  }
-
-  use {"christoomey/vim-tmux-navigator"} -- navigate across tmux splits
-  use {"nvim-lua/popup.nvim"}
-  use {"norcalli/nvim-colorizer.lua"} -- color hex/rgb strings
-  -- use "junegunn/fzf"
-  -- use "junegunn/fzf.vim"
-  use {"nvim-lualine/lualine.nvim",
-    requires = {"nvim-tree/nvim-web-devicons"},
-  }
-  use {"tpope/vim-vinegar"} -- use netrw with style
-  use {"SmiteshP/nvim-navic",
-    requires = {"neovim/nvim-lspconfig"},
-  }
-  use {"nvim-telescope/telescope.nvim"}
-  use {"fbuchlak/telescope-directory.nvim",
-    requires = {"nvim-telescope/telescope.nvim"}
-  }
-
-  use {"arthurxavierx/vim-caser"}
-  use {"easymotion/vim-easymotion"}
-  use {"junegunn/vim-easy-align"}
-  use {"machakann/vim-sandwich"}
-  -- This may not be needed after nvim 0.10:
-  -- use "tpope/vim-commentary" -- easy comments
-  use {"tpope/vim-eunuch"} -- handle missing files and unix-y stuff
-  use {"wellle/targets.vim"} -- expand the target objects
-  use {"junegunn/vim-peekaboo"} -- Peekaboo extends " and @ in normal mode and <CTRL-R> in insert mode so you can see the contents of the registers.
-  use {"kopischke/vim-fetch"} -- be able to open from stack traces (to line and column)
-  use {"tpope/vim-ragtag"} -- handle html tags
-  use {"tpope/vim-repeat"} -- repeat actions
-  use {"tpope/vim-speeddating"} -- work with dates
-  use {"tpope/vim-unimpaired"} -- bindings to toggle common settings
-
-  use {"hrsh7th/nvim-cmp",
-    requires = {"neovim/nvim-lspconfig"},
-  }
-  use {"hrsh7th/cmp-nvim-lsp"}
-  use {"hrsh7th/cmp-buffer"}
-  use {"hrsh7th/cmp-path"}
-  use {"hrsh7th/cmp-cmdline"}
-  use {"hrsh7th/cmp-vsnip"}
-  use {"hrsh7th/vim-vsnip"}
-  use {"petertriho/cmp-git",
-    requires = {"nvim-lua/plenary.nvim"},
-  }
-
-  use {"tpope/vim-projectionist"} -- create and rename files by convention
-  use {"tpope/vim-rails"} -- projectionist settings for rails
-
-  -- git/gist/github
-  use {"pwntester/octo.nvim",
-    requires = {"nvim-lua/plenary.nvim", "nvim-telescope/telescope.nvim", "nvim-tree/nvim-web-devicons"},
-  }
-  use {"lewis6991/gitsigns.nvim"} -- Git integration for buffers (signs, status, etc)
-  use {"mattn/gist-vim",
-    requires = {"mattn/webapi-vim"},
-  }
-  use {"rhysd/git-messenger.vim", opt = true} -- display git commit info under cursor
-  use {"tpope/vim-fugitive"} -- Git stuff
-  use {"tpope/vim-git"} -- git file syntax
-  use {"tpope/vim-rhubarb"} -- GitHub stuff
-  use {"cwebster2/github-coauthors.nvim"}
-
-  -- LSP
-  use {"neovim/nvim-lspconfig"}
-  use {"mattn/efm-langserver"}
-
-  use {"nvim-treesitter/nvim-treesitter",
-    run = ":TSUpdate",
-  };
-  use {"nvim-treesitter/nvim-treesitter-textobjects",
-    after = "nvim-treesitter",
-    requires = "nvim-treesitter/nvim-treesitter",
-  }
-
-  use {"stevearc/aerial.nvim",
-    after = "nvim-treesitter",
-    config = function() require("aerial").setup() end,
-  }
-
-  -- Prose
-  use {"iamcco/markdown-preview.nvim",
-    run = function() vim.fn["mkdp#util#install"]() end,
-  }
-  use {"vimwiki/vimwiki",
-    branch = "dev"
-  }
-
-  -- osc52 clipboard
-  -- use {
-  --   "ojroques/nvim-osc52",
-  --   config = function()
-  --     require"osc52".setup {
-  --       silent = true,
-  --       tmux_passthrough = true,
-  --     }
-  --   end
-  -- }
-end)
-
--- clipboard
--- local function copy(lines, _)
---   require('osc52').copy(table.concat(lines, '\n'))
--- end
-
--- local function paste()
---   return {vim.fn.split(vim.fn.getreg(''), '\n'), vim.fn.getregtype('')}
--- end
-
--- vim.g.clipboard = {
---   name = 'osc52',
---   copy = {['+'] = copy, ['*'] = copy},
---   paste = {['+'] = paste, ['*'] = paste},
--- }
-
--- -- -- Now the '+' register will copy to system clipboard using OSC52
--- -- keymap('n', '<leader>c', '"+y')
--- -- keymap('n', '<leader>cc', '"+yy')
-
--- keymap('n', '<leader>c', require('osc52').copy_operator, {expr = true})
--- keymap('n', '<leader>cc', '<leader>c_', {remap = true})
--- keymap('v', '<leader>c', require('osc52').copy_visual)
 
 -- THEME
 require('nightfox').setup({
@@ -356,52 +391,6 @@ require('lualine').setup {
 -- UI
 gitsigns = require("gitsigns")
 gitsigns.setup()
-
--- telescope for finding stuff
-local telescope = require 'telescope'
-local builtin = require'telescope.builtin'
-local actions = require 'telescope.actions'
-keymap('n', '<leader>w', '<cmd>lua require(\'telescope.builtin\').grep_string({search = vim.fn.expand("<cword>")})<cr>', {})
-
-telescope.setup{
-  file_ignore_patterns = { "sorbet" },
-  extensions = {
-    directory = {},
-  },
-  defaults = {
-    mappings = {
-      i = {
-        -- ["<C-q>"] = actions.send_selected_to_qflist + actions.open_qflist,
-        ["<C-j>"] = actions.move_selection_next,
-        ["<C-k>"] = actions.move_selection_previous,
-
-        ["<C-q>"] = actions.send_to_loclist + actions.open_loclist,
-        ["<M-q>"] = actions.send_selected_to_loclist + actions.open_loclist,
-      },
-      n = {
-        ["<C-q>"] = actions.send_to_loclist + actions.open_loclist,
-        ["<M-q>"] = actions.send_selected_to_loclist + actions.open_loclist,
-      },
-    }
-  },
-}
-telescope.load_extension("directory")
-telescope.load_extension("githubcoauthors")
-function _G.searchWiki()
-  builtin.find_files {
-    prompt_title = "Search ZK",
-    shorten_path = false,
-    cwd = "~/Library/Mobile Documents/iCloud~md~obsidian/Documents/Zettle"
-  }
-end
-
-keymap("n", "<localleader>ff", builtin.find_files)
-keymap("n", "<localleader>fb", builtin.buffers)
-keymap("n", "<localleader>fg", builtin.live_grep)
-keymap("n", "<localleader>fq", builtin.quickfix)
-keymap("n", "<localleader>fa", telescope.extensions.githubcoauthors.coauthors)
-keymap("n", "<localleader>fd", "<cmd>Telescope directory live_grep<cr>")
-keymap("n", "<localleader>fw", _G.searchWiki)
 
 -- terminal
 keymap("t", "<esc>", "<C-\\><C-n>")
