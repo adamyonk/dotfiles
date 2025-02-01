@@ -160,11 +160,37 @@ require("lazy").setup({
     },
 
     -- Prose
-    {"iamcco/markdown-preview.nvim",
-      build = function() vim.fn["mkdp#util#install"]() end,
-    },
-    {"vimwiki/vimwiki",
-      branch = "dev"
+    -- {"vimwiki/vimwiki",
+    --   branch = "dev"
+    -- },
+
+    -- hm
+    {
+      "olimorris/codecompanion.nvim",
+      dependencies = {
+        "nvim-lua/plenary.nvim",
+        "nvim-treesitter/nvim-treesitter",
+      },
+      -- config = true,
+      opts = {
+        adapters = {
+          ollama = function()
+            return require("codecompanion.adapters").extend("ollama", {
+              schema = {
+                model = {
+                  -- default = "mistral-small:24b",
+                  default = "deepseek-r1:latest",
+                },
+              },
+            })
+          end,
+        },
+        strategies = {
+          chat = { adapter = "ollama" },
+          inline = { adapter = "ollama" },
+          agent = { adapter = "ollama" },
+        },
+      },
     },
   },
   checker = { enabled = true },
@@ -651,9 +677,27 @@ local eslint = {
     "%f(%l,%c): %trror %m",
     "%f(%l,%c): %tarning %m"
   },
-  lintIgnoreExitCode = true,
   formatCommand = "eslint_d --fix-to-stdout --stdin --stdin-filename=${INPUT}",
   formatStdin = true
+}
+local yamllint = {
+  lintCommand = "yamllint -f parsable - ",
+  lintStdin = true,
+  lintFormats = {
+    "%f:%l:%c: [%trror] %m",
+    "%f:%l:%c: [%tarning] %m",
+  },
+}
+local erb_lint = {
+  -- lintCommand = "erb_lint --config ./.erb_lint.yml --format compact --stdin ${INPUT}",
+  lintCommand = "erb_lint --format compact --stdin ${INPUT}",
+  lintStdin = true,
+  lintFormats = {
+    "%f:%l:%c: %m",
+  },
+  lintSource = "erb_lint",
+  formatCommand = "erb_lint --autocorrect --stdin ${INPUT} | tail -n +5",
+  formatStdin = true,
 }
 -- local eruby = {
 --   lintDebounce = 2,
@@ -663,21 +707,9 @@ local eslint = {
 --   formatCommand = htmlbeautifier,
 --   formatStdin = true,
 -- }
-local erb_lint = {
-  -- lintCommand = "erb_lint --config ./.erb_lint.yml --format compact --stdin ${INPUT}",
-  lintCommand = "erb_lint --format compact --stdin ${INPUT}",
-  lintStdin = true,
-  lintFormats = {
-    "%f:%l:%c: %m",
-  },
-  lintIgnoreExitCode = true,
-  lintSource = "erb_lint",
-  formatCommand = "erb_lint --autocorrect --stdin ${INPUT} | tail -n +5",
-  formatStdin = true,
-}
 
 lspconfig.efm.setup {
-  cmd = {"efm-langserver", "-logfile", "/tmp/efm.log", "-loglevel", "1" },
+  -- cmd = {"efm-langserver", "-logfile", "/tmp/efm.log", "-loglevel", "1" },
   capabilities = capabilities,
   init_options = { documentFormatting = true },
   settings = {
@@ -690,6 +722,9 @@ lspconfig.efm.setup {
       ["typescript.tsx"] = {eslint},
       typescriptreact = {eslint},
       eruby = {erb_lint},
+      ["eruby.yaml"] = {yamllint},
+      yaml = {yamllint},
+      yml = {yamllint},
     }
   },
   filetypes = {
@@ -700,6 +735,9 @@ lspconfig.efm.setup {
     "typescript.tsx",
     "typescriptreact",
     "eruby",
+    "eruby.yaml",
+    "yaml",
+    "yml",
   }
 }
 
@@ -747,35 +785,35 @@ keymap("n", "]g", "<cmd>Gitsigns next_hunk<CR>", { silent = true })
 keymap("n", "[g", "<cmd>Gitsigns prev_hunk<CR>", { silent = true })
 keymap("n", "<leader>g", ":Git<cr>", { silent = true })
 
--- vimwiki
-vim.g.vimwiki_key_mappings = {
-    all_maps = 1,
-    global = 1,
-    headers = 1,
-    text_objs = 1,
-    table_format = 1,
-    table_mappings = 1,
-    lists = 1,
-    links = 0,
-    html = 1,
-    mouse = 0
-}
-vim.g.vimwiki_global_ext = 0
-vim.g.vimwiki_list = {
-    {
-        path = "~/Library/Mobile Documents/iCloud~md~obsidian/Documents/Zettle/Jeli",
-        syntax = "markdown",
-        ext = ".md",
-        diary_rel_path = "Log Book/"
-    },
-    {
-        path = "~/Library/Mobile Documents/iCloud~md~obsidian/Documents/Zettle",
-        syntax = "markdown",
-        ext = ".md",
-        diary_rel_path = "Journal/"
-    }
-}
-keymap("n", "#-", "<Plug>VimwikiRemoveHeaderLevel", {noremap = true, silent = true})
+-- -- vimwiki
+-- vim.g.vimwiki_key_mappings = {
+--     all_maps = 1,
+--     global = 1,
+--     headers = 1,
+--     text_objs = 1,
+--     table_format = 1,
+--     table_mappings = 1,
+--     lists = 1,
+--     links = 0,
+--     html = 1,
+--     mouse = 0
+-- }
+-- vim.g.vimwiki_global_ext = 0
+-- vim.g.vimwiki_list = {
+--     {
+--         path = "~/Library/Mobile Documents/iCloud~md~obsidian/Documents/Zettle/Jeli",
+--         syntax = "markdown",
+--         ext = ".md",
+--         diary_rel_path = "Log Book/"
+--     },
+--     {
+--         path = "~/Library/Mobile Documents/iCloud~md~obsidian/Documents/Zettle",
+--         syntax = "markdown",
+--         ext = ".md",
+--         diary_rel_path = "Journal/"
+--     }
+-- }
+-- keymap("n", "#-", "<Plug>VimwikiRemoveHeaderLevel", {noremap = true, silent = true})
 
 -- Highlight when yanking (copying) text
 -- Try it with 'yap' in normal mode
