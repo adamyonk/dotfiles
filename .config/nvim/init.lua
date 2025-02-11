@@ -30,9 +30,23 @@ require("lazy").setup({
     {"nvim-lualine/lualine.nvim",
       dependencies = {"nvim-tree/nvim-web-devicons"},
     },
-    {"tpope/vim-vinegar"}, -- use netrw with style
     {"SmiteshP/nvim-navic",
       dependencies = {"neovim/nvim-lspconfig"},
+    },
+
+    {'stevearc/oil.nvim',
+      config = function()
+        require("oil").setup({
+          keymaps = {
+          },
+          view_options = {
+            show_hidden = true,
+          },
+        })
+        vim.keymap.set("n", "-", "<cmd>Oil<cr>", { desc = "Open parent directory" })
+      end,
+      dependencies = {"nvim-tree/nvim-web-devicons"}, -- use if you prefer nvim-web-devicons
+      lazy = false,
     },
     {"nvim-telescope/telescope-fzf-native.nvim",
       build = "make",
@@ -98,7 +112,12 @@ require("lazy").setup({
     },
 
     {"arthurxavierx/vim-caser"},
-    {"easymotion/vim-easymotion"},
+    {"easymotion/vim-easymotion",
+      config = function()
+        local keymap = vim.keymap.set
+        keymap("n", "<localleader>m", "<Plug>(easymotion-prefix)")
+      end,
+    },
     {"junegunn/vim-easy-align"},
     {"machakann/vim-sandwich"},
     {"tpope/vim-eunuch"}, -- handle missing files and unix-y stuff
@@ -424,6 +443,14 @@ keymap("t", "<c-h>", "<C-\\><C-n><c-w>h")
 keymap("t", "<c-j>", "<C-\\><C-n><c-w>j")
 keymap("t", "<c-k>", "<C-\\><C-n><c-w>k")
 keymap("t", "<c-l>", "<C-\\><C-n><c-w>l")
+
+vim.api.nvim_create_autocmd("TermOpen", {
+  group = vim.api.nvim_create_augroup("custom-term-open", { clear = true }),
+  callback = function()
+    vim.opt.number = false
+    vim.opt.relativenumber = false
+  end,
+})
 
 -- cmp
 local cmp = require "cmp"

@@ -46,7 +46,7 @@
   ui = 1
 
 [commit]
-  gpgsign = true
+  ; gpgsign = true
   template = ~/.gitmessage
 
 [core]
@@ -81,7 +81,7 @@
   user = adamyonk
 
 [gpg]
-  program = bpb
+  ; program = bpb
 
 [help]
   autocorrect = 1
