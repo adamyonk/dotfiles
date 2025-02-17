@@ -21,7 +21,15 @@ vim.g.maplocalleader = ","
 -- Setup lazy.nvim
 require("lazy").setup({
   spec = {
+    {"eandrju/cellular-automaton.nvim",
+      config = function()
+        vim.keymap.set("n", "<leader>fml", "<cmd>CellularAutomaton make_it_rain<CR>")
+      end,
+    },
     {"EdenEast/nightfox.nvim"},
+    {"OXY2DEV/markview.nvim",
+      lazy = false,
+    },
 
     {"christoomey/vim-tmux-navigator"}, -- navigate across tmux splits
     {"nvim-lua/popup.nvim"},
