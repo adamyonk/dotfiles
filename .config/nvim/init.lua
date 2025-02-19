@@ -14,6 +14,7 @@ if not (vim.uv or vim.loop).fs_stat(lazypath) then
   end
 end
 vim.opt.rtp:prepend(lazypath)
+vim.opt.laststatus = 3
 
 vim.g.mapleader = ","
 vim.g.maplocalleader = ","
@@ -192,30 +193,80 @@ require("lazy").setup({
     -- },
 
     -- hm
-    {
-      "olimorris/codecompanion.nvim",
-      dependencies = {
-        "nvim-lua/plenary.nvim",
-        "nvim-treesitter/nvim-treesitter",
-      },
-      -- config = true,
+    -- {
+    --   "olimorris/codecompanion.nvim",
+    --   dependencies = {
+    --     "nvim-lua/plenary.nvim",
+    --     "nvim-treesitter/nvim-treesitter",
+    --   },
+    --   -- config = true,
+    --   opts = {
+    --     adapters = {
+    --       ollama = function()
+    --         return require("codecompanion.adapters").extend("ollama", {
+    --           schema = {
+    --             model = {
+    --               -- default = "mistral-small:24b",
+    --               default = "deepseek-r1:latest",
+    --             },
+    --           },
+    --         })
+    --       end,
+    --     },
+    --     strategies = {
+    --       chat = { adapter = "ollama" },
+    --       inline = { adapter = "ollama" },
+    --       agent = { adapter = "ollama" },
+    --     },
+    --   },
+    -- },
+    {"yetone/avante.nvim",
+      event = "VeryLazy",
+      lazy = false,
+      version = "*",
       opts = {
-        adapters = {
-          ollama = function()
-            return require("codecompanion.adapters").extend("ollama", {
-              schema = {
-                model = {
-                  -- default = "mistral-small:24b",
-                  default = "deepseek-r1:latest",
-                },
+        provider = "claude",
+        -- openai = {
+        --   endpoint = "https://api.openai.com/v1",
+        --   model = "gpt-4o", -- your desired model (or use gpt-4o, etc.)
+        --   timeout = 30000, -- timeout in milliseconds
+        --   temperature = 0, -- adjust if needed
+        --   max_tokens = 4096,
+        --   reasoning_effort = "high" -- only supported for "o" models
+        -- },
+      },
+      build = "make",
+      behavior = {
+        auto_suggestions = false, -- Experimental stage
+        support_paste_from_clipboard = false,
+      },
+      dependencies = {
+        "stevearc/dressing.nvim",
+        "nvim-lua/plenary.nvim",
+        "MunifTanjim/nui.nvim",
+        --- The below dependencies are optional,
+        -- "echasnovski/mini.pick", -- for file_selector provider mini.pick
+        -- "nvim-telescope/telescope.nvim", -- for file_selector provider telescope
+        -- "hrsh7th/nvim-cmp", -- autocompletion for avante commands and mentions
+        -- "ibhagwan/fzf-lua", -- for file_selector provider fzf
+        -- "nvim-tree/nvim-web-devicons", -- or echasnovski/mini.icons
+        "zbirenbaum/copilot.lua", -- for providers='copilot'
+        {
+          -- support for image pasting
+          "HakonHarnes/img-clip.nvim",
+          event = "VeryLazy",
+          opts = {
+            -- recommended settings
+            default = {
+              embed_image_as_base64 = false,
+              prompt_for_file_name = false,
+              drag_and_drop = {
+                insert_mode = true,
               },
-            })
-          end,
-        },
-        strategies = {
-          chat = { adapter = "ollama" },
-          inline = { adapter = "ollama" },
-          agent = { adapter = "ollama" },
+              -- required for Windows users
+              use_absolute_path = true,
+            },
+          },
         },
       },
     },
