@@ -30,6 +30,11 @@ require("lazy").setup({
     {"EdenEast/nightfox.nvim"},
     {"OXY2DEV/markview.nvim",
       lazy = false,
+      opts = {
+        preview = {
+          enable = false,
+        },
+      },
     },
 
     {"christoomey/vim-tmux-navigator"}, -- navigate across tmux splits

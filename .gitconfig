@@ -37,7 +37,7 @@
   autosetuprebase = always
 
 [credential]
-  helper = envvar
+	helper = cache
 
 [color]
   branch = auto
