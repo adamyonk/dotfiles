@@ -14,7 +14,7 @@ if not (vim.uv or vim.loop).fs_stat(lazypath) then
   end
 end
 vim.opt.rtp:prepend(lazypath)
-vim.opt.laststatus = 3
+-- vim.opt.laststatus = 3
 
 vim.g.mapleader = ","
 vim.g.maplocalleader = ","
@@ -36,6 +36,7 @@ require("lazy").setup({
         },
       },
     },
+    -- a function here would be nice 
 
     {"christoomey/vim-tmux-navigator"}, -- navigate across tmux splits
     {"nvim-lua/popup.nvim"},
@@ -72,6 +73,12 @@ require("lazy").setup({
         local telescope = require 'telescope'
         local builtin = require'telescope.builtin'
         local actions = require 'telescope.actions'
+        local finders = require 'telescope.finders'
+        local pickers = require("telescope.pickers")
+        local previewers = require("telescope.previewers")
+        local sorters = require("telescope.sorters")
+        local conf = require('telescope.config').values
+
         telescope.setup {
           file_ignore_patterns = { "sorbet" },
           extensions = {
@@ -91,32 +98,138 @@ require("lazy").setup({
               n = {
                 ["<C-q>"] = actions.send_to_loclist + actions.open_loclist,
                 ["<M-q>"] = actions.send_selected_to_loclist + actions.open_loclist,
+                ["cd"] = function(prompt_bufnr)
+                  local selection = require("telescope.actions.state").get_selected_entry()
+                  local dir = vim.fn.fnamemodify(selection.path, ":p:h")
+                  actions.close(prompt_bufnr)
+                  vim.cmd(string.format("silent lcd %s", dir))
+                end,
               },
-            }
+            },
+          },
+          pickers = {
+            buffers = {
+              mappings = {
+                i = {
+                  ["<c-d>"] = actions.delete_buffer + actions.move_to_top,
+                },
+              },
+            },
           },
         }
 
         telescope.load_extension("directory")
         telescope.load_extension("fzf")
         telescope.load_extension("githubcoauthors")
+        telescope.load_extension('gh')
+
+
+        local function visit_yaml_node(node, name, yaml_path, result, file_path, bufnr)
+            local key = ''
+            if node:type() == "block_mapping_pair" then
+                local field_key = node:field("key")[1]
+                key = vim.treesitter.query.get_node_text(field_key, bufnr)
+            end
+
+            if key ~= nil and string.len(key) > 0 then
+                table.insert(yaml_path, key)
+                local line, col = node:start()
+                table.insert(result, {
+                    lnum = line + 1,
+                    col = col + 1,
+                    bufnr = bufnr,
+                    filename = file_path,
+                    text = table.concat(yaml_path, '.'),
+                })
+            end
+
+            for node, name in node:iter_children() do
+                visit_yaml_node(node, name, yaml_path, result, file_path, bufnr)
+            end
+
+            if key ~= nil and string.len(key) > 0 then
+                table.remove(yaml_path, table.maxn(yaml_path))
+            end
+        end
+
+        local function gen_from_yaml_nodes(opts)
+            local displayer = entry_display.create {
+                separator = " │ ",
+                items = {
+                    { width = 5 },
+                    { remaining = true },
+                },
+            }
+
+            local make_display = function(entry)
+                return displayer {
+                    { entry.lnum, "TelescopeResultsSpecialComment" },
+                    { entry.text, function() return {} end },
+                }
+            end
+
+            return function(entry)
+                return make_entry.set_default_entry_mt({
+                    ordinal = entry.text,
+                    display = make_display,
+                    filename = entry.filename,
+                    lnum = entry.lnum,
+                    text = entry.text,
+                    col = entry.col,
+                }, opts)
+            end
+        end
+
+        local yaml_symbols = function(opts)
+            local yaml_path = {}
+            local result = {}
+            local bufnr = vim.api.nvim_get_current_buf()
+            local ft = vim.api.nvim_buf_get_option(bufnr, "ft")
+            local tree = vim.treesitter.get_parser(bufnr, ft):parse()[1]
+            local file_path = vim.api.nvim_buf_get_name(bufnr)
+            local root = tree:root()
+            for node, name in root:iter_children() do
+                visit_yaml_node(node, name, yaml_path, result, file_path, bufnr)
+            end
+
+          -- return result
+          pickers.new(opts, {
+              prompt_title = "YAML symbols",
+              finder = finders.new_table {
+                  results = result,
+                  entry_maker = opts.entry_maker or gen_from_yaml_nodes(opts),
+              },
+              sorter = conf.generic_sorter(opts),
+              previewer = conf.grep_previewer(opts),
+          })
+          :find()
+        end
+
+        local dotfiles = function(opts)
+          pickers.new(opts, {
+            results_title = "Dotfiles",
+            finder = finders.new_oneshot_job({"git", "--git-dir=$HOME/.dotfiles/", "--work-tree=$HOME", "ls-files"}),
+            sorter = conf.generic_sorter(opts),
+            -- previewer = conf.grep_previewer(opts),
+          })
+          :find()
+        end
 
         keymap("n", "<localleader>ff", builtin.find_files)
         keymap("n", "<localleader>fb", builtin.buffers)
         keymap("n", "<localleader>fg", builtin.live_grep)
         keymap("n", "<localleader>fh", builtin.help_tags)
         keymap("n", "<localleader>fq", builtin.quickfix)
+        keymap("n", "<localleader>fy", yaml_symbols)
+        keymap("n", "<localleader>f.", dotfiles)
+        keymap({"n", "v"}, "<localleader>w", builtin.grep_string)
         keymap("n", "<localleader>fa", telescope.extensions.githubcoauthors.coauthors)
-        keymap("n", "<localleader>fd", "<cmd>Telescope directory live_grep<cr>")
-        keymap("n", "<localleader>w", function()
-          builtin.grep_string {
-            search = vim.fn.expand("<cword>")
-          }
-        end)
+        keymap("n", "<localleader>fd", telescope.extensions.directory.live_grep)
         keymap("n", "<localleader>fw", function()
           builtin.find_files {
             prompt_title = "Search ZK",
             shorten_path = false,
-            cwd = "~/Library/Mobile Documents/iCloud~md~obsidian/Documents/Zettle"
+            cwd = "~/Library/Mobile Documents/iCloud~md~obsidian/Documents/Zettle",
           }
         end)
       end,
@@ -177,6 +290,10 @@ require("lazy").setup({
       dependencies = {"nvim-telescope/telescope.nvim"},
     },
 
+    { "nvim-telescope/telescope-github.nvim",
+      dependencies = {"nvim-telescope/telescope.nvim"},
+    },
+
     -- LSP
     {"neovim/nvim-lspconfig"},
     {"mattn/efm-langserver"},
@@ -187,15 +304,83 @@ require("lazy").setup({
     {"nvim-treesitter/nvim-treesitter-textobjects",
       dependencies = "nvim-treesitter/nvim-treesitter",
     },
+    {"nvim-treesitter/nvim-treesitter-context",
+      dependencies = "nvim-treesitter/nvim-treesitter",
+    },
 
     {"stevearc/aerial.nvim",
       config = function() require("aerial").setup() end,
     },
 
     -- Prose
-    -- {"vimwiki/vimwiki",
-    --   branch = "dev"
-    -- },
+    {"vimwiki/vimwiki",
+      init = function()
+        local keymap = vim.keymap.set
+        keymap("n", "#-", "<Plug>VimwikiRemoveHeaderLevel", {noremap = true, silent = true})
+
+        vim.g.vimwiki_key_mappings = {
+          all_maps = 1,
+          global = 1,
+          headers = 1,
+          text_objs = 1,
+          table_format = 1,
+          table_mappings = 1,
+          lists = 1,
+          links = 0,
+          html = 1,
+          mouse = 0
+        }
+        vim.g.vimwiki_global_ext = 0
+        vim.g.vimwiki_list = {
+          {
+            path = "~/Library/Mobile Documents/iCloud~md~obsidian/Documents/Zettle/Oilcan",
+            syntax = "markdown",
+            ext = ".md",
+            diary_rel_path = "Log/"
+          },
+          {
+            path = "~/Library/Mobile Documents/iCloud~md~obsidian/Documents/Zettle",
+            syntax = "markdown",
+            ext = ".md",
+            diary_rel_path = "Journal/"
+          }
+        }
+      end,
+      config = function()
+        local keymap = vim.keymap.set
+        keymap("n", "#-", "<Plug>VimwikiRemoveHeaderLevel", {noremap = true, silent = true})
+
+        vim.api.nvim_set_var('vimwiki_key_mappings', {
+          all_maps = 1,
+          global = 1,
+          headers = 1,
+          text_objs = 1,
+          table_format = 1,
+          table_mappings = 1,
+          lists = 1,
+          links = 0,
+          html = 1,
+          mouse = 0
+        })
+        vim.api.nvim_set_var('vimwiki_global_ext', 0)
+        vim.api.nvim_set_var('vimwiki_list', {
+          {
+            path = "~/Library/Mobile Documents/iCloud~md~obsidian/Documents/Zettle/Oilcan",
+            syntax = "markdown",
+            ext = ".md",
+            diary_rel_path = "Log/"
+          },
+          {
+            path = "~/Library/Mobile Documents/iCloud~md~obsidian/Documents/Zettle",
+            syntax = "markdown",
+            ext = ".md",
+            diary_rel_path = "Journal/"
+          }
+        })
+      end,
+    },
+
+    -- {"github/copilot.vim"},
 
     -- hm
     -- {
@@ -225,36 +410,100 @@ require("lazy").setup({
     --     },
     --   },
     -- },
+    {"zbirenbaum/copilot.lua",
+      cmd = "Copilot",
+      event = "InsertEnter",
+      config = function()
+        require('copilot').setup({
+          -- panel = {
+          --   enabled = true,
+          --   auto_refresh = false,
+          --   keymap = {
+          --     jump_prev = "[[",
+          --     jump_next = "]]",
+          --     accept = "<CR>",
+          --     refresh = "gr",
+          --     open = "<M-CR>"
+          --   },
+          --   layout = {
+          --     position = "bottom", -- | top | left | right | horizontal | vertical
+          --     ratio = 0.4
+          --   },
+          -- },
+          -- suggestion = {
+          --   enabled = true,
+          --   auto_trigger = false,
+          --   hide_during_completion = true,
+          --   debounce = 75,
+          --   keymap = {
+          --     accept = "<M-l>",
+          --     accept_word = false,
+          --     accept_line = false,
+          --     next = "<M-]>",
+          --     prev = "<M-[>",
+          --     dismiss = "<C-]>",
+          --   },
+          -- },
+          -- filetypes = {
+          --   yaml = false,
+          --   markdown = false,
+          --   help = false,
+          --   gitcommit = false,
+          --   gitrebase = false,
+          --   hgcommit = false,
+          --   svn = false,
+          --   cvs = false,
+          --   ["."] = false,
+          -- },
+          -- logger = {
+          --   file = vim.fn.stdpath("log") .. "/copilot-lua.log",
+          --   file_log_level = vim.log.levels.OFF,
+          --   print_log_level = vim.log.levels.WARN,
+          --   trace_lsp = "off", -- "off" | "messages" | "verbose"
+          --   trace_lsp_progress = false,
+          --   log_lsp_messages = false,
+          -- },
+          -- copilot_node_command = 'node', -- Node.js version must be > 18.x
+          -- workspace_folders = {},
+          -- copilot_model = "",  -- Current LSP default is gpt-35-turbo, supports gpt-4o-copilot
+          -- root_dir = function()
+          --   return vim.fs.dirname(vim.fs.find(".git", { upward = true })[1])
+          -- end,
+          -- should_attach = nil, -- type is fun(bufnr: integer, bufname: string): boolean
+          -- server_opts_overrides = {},
+        })
+      end,
+    },
     {"yetone/avante.nvim",
       event = "VeryLazy",
-      lazy = false,
-      version = "*",
+      version = false, -- Never set this value to "*"! Never!
       opts = {
-        provider = "claude",
+        -- add any opts here
+        -- for example
+        provider = "copilot",
         -- openai = {
         --   endpoint = "https://api.openai.com/v1",
         --   model = "gpt-4o", -- your desired model (or use gpt-4o, etc.)
-        --   timeout = 30000, -- timeout in milliseconds
-        --   temperature = 0, -- adjust if needed
-        --   max_tokens = 4096,
-        --   reasoning_effort = "high" -- only supported for "o" models
+        --   timeout = 30000, -- Timeout in milliseconds, increase this for reasoning models
+        --   temperature = 0,
+        --   max_completion_tokens = 8192, -- Increase this to include reasoning tokens (for reasoning models)
+        --   --reasoning_effort = "medium", -- low|medium|high, only used for reasoning models
         -- },
       },
+      -- if you want to build from source then do `make BUILD_FROM_SOURCE=true`
       build = "make",
-      behavior = {
-        auto_suggestions = false, -- Experimental stage
-        support_paste_from_clipboard = false,
-      },
+      -- build = "powershell -ExecutionPolicy Bypass -File Build.ps1 -BuildFromSource false" -- for windows
       dependencies = {
+        "nvim-treesitter/nvim-treesitter",
         "stevearc/dressing.nvim",
         "nvim-lua/plenary.nvim",
         "MunifTanjim/nui.nvim",
         --- The below dependencies are optional,
         -- "echasnovski/mini.pick", -- for file_selector provider mini.pick
-        -- "nvim-telescope/telescope.nvim", -- for file_selector provider telescope
-        -- "hrsh7th/nvim-cmp", -- autocompletion for avante commands and mentions
-        -- "ibhagwan/fzf-lua", -- for file_selector provider fzf
-        -- "nvim-tree/nvim-web-devicons", -- or echasnovski/mini.icons
+        "nvim-telescope/telescope.nvim", -- for file_selector provider telescope
+        "hrsh7th/nvim-cmp", -- autocompletion for avante commands and mentions
+        "ibhagwan/fzf-lua", -- for file_selector provider fzf
+        "nvim-tree/nvim-web-devicons", -- or echasnovski/mini.icons
         "zbirenbaum/copilot.lua", -- for providers='copilot'
         {
           -- support for image pasting
@@ -272,6 +521,14 @@ require("lazy").setup({
               use_absolute_path = true,
             },
           },
+        },
+        {
+          -- Make sure to set this up properly if you have lazy=true
+          'MeanderingProgrammer/render-markdown.nvim',
+          opts = {
+            file_types = { "markdown", "Avante" },
+          },
+          ft = { "markdown", "Avante" },
         },
       },
     },
@@ -859,6 +1116,8 @@ local parser_config = require("nvim-treesitter.parsers").get_parser_configs()
 parser_config.markdown.filetype_to_parsername = "octo"
 require "octo".setup(
   {
+    default_to_projects_v2 = true,
+    default_merge_method = "squash",
     mappings = {
       submit_win = {
         approve_review = { lhs = "<C-p>", desc = "approve review" },
@@ -877,34 +1136,6 @@ keymap("n", "[g", "<cmd>Gitsigns prev_hunk<CR>", { silent = true })
 keymap("n", "<leader>g", ":Git<cr>", { silent = true })
 
 -- -- vimwiki
--- vim.g.vimwiki_key_mappings = {
---     all_maps = 1,
---     global = 1,
---     headers = 1,
---     text_objs = 1,
---     table_format = 1,
---     table_mappings = 1,
---     lists = 1,
---     links = 0,
---     html = 1,
---     mouse = 0
--- }
--- vim.g.vimwiki_global_ext = 0
--- vim.g.vimwiki_list = {
---     {
---         path = "~/Library/Mobile Documents/iCloud~md~obsidian/Documents/Zettle/Jeli",
---         syntax = "markdown",
---         ext = ".md",
---         diary_rel_path = "Log Book/"
---     },
---     {
---         path = "~/Library/Mobile Documents/iCloud~md~obsidian/Documents/Zettle",
---         syntax = "markdown",
---         ext = ".md",
---         diary_rel_path = "Journal/"
---     }
--- }
--- keymap("n", "#-", "<Plug>VimwikiRemoveHeaderLevel", {noremap = true, silent = true})
 
 -- Highlight when yanking (copying) text
 -- Try it with 'yap' in normal mode
