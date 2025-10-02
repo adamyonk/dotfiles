@@ -28,15 +28,14 @@ require("lazy").setup({
       end,
     },
     {"EdenEast/nightfox.nvim"},
-    {"OXY2DEV/markview.nvim",
-      lazy = false,
-      opts = {
-        preview = {
-          enable = false,
-        },
-      },
-    },
-    -- a function here would be nice 
+    -- {"OXY2DEV/markview.nvim",
+    --   lazy = false,
+    --   opts = {
+    --     preview = {
+    --       enable = false,
+    --     },
+    --   },
+    -- },
 
     {"christoomey/vim-tmux-navigator"}, -- navigate across tmux splits
     {"nvim-lua/popup.nvim"},
@@ -92,8 +91,7 @@ require("lazy").setup({
                 ["<C-j>"] = actions.move_selection_next,
                 ["<C-k>"] = actions.move_selection_previous,
 
-                ["<C-q>"] = actions.send_to_loclist + actions.open_loclist,
-                ["<M-q>"] = actions.send_selected_to_loclist + actions.open_loclist,
+                ["<C-q>"] = actions.smart_send_to_loclist + actions.open_loclist,
               },
               n = {
                 ["<C-q>"] = actions.send_to_loclist + actions.open_loclist,
@@ -219,6 +217,7 @@ require("lazy").setup({
         keymap("n", "<localleader>fb", builtin.buffers)
         keymap("n", "<localleader>fg", builtin.live_grep)
         keymap("n", "<localleader>fh", builtin.help_tags)
+        keymap("n", "<localleader>fi", telescope.extensions.gh.issues)
         keymap("n", "<localleader>fq", builtin.quickfix)
         keymap("n", "<localleader>fy", yaml_symbols)
         keymap("n", "<localleader>f.", dotfiles)
@@ -410,128 +409,253 @@ require("lazy").setup({
     --     },
     --   },
     -- },
-    {"zbirenbaum/copilot.lua",
-      cmd = "Copilot",
-      event = "InsertEnter",
-      config = function()
-        require('copilot').setup({
-          -- panel = {
-          --   enabled = true,
-          --   auto_refresh = false,
-          --   keymap = {
-          --     jump_prev = "[[",
-          --     jump_next = "]]",
-          --     accept = "<CR>",
-          --     refresh = "gr",
-          --     open = "<M-CR>"
-          --   },
-          --   layout = {
-          --     position = "bottom", -- | top | left | right | horizontal | vertical
-          --     ratio = 0.4
-          --   },
-          -- },
-          -- suggestion = {
-          --   enabled = true,
-          --   auto_trigger = false,
-          --   hide_during_completion = true,
-          --   debounce = 75,
-          --   keymap = {
-          --     accept = "<M-l>",
-          --     accept_word = false,
-          --     accept_line = false,
-          --     next = "<M-]>",
-          --     prev = "<M-[>",
-          --     dismiss = "<C-]>",
-          --   },
-          -- },
-          -- filetypes = {
-          --   yaml = false,
-          --   markdown = false,
-          --   help = false,
-          --   gitcommit = false,
-          --   gitrebase = false,
-          --   hgcommit = false,
-          --   svn = false,
-          --   cvs = false,
-          --   ["."] = false,
-          -- },
-          -- logger = {
-          --   file = vim.fn.stdpath("log") .. "/copilot-lua.log",
-          --   file_log_level = vim.log.levels.OFF,
-          --   print_log_level = vim.log.levels.WARN,
-          --   trace_lsp = "off", -- "off" | "messages" | "verbose"
-          --   trace_lsp_progress = false,
-          --   log_lsp_messages = false,
-          -- },
-          -- copilot_node_command = 'node', -- Node.js version must be > 18.x
-          -- workspace_folders = {},
-          -- copilot_model = "",  -- Current LSP default is gpt-35-turbo, supports gpt-4o-copilot
-          -- root_dir = function()
-          --   return vim.fs.dirname(vim.fs.find(".git", { upward = true })[1])
-          -- end,
-          -- should_attach = nil, -- type is fun(bufnr: integer, bufname: string): boolean
-          -- server_opts_overrides = {},
-        })
-      end,
-    },
-    {"yetone/avante.nvim",
-      event = "VeryLazy",
-      version = false, -- Never set this value to "*"! Never!
+    -- {"zbirenbaum/copilot.lua",
+    --   cmd = "Copilot",
+    --   event = "InsertEnter",
+    --   config = function()
+    --     require('copilot').setup({
+    --       -- panel = {
+    --       --   enabled = true,
+    --       --   auto_refresh = false,
+    --       --   keymap = {
+    --       --     jump_prev = "[[",
+    --       --     jump_next = "]]",
+    --       --     accept = "<CR>",
+    --       --     refresh = "gr",
+    --       --     open = "<M-CR>"
+    --       --   },
+    --       --   layout = {
+    --       --     position = "bottom", -- | top | left | right | horizontal | vertical
+    --       --     ratio = 0.4
+    --       --   },
+    --       -- },
+    --       -- suggestion = {
+    --       --   enabled = true,
+    --       --   auto_trigger = false,
+    --       --   hide_during_completion = true,
+    --       --   debounce = 75,
+    --       --   keymap = {
+    --       --     accept = "<M-l>",
+    --       --     accept_word = false,
+    --       --     accept_line = false,
+    --       --     next = "<M-]>",
+    --       --     prev = "<M-[>",
+    --       --     dismiss = "<C-]>",
+    --       --   },
+    --       -- },
+    --       -- filetypes = {
+    --       --   yaml = false,
+    --       --   markdown = false,
+    --       --   help = false,
+    --       --   gitcommit = false,
+    --       --   gitrebase = false,
+    --       --   hgcommit = false,
+    --       --   svn = false,
+    --       --   cvs = false,
+    --       --   ["."] = false,
+    --       -- },
+    --       -- logger = {
+    --       --   file = vim.fn.stdpath("log") .. "/copilot-lua.log",
+    --       --   file_log_level = vim.log.levels.OFF,
+    --       --   print_log_level = vim.log.levels.WARN,
+    --       --   trace_lsp = "off", -- "off" | "messages" | "verbose"
+    --       --   trace_lsp_progress = false,
+    --       --   log_lsp_messages = false,
+    --       -- },
+    --       -- copilot_node_command = 'node', -- Node.js version must be > 18.x
+    --       -- workspace_folders = {},
+    --       -- copilot_model = "",  -- Current LSP default is gpt-35-turbo, supports gpt-4o-copilot
+    --       -- root_dir = function()
+    --       --   return vim.fs.dirname(vim.fs.find(".git", { upward = true })[1])
+    --       -- end,
+    --       -- should_attach = nil, -- type is fun(bufnr: integer, bufname: string): boolean
+    --       -- server_opts_overrides = {},
+    --     })
+    --   end,
+    -- },
+    {
+      "folke/sidekick.nvim",
       opts = {
-        -- add any opts here
-        -- for example
-        provider = "copilot",
-        -- openai = {
-        --   endpoint = "https://api.openai.com/v1",
-        --   model = "gpt-4o", -- your desired model (or use gpt-4o, etc.)
-        --   timeout = 30000, -- Timeout in milliseconds, increase this for reasoning models
-        --   temperature = 0,
-        --   max_completion_tokens = 8192, -- Increase this to include reasoning tokens (for reasoning models)
-        --   --reasoning_effort = "medium", -- low|medium|high, only used for reasoning models
-        -- },
-      },
-      -- if you want to build from source then do `make BUILD_FROM_SOURCE=true`
-      build = "make",
-      -- build = "powershell -ExecutionPolicy Bypass -File Build.ps1 -BuildFromSource false" -- for windows
-      dependencies = {
-        "nvim-treesitter/nvim-treesitter",
-        "stevearc/dressing.nvim",
-        "nvim-lua/plenary.nvim",
-        "MunifTanjim/nui.nvim",
-        --- The below dependencies are optional,
-        -- "echasnovski/mini.pick", -- for file_selector provider mini.pick
-        "nvim-telescope/telescope.nvim", -- for file_selector provider telescope
-        "hrsh7th/nvim-cmp", -- autocompletion for avante commands and mentions
-        "ibhagwan/fzf-lua", -- for file_selector provider fzf
-        "nvim-tree/nvim-web-devicons", -- or echasnovski/mini.icons
-        "zbirenbaum/copilot.lua", -- for providers='copilot'
-        {
-          -- support for image pasting
-          "HakonHarnes/img-clip.nvim",
-          event = "VeryLazy",
-          opts = {
-            -- recommended settings
-            default = {
-              embed_image_as_base64 = false,
-              prompt_for_file_name = false,
-              drag_and_drop = {
-                insert_mode = true,
-              },
-              -- required for Windows users
-              use_absolute_path = true,
-            },
+        -- add any options here
+        cli = {
+          mux = {
+            backend = "tmux", -- "zellij",
+            enabled = true,
           },
         },
+      },
+      keys = {
         {
-          -- Make sure to set this up properly if you have lazy=true
-          'MeanderingProgrammer/render-markdown.nvim',
-          opts = {
-            file_types = { "markdown", "Avante" },
-          },
-          ft = { "markdown", "Avante" },
+          "<tab>",
+          function()
+            -- if there is a next edit, jump to it, otherwise apply it if any
+            if not require("sidekick").nes_jump_or_apply() then
+              return "<Tab>" -- fallback to normal tab
+            end
+          end,
+          expr = true,
+          desc = "Goto/Apply Next Edit Suggestion",
+        },
+        {
+          "<c-.>",
+          function()
+            require("sidekick.cli").focus()
+          end,
+          mode = { "n", "x", "i", "t" },
+          desc = "Sidekick Switch Focus",
+        },
+        {
+          "<leader>aa",
+          function()
+            require("sidekick.cli").toggle({ focus = true })
+          end,
+          desc = "Sidekick Toggle CLI",
+          mode = { "n", "v" },
+        },
+        {
+          "<leader>ac",
+          function()
+            require("sidekick.cli").toggle({ name = "claude", focus = true })
+          end,
+          desc = "Sidekick Claude Toggle",
+          mode = { "n", "v" },
+        },
+        {
+          "<leader>ag",
+          function()
+            require("sidekick.cli").toggle({ name = "grok", focus = true })
+          end,
+          desc = "Sidekick Grok Toggle",
+          mode = { "n", "v" },
+        },
+        {
+          "<leader>ap",
+          function()
+            require("sidekick.cli").select_prompt()
+          end,
+          desc = "Sidekick Ask Prompt",
+          mode = { "n", "v" },
         },
       },
     },
+    -- {"ravitemer/mcphub.nvim",
+    --   dependencies = {
+    --     "nvim-lua/plenary.nvim",
+    --   },
+    --   build = "npm install -g mcp-hub@latest",  -- Installs `mcp-hub` node binary globally
+    --   config = function()
+    --     require("mcphub").setup()
+    --   end
+    -- },
+    -- {"sudo-tee/opencode.nvim",
+    --   config = function()
+    --     require("opencode").setup({})
+    --   end,
+    --   dependencies = {
+    --     "nvim-lua/plenary.nvim",
+    --     {
+    --       "MeanderingProgrammer/render-markdown.nvim",
+    --       opts = {
+    --         anti_conceal = { enabled = false },
+    --         file_types = { 'markdown', 'opencode_output' },
+    --       },
+    --       ft = { 'markdown', 'Avante', 'copilot-chat', 'opencode_output' },
+    --     },
+    --     -- Optional, for file mentions and commands completion, pick only one
+    --     -- 'saghen/blink.cmp',
+    --     'hrsh7th/nvim-cmp',
+    --
+    --     -- Optional, for file mentions picker, pick only one
+    --     'folke/snacks.nvim',
+    --     -- 'nvim-telescope/telescope.nvim',
+    --     -- 'ibhagwan/fzf-lua',
+    --     -- 'nvim_mini/mini.nvim',
+    --   },
+    -- },
+    -- {"yetone/avante.nvim",
+    --   build = "make",
+    --   -- build = "make BUILD_FROM_SOURCE=true",
+    --   event = "VeryLazy",
+    --   version = false,
+    --   opts = {
+    --     provider = "claude",
+    --     auto_suggestions_provider = "claude",
+    --     -- provider = "ollama",
+    --     -- auto_suggestions_provider = "ollama",
+    --     providers = {
+    --       ollama = {
+    --         endpoint = "http://localhost:11434",
+    --         -- disable_tools = false,
+    --         model = "qwen3:14b",
+    --         -- extra_request_body = {
+    --         --   stream = true,
+    --         -- },
+    --       },
+    --       lmstudio_ventana = {
+    --         __inherited_from = "openai",
+    --         endpoint = "http://ventana.pig-newton.ts.net:1234/v1",
+    --         model = "qwen/qwen3-coder-30b",
+    --         -- api_key_name = "LM_API_KEY",
+    --       },
+    --       lmstudio = {
+    --         __inherited_from = "openai",
+    --         endpoint = "http://localhost:1234/v1",
+    --         model = "qwen/qwen3-14b",
+    --         -- api_key_name = "LM_API_KEY",
+    --       },
+    --     },
+    --   },
+    --   dependencies = {
+    --     "nvim-lua/plenary.nvim",
+    --     "MunifTanjim/nui.nvim",
+    --     --- The below dependencies are optional,
+    --     "echasnovski/mini.pick", -- for file_selector provider mini.pick
+    --     "nvim-telescope/telescope.nvim", -- for file_selector provider telescope
+    --     "hrsh7th/nvim-cmp", -- autocompletion for avante commands and mentions
+    --     "ibhagwan/fzf-lua", -- for file_selector provider fzf
+    --     "stevearc/dressing.nvim", -- for input provider dressing
+    --     "folke/snacks.nvim", -- for input provider snacks
+    --     "nvim-tree/nvim-web-devicons", -- or echasnovski/mini.icons
+    --     -- "zbirenbaum/copilot.lua", -- for providers='copilot'
+    --     {"HakonHarnes/img-clip.nvim", -- support for image pasting
+    --       event = "VeryLazy",
+    --       opts = {
+    --         -- recommended settings
+    --         default = {
+    --           embed_image_as_base64 = false,
+    --           prompt_for_file_name = false,
+    --           drag_and_drop = {
+    --             insert_mode = true,
+    --           },
+    --           -- required for Windows users
+    --           use_absolute_path = true,
+    --         },
+    --       },
+    --     },
+    --     {'MeanderingProgrammer/render-markdown.nvim', -- Make sure to set this up properly if you have lazy=true
+    --       opts = {
+    --         file_types = { "markdown", "Avante" },
+    --       },
+    --       ft = { "markdown", "Avante" },
+    --     },
+    --   },
+    --   config = function()
+    --     require('avante').setup {
+    --       -- system_prompt as function ensures LLM always has latest MCP server state
+    --       -- This is evaluated for every message, even in existing chats
+    --       system_prompt = function()
+    --         local hub = require('mcphub').get_hub_instance()
+    --         return hub and hub:get_active_servers_prompt() or ''
+    --       end,
+    --       -- Using function prevents requiring mcphub before it's loaded
+    --       custom_tools = function()
+    --         return {
+    --           require('mcphub.extensions.avante').mcp_tool(),
+    --         }
+    --       end,
+    --     }
+    --   end,
+    -- },
   },
   checker = { enabled = true },
 })
@@ -940,9 +1064,6 @@ local custom_recipes = {
 vim.list_extend(sandwich_recipes, custom_recipes)
 vim.g["sandwich#recipes"] = sandwich_recipes
 
--- LSP
-local lspconfig = require("lspconfig")
-
 vim.api.nvim_create_autocmd("CursorHold", {
   buffer = bufnr,
   callback = function()
@@ -1008,45 +1129,69 @@ end
 -- Setup lspconfig.
 local capabilities = require("cmp_nvim_lsp").default_capabilities(vim.lsp.protocol.make_client_capabilities())
 
-lspconfig.pylsp.setup { capabilities = capabilities }
-lspconfig.ts_ls.setup { capabilities = capabilities }
-lspconfig.solargraph.setup { capabilities = capabilities }
-lspconfig.sorbet.setup { capabilities = capabilities }
-lspconfig.tailwindcss.setup{ capabilities = capabilities }
-lspconfig.rubocop.setup {
+-- lspconfig.pylsp.setup { capabilities = capabilities }
+vim.lsp.config('ts_ls', {
   capabilities = capabilities,
-  filetypes = { "ruby" },
-}
+  init_options = { documentFormatting = false },
+})
+vim.lsp.enable('ts_ls')
 
-local eslint = {
-  lintCommand = "eslint_d -f visualstudio --stdin --stdin-filename=${INPUT}",
-  lintStdin = true,
-  lintFormats = {
-    "%f(%l,%c): %trror %m",
-    "%f(%l,%c): %tarning %m"
+vim.lsp.config('eslint', {
+  capabilities = capabilities,
+  settings = {
+    format = false,
   },
-  formatCommand = "eslint_d --fix-to-stdout --stdin --stdin-filename=${INPUT}",
-  formatStdin = true
-}
-local yamllint = {
-  lintCommand = "yamllint -f parsable - ",
-  lintStdin = true,
-  lintFormats = {
-    "%f:%l:%c: [%trror] %m",
-    "%f:%l:%c: [%tarning] %m",
-  },
-}
-local erb_lint = {
-  -- lintCommand = "erb_lint --config ./.erb_lint.yml --format compact --stdin ${INPUT}",
-  lintCommand = "erb_lint --format compact --stdin ${INPUT}",
-  lintStdin = true,
-  lintFormats = {
-    "%f:%l:%c: %m",
-  },
-  lintSource = "erb_lint",
-  formatCommand = "erb_lint --autocorrect --stdin ${INPUT} | tail -n +5",
+  init_options = { documentFormatting = false },
+  filetypes = {
+      "javascript",
+      "javascriptreact",
+      "javascript.jsx",
+      "typescript",
+      "typescript.tsx",
+      "typescriptreact",
+      "vue",
+  }
+})
+vim.lsp.enable('eslint')
+
+vim.lsp.config('tailwindcss', { capabilities = capabilities })
+vim.lsp.enable('tailwindcss')
+-- local eslint = {
+--   lintCommand = "eslint_d --format visualstudio --stdin --stdin-filename ${INPUT}",
+--   lintStdin = true,
+--   lintFormats = {
+--     "%f(%l,%c): %trror %m",
+--     "%f(%l,%c): %tarning %m"
+--   },
+--   lintIgnoreExitCode = true,
+--   formatCommand = "eslint_d --fix-to-stdout --stdin --stdin-filename ${INPUT}",
+--   formatStdin = true,
+--   rootMarkers = { "package.json" },
+-- }
+local prettier = {
+  formatCommand = "prettier --stdin-filepath ${INPUT}",
   formatStdin = true,
+  rootMarkers = { "package.json" },
 }
+-- local yamllint = {
+--   lintCommand = "yamllint -f parsable - ",
+--   lintStdin = true,
+--   lintFormats = {
+--     "%f:%l:%c: [%trror] %m",
+--     "%f:%l:%c: [%tarning] %m",
+--   },
+-- }
+-- local erb_lint = {
+--   -- lintCommand = "erb_lint --config ./.erb_lint.yml --format compact --stdin ${INPUT}",
+--   lintCommand = "erb_lint --format compact --stdin ${INPUT}",
+--   lintStdin = true,
+--   lintFormats = {
+--     "%f:%l:%c: %m",
+--   },
+--   lintSource = "erb_lint",
+--   formatCommand = "erb_lint --autocorrect --stdin ${INPUT} | tail -n +5",
+--   formatStdin = true,
+-- }
 -- local eruby = {
 --   lintDebounce = 2,
 --   lintCommand = "erb -x -T - | ruby -c",
@@ -1056,39 +1201,44 @@ local erb_lint = {
 --   formatStdin = true,
 -- }
 
-lspconfig.efm.setup {
-  -- cmd = {"efm-langserver", "-logfile", "/tmp/efm.log", "-loglevel", "1" },
+vim.lsp.config('efm', {
+  cmd = {"efm-langserver", "-logfile", "/tmp/efm.log", "-loglevel", "1" },
   capabilities = capabilities,
-  init_options = { documentFormatting = true },
+  init_options = {
+    documentFormatting = true,
+    documentRangeFormatting = true,
+  },
   settings = {
     rootMarkers = {".git/"},
     languages = {
-      javascript = {eslint},
-      javascriptreact = {eslint},
-      ["javascript.jsx"] = {eslint},
-      typescript = {eslint},
-      ["typescript.tsx"] = {eslint},
-      typescriptreact = {eslint},
-      eruby = {erb_lint},
-      ["eruby.yaml"] = {yamllint},
-      yaml = {yamllint},
-      yml = {yamllint},
+      javascript = {prettier},
+      javascriptreact = {prettier},
+      ["javascript.jsx"] = {prettier},
+      typescript = {prettier},
+      ["typescript.tsx"] = {prettier},
+      typescriptreact = {prettier},
+      vue = {prettier},
+      -- eruby = {erb_lint},
+      -- ["eruby.yaml"] = {yamllint},
+      -- yaml = {yamllint},
+      -- yml = {yamllint},
     }
   },
   filetypes = {
-    "javascript",
-    "javascriptreact",
-    "javascript.jsx",
-    "typescript",
-    "typescript.tsx",
-    "typescriptreact",
-    "eruby",
-    "eruby.yaml",
-    "yaml",
-    "yml",
+      "javascript",
+      "javascriptreact",
+      "javascript.jsx",
+      "typescript",
+      "typescript.tsx",
+      "typescriptreact",
+      "vue",
+    -- "eruby",
+    -- "eruby.yaml",
+    -- "yaml",
+    -- "yml",
   }
-}
-
+})
+vim.lsp.enable('efm')
 
 require "nvim-treesitter.configs".setup {
   highlight = {

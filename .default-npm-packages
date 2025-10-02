@@ -1,8 +1,10 @@
 @fsouza/prettierd
 @tailwindcss/language-server
 eslint
+eslint-formatter-visualstudio
+vscode-langservers-extracted
 eslint_d
+mcp-hub
+opencode-ai
 prettier
 typescript-language-server
-vercel
-yarn

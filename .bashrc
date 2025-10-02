@@ -263,3 +263,8 @@ fi
 # [[ -s "$NVM_DIR/bash_completion" ]] && . "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
+
+# Added by LM Studio CLI (lms)
+export PATH="$PATH:/Users/adam/.lmstudio/bin"
+# End of LM Studio CLI section
+

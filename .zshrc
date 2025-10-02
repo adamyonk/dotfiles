@@ -178,6 +178,7 @@ fi
 #}
 
 # Browser
+export MANPAGER='nvim +Man!'
 export BROWSER=open
 alias chrome="/Applications/Google\\ Chrome.app/Contents/MacOS/Google\\ Chrome"
 
@@ -429,3 +430,8 @@ show-path() {
 }
 
 alias dev="nocorrect dev"
+
+# Added by LM Studio CLI (lms)
+export PATH="$PATH:/Users/adam/.lmstudio/bin"
+# End of LM Studio CLI section
+

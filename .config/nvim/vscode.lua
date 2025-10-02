@@ -1,10 +1,10 @@
-vim.cmd [[packadd packer.nvim]]
-require('packer').startup(function()
-  use 'wbthomason/packer.nvim'
-
-  use 'tpope/vim-commentary'
-  use 'machakann/vim-sandwich'
-end)
+-- vim.cmd [[packadd packer.nvim]]
+-- require('packer').startup(function()
+--   use 'wbthomason/packer.nvim'
+--
+--   use 'tpope/vim-commentary'
+--   use 'machakann/vim-sandwich'
+-- end)
 
 vim.o.clipboard = 'unnamedplus'
 
