@@ -42,15 +42,6 @@ anybar() {
   printf "%s" "${1:-white}" | nc -4u -w0 localhost "${2:-1738}"
 }
 
-# asdf
-# For brew version:
-# [[ -f "/usr/local/opt/asdf/asdf.sh" ]] && . /usr/local/opt/asdf/asdf.sh
-# [[ -f "/usr/local/etc/bash_completion.d/asdf.bash" ]] && . /usr/local/etc/bash_completion.d/asdf.bash
-# For manual install
-# shellcheck source=/dev/null
-[[ -f "$HOME/.asdf/asdf.sh" ]] && . "$HOME/.asdf/asdf.sh"
-# shellcheck source=/dev/null
-[[ -f "$HOME/.asdf/completions/asdf.bash" ]] && . "$HOME/.asdf/completions/asdf.bash"
 # Node path
 if [[ -f "$(command -v npm)" ]]; then
   export NODE_PATH=$(npm root --quiet -g)

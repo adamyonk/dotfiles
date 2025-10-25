@@ -137,11 +137,6 @@ SPACESHIP_VI_MODE_NORMAL=""
 # Source ~/.localrc if it exists
 [[ -e "$HOME"/.localrc ]] && . "$HOME"/.localrc
 
-# asdf
-. "$HOME/.asdf/asdf.sh"
-# append completions to fpath
-fpath=(${ASDF_DIR}/completions $fpath)
-
 # Base16 Shell (doesn't work in Terminal.app)
 # if [[ "$TERM" =~ "256" ]] || [[ "$TERM" =~ "kitty" ]] || [[ "$TERM" =~ "screen" ]]; then
 #   BASE16_SHELL="$HOME/.config/base16-shell/"
@@ -430,8 +425,3 @@ show-path() {
 }
 
 alias dev="nocorrect dev"
-
-# Added by LM Studio CLI (lms)
-export PATH="$PATH:/Users/adam/.lmstudio/bin"
-# End of LM Studio CLI section
-

@@ -3,6 +3,7 @@ tap 'homebrew/cask-fonts'
 tap 'indirect/tap'
 
 brew 'automake'
+brew 'asdf'
 brew 'awscli'
 brew 'bash'
 brew 'bash-completion@2'
