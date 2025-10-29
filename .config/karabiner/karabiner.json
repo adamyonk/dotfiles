@@ -10,25 +10,6 @@
                 },
                 "rules": [
                     {
-                        "description": "(Disabled) Post spacebar if spacebar is pressed alone, left_ctrl otherwise",
-                        "manipulators": [
-                            {
-                                "from": {
-                                    "key_code": "spacebar off",
-                                    "modifiers": { "optional": ["any"] }
-                                },
-                                "to": [
-                                    {
-                                        "key_code": "left_control",
-                                        "modifiers": ["left_command"]
-                                    }
-                                ],
-                                "to_if_alone": [{ "key_code": "spacebar" }],
-                                "type": "basic"
-                            }
-                        ]
-                    },
-                    {
                         "description": "Post escape if caps is pressed alone, left_ctrl otherwise",
                         "manipulators": [
                             {

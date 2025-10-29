@@ -688,7 +688,7 @@ vim.wo.foldenable = false
 vim.o.termguicolors = true
 -- vim.o.ruler = true
 vim.o.showmode = false
-vim.o.number = false
+vim.o.number = true
 vim.o.wrap = false
 vim.o.fillchars = "vert:│"
 vim.o.textwidth = 120
@@ -700,20 +700,20 @@ vim.o.scrolloff = 3
 vim.api.nvim_create_augroup("EnterLeave", {
   clear = true
 })
-vim.api.nvim_create_autocmd({"VimEnter", "WinEnter"}, {
-  pattern = {"*"},
-  group = "EnterLeave",
-  callback = function(ev)
-    vim.o.number = true
-  end,
-})
-vim.api.nvim_create_autocmd({"WinLeave"}, {
-  pattern = {"*"},
-  group = "EnterLeave",
-  callback = function(ev)
-    vim.o.number = false
-  end,
-})
+-- vim.api.nvim_create_autocmd({"VimEnter", "WinEnter"}, {
+--   pattern = {"*"},
+--   group = "EnterLeave",
+--   callback = function(ev)
+--     vim.o.number = true
+--   end,
+-- })
+-- vim.api.nvim_create_autocmd({"WinLeave"}, {
+--   pattern = {"*"},
+--   group = "EnterLeave",
+--   callback = function(ev)
+--     vim.o.number = false
+--   end,
+-- })
 
 -- Window settings
 vim.o.splitbelow = true
@@ -1128,13 +1128,38 @@ end
 
 -- Setup lspconfig.
 local capabilities = require("cmp_nvim_lsp").default_capabilities(vim.lsp.protocol.make_client_capabilities())
-
 -- lspconfig.pylsp.setup { capabilities = capabilities }
+
+
+
 vim.lsp.config('ts_ls', {
   capabilities = capabilities,
-  init_options = { documentFormatting = false },
+  init_options = {
+    documentFormatting = false,
+    plugins = {
+      {
+        name = '@vue/typescript-plugin',
+        location = '/opt/homebrew/lib/node_modules/@vue/language-server',
+        languages = { 'vue' },
+      },
+    },
+  },
+  filetypes = { 'typescript', 'javascript', 'javascriptreact', 'typescriptreact', 'vue' },
 })
 vim.lsp.enable('ts_ls')
+
+vim.lsp.config('vue_ls', {
+  capabilities = capabilities,
+  init_options = {
+    typescript = {
+      tsdk = '/opt/homebrew/lib/node_modules/typescript/lib',
+    },
+  },
+  filetypes = { 'vue' },
+})
+vim.lsp.enable('vue_ls')
+
+
 
 vim.lsp.config('eslint', {
   capabilities = capabilities,
@@ -1143,13 +1168,11 @@ vim.lsp.config('eslint', {
   },
   init_options = { documentFormatting = false },
   filetypes = {
-      "javascript",
-      "javascriptreact",
-      "javascript.jsx",
-      "typescript",
-      "typescript.tsx",
-      "typescriptreact",
-      "vue",
+    "typescript",
+    "typescriptreact",
+    "javascript",
+    "javascriptreact",
+    "vue",
   }
 })
 vim.lsp.enable('eslint')

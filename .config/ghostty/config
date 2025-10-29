@@ -36,7 +36,7 @@ window-padding-y = 10
 macos-non-native-fullscreen = visible-menu
 background-opacity = 1
 
-background = 161616
+background = 000000
 foreground = f2f4f8
 
 cursor-color = f81894
