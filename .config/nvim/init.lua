@@ -1145,6 +1145,8 @@ vim.lsp.config('ts_ls', {
   capabilities = capabilities,
   init_options = {
     documentFormatting = false,
+    -- Used only when the workspace has no typescript (e.g. before pnpm install).
+    tsserver = { fallbackPath = npm_root .. '/typescript/lib' },
     plugins = {
       {
         name = '@vue/typescript-plugin',
@@ -1154,16 +1156,27 @@ vim.lsp.config('ts_ls', {
     },
   },
   filetypes = { 'typescript', 'javascript', 'javascriptreact', 'typescriptreact', 'vue' },
+  -- lspconfig's default skips any file under a deno.lock that is nearer than
+  -- the package lock, which wrongly skips a monorepo package (lock at the
+  -- root) that also holds Deno code. Skip only real Deno projects: a
+  -- deno.json(c) at least as near as the nearest package.json.
+  root_dir = function(bufnr, on_dir)
+    local deno_root = vim.fs.root(bufnr, { 'deno.json', 'deno.jsonc' })
+    local pkg_root = vim.fs.root(bufnr, { 'package.json' })
+    if deno_root and (not pkg_root or #deno_root >= #pkg_root) then
+      return
+    end
+    local lock_markers = { 'package-lock.json', 'yarn.lock', 'pnpm-lock.yaml', 'bun.lockb', 'bun.lock' }
+    on_dir(vim.fs.root(bufnr, { lock_markers, { '.git' } }) or vim.fn.getcwd())
+  end,
 })
 vim.lsp.enable('ts_ls')
 
 vim.lsp.config('vue_ls', {
   capabilities = capabilities,
-  init_options = {
-    typescript = {
-      tsdk = npm_root .. '/typescript/lib',
-    },
-  },
+  -- v3 reads the TypeScript location only from --tsdk; without it, it loads
+  -- its own bundled typescript (7.x, the Go port), which has no ts.server.
+  cmd = { 'vue-language-server', '--stdio', '--tsdk=' .. npm_root .. '/typescript/lib' },
   filetypes = { 'vue' },
 })
 vim.lsp.enable('vue_ls')
