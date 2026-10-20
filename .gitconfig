@@ -85,7 +85,7 @@
   ; program = bpb
 
 [help]
-  autocorrect = 1
+  autocorrect = 30
 
 [heroku]
   account = me
@@ -127,10 +127,16 @@
 
 [user]
   email = adamyonk@icloud.com
-  name = Adam Jahnke
+  name = Adam Black
 
 [filter "lfs"]
 	required = true
 	clean = git-lfs clean -- %f
 	smudge = git-lfs smudge -- %f
 	process = git-lfs filter-process
+[credential "https://github.com"]
+	helper = 
+	helper = !gh auth git-credential
+[credential "https://gist.github.com"]
+	helper = 
+	helper = !gh auth git-credential
