@@ -126,7 +126,7 @@ require("lazy").setup({
             local key = ''
             if node:type() == "block_mapping_pair" then
                 local field_key = node:field("key")[1]
-                key = vim.treesitter.query.get_node_text(field_key, bufnr)
+                key = vim.treesitter.get_node_text(field_key, bufnr)
             end
 
             if key ~= nil and string.len(key) > 0 then
@@ -298,10 +298,17 @@ require("lazy").setup({
     {"mattn/efm-langserver"},
 
     {"nvim-treesitter/nvim-treesitter",
+      branch = "main",
+      lazy = false, -- the main branch does not support lazy-loading
       build = ":TSUpdate",
     },
     {"nvim-treesitter/nvim-treesitter-textobjects",
+      branch = "main",
       dependencies = "nvim-treesitter/nvim-treesitter",
+      init = function()
+        -- Built-in ftplugins bind some of these keys; ours must win.
+        vim.g.no_plugin_maps = true
+      end,
     },
     {"nvim-treesitter/nvim-treesitter-context",
       dependencies = "nvim-treesitter/nvim-treesitter",
@@ -1132,6 +1139,8 @@ local capabilities = require("cmp_nvim_lsp").default_capabilities(vim.lsp.protoc
 
 
 
+local npm_root = vim.fn.trim(vim.fn.system('npm root -g'))
+
 vim.lsp.config('ts_ls', {
   capabilities = capabilities,
   init_options = {
@@ -1139,7 +1148,7 @@ vim.lsp.config('ts_ls', {
     plugins = {
       {
         name = '@vue/typescript-plugin',
-        location = '/opt/homebrew/lib/node_modules/@vue/language-server',
+        location = npm_root .. '/@vue/language-server',
         languages = { 'vue' },
       },
     },
@@ -1152,7 +1161,7 @@ vim.lsp.config('vue_ls', {
   capabilities = capabilities,
   init_options = {
     typescript = {
-      tsdk = '/opt/homebrew/lib/node_modules/typescript/lib',
+      tsdk = npm_root .. '/typescript/lib',
     },
   },
   filetypes = { 'vue' },
@@ -1263,30 +1272,60 @@ vim.lsp.config('efm', {
 })
 vim.lsp.enable('efm')
 
-require "nvim-treesitter.configs".setup {
-  highlight = {
-    enable = true
-  },
-  indent = {
-    enable = true
-  },
-  textobjects = {
-    select = {
-      enable = true,
-      -- Automatically jump forward to textobj, similar to targets.vim
-      lookahead = true,
-      keymaps = {
-        -- You can use the capture groups defined in textobjects.scm
-        ["af"] = "@function.outer",
-        ["if"] = "@function.inner",
-        ["ac"] = "@class.outer",
-        ["ic"] = "@class.inner"
-      }
-    }
-  }
+-- nvim-treesitter (main branch) only installs parsers and ships queries.
+-- Highlighting, indentation and folding are enabled per buffer below.
+require("nvim-treesitter").setup {
+  install_dir = vim.fn.stdpath("data") .. "/site",
 }
-local parser_config = require("nvim-treesitter.parsers").get_parser_configs()
-parser_config.markdown.filetype_to_parsername = "octo"
+
+require("nvim-treesitter").install {
+  "bash", "c", "cpp", "css", "csv", "diff",
+  "dockerfile", "git_config", "git_rebase",
+  "gitcommit", "gitignore", "go", "graphql",
+  "html", "javascript", "json", "lua",
+  "luadoc", "make", "markdown", "markdown_inline",
+  "nix", "proto", "python", "query", "regex",
+  "ruby", "rust", "scss", "sql", "terraform",
+  "toml", "tsx", "typescript", "vim", "vimdoc",
+  "vue", "xml", "yaml",
+}
+
+-- Octo buffers hold GitHub markdown.
+vim.treesitter.language.register("markdown", "octo")
+
+-- Start treesitter wherever a parser is available. Buffers with no parser
+-- keep their regular syntax highlighting.
+vim.api.nvim_create_autocmd("FileType", {
+  callback = function(args)
+    local lang = vim.treesitter.language.get_lang(vim.bo[args.buf].filetype)
+    if not lang or not vim.treesitter.language.add(lang) then
+      return
+    end
+    vim.treesitter.start(args.buf, lang)
+    if vim.treesitter.query.get(lang, "indents") then
+      vim.bo[args.buf].indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+    end
+  end,
+})
+
+require("nvim-treesitter-textobjects").setup {
+  select = {
+    -- Automatically jump forward to textobj, similar to targets.vim
+    lookahead = true,
+  },
+}
+
+-- You can use the capture groups defined in textobjects.scm
+for key, capture in pairs {
+  ["af"] = "@function.outer",
+  ["if"] = "@function.inner",
+  ["ac"] = "@class.outer",
+  ["ic"] = "@class.inner",
+} do
+  vim.keymap.set({ "x", "o" }, key, function()
+    require("nvim-treesitter-textobjects.select").select_textobject(capture, "textobjects")
+  end, { desc = "Select " .. capture })
+end
 require "octo".setup(
   {
     default_to_projects_v2 = true,
