@@ -1,0 +1,11 @@
+#!/bin/sh
+# BROWSER / xdg-open stand-in for this remote box. There is no display here,
+# so put the URL on the Mac clipboard (tmux set-buffer -w sends OSC 52) and
+# say so in the tmux status line. Paste it into the browser on the Mac.
+url="$1"
+[ -n "$url" ] || { echo "usage: remote-open <url>" >&2; exit 2; }
+
+# No tmux means no OSC 52 path: fail so the caller shows the URL itself.
+tmux set-buffer -w -- "$url" 2>/dev/null || exit 1
+tmux display-message -d 5000 "URL copied to Mac clipboard: $url"
+echo "Open on your Mac (copied to clipboard): $url" >&2

@@ -63,6 +63,12 @@ fi
 
 # Browser
 export BROWSER=open
+# Remote Linux box (no pbcopy): "open a URL" copies it to the Mac clipboard,
+# and FORCE_HYPERLINK makes tools emit OSC 8 links even inside tmux.
+if ! command -v pbcopy >/dev/null; then
+  export BROWSER="$HOME/.bin/remote-open"
+  export FORCE_HYPERLINK=1
+fi
 alias chrome="/Applications/Google\\ Chrome.app/Contents/MacOS/Google\\ Chrome"
 
 # Colors
