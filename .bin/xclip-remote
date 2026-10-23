@@ -1,0 +1,18 @@
+#!/bin/sh
+# xclip stand-in for a remote box. Claude Code reads clipboard images with
+# xclip; answer from the Mac clipboard through mac-clip-serve, reached over
+# the ssh RemoteForward on 127.0.0.1:7999. Handles only the two calls Claude
+# makes, and only images.
+port=${MAC_CLIP_PORT:-7999}
+case "$*" in
+  *"-t TARGETS -o"*) req=targets ;;
+  *"-t image/png -o"*) req=png ;;
+  *) exit 1 ;;
+esac
+
+out=$(mktemp) || exit 1
+trap 'rm -f "$out"' EXIT
+printf '%s\n' "$req" | nc -N -w 5 127.0.0.1 "$port" >"$out" 2>/dev/null
+# Empty reply = no forward, no listener, or no image on the clipboard.
+[ -s "$out" ] || exit 1
+cat "$out"

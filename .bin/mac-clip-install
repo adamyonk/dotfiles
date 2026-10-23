@@ -1,0 +1,31 @@
+#!/bin/sh
+# Mac: serve clipboard images to remote boxes. launchd listens on
+# ~/.mac-clip.sock and runs mac-clip-serve per connection. Pair it with
+#   RemoteForward 127.0.0.1:7999 %d/.mac-clip.sock
+# in ~/.ssh/config for the box, and xclip-remote there.
+set -e
+label=com.adamyonk.mac-clip
+plist="$HOME/Library/LaunchAgents/$label.plist"
+mkdir -p "$(dirname "$plist")"
+cat >"$plist" <<PLIST
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <key>Label</key><string>$label</string>
+  <key>ProgramArguments</key><array><string>$HOME/.bin/mac-clip-serve</string></array>
+  <key>inetdCompatibility</key><dict><key>Wait</key><false/></dict>
+  <key>Sockets</key>
+  <dict>
+    <key>Listener</key>
+    <dict>
+      <key>SockPathName</key><string>$HOME/.mac-clip.sock</string>
+      <key>SockPathMode</key><integer>384</integer>
+    </dict>
+  </dict>
+</dict>
+</plist>
+PLIST
+launchctl bootout "gui/$(id -u)/$label" 2>/dev/null || true
+launchctl bootstrap "gui/$(id -u)" "$plist"
+echo "mac-clip: listening on $HOME/.mac-clip.sock"

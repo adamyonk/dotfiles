@@ -1,0 +1,15 @@
+#!/bin/sh
+# launchd (inetd mode) runs this once per connection on ~/.mac-clip.sock;
+# see mac-clip-install. Request: one line, "targets" or "png". Images only:
+# it never returns clipboard text.
+read -r req
+osascript -e 'clipboard info' 2>/dev/null | grep -q 'PNGf' || exit 0
+case "$req" in
+  targets) echo image/png ;;
+  png)
+    f=$(mktemp -t mac-clip) || exit 1
+    osascript -e "set fp to open for access POSIX file \"$f\" with write permission" \
+      -e 'write (the clipboard as «class PNGf») to fp' -e 'close access fp' >/dev/null 2>&1 &&
+      cat "$f"
+    rm -f "$f" ;;
+esac
