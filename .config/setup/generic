@@ -1,29 +1,39 @@
 #!/usr/bin/env bash
 
 mkdir -p $HOME/.config
+mkdir -p $HOME/.code
+
+echo 'export projects="$HOME/.code"' >> $HOME/.localrc
+
+if ! (command -v brew); then
+  if [[ "$(uname)" == "Darwin" ]]; then
+     xcode-select --install
+  elif [[ "$(expr substr $(uname -s) 1 5)" == "Linux" ]]; then
+    if (command -v pacman); then
+      sudo pacman -S base-devel procps-ng curl file git
+    elif
+      sudo apt-get install build-essential procps curl file git
+    fi
+  fi
+
+  echo "Installing homebrew"
+  bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+fi
+
+echo "Installing brews"
+brew bundle --file="$HOME/.default-brews"
 
 # base16-shell
-git clone https://github.com/chriskempson/base16-shell.git $HOME/.config/base16-shell
+#git clone https://github.com/chriskempson/base16-shell.git $HOME/.config/base16-shell
 
-# asdf
-git clone https://github.com/asdf-vm/asdf.git $HOME/.asdf
-
-# packer.nvim
-git clone --depth 1 https://github.com/wbthomason/packer.nvim ~/.local/share/nvim/site/pack/packer/start/packer.nvim
-
-# shellcheck source=/dev/null
-source "$HOME"/.asdf/asdf.sh
-
-asdf plugin-add deno
-asdf plugin-add golang
-asdf plugin-add nodejs
-asdf plugin-add python
-asdf plugin-add ruby
-asdf plugin-add rust
+# asdf plugins
+asdf plugin add deno
+asdf plugin add golang
+asdf plugin add nodejs
+asdf plugin add python
+asdf plugin add ruby
+asdf plugin add rust
 
 cd "$HOME" || exit
 asdf install
 cd - || exit
-
-echo "Installing vim plugins"
-nvim -E +PackerUpdate +PackerInstall +PackerClean +qa

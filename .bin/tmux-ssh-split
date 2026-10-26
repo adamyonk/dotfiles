@@ -1,17 +1,23 @@
 #!/bin/sh
-# If running in tmux and the user has ssh-ed into another machine, create split
-# pane also logged into that machine. Otherwise behave like regular split.
+# If running in tmux and the user has ssh-ed into another machine, create a
+# split pane also logged into that machine. Otherwise behave like a regular
+# split. $1 is the split direction (-h or -v).
 
-# Extract ssh arguments like hostname used to initial connect to another
-# machine.
+WINDOW_INDEX=$(tmux display-message -p '#I') || exit 1
 
-WINDOW_INDEX=$(tmux display-message -p '#I')
-SESSION_VARIABLE_NAME="window_${WINDOW_INDEX}_ssh_args"
+# Anchored match on the exact variable name; a plain grep for
+# "window_1_ssh_args" would also match window_11_ssh_args.
+SSH_ARGS=$(tmux show-environment 2>/dev/null |
+  sed -n "s/^window_${WINDOW_INDEX}_ssh_args=//p" | head -1)
 
-SSH_ARGS=$(tmux showenv | grep -F "$SESSION_VARIABLE_NAME" | sed 's/^.*=//')
-if [ -n "$SSH_ARGS" ]
-then
-  tmux splitw $1 "exec ssh $SSH_ARGS"
+if [ -n "$SSH_ARGS" ]; then
+  err=$(tmux split-window "$1" -c "#{pane_current_path}" "exec ssh $SSH_ARGS" 2>&1)
 else
-  tmux splitw $1
-fi
+  err=$(tmux split-window "$1" -c "#{pane_current_path}" 2>&1)
+fi && exit 0
+
+# The split failed. tmux's run-shell discards stderr, so surface the reason as
+# a tmux message. If even that fails we cannot reach the server at all, so fall
+# back to a non-zero exit -- tmux still prints "'<cmd>' returned 1".
+tmux display-message "split failed: $err" 2>/dev/null || exit 1
+exit 0

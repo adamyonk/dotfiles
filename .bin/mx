@@ -11,10 +11,11 @@
 #   mx [session]
 
 # To 'auto-launch' projects, you'll need a $projects directory where you keep
-# code sorted like so: $projects/<repo>.
+# code sorted like so: $projects/<org>/<repo> (or $projects/<repo>).
 # So, a typical workflow would look like:
-#   $ hub clone pengwynn/octonaut $projects/octonaut-pengwynn
-#   $ mx octonaut-pengwynn
+#   $ gh repo clone pengwynn/octonaut $projects/pengwynn/octonaut
+#   $ mx octonaut             # searches across orgs
+#   $ mx pengwynn/octonaut    # explicit org/repo path also works
 
 # If `mx` is called with a <session> name, and there is no valid repo inside
 # $projects, a new tmux session will be initialized in the current working
@@ -47,25 +48,31 @@ else
   SESSION="$1"
 fi
 
-# tmux 1.9a+ doesn't like .'s in session names
+# tmux 1.9a+ doesn't like .'s or /'s in session names
 SESSION_NAME="${SESSION//./_}"
+SESSION_NAME="${SESSION_NAME//\//_}"
 
 _safe_window() {
   if [ -x "$SESSION_PATH"/"$2" ]; then
-    tmux new-window -c "$SESSION_PATH" -n "$1" -t "$SESSION_NAME"
+    tmux new-window -c "$SESSION_PATH" -t "$SESSION_NAME"
+    tmux select-pane -t "$SESSION_NAME" -T "$1"
     tmux send-keys -t "$SESSION_NAME" "$2" C-m
   fi
 }
 
 if ! (tmux ls 2>/dev/null | grep --silent "^$SESSION_NAME:"); then
 
-  PROJECTS_PATH="$projects"/"$SESSION"
-  # GO_PROJECTS_PATH="$(find "$GOPATH/src/github.com" -type d -maxdepth 2 -mindepth 2 -ipath "*$SESSION" | head -n 1)"
+  # Resolve session to a project dir. Supports:
+  #   - explicit "org/repo" form: $projects/org/repo
+  #   - bare "repo" form: $projects/repo (legacy flat layout), then $projects/*/repo
+  if [ -d "$projects/$SESSION" ]; then
+    PROJECTS_PATH="$projects/$SESSION"
+  else
+    PROJECTS_PATH="$(find "$projects" -mindepth 2 -maxdepth 2 -type d -name "$SESSION" 2>/dev/null | head -n 1)"
+  fi
 
-  if [ -d "$PROJECTS_PATH" ]; then
+  if [ -n "$PROJECTS_PATH" ] && [ -d "$PROJECTS_PATH" ]; then
     SESSION_PATH="$PROJECTS_PATH"
-  # elif [ -d "$GO_PROJECTS_PATH" ]; then
-  #   SESSION_PATH="$GO_PROJECTS_PATH"
   else
     SESSION_PATH="$PWD"
   fi
@@ -73,9 +80,11 @@ if ! (tmux ls 2>/dev/null | grep --silent "^$SESSION_NAME:"); then
   if [ -f "$SESSION_PATH"/.tmux ]; then
     bash "$SESSION_PATH"/.tmux "$SESSION_NAME" "$SESSION_PATH"
   else
-    tmux new-session -d -c "$SESSION_PATH" -s "$SESSION_NAME" -n editor
+    tmux new-session -d -c "$SESSION_PATH" -s "$SESSION_NAME"
+    tmux select-pane -t "$SESSION_NAME" -T editor
     tmux send-keys -t "$SESSION_NAME" "$EDITOR" C-m
-    tmux new-window -c "$SESSION_PATH" -n shell -t "$SESSION_NAME"
+    tmux new-window -c "$SESSION_PATH" -t "$SESSION_NAME"
+    tmux select-pane -t "$SESSION_NAME" -T shell
     # _safe_window console bin/console
     # _safe_window server bin/server
     # _safe_window server bin/watch

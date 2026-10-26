@@ -1,4 +1,5 @@
-font-family = Cascadia Code NF
+font-family = Maple Mono NF
+# font-family = Cascadia Code NF
 # font-family = Monaspace Argon Var
 # font-family-bold = Monaspace Argon Var
 # font-family-italic = Monaspace Radon Var
@@ -16,6 +17,10 @@ font-feature = ss07
 font-feature = ss08
 font-feature = ss09
 font-feature = ss10
+font-feature = ss11
+
+font-feature = 
+
 font-feature = liga
 font-feature = dlig
 font-feature = calt
@@ -24,13 +29,13 @@ font-feature = case
 adjust-cell-width = 0
 adjust-cell-height = 0
 
-font-size = 14
+font-size = 12
 
 clipboard-read = allow
 clipboard-write = allow
 clipboard-trim-trailing-spaces = true
 
-window-decoration = false
+macos-titlebar-style = hidden
 window-padding-x = 0
 window-padding-y = 10
 macos-non-native-fullscreen = visible-menu
@@ -65,3 +70,6 @@ palette = 14=#52bdff
 # white
 palette = 7=#dfdfe0
 palette = 15=#e4e4e5
+
+keybind = shift+enter=text:\x1b\r
+# keybind = alt+backspace=text:\x1b\x7f

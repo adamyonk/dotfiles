@@ -12,3 +12,6 @@ export PATH="$HOME/.asdf/shims:$PATH"
 [[ -n "$BUN_INSTALL" ]] && export PATH="$BUN_INSTALL/bin:$PATH"
 # mkdir .git/safe for to add this to PATH
 export PATH=".git/safe/../../bin:$PATH"
+
+# tmux: keep the server socket out of /tmp, which macOS cleans on a schedule
+export TMUX_TMPDIR="$HOME/.tmux"

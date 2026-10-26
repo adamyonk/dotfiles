@@ -61,6 +61,9 @@ elif [[ -f "/opt/homebrew/bin/brew" ]]; then
   eval "$(/opt/homebrew/bin/brew shellenv)"
 fi
 
+# asdf shims (after brew so they take priority)
+export PATH="$HOME/.asdf/shims:$PATH"
+
 # zplug
 if [[ -f "$(command -v brew)" ]]; then
   export ZPLUG_HOME=$(brew --prefix)/opt/zplug # homebrew-installed zplug
@@ -75,6 +78,7 @@ zplug "zsh-users/zsh-autosuggestions"
 zplug "zsh-users/zsh-completions"
 zplug "zsh-users/zsh-syntax-highlighting", defer:2
 zplug "zsh-users/zsh-history-substring-search", defer:3
+zplug "joshskidmore/zsh-fzf-history-search"
 zplug "spaceship-prompt/spaceship-prompt", use:spaceship.zsh, from:github, as:theme
 zplug "spaceship-prompt/spaceship-vi-mode"
 # zplug "mafredri/zsh-async", use:"async.zsh", hook-build:"ln -sf $ZPLUG_HOME/repos/mafredri/zsh-async/async.zsh $(brew --prefix)/share/zsh/site-functions/async"
@@ -94,31 +98,12 @@ SPACESHIP_PROMPT_ORDER=(
   dir           # Current directory section
   host          # Hostname section
   git           # Git section (git_branch + git_status)
-  # hg            # Mercurial section (hg_branch  + hg_status)
-  # package       # Package version
-  # gradle        # Gradle section
-  # maven         # Maven section
   node          # Node.js section
   ruby          # Ruby section
-  # elixir        # Elixir section
-  # xcode         # Xcode section
-  # swift         # Swift section
-  # golang        # Go section
-  # php           # PHP section
-  # rust          # Rust section
-  # haskell       # Haskell Stack section
-  # julia         # Julia section
-  # docker        # Docker section
-  # aws           # Amazon Web Services section
-  # gcloud        # Google Cloud Platform section
-  # venv          # virtualenv section
-  # conda         # conda virtualenv section
-  # pyenv         # Pyenv section
-  # dotnet        # .NET section
-  # ember         # Ember.js section
-  # kubectl       # Kubectl context section
-  # terraform     # Terraform workspace section
-  # ibmcloud      # IBM Cloud section
+  uv            # python uv
+  bun           # Bun version
+  lua           # Lua version
+  python        # Python version
   exec_time     # Execution time
   line_sep      # Line break
   battery       # Battery level and status
@@ -130,10 +115,17 @@ SPACESHIP_PROMPT_ORDER=(
 # Spaceship
 SPACESHIP_PACKAGE_SYMBOL=""
 SPACESHIP_PROMPT_PREFIXES_SHOW=false
-# SPACESHIP_PROMPT_SUFFIXES_SHOW=false
+#SPACESHIP_PROMPT_SUFFIXES_SHOW=false
 SPACESHIP_VI_MODE_INSERT=""
 SPACESHIP_VI_MODE_NORMAL=""
-
+# Char symbol - marker for line 2
+SPACESHIP_CHAR_SYMBOL="⌁ "
+# SPACESHIP_PROMPT_FIRST_PREFIX_SHOW=true
+# SPACESHIP_RPROMPT_FIRST_PREFIX_SHOW=true
+SPACESHIP_CHAR_SYMBOL_SUCCESS="⌁ "
+SPACESHIP_CHAR_SYMBOL_FAILURE="✗ "
+SPACESHIP_CHAR_SYMBOL_SECONDARY="⌁ "
+#
 # Source ~/.localrc if it exists
 [[ -e "$HOME"/.localrc ]] && . "$HOME"/.localrc
 
@@ -344,6 +336,10 @@ if [[ -f "$(command -v npm)" ]]; then
   export NODE_PATH=$(npm root --quiet --location=global)
 fi
 
+# sharp: Homebrew's vips gets picked up over sharp's bundled prebuilt binary,
+# forcing a from-source build that fails without node-addon-api/node-gyp set up.
+export SHARP_IGNORE_GLOBAL_LIBVIPS=1
+
 # System
 colours() {
   for i in {0..255}; do
@@ -403,6 +399,75 @@ else
   refresh() { exit 1; }
 fi
 
+# tpick - Pick tokens from tmux scrollback with fzf
+# Usage: tpick [lines] - default 500 lines of history
+# Keybinding: Ctrl+O inserts selection at cursor
+TPICK_NOISE='completed|success|failure|pending|running|queued|pull_request|push|the|and|for|with|from|into'
+TPICK_PROMPT_MARKERS='➜|⌁'  # Characters that indicate prompt lines
+
+tpick() {
+  # Export so fzf's preview subshell can access it
+  export TPICK_DATA
+  TPICK_DATA=$(tmux capture-pane -p -S -${1:-500} | grep -vE "$TPICK_PROMPT_MARKERS")
+
+  # Smart tokenization patterns:
+  # - UUIDs: 8-4-4-4-12 hex
+  # - Timestamps: ISO8601 and common formats
+  # - URLs: http(s)://...
+  # - Paths: starting with / or ~ or ./
+  # - Long numbers: likely IDs (6+ digits)
+  # - Git SHAs: 7-40 hex chars
+  # - General words: alphanumeric with common separators
+
+  local pattern='[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}|[0-9]{4}-[0-9]{2}-[0-9]{2}[T ][0-9:.]+Z?|https?://[^[:space:]]+|[~./][a-zA-Z0-9_./-]{2,}|[0-9]{6,}|[a-f0-9]{7,40}|[a-zA-Z_][a-zA-Z0-9_.-]{2,}'
+
+  local tokens
+  tokens=$(echo "$TPICK_DATA" | grep -oE "$pattern" | \
+    grep -viE "^(${TPICK_NOISE})$" | \
+    awk '!seen[$0]++')  # dedupe preserving order
+
+  local result
+  result=$(echo "$tokens" | fzf --tac --multi \
+    --preview 'echo "$TPICK_DATA" | grep --color=always -B2 -A2 -F {} | head -20' \
+    --preview-window "up:50%:wrap" \
+    --bind "ctrl-a:select-all" \
+    --bind "ctrl-d:deselect-all" \
+    --header "TAB=select, Ctrl-A=all, Enter=confirm" | \
+    tr '\n' ' ' | sed 's/ $//')
+
+  unset TPICK_DATA
+  echo "$result"
+}
+
+# Variant for picking whole lines instead of tokens
+tpick-lines() {
+  tmux capture-pane -p -S -${1:-500} | grep -vE "$TPICK_PROMPT_MARKERS" | grep -v '^$' | fzf --tac --multi \
+    --bind "ctrl-a:select-all" \
+    --bind "ctrl-d:deselect-all" \
+    --header "TAB=select, Ctrl-A=all, Enter=confirm" | \
+    tr '\n' ' ' | sed 's/ $//'
+}
+
+# Keybinding: Ctrl+O inserts picked tokens at cursor
+tpick-widget() {
+  local result
+  result=$(tpick)
+  LBUFFER+="$result"
+  zle reset-prompt
+}
+zle -N tpick-widget
+bindkey '^O' tpick-widget
+
+# Ctrl+Shift+O for line mode (if your terminal supports it)
+tpick-lines-widget() {
+  local result
+  result=$(tpick-lines)
+  LBUFFER+="$result"
+  zle reset-prompt
+}
+zle -N tpick-lines-widget
+bindkey '^[O' tpick-lines-widget  # Alt+O as fallback
+
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
 
 
@@ -425,3 +490,26 @@ show-path() {
 }
 
 alias dev="nocorrect dev"
+
+alias isodate='date -u +"%Y-%m-%dT%H:%M:%SZ"'
+
+# Added by LM Studio CLI (lms)
+export PATH="$PATH:/Users/adam/.lmstudio/bin"
+# End of LM Studio CLI section
+
+
+# opencode
+export PATH=/Users/adam/.opencode/bin:$PATH
+
+# direnv
+eval "$(direnv hook zsh)"
+
+# Clone an exe.dev VM, re-key its Tailscale identity, and start a tmux+claude
+# session ready for /remote-control (run that step yourself, it's an
+# interactive menu on first launch).
+clone_exe() {
+  ssh exe.dev cp "$1" "$2" \
+    && ssh "$2.exe.xyz" "sudo systemctl stop tailscaled && sudo rm -f /var/lib/tailscale/tailscaled.state && sudo systemctl start tailscaled && sudo tailscale up --hostname=$2 --ssh" \
+    && ssh "$2.exe.xyz" "tmux new-session -d -s claude -x 220 -y 50 'claude'" \
+    && echo "Ready: ssh $2.exe.xyz, then tmux attach -t claude, then /remote-control"
+}

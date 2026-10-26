@@ -41,7 +41,6 @@ add_app_to_dock "Messages"
 add_app_to_dock "Fantastical"
 add_spacer_to_dock
 add_app_to_dock "Slack"
-add_app_to_dock "kitty"
-add_app_to_dock "Visual Studio Code"
+add_app_to_dock "Ghostty"
 
 killall Dock
