@@ -59,7 +59,8 @@ fi
 
 # Bash Sensible
 # shellcheck source=./bash-sensible.bash
-[[ -f "$HOME/.config/bash/bash-sensible.bash" ]] && . "$HOME/.config/bash/bash-sensible.bash"
+# Interactive only: its `bind` calls warn in non-interactive shells (ssh host cmd)
+[[ $- == *i* && -f "$HOME/.config/bash/bash-sensible.bash" ]] && . "$HOME/.config/bash/bash-sensible.bash"
 
 # Browser
 export BROWSER=open
@@ -71,19 +72,21 @@ if ! command -v pbcopy >/dev/null; then
 fi
 alias chrome="/Applications/Google\\ Chrome.app/Contents/MacOS/Google\\ Chrome"
 
-# Colors
-RED="$(tput setaf 1)"
-GREEN="$(tput setaf 2)"
-YELLOW="$(tput setaf 3)"
-BLUE="$(tput setaf 4)"
-MAGENTA="$(tput setaf 5)"
-CYAN="$(tput setaf 6)"
-WHITE="$(tput setaf 7)"
-GRAY="$(tput setaf 8)"
-BOLD="$(tput bold)"
-UNDERLINE="$(tput sgr 0 1)"
-INVERT="$(tput sgr 1 0)"
-NOCOLOR="$(tput sgr0)"
+# Colors (tput errors when TERM is unset, e.g. `ssh host cmd`)
+if [[ -n "$TERM" && "$TERM" != dumb ]]; then
+  RED="$(tput setaf 1)"
+  GREEN="$(tput setaf 2)"
+  YELLOW="$(tput setaf 3)"
+  BLUE="$(tput setaf 4)"
+  MAGENTA="$(tput setaf 5)"
+  CYAN="$(tput setaf 6)"
+  WHITE="$(tput setaf 7)"
+  GRAY="$(tput setaf 8)"
+  BOLD="$(tput bold)"
+  UNDERLINE="$(tput sgr 0 1)"
+  INVERT="$(tput sgr 1 0)"
+  NOCOLOR="$(tput sgr0)"
+fi
 export RED
 export GREEN
 export YELLOW
