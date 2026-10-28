@@ -11,7 +11,7 @@ if ! (command -v brew); then
   elif [[ "$(expr substr $(uname -s) 1 5)" == "Linux" ]]; then
     if (command -v pacman); then
       sudo pacman -S base-devel procps-ng curl file git
-    elif
+    else
       sudo apt-get install build-essential procps curl file git
     fi
   fi
